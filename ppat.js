@@ -1,9 +1,8 @@
-var url="ppat_config.xml"
 var xmlDoc;
 var powerCase = new Array();
 var powerComponent = new Array();
 var performanceCase = new Array();
-function readXML(){
+function ppat_load(){
 	var strURL = "http://10.38.32.178:3000/scenarios";
 
 			$.ajax({
@@ -14,6 +13,7 @@ function readXML(){
 					xmlDoc = domParser.parseFromString(msg, 'text/xml');
 					ppat_parsePowerNode();
 					ppat_parsePerformanceNode();
+					generateUI();
 			  }
 			});
 }
@@ -38,8 +38,7 @@ function ppat_parsePerformanceNode(){
 	}		
 }
 
-function ppat_load(){
-		readXML();
+function generateUI(){
 
 		var check = document.getElementsByName("property2value")[0];
 		if(check.checked){
