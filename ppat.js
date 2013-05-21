@@ -2,20 +2,42 @@ var xmlDoc;
 var powerCase = new Array();
 var powerComponent = new Array();
 var performanceCase = new Array();
+var powerDevice = new Array();
+var deviceComponent = new Array();
 function ppat_load(){
 	var strURL = "http://10.38.32.178:3000/scenarios";
-
 			$.ajax({
 			  type: "GET",
 			  url: strURL,
+				timeout:3000,
+				dataType:'html',
 			  success: function(msg){
 					domParser = new DOMParser();
 					xmlDoc = domParser.parseFromString(msg, 'text/xml');
 					ppat_parsePowerNode();
 					ppat_parsePerformanceNode();
+					ppat_parseDeviceNode();
 					generateUI();
 			  }
 			});
+}
+
+function ppat_parseDeviceNode(){
+	var nodes = xmlDoc.getElementsByTagName("Device");
+	for(i = 0; i < nodes.length; i++){
+		var str = "{";
+		str += "\"name\":\"" + nodes[i].getElementsByTagName("Name")[0].firstChild.nodeValue + "\",";
+		var testcases = nodes[i].getElementsByTagName("CaseName");
+		var cases = new Array();
+		for(j = 0; j < testcases.length; j++){
+				cases.push(testcases[j].firstChild.nodeValue);
+				powerComponent.push(testcases[j].getAttribute("Component"));
+				deviceComponent.push(testcases[j].getAttribute("Component"));
+		}		
+		str += "\"TestCase\":\"" + cases + "\"";
+		str += "}";
+		powerDevice.push(eval('(' + str + ')'));
+	}
 }
 
 function ppat_parsePowerNode(){
@@ -56,15 +78,39 @@ function generateUI(){
 			var label = document.createElement("label");
 			label.id="power";
 			label.name="power";
-			label.innerHTML="Power Consumption Test:";
+			label.innerHTML="<b>Power Consumption Test:</b>";
 		
 			submit.parentNode.appendChild(label, submit);
 			ppat_addBr(submit);
 			for(var i = 0; i < powerCase.length; i++){
 				ppat_addCheckbox(submit, "power", powerCase[i], powerComponent[i]);
 			}	
+			ppat_addhr(submit);
+			
+			label = document.createElement("label");
+			label.id="powerDevice";
+			label.name="powerdevice";
+			label.innerHTML="<b>Choose Camera/WiFi/BT Test Cases:</b>";
+		
+			submit.parentNode.appendChild(label, submit);
 			ppat_addBr(submit);
+			for(var j = 0; j < powerDevice.length; j++){
 
+					var radio = document.createElement("input");
+					radio.id = powerDevice[j].name;
+					radio.type = "radio";
+					radio.name = "device";
+					radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
+					radio.value = powerDevice[j].name;		
+					submit.parentNode.appendChild(radio, submit);	
+					submit.parentNode.appendChild(document.createTextNode(powerDevice[j].name), submit);	
+			}
+			var div = document.createElement("div");
+			div.id="power_device";		
+			submit.parentNode.appendChild(div, submit);
+			ppat_addhr(submit);
+
+			
 			var button = document.createElement("input");
 			button.type="button";
 			button.name="Button_SelectAll";
@@ -91,10 +137,12 @@ function generateUI(){
 			}	
 	
 			ppat_addBr(submit);
+			ppat_addhr(submit);
+
 			var label = document.createElement("label");
 			label.id="power";
 			label.name="power";
-			label.innerHTML="UI Performance Test:";
+			label.innerHTML="<b>UI Performance Test:</b>";
 		
 			submit.parentNode.appendChild(label, submit);
 			ppat_addBr(submit);
@@ -119,10 +167,11 @@ function generateUI(){
 			powerComponent = powerComponent.del();
 	
 			ppat_addBr(submit);
+			ppat_addhr(submit);
 			label = document.createElement("label");
 			label.id="power";
 			label.name="power";
-			label.innerHTML="Please input some special commands before run each case:";
+			label.innerHTML="<b>Please input some special commands before run each case:</b>";
 		
 			submit.parentNode.appendChild(label, submit);
 			ppat_addBr(submit);
@@ -134,6 +183,7 @@ function generateUI(){
 			submit.parentNode.appendChild(textarea, submit);
 		
 			ppat_addBr(submit);
+			ppat_addhr(submit);
 			
 			button = document.createElement("input");
 			button.type="button";
@@ -141,6 +191,8 @@ function generateUI(){
 			button.onclick=function(){ ppat_appendToText();};
 			button.value="Add to PPAT Test TextField";
 			submit.parentNode.appendChild(button, submit);
+
+			$("#Device1").checked="Device1";
 			}
 		}
 }
@@ -178,6 +230,27 @@ function ppat_appendToText(){
 function ppat_addBr(before){
 	var br = document.createElement("br");
 	before.parentNode.appendChild(br, before);
+}
+
+function ppat_addhr(before){
+	var hr = document.createElement("hr");
+	before.parentNode.appendChild(hr, before);
+}
+
+function ppat_addDeviceCase(device, before){
+		var testcases = device.split(",");
+		var submit = document.getElementById("power_device");	
+		$("#power_device").html("");
+		for(i = 0; i < testcases.length; i++){
+			//ppat_addCheckbox(submit, "device", testcases[i], testcases[i]);
+			var power = document.createElement("input"); 
+			power.type="checkbox";
+			power.value=deviceComponent[i];
+			power.name="power";
+			submit.appendChild(power, submit);
+			submit.appendChild(document.createTextNode(testcases[i]), submit);
+		}
+		
 }
 
 function ppat_addCheckbox(before, name, v, component){
