@@ -184,14 +184,15 @@ function generateUI(){
 		
 			ppat_addBr(submit);
 			ppat_addhr(submit);
-			
+/*
+//remove the "add ppat to textfield button"
 			button = document.createElement("input");
 			button.type="button";
 			button.name="Add to PPAT Test TextField";
 			button.onclick=function(){ ppat_appendToText();};
 			button.value="Add to PPAT Test TextField";
 			submit.parentNode.appendChild(button, submit);
-
+*/
 			$("#Device1").checked="Device1";
 			}
 		}
@@ -304,3 +305,55 @@ Array.prototype.del = function() {
 	return c; 
 } 
 
+function ppat_triggerValidate(thisform)
+{
+	with (thisform)
+	{
+		if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+		{
+			property4value.focus();
+			return false;
+		}
+		if (ppat_validateRequired(property1value, "please input the Image Path") == false)
+		{
+			property1value.focus();
+			return false;
+		}
+		if (ppat_validateRequired(property6value, "please select the device") == false)
+		{
+			property6value.focus();
+			return false;
+		}
+		if (ppat_validateRequired(property7value, "please select the blf") == false)
+		{
+			property7value.focus();
+			return false;
+		}
+//load append ppat.xml to Text after validate
+	ppat_appendToText();
+	}
+}
+
+function ppat_validateRequired(field, alerttxt)
+{
+        with (field)
+        {
+                if (value==null||value=="")
+                {
+                alert(alerttxt);
+                focus();
+                return false;
+        }
+                for (i = 0; i < value.length; i++)
+                {
+                        c = value.substr(i, 1);
+                        ts = escape(c);
+                        if(ts.substring(0,2) == "%u")
+                        {
+                                alert("Chinese characters is not allowed!");
+                                value = "";
+                                return false;
+                        }
+                }
+        }
+}
