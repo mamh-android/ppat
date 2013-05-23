@@ -329,11 +329,11 @@ function ppat_triggerValidate(thisform)
 			property7value.focus();
 			return false;
 		}
-        if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
-        {
-            property3value.focus();
-            return false;
-        }
+    if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
+    {
+       property3value.focus();
+       return false;
+    }
 //load append ppat.xml to Text after validate
 	ppat_appendToText();
 	}
