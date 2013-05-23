@@ -309,8 +309,6 @@ function ppat_triggerValidate(thisform)
 {
 	with (thisform)
 	{
-		//load append ppat.xml to Text after validate
-		ppat_appendToText();
 		if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
 		{
 			property4value.focus();
@@ -336,6 +334,8 @@ function ppat_triggerValidate(thisform)
        property3value.focus();
        return false;
     }
+//load append ppat.xml to Text after validate
+	ppat_appendToText();
 	}
 }
 
