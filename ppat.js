@@ -218,7 +218,7 @@ function ppat_appendToText(){
 				jsonStr = "{\"TestCaseList\":[" + jsonStr.substring(0, jsonStr.length - 1) + "]";
 				var text = document.getElementById("ppat_testarea").value;
 				if(text != ""){
-						jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;') + "\"";							
+						jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;') + "\"";							
 				}
 				jsonStr += "}"; 
 				
