@@ -186,14 +186,15 @@ function generateUI(buildtype){
     button = document.createElement("input");
     button.type="button";
     button.name="Add to PPAT Test TextField";
-    button.onclick=function(){ ppat_appendToText();};
+    button.onclick=function(){ ppat_appendToText("property3value");};
     button.value="Add to PPAT Test TextField";
     submit.parentNode.appendChild(button, submit);
 */
 //  }
 }
 
-function ppat_appendToText(){
+function ppat_appendToText(v){
+    xmlvalue = v;
     var chks = document.getElementsByTagName("input");
     var jsonStr="";
     var textfiled;
@@ -205,7 +206,7 @@ function ppat_appendToText(){
             jsonStr += "{\"Name\":\"" + chks[i].nextSibling.nodeValue + "\"},";
         }
          }
-    if(chks[i].name == "property3value"){
+    if(chks[i].name == xmlvalue){
         textfiled = chks[i];
          }
     }
@@ -305,57 +306,96 @@ function ppat_triggerValidate(thisform)
 {
     with (thisform)
     {
-        //load append ppat.xml to Text after validate
-        ppat_appendToText();
-        if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+        if (selected.value == "ppat_test")
         {
-            property4value.focus();
-            return false;
+            //load append ppat.xml to Text after validate
+            ppat_appendToText("property3value");
+            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+            {
+                property4value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property1value, "please input the Image Path") == false)
+            {
+                property1value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property6value, "please select the device") == false)
+            {
+                property6value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property7value, "please select the blf") == false)
+            {
+                property7value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
+            {
+                property3value.focus();
+                return false;
+            }
         }
-        if (ppat_validateRequired(property1value, "please input the Image Path") == false)
+        if (selected.value == "on_demand_virtual_build_with_ppat")
         {
-            property1value.focus();
-            return false;
+            //load append ppat.xml to Text after validate
+            ppat_appendToText("property2value");
+            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+            {
+                property4value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property6value, "please input the manifest") == false)
+            {
+                property6value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property7value, "please input the Dest Folder") == false)
+            {
+                property7value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property8value, "please select the device") == false)
+            {
+                property8value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property9value, "please select the blf") == false)
+            {
+                property9value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property2value, "please select power or performance test cases") == false)
+            {
+                property2value.focus();
+                return false;
+            }
         }
-        if (ppat_validateRequired(property6value, "please select the device") == false)
-        {
-            property6value.focus();
-            return false;
-        }
-        if (ppat_validateRequired(property7value, "please select the blf") == false)
-        {
-            property7value.focus();
-            return false;
-        }
-        if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
-        {
-            property3value.focus();
-            return false;
-        }
+
     }
 }
 
 function ppat_validateRequired(field, alerttxt)
 {
-        with (field)
+    with (field)
+    {
+        if (value==null||value=="")
         {
-                if (value==null||value=="")
-                {
-                alert(alerttxt);
-                focus();
-                return false;
-                }
-                for (i = 0; i < value.length; i++)
-                {
-                        c = value.substr(i, 1);
-                        ts = escape(c);
-                        if(ts.substring(0,2) == "%u")
-                        {
-                                alert("Chinese characters is not allowed!");
-                                value = "";
-                                return false;
-                        }
-                }
-        }
+            alert(alerttxt);
+            focus();
+            return false;
+         }
+         for (i = 0; i < value.length; i++)
+         {
+             c = value.substr(i, 1);
+             ts = escape(c);
+             if(ts.substring(0,2) == "%u")
+             {
+                 alert("Chinese characters is not allowed!");
+                 value = "";
+                 return false;
+             }
+         }
+    }
 }
 
