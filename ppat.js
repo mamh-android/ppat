@@ -16,7 +16,7 @@ function ppat_load(buildtype){
                     powerComponent = new Array();
                     performanceCase = new Array();
                     powerDevice = new Array();
-                    deviceComponent = new Array();  
+                    deviceComponent = new Array();
                     domParser = new DOMParser();
                     xmlDoc = domParser.parseFromString(msg, 'text/xml');
                     ppat_parsePowerNode();
@@ -38,7 +38,7 @@ function ppat_parseDeviceNode(){
             cases.push(testcases[j].firstChild.nodeValue);
             powerComponent.push(testcases[j].getAttribute("Component"));
             deviceComponent.push(testcases[j].getAttribute("Component"));
-        }       
+        }
         str += "\"TestCase\":\"" + cases + "\"";
         str += "}";
         powerDevice.push(eval('(' + str + ')'));
@@ -53,7 +53,7 @@ function ppat_parsePowerNode(){
         component = nodes[i].getElementsByTagName("Component")[0].firstChild.nodeValue;
         powerCase.push(caseName);
         powerComponent.push(component);
-    }       
+    }
 }
 
 function ppat_parsePerformanceNode(){
@@ -62,7 +62,7 @@ function ppat_parsePerformanceNode(){
     for(i = 0; i < nodes.length; i++){
         caseName = nodes[i].getElementsByTagName("CaseName")[0].firstChild.nodeValue;
         performanceCase.push(caseName);
-    }       
+    }
 }
 
 function generateUI(buildtype){
@@ -78,23 +78,11 @@ function generateUI(buildtype){
         submit = document.getElementById("odvb_ppat");
     }
 
-    var label = document.createElement("label");
-    label.id="power";
-    label.name="power";
-    label.innerHTML="<b>Power Consumption Test:</b>";
-        
-    submit.insertBefore(label, null);
-    ppat_addBr(submit);
-    for(var i = 0; i < powerCase.length; i++){
-        ppat_addCheckbox(submit, "power", powerCase[i], powerComponent[i]);
-    }   
-    ppat_addhr(submit);
-    
-    label = document.createElement("label");
+        var label = document.createElement("label");
     label.id="powerDevice";
     label.name="powerdevice";
-    label.innerHTML="<b>Choose Camera/WiFi/BT Test Cases:</b>";
-    
+    label.innerHTML="<b>Choose Board HW Module:</b>";
+
     submit.insertBefore(label, null);
     ppat_addBr(submit);
     for(var j = 0; j < powerDevice.length; j++){
@@ -104,16 +92,29 @@ function generateUI(buildtype){
         radio.type = "radio";
         radio.name = "device";
         radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
-        radio.value = powerDevice[j].name;      
+        radio.value = powerDevice[j].name;
         var textnode = document.createTextNode(powerDevice[j].name);
-        submit.insertBefore(radio, null);   
-        submit.insertBefore(document.createTextNode(powerDevice[j].name), null);    
+        submit.insertBefore(radio, null);
+        submit.insertBefore(document.createTextNode(powerDevice[j].name), null);
     }
-    var div = document.createElement("div");
-    div.id="power_device";      
-    submit.insertBefore(div, null);
+    ppat_addBr(submit);
     ppat_addhr(submit);
-        
+
+    label = document.createElement("label");
+    label.id="power";
+    label.name="power";
+    label.innerHTML="<b>Power Consumption Test:</b>";
+
+    submit.insertBefore(label, null);
+    ppat_addBr(submit);
+    for(var i = 0; i < powerCase.length; i++){
+        ppat_addCheckbox(submit, "power", powerCase[i], powerComponent[i]);
+    }
+
+    var div = document.createElement("div");
+    div.id="power_device";
+    submit.insertBefore(div, null);
+
     var button = document.createElement("input");
     button.type="button";
     button.name="Button_SelectAll";
@@ -134,10 +135,9 @@ function generateUI(buildtype){
         buttons.onclick=(function(n){ return function(){ppat_CheckboxSelectComponent('power', powerComponent[n]);}})(i);
         buttons.value="Choose " + powerComponent[i];
         submit.insertBefore(buttons, null);
-    }   
-    
+    }
+
     ppat_addBr(submit);
-    ppat_addhr(submit);
     var label = document.createElement("label");
     label.id="power";
     label.name="power";
@@ -169,16 +169,16 @@ function generateUI(buildtype){
     label.id="power";
     label.name="power";
     label.innerHTML="<b>Please input some special commands before run each case:</b>";
-    
+
     submit.insertBefore(label, null);
     ppat_addBr(submit);
     var textarea = document.createElement("textarea");
     textarea.cols = 60;
     textarea.rows = 10;
     textarea.id = "ppat_testarea";
-        
+
     submit.insertBefore(textarea, null);
-    
+
     ppat_addBr(submit);
     ppat_addhr(submit);
 /*
@@ -214,11 +214,11 @@ function ppat_appendToText(v){
         jsonStr = "{\"TestCaseList\":[" + jsonStr.substring(0, jsonStr.length - 1) + "]";
         var text = document.getElementById("ppat_testarea").value;
         if(text != ""){
-            jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;') + "\"";                           
+            jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;') + "\"";
         }
-        jsonStr += "}"; 
-        
-        textfiled.value=jsonStr; 
+        jsonStr += "}";
+
+        textfiled.value=jsonStr;
     }else{
         alert('Please at least choose a Power or Performance test case');
     }
@@ -236,71 +236,71 @@ function ppat_addhr(before){
 
 function ppat_addDeviceCase(device, submit){
         var testcases = device.split(",");
-        var submit = document.getElementById("power_device");   
+        var submit = document.getElementById("power_device");
         $("#power_device").html("");
         for(i = 0; i < testcases.length; i++){
             //ppat_addCheckbox(submit, "device", testcases[i], testcases[i]);
-            var power = document.createElement("input"); 
+            var power = document.createElement("input");
             power.type="checkbox";
             power.value=deviceComponent[i];
             power.name="power";
             submit.insertBefore(power, null);
             submit.insertBefore(document.createTextNode(testcases[i]), null);
-            
+
         }
-        
+
 }
 
 function ppat_addCheckbox(before, name, v, component){
-        var power = document.createElement("input"); 
+        var power = document.createElement("input");
         power.type="checkbox";
         power.value=component;
         power.name=name;
-        
+
         before.insertBefore(power, null);
         before.insertBefore(document.createTextNode(v), null);
 };
 
-function ppat_CheckboxSelectAll(name) {  
-    
+function ppat_CheckboxSelectAll(name) {
+
     var checkbox = document.getElementsByTagName("input");
         for( var i = 0; i < checkbox.length; i++){
             if(checkbox[i].type == "checkbox" && checkbox[i].name == name){
                 checkbox[i].checked = true;
             }
         }
-  }  
+  }
 
-function ppat_CheckboxSelectComponent(name, component) { 
+function ppat_CheckboxSelectComponent(name, component) {
     var checkbox = document.getElementsByTagName("input");
         for( var i = 0; i < checkbox.length; i++){
             if(checkbox[i].type == "checkbox" && checkbox[i].name == name && checkbox[i].value == component){
                 checkbox[i].checked = true;
             }
         }
-  } 
+  }
 
-function ppat_CheckboxSelectClear(name) {  
+function ppat_CheckboxSelectClear(name) {
     var checkbox = document.getElementsByTagName("input");
         for( var i = 0; i < checkbox.length; i++){
             if(checkbox[i].type == "checkbox" && checkbox[i].name == name){
                 checkbox[i].checked = false;
             }
         }
-   } 
+   }
 
-Array.prototype.del = function() { 
-    var a = {}, c = [], l = this.length; 
-    for (var i = 0; i < l; i++) { 
-        var b = this[i]; 
-        var d = (typeof b) + b; 
-        if (a[d] === undefined) { 
-            c.push(b); 
-            a[d] = 1; 
-        } 
-    } 
-    return c; 
-} 
+Array.prototype.del = function() {
+    var a = {}, c = [], l = this.length;
+    for (var i = 0; i < l; i++) {
+        var b = this[i];
+        var d = (typeof b) + b;
+        if (a[d] === undefined) {
+            c.push(b);
+            a[d] = 1;
+        }
+    }
+    return c;
+}
 
 function ppat_triggerValidate(thisform)
 {
