@@ -350,11 +350,6 @@ function ppat_triggerValidate(thisform)
                 property6value.focus();
                 return false;
             }
-            if (ppat_validateRequired(property7value, "please input the Dest Folder") == false)
-            {
-                property7value.focus();
-                return false;
-            }
             if (ppat_validateRequired(property8value, "please select the device") == false)
             {
                 property8value.focus();
