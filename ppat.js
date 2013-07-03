@@ -4,8 +4,9 @@ var powerComponent;
 var performanceCase;
 var powerDevice;
 var deviceComponent;
+var boardDevice;
 function ppat_load(buildtype){
-    var strURL = "http://10.38.32.178:3000/scenarios";
+    var strURL = "http://10.38.32.97:3000/scenarios";
             $.ajax({
               type: "GET",
               url: strURL,
@@ -17,14 +18,32 @@ function ppat_load(buildtype){
                     performanceCase = new Array();
                     powerDevice = new Array();
                     deviceComponent = new Array();
+                    boardDevice = new Array();
                     domParser = new DOMParser();
                     xmlDoc = domParser.parseFromString(msg, 'text/xml');
                     ppat_parsePowerNode();
                     ppat_parsePerformanceNode();
                     ppat_parseDeviceNode();
+                    ppat_parseBoardDevice();
                     generateUI(buildtype);
               }
             });
+}
+
+function ppat_parseBoardDevice(){
+    var nodes = xmlDoc.getElementsByTagName("Board");
+    for(i = 0; i < nodes.length; i++){
+        var str = "{";
+        str += "\"type\":\"" + nodes[i].getElementsByTagName("Type")[0].firstChild.nodeValue + "\",";
+        var hw = nodes[i].getElementsByTagName("Name");
+        var modules = new Array();
+        for(j = 0; j < hw.length; j++){
+            modules.push(hw[j].firstChild.nodeValue);
+        }
+        str += "\"hw\":\"" + modules.join(";") + "\"";
+        str += "}";
+        boardDevice.push(eval('(' + str + ')'));
+    }
 }
 
 function ppat_parseDeviceNode(){
@@ -78,26 +97,27 @@ function generateUI(buildtype){
         submit = document.getElementById("odvb_ppat");
     }
 
-        var label = document.createElement("label");
-    label.id="powerDevice";
+    var label = document.createElement("label");
+    label.id="DeviceHW";
     label.name="powerdevice";
     label.innerHTML="<b>Choose Board HW Module:</b>";
+        label.style.display = "none";
 
     submit.insertBefore(label, null);
-    ppat_addBr(submit);
-    for(var j = 0; j < powerDevice.length; j++){
+    //ppat_addBr(submit);
+   // for(var j = 0; j < powerDevice.length; j++){
 
-        var radio = document.createElement("input");
-        radio.id = powerDevice[j].name;
-        radio.type = "radio";
-        radio.name = "device";
-        radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
-        radio.value = powerDevice[j].name;
-        var textnode = document.createTextNode(powerDevice[j].name);
-        submit.insertBefore(radio, null);
-        submit.insertBefore(document.createTextNode(powerDevice[j].name), null);
-    }
-    ppat_addBr(submit);
+     //   var radio = document.createElement("input");
+    //    radio.id = powerDevice[j].name;
+    //    radio.type = "radio";
+    //    radio.name = "device";
+    //    radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
+    //    radio.value = powerDevice[j].name;
+    //    var textnode = document.createTextNode(powerDevice[j].name);
+    //    submit.insertBefore(radio, null);
+     //   submit.insertBefore(document.createTextNode(powerDevice[j].name), null);
+    //}
+   // ppat_addBr(submit);
     ppat_addhr(submit);
 
     label = document.createElement("label");
@@ -310,11 +330,11 @@ function ppat_triggerValidate(thisform)
         {
             //load append ppat.xml to Text after validate
             ppat_appendToText("property3value");
-            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
-            {
-                property4value.focus();
-                return false;
-            }
+//            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+//            {
+//                property4value.focus();
+//                return false;
+//            }
             if (ppat_validateRequired(property1value, "please input the Image Path") == false)
             {
                 property1value.focus();
@@ -340,19 +360,14 @@ function ppat_triggerValidate(thisform)
         {
             //load append ppat.xml to Text after validate
             ppat_appendToText("property2value");
-            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
-            {
-                property4value.focus();
-                return false;
-            }
+//            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+//            {
+//                property4value.focus();
+//                return false;
+//            }
             if (ppat_validateRequired(property6value, "please input the manifest") == false)
             {
                 property6value.focus();
-                return false;
-            }
-            if (ppat_validateRequired(property7value, "please input the Dest Folder") == false)
-            {
-                property7value.focus();
                 return false;
             }
             if (ppat_validateRequired(property8value, "please select the device") == false)
@@ -399,3 +414,50 @@ function ppat_validateRequired(field, alerttxt)
     }
 }
 
+function branchSelect2(){
+        var c = {
+                "pxa1088dkb_def:pxa1088dkb":['HELN_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_Nontrusted_eMMC_discrete.blf', 'HELN_WB_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_400MHZ.blf'],
+                "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_400MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_512M.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_512M.blf']
+//                "pxa988t7_def:pxa988t7":['KUNLUN_Nontrusted_eMMC_1GB_400MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_533MHZ_DDR3.blf', 'KUNLUN_Trusted_eMMC_1GB_400MHZ.blf', 'KUNLUN_Trusted_eMMC_512MB_400MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_400MHZ_discrete.blf', 'KUNLUN_Nontrusted_eMMC_512MB_400MHZ.blf', 'KUNLUN_Trusted_eMMC_1GB_400MHZ_discrete.blf', 'KUNLUN_Trusted_eMMC_512MB_533MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_533MHZ.blf', 'KUNLUN_Nontrusted_eMMC_512MB_533MHZ.blf', 'KUNLUN_Trusted_eMMC_1GB_533MHZ.blf']
+                };
+
+        var sel = document.getElementById("property6value");
+        var op = sel.options[sel.selectedIndex];
+        var r_devices = c[op.text];
+        var r_device = document.getElementById("property7value");
+        r_device.length=0;
+        for(var i=0;i<r_devices.length;i++){
+        var ops = new Option();
+        ops.text = r_devices[i] ;
+        r_device.options[i] = ops;
+        }
+
+        var submit = document.getElementById("DeviceHW");    
+        submit.style.display = "none";
+        $("#device_module").remove();
+        var div = document.createElement("div");
+        div.id="device_module";
+        submit.insertBefore(div, null);
+        for(var i = 0; i < boardDevice.length; i++){
+            if(boardDevice[i].type == op.text){
+                var hwModule = new Array();
+                hwModule = boardDevice[i].hw.split(";");
+                for(var k = 0; k < hwModule.length; k++){
+                    for(var j = 0; j < powerDevice.length; j++){
+                        if(powerDevice[j].name == hwModule[k]){
+                            submit.style.display = "block";
+                            var radio = document.createElement("input");
+                            radio.id = powerDevice[j].name;
+                            radio.type = "radio";
+                            radio.name = "device";
+                            radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
+                            radio.value = powerDevice[j].name;
+                            var textnode = document.createTextNode(powerDevice[j].name);
+                            div.insertBefore(radio, null);
+                            div.insertBefore(document.createTextNode(powerDevice[j].name), null);
+                        }
+                     }
+                 }
+            }
+        }
+}
