@@ -418,7 +418,6 @@ function branchSelect2(){
         var c = {
                 "pxa1088dkb_def:pxa1088dkb":['HELN_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_Nontrusted_eMMC_discrete.blf', 'HELN_WB_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_400MHZ.blf'],
                 "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_400MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_512M.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_512M.blf']
-//                "pxa988t7_def:pxa988t7":['KUNLUN_Nontrusted_eMMC_1GB_400MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_533MHZ_DDR3.blf', 'KUNLUN_Trusted_eMMC_1GB_400MHZ.blf', 'KUNLUN_Trusted_eMMC_512MB_400MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_400MHZ_discrete.blf', 'KUNLUN_Nontrusted_eMMC_512MB_400MHZ.blf', 'KUNLUN_Trusted_eMMC_1GB_400MHZ_discrete.blf', 'KUNLUN_Trusted_eMMC_512MB_533MHZ.blf', 'KUNLUN_Nontrusted_eMMC_1GB_533MHZ.blf', 'KUNLUN_Nontrusted_eMMC_512MB_533MHZ.blf', 'KUNLUN_Trusted_eMMC_1GB_533MHZ.blf']
                 };
 
         var sel = document.getElementById("property6value");
@@ -433,6 +432,53 @@ function branchSelect2(){
         }
 
         var submit = document.getElementById("DeviceHW");    
+        submit.style.display = "none";
+        $("#device_module").remove();
+        var div = document.createElement("div");
+        div.id="device_module";
+        submit.insertBefore(div, null);
+        for(var i = 0; i < boardDevice.length; i++){
+            if(boardDevice[i].type == op.text){
+                var hwModule = new Array();
+                hwModule = boardDevice[i].hw.split(";");
+                for(var k = 0; k < hwModule.length; k++){
+                    for(var j = 0; j < powerDevice.length; j++){
+                        if(powerDevice[j].name == hwModule[k]){
+                            submit.style.display = "block";
+                            var radio = document.createElement("input");
+                            radio.id = powerDevice[j].name;
+                            radio.type = "radio";
+                            radio.name = "device";
+                            radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
+                            radio.value = powerDevice[j].name;
+                            var textnode = document.createTextNode(powerDevice[j].name);
+                            div.insertBefore(radio, null);
+                            div.insertBefore(document.createTextNode(powerDevice[j].name), null);
+                        }
+                     }
+                 }
+            }
+        }
+}
+
+function branchSelect3(){
+        var c = {
+                "pxa1088dkb_def:pxa1088dkb":['HELN_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_Nontrusted_eMMC_discrete.blf', 'HELN_WB_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_400MHZ.blf'],
+                "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_400MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_512M.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_512M.blf']
+                };
+
+        var sel = document.getElementById("property8value");
+        var op = sel.options[sel.selectedIndex];
+        var r_devices = c[op.text];
+        var r_device = document.getElementById("property9value");
+        r_device.length=0;
+        for(var i=0;i<r_devices.length;i++){
+        var ops = new Option();
+        ops.text = r_devices[i] ;
+        r_device.options[i] = ops;
+        }
+
+        var submit = document.getElementById("DeviceHW");
         submit.style.display = "none";
         $("#device_module").remove();
         var div = document.createElement("div");
