@@ -326,7 +326,37 @@ function ppat_triggerValidate(thisform)
 {
     with (thisform)
     {
-        if (selected.value == "ppat_test")
+        if (selected.value == "ppat_test_pxa988")
+        {
+            //load append ppat.xml to Text after validate
+            ppat_appendToText("property3value");
+//            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
+//            {
+//                property4value.focus();
+//                return false;
+//            }
+            if (ppat_validateRequired(property1value, "please input the Image Path") == false)
+            {
+                property1value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property6value, "please select the device") == false)
+            {
+                property6value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property7value, "please select the blf") == false)
+            {
+                property7value.focus();
+                return false;
+            }
+            if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
+            {
+                property3value.focus();
+                return false;
+            }
+        }
+        if (selected.value == "ppat_test_eden")
         {
             //load append ppat.xml to Text after validate
             ppat_appendToText("property3value");
@@ -417,7 +447,8 @@ function ppat_validateRequired(field, alerttxt)
 function branchSelect2(){
         var c = {
                 "pxa1088dkb_def:pxa1088dkb":['HELN_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_400MHZ.blf', 'HELN_WB_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_Nontrusted_eMMC_512MB_533MHZ.blf', 'HELN_WT_Nontrusted_eMMC_1GB_533MHZ.blf', 'HELN_Nontrusted_eMMC_discrete.blf', 'HELN_WB_Nontrusted_eMMC_1GB_400MHZ.blf', 'HELN_WT_Nontrusted_eMMC_512MB_400MHZ.blf'],
-                "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_400MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_512M.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_512M.blf']
+                "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_400MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_400MHZ_512M.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_1GB.blf','HELN_LTE_Nontrusted_eMMC_533MHZ_512MB.blf','HELN_LTE_TABLET_Nontrusted_eMMC_533MHZ_512M.blf'],
+                "concord_def:concord":['EDEN_Nontrusted_eMMC.blf']
                 };
 
         var sel = document.getElementById("property6value");
