@@ -1,3 +1,4 @@
+var xmlDoc;
 var powerCase;
 var powerComponent;
 var performanceCase;
@@ -32,6 +33,9 @@ function ppat_load(buildtype){
                     $(".720p").colorbox({inline:true, width:"50%"});
                     $(".VGA").colorbox({inline:true, width:"50%"});
                     $(".mp3").colorbox({inline:true, width:"50%"});
+                    $(".1080p_wfd").colorbox({inline:true, width:"50%"});
+                    $(".720p_wfd").colorbox({inline:true, width:"50%"});
+                    $(".VGA_wfd").colorbox({inline:true, width:"50%"});
               }
             });
 }
@@ -79,7 +83,6 @@ function ppat_load_testcase(){
                  checkbox +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"}><b>Description:' + '</b>' + $(this).find("StreamModule").text() + '</div>';
                  $("#" + $(this).find("CaseName").text()).append(checkbox);
             });
-
         }
     });
 
@@ -151,7 +154,14 @@ function generateUI(buildtype){
         $("#odvb_ppat").html("");
         submit = document.getElementById("odvb_ppat");
     }
-    var colorbox = "<div style='display:none'>  <div id='1080p' style=\"padding:10px; background:#F9F7DB;\" ></div>    <div id='720p' style=\"padding:10px; background:#F9F7DB;\" ></div> <div id='VGA' style=\"padding:10px; background:#F9F7DB;\" ></div>  <div id='mp3' style=\"padding:10px; background:#F9F7DB;\" ></div></div>";
+    var colorbox = "<div style='display:none'>" +
+                                     "<div id='1080p' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='720p' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='VGA' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='mp3' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">audio</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='1080p_wfd' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='720p_wfd' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
+                                     "<div id='VGA_wfd' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div></div>";
 
     var label = document.createElement("label");
     label.id="DeviceHW";
@@ -200,6 +210,26 @@ function generateUI(buildtype){
     }
 
     ppat_addBr(submit);
+
+    label = document.createElement("label");
+    label.id="power_adv";
+    label.name="poweradv";
+    label.innerHTML="<b>Advanced Power Consumption Test:</b>";
+    label.style.display = "none";
+    submit.insertBefore(label, null);
+
+    var advanced_tc = document.getElementById("power_adv");
+    advanced_tc.style.display="none";
+    var advanced = document.createElement("div");
+    advanced.id="advanced_power";
+    advanced_tc.insertBefore(advanced, null);
+
+    $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
+        $(this).children("Platform").each(function(i){
+            ppat_addCheckbox(advanced_tc,"power", $(ele).children("CaseName").text(), "video");
+        });
+    });
+
     var label = document.createElement("label");
     label.id="power";
     label.name="power";
@@ -207,6 +237,7 @@ function generateUI(buildtype){
 
     submit.insertBefore(label, null);
     ppat_addBr(submit);
+
     for(var i = 0; i < performanceCase.length; i++){
         ppat_addCheckbox(submit,"performance", performanceCase[i]);
     }
@@ -508,7 +539,7 @@ function branchSelect2(){
         r_device.options[i] = ops;
         }
 
-        var submit = document.getElementById("DeviceHW");    
+        var submit = document.getElementById("DeviceHW");
         submit.style.display = "none";
         $("#device_module").remove();
         var div = document.createElement("div");
@@ -536,6 +567,15 @@ function branchSelect2(){
                  }
             }
         }
+        var advanced_tc = document.getElementById("power_adv");
+        advanced_tc.style.display="none";
+        $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
+            $(this).children("Platform").each(function(i){
+                if($(this).text() == op.text){
+                    advanced_tc.style.display="block";
+                }
+            });
+        });
 }
 
 function branchSelect3(){
@@ -583,5 +623,13 @@ function branchSelect3(){
                  }
             }
         }
+        var advanced_tc = document.getElementById("power_adv");
+        advanced_tc.style.display="none";
+        $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
+            $(this).children("Platform").each(function(i){
+                if($(this).text() == op.text){
+                    advanced_tc.style.display="block";
+                }
+            });
+        });
 }
-
