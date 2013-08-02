@@ -1,10 +1,10 @@
-var xmlDoc;
 var powerCase;
 var powerComponent;
 var performanceCase;
 var powerDevice;
 var deviceComponent;
 var boardDevice;
+var testcases="";
 function ppat_load(buildtype){
     var strURL = "http://10.38.32.97:3000/scenarios";
             $.ajax({
@@ -26,8 +26,63 @@ function ppat_load(buildtype){
                     ppat_parseDeviceNode();
                     ppat_parseBoardDevice();
                     generateUI(buildtype);
+                    ppat_load_testcase();
+
+                    $(".1080p").colorbox({inline:true, width:"50%"});
+                    $(".720p").colorbox({inline:true, width:"50%"});
+                    $(".VGA").colorbox({inline:true, width:"50%"});
+                    $(".mp3").colorbox({inline:true, width:"50%"});
               }
             });
+}
+
+function ppat_update_checkbox(id,stream, duration){
+    $("#"+id).attr("checked",true);
+    testcases += "{\"CaseName\":\"" + id + "\",";
+    testcases += "\"Stream\":\"" + stream + "\",";
+    testcases += "\"Duration\":\"" + duration + "\"},";
+}
+
+
+function ppat_load_testcase(){
+    var audioURL = "http://10.38.32.97:3000/tc/audio";
+    $.ajax({
+        type: "GET",
+        url: audioURL,
+        timeout:3000,
+        dataType:'html',
+        success: function(data){
+             var audio_xml = new DOMParser().parseFromString(data, 'text/xml');
+             $(audio_xml).find('Resource').each(function(i){
+                  var audio = '<input align=\"left\" onclick=ppat_update_checkbox(\"mp3\",\"'+ $(this).find("Name").text() + '\",\"'+ $(this).find("Duration").text() +'\") type=\"radio\" name=\"testcase_audio\" value=\"testcase_audio\">'+ $(this).find("Name").text() + '</input></br>';
+                  audio +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"><b>Duration:' + '</b>' +$(this).find("Duration").text() + 's</div>';
+                  audio +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"><b>Description:' + '</b>' +$(this).find("Description").text() +'</div>';
+
+                  $("#mp3").append(audio);
+            });
+
+        }
+    });
+    var videoURL = "http://10.38.32.97:3000/tc/video";
+    $.ajax({
+        type: "GET",
+        url: videoURL,
+        timeout:3000,
+        dataType:'html',
+        success: function(msg){
+             var video_xml = new DOMParser().parseFromString(msg, 'text/xml');
+             $(video_xml).find('Resource').each(function(i){
+                 var checkbox = '<input onclick=ppat_update_checkbox(\"' + $(this).find("CaseName").text() + '\",\"'+ $(this).find("Name").text() + '\",\"'+ $(this).find("Duration").text() +'\")  type=\"radio\" name=\"testcase\" value=\"testcase\">'+ $(this).find("Name").text() + '</input></br>';
+                 checkbox +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"><b>FPS:' + '</b>' +$(this).find("FPS").text() + '</div>';
+                 checkbox +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"><b>Duration:' + '</b>' +$(this).find("Duration").text() + 's</div>';
+                 checkbox +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"><b>Description:' + '</b>' + $(this).find("Description").text() + '</div>';
+                 checkbox +='<div style=\"margin:3px 0 0 0; padding:0 0 0 27px; font-family:Arial; font-size:12px; color:#3b3a2b; line-height:25px; text-decoration:none\"}><b>Description:' + '</b>' + $(this).find("StreamModule").text() + '</div>';
+                 $("#" + $(this).find("CaseName").text()).append(checkbox);
+            });
+
+        }
+    });
+
 }
 
 function ppat_parseBoardDevice(){
@@ -96,29 +151,16 @@ function generateUI(buildtype){
         $("#odvb_ppat").html("");
         submit = document.getElementById("odvb_ppat");
     }
+    var colorbox = "<div style='display:none'>  <div id='1080p' style=\"padding:10px; background:#F9F7DB;\" ></div>    <div id='720p' style=\"padding:10px; background:#F9F7DB;\" ></div> <div id='VGA' style=\"padding:10px; background:#F9F7DB;\" ></div>  <div id='mp3' style=\"padding:10px; background:#F9F7DB;\" ></div></div>";
 
     var label = document.createElement("label");
     label.id="DeviceHW";
     label.name="powerdevice";
     label.innerHTML="<b>Choose Board HW Module:</b>";
-        label.style.display = "none";
-
+    label.style.display = "none";
     submit.insertBefore(label, null);
-    //ppat_addBr(submit);
-   // for(var j = 0; j < powerDevice.length; j++){
-
-     //   var radio = document.createElement("input");
-    //    radio.id = powerDevice[j].name;
-    //    radio.type = "radio";
-    //    radio.name = "device";
-    //    radio.onclick=(function(n){return function(){ ppat_addDeviceCase(powerDevice[n].TestCase, div);}})(j);
-    //    radio.value = powerDevice[j].name;
-    //    var textnode = document.createTextNode(powerDevice[j].name);
-    //    submit.insertBefore(radio, null);
-     //   submit.insertBefore(document.createTextNode(powerDevice[j].name), null);
-    //}
-   // ppat_addBr(submit);
     ppat_addhr(submit);
+    $("#DeviceHW").append(colorbox);
 
     label = document.createElement("label");
     label.id="power";
@@ -216,7 +258,7 @@ function generateUI(buildtype){
 function ppat_appendToText(v){
     xmlvalue = v;
     var chks = document.getElementsByTagName("input");
-    var jsonStr="";
+    var jsonStr = "";
     var textfiled;
     var caseCount = 0;
        for (var i = 0; i < chks.length; i++) {
@@ -236,6 +278,10 @@ function ppat_appendToText(v){
         if(text != ""){
             jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;') + "\"";
         }
+
+        if(testcases != ""){
+            jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
+        }
         jsonStr += "}";
 
         textfiled.value=jsonStr;
@@ -254,32 +300,32 @@ function ppat_addhr(before){
        before.insertBefore(hr, null);
 }
 
+function ppat_addCheckbox(before, name, v, component){
+        var power = document.createElement("input");
+        power.id=v;
+        power.type="checkbox";
+        power.value=component;
+        power.name=name;
+        power.setAttribute("class", v);
+        power.setAttribute("href", "#"+ v);
+        before.insertBefore(power, null);
+        before.insertBefore(document.createTextNode(v), null);
+}
+
 function ppat_addDeviceCase(device, submit){
         var testcases = device.split(",");
         var submit = document.getElementById("power_device");
         $("#power_device").html("");
         for(i = 0; i < testcases.length; i++){
-            //ppat_addCheckbox(submit, "device", testcases[i], testcases[i]);
-            var power = document.createElement("input");
-            power.type="checkbox";
-            power.value=deviceComponent[i];
-            power.name="power";
-            submit.insertBefore(power, null);
-            submit.insertBefore(document.createTextNode(testcases[i]), null);
-
+                //ppat_addCheckbox(submit, "device", testcases[i], testcases[i]);
+                var power = document.createElement("input");
+                power.type="checkbox";
+                power.value=deviceComponent[i];
+                power.name="power";
+                submit.insertBefore(power, null);
+                submit.insertBefore(document.createTextNode(testcases[i]), null);
         }
-
 }
-
-function ppat_addCheckbox(before, name, v, component){
-        var power = document.createElement("input");
-        power.type="checkbox";
-        power.value=component;
-        power.name=name;
-
-        before.insertBefore(power, null);
-        before.insertBefore(document.createTextNode(v), null);
-};
 
 function ppat_CheckboxSelectAll(name) {
 
@@ -538,3 +584,4 @@ function branchSelect3(){
             }
         }
 }
+
