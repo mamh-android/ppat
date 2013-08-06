@@ -33,6 +33,9 @@ function ppat_load(buildtype){
                     $(".720p").colorbox({inline:true, width:"50%"});
                     $(".VGA").colorbox({inline:true, width:"50%"});
                     $(".mp3").colorbox({inline:true, width:"50%"});
+                    $(".1080p_wfd").colorbox({inline:true, width:"50%"});
+                    $(".720p_wfd").colorbox({inline:true, width:"50%"});
+                    $(".VGA_wfd").colorbox({inline:true, width:"50%"});
               }
             });
 }
@@ -214,6 +217,19 @@ function generateUI(buildtype){
     label.innerHTML="<b>Advanced Power Consumption Test:</b>";
     label.style.display = "none";
     submit.insertBefore(label, null);
+
+    var advanced_tc = document.getElementById("power_adv");
+    advanced_tc.style.display="none";
+    var advanced = document.createElement("div");
+    advanced.id="advanced_power";
+    advanced_tc.insertBefore(advanced, null);
+
+    $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
+        $(this).children("Platform").each(function(i){
+            ppat_addCheckbox(advanced_tc,"poweradv", $(ele).children("CaseName").text(), "video");
+        });
+    });
+
     var label = document.createElement("label");
     label.id="power";
     label.name="power";
@@ -551,23 +567,15 @@ function branchSelect2(){
                  }
             }
         }
-        var advanced_tc = document.getElementById("power_adv");
-        $("#power_adv").html("");
-        var update = "false";
+         var advanced_tc = document.getElementById("power_adv");
+        advanced_tc.style.display="none";
         $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
-             $(this).children("Platform").each(function(i){
-                    if($(this).text() == op.text){
+            $(this).children("Platform").each(function(i){
+                if($(this).text() == op.text){
                     advanced_tc.style.display="block";
-                    update = "true";
                 }
             });
         });
-        if(update == "true"){
-             $("#power_adv").append("<b>Advanced Power Test:</b></br>");
-             $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
-                ppat_addCheckbox(advanced_tc,"powerAdv", $(ele).children("CaseName").text(), "video");
-             });
-        }
 }
 
 function branchSelect3(){
@@ -615,21 +623,13 @@ function branchSelect3(){
                  }
             }
         }
-        var advanced_tc = document.getElementById("power_adv");
-        $("#power_adv").html("");
-        var update = "false";
+         var advanced_tc = document.getElementById("power_adv");
+        advanced_tc.style.display="none";
         $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
-              $(this).children("Platform").each(function(i){
-                    if($(this).text() == op.text){
+            $(this).children("Platform").each(function(i){
+                if($(this).text() == op.text){
                     advanced_tc.style.display="block";
-                    update = "true";
                 }
-              });
+            });
         });
-        if(update == "true"){
-              $("#power_adv").append("<b>Advanced Power Test:</b></br>");
-              $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
-              ppat_addCheckbox(advanced_tc,"powerAdv", $(ele).children("CaseName").text(), "video");
-             });
-        }
 }
