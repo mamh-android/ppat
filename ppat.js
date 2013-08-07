@@ -218,15 +218,20 @@ function generateUI(buildtype){
     label.style.display = "none";
     submit.insertBefore(label, null);
 
-    var advanced_tc = document.getElementById("power_adv");
-    advanced_tc.style.display="none";
-    var advanced = document.createElement("div");
-    advanced.id="advanced_power";
-    advanced_tc.insertBefore(advanced, null);
-
     $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
         $(this).children("Platform").each(function(i){
-            ppat_addCheckbox(advanced_tc,"poweradv", $(ele).children("CaseName").text(), "video");
+            if($("#" + $(this).text().substring(0, 7)).length > 0){
+                var text = "<input type=\"checkbox\" id=\"" + $(ele).children("CaseName").text() + "\" value=\"" + $(this).text() +"\" name=\"poweradv\" class=\"" + $(ele).children("CaseName").text() + "\" href=\"#" + $(ele).children("CaseName").text() + "\">" + $(ele).children("CaseName").text();
+                $("#" + $(this).text().substring(0, 7)).append(text);
+            }else{
+                var platform = document.createElement("div");
+                platform.id=$(this).text().substring(0, 7);
+                submit.insertBefore(platform, null);
+                var text = "<input type=\"checkbox\" id=\"" + $(ele).children("CaseName").text() + "\" value=\"" + $(this).text() +"\" name=\"poweradv\" class=\"" + $(ele).children("CaseName").text() + "\" href=\"#" + $(ele).children("CaseName").text() + "\">" + $(ele).children("CaseName").text();
+                $("#" + $(this).text().substring(0, 7)).append(text);
+                $("#" + $(this).text().substring(0, 7)).css("display", "none");
+                }
+            //ppat_addCheckbox(advanced_tc,"poweradv", $(ele).children("CaseName").text(), $(this).text());
         });
     });
 
@@ -284,6 +289,15 @@ function generateUI(buildtype){
     submit.parentNode.appendChild(button, submit);
 */
 //  }
+}
+
+function ppat_releaseCheckbox(){
+    var chks = document.getElementsByTagName("input");
+     for (var i = 0; i < chks.length; i++) {
+        if (chks[i].type == "checkbox" ) {
+            chks[i].checked = false;
+         }
+    }
 }
 
 function ppat_appendToText(v){
@@ -567,12 +581,15 @@ function branchSelect2(){
                  }
             }
         }
-         var advanced_tc = document.getElementById("power_adv");
+        var advanced_tc = document.getElementById("power_adv");
         advanced_tc.style.display="none";
+        ppat_releaseCheckbox();
         $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
             $(this).children("Platform").each(function(i){
+                $("#" + $(this).text().substring(0, 7)).css("display", "none");
                 if($(this).text() == op.text){
                     advanced_tc.style.display="block";
+                    $("#" + $(this).text().substring(0, 7)).css("display", "block");
                 }
             });
         });
@@ -623,12 +640,15 @@ function branchSelect3(){
                  }
             }
         }
-         var advanced_tc = document.getElementById("power_adv");
+        var advanced_tc = document.getElementById("power_adv");
         advanced_tc.style.display="none";
+        ppat_releaseCheckbox();
         $(xmlDoc).find("PowerAdvanced").each(function(i, ele){
             $(this).children("Platform").each(function(i){
+                $("#" + $(this).text().substring(0, 7)).css("display", "none");
                 if($(this).text() == op.text){
                     advanced_tc.style.display="block";
+                    $("#" + $(this).text().substring(0, 7)).css("display", "block");
                 }
             });
         });
