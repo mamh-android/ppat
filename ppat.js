@@ -450,6 +450,7 @@ function ppat_appendToText(v){
 						}
 				}
         jsonStr += "}";
+        jsonStr = jsonStr.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
 
         textfiled.value=jsonStr;
     }else{
