@@ -49,11 +49,16 @@ function ppat_update_checkbox(id,stream, duration){
 
 function showAPM(){
  if($("#apmEn").attr("checked")){
-	$("#apmdiv").css("display", "block");
-	}else{
-	
-	$("#apmdiv").css("display", "none");
-	}
+    $("#apmdiv").css("display", "block");
+    }else{
+    
+    $("#apmdiv").css("display", "none");
+    }
+}
+
+function addCmd(){
+    $("#add").before("</br><b>Please input another set of commands before run test cases:</b>");
+    $("#add").before("</br><textarea cols=\"60\" rows=\"10\"></textarea></br>");
 }
 
 function ppat_load_testcase(){
@@ -270,89 +275,86 @@ function generateUI(buildtype){
     powerComponent = powerComponent.del();
 
     ppat_addBr(submit);
-		ppat_addBr(submit);
+        ppat_addBr(submit);
 
 //add APM tool here
-		label = document.createElement("label");
-		label.id="apm";
-		submit.insertBefore(label, null);	
-		ppat_addBr(submit);
-		$("#apm").append("<input id=\"apmEn\" type=\"checkbox\" name=\"apm\" onclick=\"showAPM()\" value=\"apm\"/><b>APM for uboot power test:</b>");
+        label = document.createElement("label");
+        label.id="apm";
+        submit.insertBefore(label, null);   
+        ppat_addBr(submit);
+        $("#apm").append("<input id=\"apmEn\" type=\"checkbox\" name=\"apm\" onclick=\"showAPM()\" value=\"apm\"/><b>APM for uboot power test:</b>");
 
-		var apm = document.createElement("div");
-		apm.id="apmdiv";
-		apm.style.display = "none";
-		submit.insertBefore(apm, null);
+        var apm = document.createElement("div");
+        apm.id="apmdiv";
+        apm.style.display = "none";
+        submit.insertBefore(apm, null);
 //OP
-		label = document.createElement("label");
-		label.id="op";
-		label.name="op";
-		label.innerHTML="*set op cmd:";
-		apm.insertBefore(label, null);	
-		
+        label = document.createElement("label");
+        label.id="op";
+        label.name="op";
+        label.innerHTML="*set op cmd:";
+        apm.insertBefore(label, null);  
+        
 $("#op").after("<input id=\"opcmd\" style=\"width:50px\" type=\"text\" name=\"opcmd\" /><span style=\" font-size:12px;color:#999999\">command to set op, like<b> \"op\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;");
 
-		label = document.createElement("label");
-		label.id="oplist";
-		label.name="op";
-		label.innerHTML="*available op value:";
-		apm.insertBefore(label, null);	
+        label = document.createElement("label");
+        label.id="oplist";
+        label.name="op";
+        label.innerHTML="*available op value:";
+        apm.insertBefore(label, null);  
 
 $("#oplist").after("<input id=\"opval\" type=\"text\" name=\"opval\" /><span style=\" font-size:12px;color:#999999\">available op, like <b>\"0,1,2,3\"</b></span><br/>");
 
 //voltage
-		var label = document.createElement("label");
-		label.id="vol";
-		label.name="vol";
-		label.innerHTML="*set vol cmd:";
-		apm.insertBefore(label, null);	
-		$("#vol").after("<input id=\"volcmd\" style=\"width:50px\" type=\"text\" name=\"volcmd\" /><span style=\" font-size:12px;color:#999999\">command to set voltage, like<b> \"setvolt\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;");
+        var label = document.createElement("label");
+        label.id="vol";
+        label.name="vol";
+        label.innerHTML="*set vol cmd:";
+        apm.insertBefore(label, null);  
+        $("#vol").after("<input id=\"volcmd\" style=\"width:50px\" type=\"text\" name=\"volcmd\" /><span style=\" font-size:12px;color:#999999\">command to set voltage, like<b> \"setvolt\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;");
 
-		label = document.createElement("label");
-		label.id="volvalues";
-		label.name="vol";
-		apm.insertBefore(label, null);	
+        label = document.createElement("label");
+        label.id="volvalues";
+        label.name="vol";
+        apm.insertBefore(label, null);  
 
-		$("#volvalues").after("*min voltage:<input id=\"volmin\" style=\"width:50px\" type=\"text\" name=\"volmin\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
-		+ "*max voltage:<input id=\"volmax\" style=\"width:50px\" type=\"text\" name=\"volmax\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
-		+ "*step: <input id=\"volstep\" style=\"width:50px\" type=\"text\" name=\"volstep\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
-		+ "order:<input id=\"volorder\" style=\"width:20px\" type=\"text\" name=\"volorder\" /><span style=\" font-size:12px;color:#999999\">1: mean asceding, 0: men descending. Default is 0</span></br>");
+        $("#volvalues").after("*min voltage:<input id=\"volmin\" style=\"width:50px\" type=\"text\" name=\"volmin\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
+        + "*max voltage:<input id=\"volmax\" style=\"width:50px\" type=\"text\" name=\"volmax\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
+        + "*step: <input id=\"volstep\" style=\"width:50px\" type=\"text\" name=\"volstep\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
+        + "order:<input id=\"volorder\" style=\"width:20px\" type=\"text\" name=\"volorder\" /><span style=\" font-size:12px;color:#999999\">1: mean asceding, 0: men descending. Default is 0</span></br>");
 
 //lpm
-		label = document.createElement("label");
-		label.id="lpm";
-		label.name="lpm";
-		label.innerHTML="*set lpm command:";		
-		apm.insertBefore(label, null);	
-		
-		$("#lpm").after("<input id=\"lpmcmd\" style=\"width:50px\" type=\"text\" name=\"lpmcmd\" /><span style=\" font-size:12px;color:#999999\">command to set lpm, like<b> \"lpm\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;"
-		+"*available lpm value:<input id=\"lpmval\" type=\"text\" name=\"lpmval\" /><span style=\" font-size:12px;color:#999999\">available lpm, like <b>\"c22,d1,d2,udr\"</b></span><br/>");
+        label = document.createElement("label");
+        label.id="lpm";
+        label.name="lpm";
+        label.innerHTML="*set lpm command:";        
+        apm.insertBefore(label, null);  
+        
+        $("#lpm").after("<input id=\"lpmcmd\" style=\"width:50px\" type=\"text\" name=\"lpmcmd\" /><span style=\" font-size:12px;color:#999999\">command to set lpm, like<b> \"lpm\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;"
+        +"*available lpm value:<input id=\"lpmval\" type=\"text\" name=\"lpmval\" /><span style=\" font-size:12px;color:#999999\">available lpm, like <b>\"c22,d1,d2,udr\"</b></span><br/>");
 
 //prepare cmd
-		label = document.createElement("label");
-		label.id="pre";
-		label.name="pre";
-		label.innerHTML="*prepare command before uboot power test:";		
-		apm.insertBefore(label, null);	
-		
-		$("#pre").after("<input id=\"precmd\" type=\"text\" name=\"precmd\" /><span style=\" font-size:12px;color:#999999\">prepare command for uboot power test, like<b> \"cpmsa;amp 1;amp 2;amp3\"</b></span></br>"
-	+"test loop:<input id=\"loop\" style=\"width:20px\" type=\"text\" name=\"loop\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"2\"</b></span><br/>");
+        label = document.createElement("label");
+        label.id="pre";
+        label.name="pre";
+        label.innerHTML="*prepare command before uboot power test:";        
+        apm.insertBefore(label, null);  
+        
+        $("#pre").after("<input id=\"precmd\" type=\"text\" name=\"precmd\" /><span style=\" font-size:12px;color:#999999\">prepare command for uboot power test, like<b> \"cpmsa;amp 1;amp 2;amp3\"</b></span></br>"
+    +"test loop:<input id=\"loop\" style=\"width:20px\" type=\"text\" name=\"loop\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"2\"</b></span><br/>");
 
-		
+        
     ppat_addhr(submit);
     label = document.createElement("label");
-    label.id="power";
+    label.id="power_textarea";
     label.name="power";
     label.innerHTML="<b>Please input some special commands before run test cases:</b>";
 
     submit.insertBefore(label, null);
-    ppat_addBr(submit);
-    var textarea = document.createElement("textarea");
-    textarea.cols = 60;
-    textarea.rows = 10;
-    textarea.id = "ppat_testarea";
+    $("#power_textarea").after("</br><input id=\"add\" type=\"button\" name=\"Button_ClearAll\" onclick=\"addCmd()\" value=\"Add another set of cmds for PPAT test\"></input>");
+    $("#power_textarea").after("</br><textarea cols=\"60\" rows=\"10\"></textarea>");
 
-    submit.insertBefore(textarea, null);
+    
 
     ppat_addBr(submit);
     ppat_addhr(submit);
@@ -394,61 +396,65 @@ function ppat_appendToText(v){
         textfiled = chks[i];
          }
     }
-		if($("#apmEn").attr("checked")){
-			caseCount += 1;
-			jsonStr += "{\"Name\":\"apm_ppat\"},";
-		}
+        if($("#apmEn").attr("checked")){
+            caseCount += 1;
+            jsonStr += "{\"Name\":\"apm_ppat\"},";
+        }
     if(caseCount >= 1){
         jsonStr = "{\"TestCaseList\":[" + jsonStr.substring(0, jsonStr.length - 1) + "]";
-        var text = document.getElementById("ppat_testarea").value;
-        if(text != ""){
-            jsonStr +=",\"inputs\":\"" + text.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;') + "\"";
-        }
 
+        jsonStr +=",\"inputs\":[";
+        $('textarea').each(function(){
+             var text = $(this).val().replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
+             if(text != ""){
+                     jsonStr += "\"" + text + "\",";
+             }
+        });
+        jsonStr = jsonStr.substring(0, jsonStr.length - 1) + "]";
         if(testcases != ""){
             jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
         }
 
-				if($("#apmEn").attr("checked")){
-						var opcmd = $("#opcmd").attr("value");
-						var opval = $("#opval").attr("value");
-						var volcmd = $("#volcmd").attr("value");
-						var volmin = $("#volmin").attr("value");
-						var volmax = $("#volmax").attr("value");
-						var volstep = $("#volstep").attr("value");
-						var volorder = $("#volorder").attr("value");
-						var lpmcmd = $("#lpmcmd").attr("value");
-						var lpmval = $("#lpmval").attr("value");
-						var precmd = $("#precmd").attr("value");
-						var loop = $("#loop").attr("value");
-						if(opcmd == "" || opval =="" || volcmd=="" || volmin == "" || volmax == "" || volstep=="" || lpmcmd=="" || lpmval=="" || precmd==""){
-							if(opcmd =="") alert("Please input set op cmd");
-							if(opval =="") alert("Please input available op values");
-							if(volcmd =="") alert("Please input set voltage cmd");
-							if(volmin =="") alert("Please input min volgate");
-							if(volmax =="") alert("Please input max volgate");
-							if(volstep =="") alert("Please input voltage change step");
-							if(lpmcmd =="") alert("Please input set lpm cmd");
-							if(lpmval =="") alert("Please input available lpm values");
-							if(precmd =="") alert("Please input prepare cmd before do APM test");
-						}else{
-							jsonStr +=",\"opcmd\":\"" + opcmd + "\"";
-							jsonStr +=",\"opval\":\"" + opval + "\"";
-							jsonStr +=",\"volcmd\":\"" + volcmd + "\"";
-							jsonStr +=",\"volmin\":\"" + volmin + "\"";
-							jsonStr +=",\"volmax\":\"" + volmax + "\"";
-							jsonStr +=",\"volstep\":\"" + volstep + "\"";
-							jsonStr +=",\"lpmcmd\":\"" + lpmcmd + "\"";
-							jsonStr +=",\"lpmval\":\"" + lpmval + "\"";
-							jsonStr +=",\"precmd\":\"" + precmd + "\"";
-							if(volorder != ""){
-								jsonStr +=",\"volorder\":\"" + volorder + "\"";
-							}
-							if(loop != ""){
-								jsonStr +=",\"loop\":\"" + loop + "\"";
-							}
-						}
-				}
+                if($("#apmEn").attr("checked")){
+                        var opcmd = $("#opcmd").attr("value");
+                        var opval = $("#opval").attr("value");
+                        var volcmd = $("#volcmd").attr("value");
+                        var volmin = $("#volmin").attr("value");
+                        var volmax = $("#volmax").attr("value");
+                        var volstep = $("#volstep").attr("value");
+                        var volorder = $("#volorder").attr("value");
+                        var lpmcmd = $("#lpmcmd").attr("value");
+                        var lpmval = $("#lpmval").attr("value");
+                        var precmd = $("#precmd").attr("value");
+                        var loop = $("#loop").attr("value");
+                        if(opcmd == "" || opval =="" || volcmd=="" || volmin == "" || volmax == "" || volstep=="" || lpmcmd=="" || lpmval=="" || precmd==""){
+                            if(opcmd =="") alert("Please input set op cmd");
+                            if(opval =="") alert("Please input available op values");
+                            if(volcmd =="") alert("Please input set voltage cmd");
+                            if(volmin =="") alert("Please input min volgate");
+                            if(volmax =="") alert("Please input max volgate");
+                            if(volstep =="") alert("Please input voltage change step");
+                            if(lpmcmd =="") alert("Please input set lpm cmd");
+                            if(lpmval =="") alert("Please input available lpm values");
+                            if(precmd =="") alert("Please input prepare cmd before do APM test");
+                        }else{
+                            jsonStr +=",\"opcmd\":\"" + opcmd + "\"";
+                            jsonStr +=",\"opval\":\"" + opval + "\"";
+                            jsonStr +=",\"volcmd\":\"" + volcmd + "\"";
+                            jsonStr +=",\"volmin\":\"" + volmin + "\"";
+                            jsonStr +=",\"volmax\":\"" + volmax + "\"";
+                            jsonStr +=",\"volstep\":\"" + volstep + "\"";
+                            jsonStr +=",\"lpmcmd\":\"" + lpmcmd + "\"";
+                            jsonStr +=",\"lpmval\":\"" + lpmval + "\"";
+                            jsonStr +=",\"precmd\":\"" + precmd + "\"";
+                            if(volorder != ""){
+                                jsonStr +=",\"volorder\":\"" + volorder + "\"";
+                            }
+                            if(loop != ""){
+                                jsonStr +=",\"loop\":\"" + loop + "\"";
+                            }
+                        }
+                }
         jsonStr += "}";
         jsonStr = jsonStr.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
 
