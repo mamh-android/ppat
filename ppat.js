@@ -6,6 +6,7 @@ var powerDevice;
 var deviceComponent;
 var boardDevice;
 var testcases="";
+var countOfCmds=1;
 function ppat_load(buildtype){
     var strURL = "http://10.38.32.97:3000/scenarios";
             $.ajax({
@@ -57,8 +58,10 @@ function showAPM(){
 }
 
 function addCmd(){
+    countOfCmds +=1;
     $("#add").before("</br><b>Please input another set of commands before run test cases:</b>");
-    $("#add").before("</br><textarea cols=\"60\" rows=\"10\"></textarea></br>");
+    $("#add").before("</br>Description of set of cmds:<input id=" + countOfCmds + "r type=\"text\" name=\"reason\"></input></br><textarea id=" + countOfCmds + " cols=\"60\" rows=\"10\"></textarea></br>");
+
 }
 
 function ppat_load_testcase(){
@@ -351,8 +354,9 @@ $("#oplist").after("<input id=\"opval\" type=\"text\" name=\"opval\" /><span sty
     label.innerHTML="<b>Please input some special commands before run test cases:</b>";
 
     submit.insertBefore(label, null);
-    $("#power_textarea").after("</br><input id=\"add\" type=\"button\" name=\"Button_ClearAll\" onclick=\"addCmd()\" value=\"Add another set of cmds for PPAT test\"></input>");
-    $("#power_textarea").after("</br><textarea cols=\"60\" rows=\"10\"></textarea>");
+$("#power_textarea").after("</br>Test loop:<input id=\"loopPPAT\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span>");
+        $("#power_textarea").after("</br><input id=\"add\" type=\"button\" name=\"Button_ClearAll\" onclick=\"addCmd()\" value=\"Add another set of cmds for PPAT test\"></input>");
+        $("#power_textarea").after("</br>Description of set of cmds:<input id=" + countOfCmds + "r type=\"text\" name=\"reason\"></input></br><textarea id=" + countOfCmds + " cols=\"60\" rows=\"10\"></textarea>");
 
     
 
@@ -402,15 +406,31 @@ function ppat_appendToText(v){
         }
     if(caseCount >= 1){
         jsonStr = "{\"TestCaseList\":[" + jsonStr.substring(0, jsonStr.length - 1) + "]";
-
-        jsonStr +=",\"inputs\":[";
-        $('textarea').each(function(){
-             var text = $(this).val().replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
-             if(text != ""){
-                     jsonStr += "\"" + text + "\",";
-             }
-        });
-        jsonStr = jsonStr.substring(0, jsonStr.length - 1) + "]";
+                for(var c = 1; c <= countOfCmds; c++){
+                        
+                        if($("#"+c).val() != ""){
+                        jsonStr +=",\"inputs\":[";
+                        break;
+                    }
+                }
+        $('textarea').each(function(){                      
+                         var text = $(this).val();//commands
+                         if(text != ""){
+                                
+                                var description = $("#" + ($(this).attr("id")+ "r")).attr("value");//reason
+                                if(description == ""){
+                                    description = "null";
+                                }
+                                jsonStr += "{\"description\":\"" + description + "\",";
+                                jsonStr += "\"commands\":\"" + text + "\"},";
+                         }
+                });
+                jsonStr = jsonStr.substring(0, jsonStr.length - 1) + "]";
+                //loop
+                var lp = $("#loopPPAT").val();
+                if(lp != ""){
+                    jsonStr +=",\"count\":\"" + $("#loopPPAT").val() + "\"";
+                }
         if(testcases != ""){
             jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
         }
