@@ -48,12 +48,11 @@ function ppat_update_checkbox(id,stream, duration){
     testcases += "\"Duration\":\"" + duration + "\"},";
 }
 
-function showAPM(){
- if($("#apmEn").attr("checked")){
-    $("#apmdiv").css("display", "block");
+function showAPM(id,target){
+ if($("#"+id).attr("checked")){
+    $("#"+target).css("display", "block");
     }else{
-    
-    $("#apmdiv").css("display", "none");
+    $("#"+target).css("display", "none");
     }
 }
 
@@ -285,67 +284,173 @@ function generateUI(buildtype){
         label.id="apm";
         submit.insertBefore(label, null);   
         ppat_addBr(submit);
-        $("#apm").append("<input id=\"apmEn\" type=\"checkbox\" name=\"apm\" onclick=\"showAPM()\" value=\"apm\"/><b>APM for uboot power test:</b>");
-
+        
         var apm = document.createElement("div");
         apm.id="apmdiv";
         apm.style.display = "none";
         submit.insertBefore(apm, null);
-//OP
+        $("#apm").append("<input id=\"apmEn\" type=\"checkbox\" name=\"apm\" onclick=\"showAPM(\'apmEn\',\'" + apm.id+"\')\" value=\"apm\"/><b>APM for uboot power test:</b>");
+
+// lpm En
         label = document.createElement("label");
-        label.id="op";
-        label.name="op";
-        label.innerHTML="*set op cmd:";
+        label.id="lpm";
         apm.insertBefore(label, null);  
+
+        var lpm = document.createElement("div");
+        lpm.id="lpmdiv";
+        lpm.style.display = "none";
+        apm.insertBefore(lpm, null);
+
+        $("#lpm").append("<input id=\"lpmEn\" type=\"checkbox\" name=\"lpm\" onclick=\"showAPM(\'lpmEn\',\'" + lpm.id +"\')\" value=\"lpm\"/><b>Enable LPM Test</b>");
         
-$("#op").after("<input id=\"opcmd\" style=\"width:50px\" type=\"text\" name=\"opcmd\" /><span style=\" font-size:12px;color:#999999\">command to set op, like<b> \"op\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;");
+// core
+    label = document.createElement("label");
+        label.id="core";
+        label.name="core";
+        label.innerHTML="*available core freq:";
+        lpm.insertBefore(label, null);  
+    $("#core").after("<input id=\"corefreq\" style=\"width:200px\" type=\"text\" name=\"corefreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"156,312,624,800,1183\"</b></span></br>");
+//ddr
+    label = document.createElement("label");
+        label.id="ddr";
+        label.name="ddr";
+        label.innerHTML="*available ddr freq:";
+        lpm.insertBefore(label, null);  
+    $("#ddr").after("<input id=\"ddrfreq\" style=\"width:200px\" type=\"text\" name=\"ddrfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"156,312,533\"</b></span></br>");
+    
+//axi
+    label = document.createElement("label");
+        label.id="axi";
+        label.name="axi";
+        label.innerHTML="*available axi freq:";
+        lpm.insertBefore(label, null);  
+    $("#axi").append("<input id=\"axifreq\" style=\"width:200px\" type=\"text\" name=\"axi\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"78,156,533\"</b></span></br>");
 
+//lpm
         label = document.createElement("label");
-        label.id="oplist";
-        label.name="op";
-        label.innerHTML="*available op value:";
+        label.id="lpmvallb";
+        label.name="lpm";
+        lpm.insertBefore(label, null);  
+        
+        $("#lpmvallb").after("*available lpm value:<input id=\"lpmval\" type=\"text\" name=\"lpmval\" /><span style=\" font-size:12px;color:#999999\">available lpm, like <b>\"c22,d1,d2,udr\"</b></span><br/>");
+
+// lcd En
+        label = document.createElement("label");
+        label.id="lcd";
         apm.insertBefore(label, null);  
 
-$("#oplist").after("<input id=\"opval\" type=\"text\" name=\"opval\" /><span style=\" font-size:12px;color:#999999\">available op, like <b>\"0,1,2,3\"</b></span><br/>");
+        var lcd = document.createElement("div");
+        lcd.id="lcddiv";
+        lcd.style.display = "none";
+        apm.insertBefore(lcd, null);
+
+        $("#lcd").append("<input id=\"lcdEn\" type=\"checkbox\" name=\"lcd\" onclick=\"showAPM(\'lcdEn\',\'" + lcd.id +"\')\" value=\"lcd\"/><b>Enable LCD Test</b>");
+// lcd freq
+    label = document.createElement("label");
+        label.id="lcdl";
+        label.name="lcd";
+        label.innerHTML="*available lcd freq:";
+        lcd.insertBefore(label, null);  
+    $("#lcdl").after("<input id=\"lcdfreq\" style=\"width:200px\" type=\"text\" name=\"lcdfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416\"</b></span></br>");
+
+// isp En
+        label = document.createElement("label");
+        label.id="isp";
+        apm.insertBefore(label, null);  
+        var isp = document.createElement("div");
+        isp.id="ispdiv";
+        isp.style.display = "none";
+        apm.insertBefore(isp, null);
+
+        $("#isp").append("<input id=\"ispEn\" type=\"checkbox\" name=\"isp\" onclick=\"showAPM(\'ispEn\',\'" + isp.id +"\')\" value=\"isp\"/><b>Enable ISP Test</b>");
+// isp freq
+    label = document.createElement("label");
+        label.id="ispl";
+        label.name="isp";
+        label.innerHTML="*available isp freq:";
+        isp.insertBefore(label, null);  
+    $("#ispl").after("<input id=\"ispfreq\" style=\"width:200px\" type=\"text\" name=\"ispfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416\"</b></span></br>");
+
+// vpu En
+        label = document.createElement("label");
+        label.id="vpu";
+        apm.insertBefore(label, null);  
+        var vpu = document.createElement("div");
+        vpu.id="vpudiv";
+        vpu.style.display = "none";
+        apm.insertBefore(vpu, null);
+        $("#vpu").append("<input id=\"vpuEn\" type=\"checkbox\" name=\"vpu\" onclick=\"showAPM(\'vpuEn\',\'" + vpu.id +"\')\" value=\"vpu\"/><b>Enable VPU Test</b>");
+// vpu freq
+    label = document.createElement("label");
+        label.id="vpul";
+        label.name="vpu";
+        label.innerHTML="*available vpu freq:";
+        vpu.insertBefore(label, null);  
+    $("#vpul").after("<input id=\"vpufreq\" style=\"width:200px\" type=\"text\" name=\"vpufreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416\"</b></span></br>");
+
+// gc2d En
+        label = document.createElement("label");
+        label.id="gc2d";
+        apm.insertBefore(label, null);  
+        var gc2d = document.createElement("div");
+        gc2d.id="gc2ddiv";
+        gc2d.style.display = "none";
+        apm.insertBefore(gc2d, null);
+        $("#gc2d").append("<input id=\"gc2dEn\" type=\"checkbox\" name=\"gc2d\" onclick=\"showAPM(\'gc2dEn\',\'" + gc2d.id +"\')\" value=\"gc2d\"/><b>Enable gc2d Test</b>");
+// gc2d freq
+    label = document.createElement("label");
+        label.id="gc2dl";
+        label.name="gc2d";
+        label.innerHTML="*available gc2d freq:";
+        gc2d.insertBefore(label, null); 
+    $("#gc2dl").after("<input id=\"gc2dfreq\" style=\"width:200px\" type=\"text\" name=\"gc2dfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416,624\"</b></span></br>");
+
+// gc3d En
+        label = document.createElement("label");
+        label.id="gc3d";
+        apm.insertBefore(label, null);  
+        var gc3d = document.createElement("div");
+        gc3d.id="gc3ddiv";
+        gc3d.style.display = "none";
+        apm.insertBefore(gc3d, null);
+        $("#gc3d").append("<input id=\"gc3dEn\" type=\"checkbox\" name=\"gc3d\" onclick=\"showAPM(\'gc3dEn\',\'" + gc3d.id +"\')\" value=\"gc3d\"/><b>Enable gc3d Test</b>");
+// gc2d freq
+    label = document.createElement("label");
+        label.id="gc3dl";
+        label.name="gc3d";
+        label.innerHTML="*available gc3d freq:";
+        gc3d.insertBefore(label, null); 
+    $("#gc3dl").after("<input id=\"gc3dfreq\" style=\"width:200px\" type=\"text\" name=\"gc3dfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416,624\"</b></span></br>");
+
+// gcsh En
+        label = document.createElement("label");
+        label.id="gcsh";
+        apm.insertBefore(label, null);  
+        var gcsh = document.createElement("div");
+        gcsh.id="gcshdiv";
+        gcsh.style.display = "none";
+        apm.insertBefore(gcsh, null);
+        $("#gcsh").append("<input id=\"gcshEn\" type=\"checkbox\" name=\"gcsh\" onclick=\"showAPM(\'gcshEn\',\'" + gcsh.id +"\')\" value=\"gcsh\"/><b>Enable gc shader Test</b>");
+// gcsh freq
+    label = document.createElement("label");
+        label.id="gcshl";
+        label.name="gcsh";
+        label.innerHTML="*available gc shader freq:";
+        gcsh.insertBefore(label, null); 
+    $("#gcshl").after("<input id=\"gcshfreq\" style=\"width:200px\" type=\"text\" name=\"gcshfreq\" /><span style=\" font-size:12px;color:#999999\">freq like <b> \"208,312,416,624\"</b></span>");
 
 //voltage
-        var label = document.createElement("label");
-        label.id="vol";
-        label.name="vol";
-        label.innerHTML="*set vol cmd:";
-        apm.insertBefore(label, null);  
-        $("#vol").after("<input id=\"volcmd\" style=\"width:50px\" type=\"text\" name=\"volcmd\" /><span style=\" font-size:12px;color:#999999\">command to set voltage, like<b> \"setvolt\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;");
-
         label = document.createElement("label");
         label.id="volvalues";
         label.name="vol";
         apm.insertBefore(label, null);  
 
-        $("#volvalues").after("*min voltage:<input id=\"volmin\" style=\"width:50px\" type=\"text\" name=\"volmin\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
+        $("#volvalues").after("<br/>*min voltage:<input id=\"volmin\" style=\"width:50px\" type=\"text\" name=\"volmin\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
         + "*max voltage:<input id=\"volmax\" style=\"width:50px\" type=\"text\" name=\"volmax\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
         + "*step: <input id=\"volstep\" style=\"width:50px\" type=\"text\" name=\"volstep\" />mV&nbsp;&nbsp;&nbsp;&nbsp;"
-        + "order:<input id=\"volorder\" style=\"width:20px\" type=\"text\" name=\"volorder\" /><span style=\" font-size:12px;color:#999999\">1: mean asceding, 0: men descending. Default is 0</span></br>");
-
-//lpm
-        label = document.createElement("label");
-        label.id="lpm";
-        label.name="lpm";
-        label.innerHTML="*set lpm command:";        
-        apm.insertBefore(label, null);  
+        + "order:<input id=\"volorder\" style=\"width:20px\" type=\"text\" name=\"volorder\" /><span style=\" font-size:12px;color:#999999\">1: mean asceding, 0: men descending. Default is 0</span></br>"
+        +"test loop:<input id=\"loop\" style=\"width:20px\" type=\"text\" name=\"loop\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"2\"</b></span><br/>");
         
-        $("#lpm").after("<input id=\"lpmcmd\" style=\"width:50px\" type=\"text\" name=\"lpmcmd\" /><span style=\" font-size:12px;color:#999999\">command to set lpm, like<b> \"lpm\"</b></span>&nbsp;&nbsp;&nbsp;&nbsp;"
-        +"*available lpm value:<input id=\"lpmval\" type=\"text\" name=\"lpmval\" /><span style=\" font-size:12px;color:#999999\">available lpm, like <b>\"c22,d1,d2,udr\"</b></span><br/>");
-
-//prepare cmd
-        label = document.createElement("label");
-        label.id="pre";
-        label.name="pre";
-        label.innerHTML="*prepare command before uboot power test:";        
-        apm.insertBefore(label, null);  
-        
-        $("#pre").after("<input id=\"precmd\" type=\"text\" name=\"precmd\" /><span style=\" font-size:12px;color:#999999\">prepare command for uboot power test, like<b> \"cpmsa;amp 1;amp 2;amp3\"</b></span></br>"
-    +"test loop:<input id=\"loop\" style=\"width:20px\" type=\"text\" name=\"loop\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"2\"</b></span><br/>");
-
         
     ppat_addhr(submit);
     label = document.createElement("label");
@@ -436,37 +541,91 @@ function ppat_appendToText(v){
         }
 
                 if($("#apmEn").attr("checked")){
-                        var opcmd = $("#opcmd").attr("value");
-                        var opval = $("#opval").attr("value");
-                        var volcmd = $("#volcmd").attr("value");
+                        if($("#lpmEn").attr("checked")){
+                                jsonStr +=",\"lpm_en\":\"1\"";
+                            var corefreq = $("#corefreq").attr("value");
+                            var ddrfreq = $("#ddrfreq").attr("value");
+                            var axifreq = $("#axifreq").attr("value");
+                            var lpmval = $("#lpmval").attr("value");
+                            if(corefreq == "" || ddrfreq == "" || axifreq == "" || lpmval == ""){
+                                if(corefreq =="") alert("Please input core freq");
+                                if(ddrfreq =="") alert("Please input ddr freq");
+                                if(axifreq =="") alert("Please input axi freq");
+                                if(lpmval =="") alert("Please input lpm values");
+                            }else{
+                                jsonStr +=",\"corefreq\":\""+ corefreq +"\"";
+                                jsonStr +=",\"ddrfreq\":\""+ ddrfreq +"\"";
+                                jsonStr +=",\"axifreq\":\""+ axifreq +"\"";
+                                jsonStr +=",\"lpmval\":\""+ lpmval +"\"";
+                            }
+                        }
+                        if($("#lcdEn").attr("checked")){
+                                jsonStr +=",\"lcd_en\":\"1\"";
+                                var lcdfreq = $("#lcdfreq").attr("value");
+                                if(lcdfreq == ""){
+                                     alert("Please input lcd freq");
+                                }else{
+                                    jsonStr +=",\"lcdfreq\":\""+ lcdfreq +"\"";
+                                }
+                        }
+                        if($("#ispEn").attr("checked")){
+                                jsonStr +=",\"isp_en\":\"1\"";
+                                var ispfreq = $("#ispfreq").attr("value");
+                                if(ispfreq == ""){
+                                     alert("Please input isp freq");
+                                }else{
+                                    jsonStr +=",\"ispfreq\":\""+ ispfreq +"\"";
+                                }
+                        }
+                        if($("#vpuEn").attr("checked")){
+                                jsonStr +=",\"vpu_en\":\"1\"";
+                                var vpufreq = $("#vpufreq").attr("value");
+                                if(vpufreq == ""){
+                                     alert("Please input vpu freq");
+                                }else{
+                                    jsonStr +=",\"vpufreq\":\""+ vpufreq +"\"";
+                                }
+                        }
+                        if($("#gc2dEn").attr("checked")){
+                                jsonStr +=",\"gc2d_en\":\"1\"";
+                                var gc2dfreq = $("#gc2dfreq").attr("value");
+                                if(gc2dfreq == ""){
+                                     alert("Please input gc2d freq");
+                                }else{
+                                    jsonStr +=",\"gc2dfreq\":\""+ gc2dfreq +"\"";
+                                }
+                        }
+                        if($("#gc3dEn").attr("checked")){
+                                jsonStr +=",\"gc3d_en\":\"1\"";
+                                var gc3dfreq = $("#gc3dfreq").attr("value");
+                                if(gc3dfreq == ""){
+                                     alert("Please input gc3d freq");
+                                }else{
+                                    jsonStr +=",\"gc3dfreq\":\""+ gc3dfreq +"\"";
+                                }
+                        }
+                        if($("#gcshEn").attr("checked")){
+                                jsonStr +=",\"gcshader_en\":\"1\"";
+                                var gcshfreq = $("#gcshfreq").attr("value");
+                                if(gcshfreq == ""){
+                                     alert("Please input gcsh freq");
+                                }else{
+                                    jsonStr +=",\"gcshfreq\":\""+ gcshfreq +"\"";
+                                }
+                        }
                         var volmin = $("#volmin").attr("value");
                         var volmax = $("#volmax").attr("value");
                         var volstep = $("#volstep").attr("value");
                         var volorder = $("#volorder").attr("value");
-                        var lpmcmd = $("#lpmcmd").attr("value");
-                        var lpmval = $("#lpmval").attr("value");
-                        var precmd = $("#precmd").attr("value");
                         var loop = $("#loop").attr("value");
-                        if(opcmd == "" || opval =="" || volcmd=="" || volmin == "" || volmax == "" || volstep=="" || lpmcmd=="" || lpmval=="" || precmd==""){
-                            if(opcmd =="") alert("Please input set op cmd");
-                            if(opval =="") alert("Please input available op values");
-                            if(volcmd =="") alert("Please input set voltage cmd");
+                        if(volmin == "" || volmax == "" || volstep==""){
                             if(volmin =="") alert("Please input min volgate");
                             if(volmax =="") alert("Please input max volgate");
                             if(volstep =="") alert("Please input voltage change step");
-                            if(lpmcmd =="") alert("Please input set lpm cmd");
-                            if(lpmval =="") alert("Please input available lpm values");
-                            if(precmd =="") alert("Please input prepare cmd before do APM test");
                         }else{
-                            jsonStr +=",\"opcmd\":\"" + opcmd + "\"";
-                            jsonStr +=",\"opval\":\"" + opval + "\"";
-                            jsonStr +=",\"volcmd\":\"" + volcmd + "\"";
                             jsonStr +=",\"volmin\":\"" + volmin + "\"";
                             jsonStr +=",\"volmax\":\"" + volmax + "\"";
                             jsonStr +=",\"volstep\":\"" + volstep + "\"";
-                            jsonStr +=",\"lpmcmd\":\"" + lpmcmd + "\"";
-                            jsonStr +=",\"lpmval\":\"" + lpmval + "\"";
-                            jsonStr +=",\"precmd\":\"" + precmd + "\"";
                             if(volorder != ""){
                                 jsonStr +=",\"volorder\":\"" + volorder + "\"";
                             }
