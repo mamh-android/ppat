@@ -1,8 +1,10 @@
+#!/usr/bin/python
+import sys
+sys.path.append("./")
 import jenkins
 from optparse import OptionParser
 
 def main():
-
     imagepath = options.imagepath
     branch = options.branch
     device = options.device
