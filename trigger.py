@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import sys
+import sys,time
 sys.path.append("./")
 import jenkins
 from optparse import OptionParser
@@ -34,6 +34,14 @@ def main():
             "pxa1U88dkb_def:pxa1U88dkb":"PPAT_HELN2",
             "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN"
     }
+    info = j.get_info()
+    jobs = info['jobs']
+    for job in jobs:
+        if job['name'] == device_to_job.get(device, ""):
+            print "Task name: ",job['name']," current state: ",job['color'], " Jenkins url: ", job['url'] 
+            while job['color'] == "disabled":
+                print "PPAT currently is disabled, let's wait..."
+                time.sleep(10)
 
     j.build_job(device_to_job.get(device, ""), parameters)
 
