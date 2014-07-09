@@ -56,5 +56,6 @@ parser.add_option("", "--purpose",      dest="purpose",     help="set the purpos
 parser.add_option("", "--mode",         dest="mode",        help="set the mode,manual, kk4.4, alpha2, kk_beta2, check.",default="")
 (options, args) = parser.parse_args()
 if __name__== "__main__":
+    sys.stdout = sys.stderr
     main()
 
