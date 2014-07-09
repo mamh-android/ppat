@@ -34,14 +34,18 @@ def main():
             "pxa1U88dkb_def:pxa1U88dkb":"PPAT_HELN2",
             "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN"
     }
-    info = j.get_info()
-    jobs = info['jobs']
-    for job in jobs:
-        if job['name'] == device_to_job.get(device, ""):
-            print "Task name: ",job['name']," current state: ",job['color'], " Jenkins url: ", job['url'] 
-            while job['color'] == "disabled":
-                print "PPAT currently is disabled, let's wait..."
-                time.sleep(10)
+    isRunning = True
+    while isRunning:
+        info = j.get_info()
+        jobs = info['jobs']
+        for job in jobs:
+            if job['name'] == device_to_job.get(device, ""):
+                print "Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
+                if job['color'] == "disabled":
+                    print "PPAT currently is disabled, let's wait..."
+                    time.sleep(10)
+                else:
+                    isRunning = False
 
     j.build_job(device_to_job.get(device, ""), parameters)
 
