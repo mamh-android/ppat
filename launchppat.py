@@ -42,6 +42,12 @@ def main():
             if ret != 0:
                 sys.exit(1)
 
+    elif mode == 'beta1':#daily build
+        if device == 'pxa1928dkb_tz:pxa1928dkb':
+            ret = os.system("/home/buildfarm/eden/ATF_beta1.sh")
+            print "result: ",ret
+            if ret != 0:
+                sys.exit(1)
     elif mode == 'kk_beta2':#daily build
         if device == 'pxa1L88dkb_def:pxa1L88dkb':
             ret = os.system("bash /home/buildfarm/helanLTE/ATF_daily_kk_beta2.sh")
