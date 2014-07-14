@@ -219,7 +219,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                     if jsonStr.has_key("count"):
                         count.text = jsonStr["count"]
                     else:
-                        count.text = "1"
+                        count.text = "3"
 
                     ass = ET.SubElement(child, "assigner")
                     ass.text = assigner
