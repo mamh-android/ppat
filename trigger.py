@@ -2,7 +2,13 @@
 import sys,time
 sys.path.append("./")
 import jenkins
+import pprint
 from optparse import OptionParser
+
+url="http://10.38.120.30:8080"
+username = "ppat"
+password = "79fa7f655d56115da6fe7d707f63fd12"
+j = jenkins.Jenkins(url, username, password)
 
 def main():
     imagepath = options.imagepath
@@ -25,31 +31,38 @@ def main():
         'MODE':mode
     }
 
-    url="http://10.38.120.30:8080"
-    username = "ppat"
-    password = "79fa7f655d56115da6fe7d707f63fd12"
-    j = jenkins.Jenkins(url, username, password)
     device_to_job={
             "pxa1L88dkb_def:pxa1L88dkb":"PPAT_HELNLTE",
             "pxa1U88dkb_def:pxa1U88dkb":"PPAT_HELN2",
             "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN"
     }
+
+    jobname = device_to_job.get(device, "")
+
     isRunning = True
     while isRunning:
         info = j.get_info()
-        queue_info = j.get_queue_info()
         jobs = info['jobs']
         for job in jobs:
-            if job['name'] == device_to_job.get(device, ""):
+            if job['name'] == jobname:
                 print "Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
-                for queue in queue_info:
-                    if job['color'] == "disabled" or queue['task']['name'] == job['name']:
-                        print "PPAT currently is disabled, let's wait...", queue['task']['name']
+                if job['color'] == "disabled":
+                    print "PPAT currently is disabled, let's wait..."
+                    time.sleep(10)
+                else:
+                    if isbuilding(jobname):
+                        print "PPAT currently is building, let's wait..."
                         time.sleep(10)
                     else:
                         isRunning = False
 
-    j.build_job(device_to_job.get(device, ""), parameters)
+    j.build_job(jobname, parameters)
+
+def isbuilding(jobname):
+    jobinfo = j.get_job_info(jobname)
+    nextbuildnumber = jobinfo['nextBuildNumber']
+    currentbuild = j.get_build_info(jobname, jobinfo['nextBuildNumber'] - 1)
+    return currentbuild["building"]
 
 parser = OptionParser()
 parser.add_option("", "--imagepath",    dest="imagepath",   help="set image path for burn.", default="")
