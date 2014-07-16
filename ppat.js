@@ -62,7 +62,29 @@ function addCmd(){
     $("#add").before("</br>Description of set of cmds:<input id=" + countOfCmds + "r type=\"text\" name=\"reason\"></input></br><textarea id=" + countOfCmds + " cols=\"60\" rows=\"10\"></textarea></br>");
 
 }
+function showTuneParam(id){
+		 var audioURL = "http://10.38.32.97:3000/tc/tune";
+		if($("#"+id).attr("checked")){
+			$("#tunediv").append("If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test\\tune</b>, edit the <b style=\"color:#f00;\">config.xml</b></br>");
+			$.ajax({
+        type: "GET",
+        url: audioURL,
+        timeout:3000,
+        dataType:'html',
+        success: function(data){
+             var tune_xml = new DOMParser().parseFromString(data, 'text/xml');
+							
+             $(tune_xml).find('Param').each(function(i){
+                  var tune =  $(this).find("Name").text()  + ':'+ '<label name="' + $(this).find("Name").text() + '">'  + $(this).find("Freqs").text() + '</label></br>';
+                  $("#tunediv").append(tune);
+            });
 
+        }
+    });
+		}else{
+			$("#tunediv").html("");
+		}
+}
 function ppat_load_testcase(){
     var audioURL = "http://10.38.32.97:3000/tc/audio";
     $.ajax({
@@ -278,6 +300,17 @@ function generateUI(buildtype){
 
     ppat_addBr(submit);
         ppat_addBr(submit);
+
+//add tune policy here
+		label = document.createElement("label");
+		label.id="tune";
+		submit.insertBefore(label, null);	
+		ppat_addBr(submit);
+
+		var apm = document.createElement("div");
+		apm.id="tunediv";
+		submit.insertBefore(apm, null);
+		$("#tune").append("<input id=\"tuneParam\" type=\"checkbox\" name=\"tuneParam\" onclick=\"showTuneParam(\'tuneParam\')\" value=\"tuneParam\"/><b>Enable Tune PP Combination:</b>");
 
 //add APM tool here
         label = document.createElement("label");
@@ -634,6 +667,15 @@ function ppat_appendToText(v){
                             }
                         }
                 }
+				if($("#tuneParam").attr("checked")){
+					jsonStr += ",\"TuneParam\":[";
+					var str = "";
+					$("#tunediv").children("label").each(function(){
+						str += "{\"name\":\"" + $(this).attr("name") + "\"," + "\"freqs\":\"" + $(this).text() + "\"},";
+					});
+					str = str.substring(0, str.length - 1) + "]";
+					jsonStr += str;
+				}
         jsonStr += "}";
         jsonStr = jsonStr.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
 
