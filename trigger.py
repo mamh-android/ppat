@@ -37,15 +37,17 @@ def main():
     isRunning = True
     while isRunning:
         info = j.get_info()
+        queue_info = j.get_queue_info()
         jobs = info['jobs']
         for job in jobs:
             if job['name'] == device_to_job.get(device, ""):
                 print "Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
-                if job['color'] == "disabled":
-                    print "PPAT currently is disabled, let's wait..."
-                    time.sleep(10)
-                else:
-                    isRunning = False
+                for queue in queue_info:
+                    if job['color'] == "disabled" or queue['task']['name'] == job['name']:
+                        print "PPAT currently is disabled, let's wait...", queue['task']['name']
+                        time.sleep(10)
+                    else:
+                        isRunning = False
 
     j.build_job(device_to_job.get(device, ""), parameters)
 
