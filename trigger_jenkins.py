@@ -1,5 +1,7 @@
 #!/usr/bin/python
-import sys,time
+import sys
+import time
+import os
 sys.path.append("./")
 import jenkins
 import pprint
@@ -19,6 +21,8 @@ def main():
     testcase = options.testcase
     purpose = options.purpose
     mode = options.mode
+
+    print "[debug] options:",options
 
     parameters = {
         'IMAGEPATH':imagepath,
@@ -45,17 +49,21 @@ def main():
         jobs = info['jobs']
         for job in jobs:
             if job['name'] == jobname:
-                print "Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
+                print "[debug]Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
                 if job['color'] == "disabled":
-                    print "PPAT currently is disabled, let's wait..."
-                    time.sleep(10)
+                    print "[debug]PPAT currently is disabled, let's wait..."
+                    time.sleep(60)
                 else:
                     if isbuilding(jobname):
-                        print "PPAT currently is building, let's wait..."
-                        time.sleep(10)
+                        print "[debug]PPAT currently is building, let's wait..."
+                        time.sleep(60)
+                    elif os.path.exists("a"):
+                        print "[debug] pwd: ",os.getcwd()
+                        time.sleep(60)
                     else:
                         isRunning = False
 
+    print "[debug] start build job."
     j.build_job(jobname, parameters)
 
 def isbuilding(jobname):
