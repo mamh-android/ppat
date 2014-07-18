@@ -60,8 +60,8 @@ def main():
 
 def isbuilding(jobname):
     jobinfo = j.get_job_info(jobname)
-    nextbuildnumber = jobinfo['nextBuildNumber']
-    currentbuild = j.get_build_info(jobname, jobinfo['nextBuildNumber'] - 1)
+    lastbuildnumber = jobinfo['lastBuild']['number']
+    currentbuild = j.get_build_info(jobname, lastbuildnumber)
     return currentbuild["building"]
 
 parser = OptionParser()
