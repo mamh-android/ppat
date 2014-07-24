@@ -767,37 +767,7 @@ function ppat_triggerValidate(thisform)
 {
     with (thisform)
     {
-        if (selected.value == "ppat_test_pxa988")
-        {
-            //load append ppat.xml to Text after validate
-            ppat_appendToText("property3value");
-//            if (ppat_validateRequired(property4value, "please input the Reason for Build") == false)
-//            {
-//                property4value.focus();
-//                return false;
-//            }
-            if (ppat_validateRequired(property1value, "please input the Image Path") == false)
-            {
-                property1value.focus();
-                return false;
-            }
-            if (ppat_validateRequired(property6value, "please select the device") == false)
-            {
-                property6value.focus();
-                return false;
-            }
-            if (ppat_validateRequired(property7value, "please select the blf") == false)
-            {
-                property7value.focus();
-                return false;
-            }
-            if (ppat_validateRequired(property3value, "please select power or performance test cases") == false)
-            {
-                property3value.focus();
-                return false;
-            }
-        }
-        if (selected.value == "ppat_test_eden")
+        if (selected.value == "ppat_test")
         {
             //load append ppat.xml to Text after validate
             ppat_appendToText("property3value");
