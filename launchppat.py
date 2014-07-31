@@ -1,4 +1,4 @@
-import sys, os, json, time, xml.etree.cElementTree as ET,re,shlex
+import sys, os, json, time, xml.etree.cElementTree as ET,re,shlex,pprint
 from optparse import OptionParser
 
 def main():
@@ -232,6 +232,22 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
 
                     cmds = ET.SubElement(child, "cmds")
                     cmds.text = commands
+
+                    if jsonStr.has_key("TuneParam"):
+                        tune = ET.SubElement(child, "Tune")
+                        for param,v in jsonStr["TuneParam"].items():
+                            if param.find("gpu") == 0 or param.find("vpu") == 0:
+                                comp = ET.SubElement(tune, param[0:3])
+                                unit = ET.SubElement(comp,"unit")
+                                unit.attrib["unit"]=param[3]
+                                for compkey,compvalue in v.items():
+                                    compParam = ET.SubElement(unit,compkey)
+                                    compParam.text = compvalue
+                            else:
+                                comp = ET.SubElement(tune, param)
+                                for compkey,compvalue in v.items():
+                                    compParam = ET.SubElement(comp, compkey)
+                                    compParam.text = compvalue
     else:
         for tc in jsonStr["TestCaseList"]:
             for elem in tree.iterfind(elementName):
@@ -251,13 +267,29 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                 if jsonStr.has_key("count"):
                     count.text = jsonStr["count"]
                 else:
-                    count.text = "1"
+                    count.text = "3"
 
                 ass = ET.SubElement(child, "assigner")
                 ass.text = assigner
 
                 blf_b = ET.SubElement(child, "blf")
                 blf_b.text = blf
+
+                if jsonStr.has_key("TuneParam"):
+                    tune = ET.SubElement(child, "Tune")
+                    for param,v in jsonStr["TuneParam"].items():
+                        if param.find("gpu") == 0 or param.find("vpu") == 0:
+                            comp = ET.SubElement(tune, param[0:3])
+                            unit = ET.SubElement(comp,"unit")
+                            unit.attrib["unit"]=param[3]
+                            for compkey,compvalue in v.items():
+                                compParam = ET.SubElement(unit,compkey)
+                                compParam.text = compvalue
+                        else:
+                            comp = ET.SubElement(tune, param)
+                            for compkey,compvalue in v.items():
+                                compParam = ET.SubElement(comp, compkey)
+                                compParam.text = compvalue
 
     if jsonStr.has_key("stream"):
         for stream in jsonStr["stream"]:
@@ -280,59 +312,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
     tree.write("ATD_config.xml", encoding="utf-8")
     
 def addAPMParam(treeAPM, fileName,jsonStr,assigner):
-    jsonStr = jsonStr.replace("&apms;", "\n");
-    jsonStr = jsonStr.replace("&nbsp;", " ");
-    apmVals = json.loads(jsonStr)
-    
-    #update auto_pm_ppat.xml
-    if apmVals.has_key("lpm_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/lpm_en", apmVals["lpm_en"])
-    if apmVals.has_key("lcd_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/lcd_en", apmVals["lcd_en"])
-    if apmVals.has_key("isp_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/isp_en", apmVals["isp_en"])
-    if apmVals.has_key("gcshader_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/gcshader_en", apmVals["gcshader_en"])
-    if apmVals.has_key("gc3d_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/gc3d_en", apmVals["gc3d_en"])
-    if apmVals.has_key("gc2d_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/gc2d_en", apmVals["gc2d_en"])
-    if apmVals.has_key("vpu_en"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/vpu_en", apmVals["vpu_en"])
-    if apmVals.has_key("loop"):
-        updateAPMXML(treeAPM, fileName, "tst_config/global/test_loop", apmVals["loop"]);
-    if apmVals.has_key("corefreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/opcomb/core/freq", apmVals["corefreq"])
-    if apmVals.has_key("ddrfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/opcomb/ddr/freq", apmVals["ddrfreq"])
-    if apmVals.has_key("axifreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/opcomb/axi/freq", apmVals["axifreq"])
-    if apmVals.has_key("volmin"):
-        updateAPMXML(treeAPM, fileName, "tst_config/volt/value/min", apmVals["volmin"])
-    if apmVals.has_key("volmax"):
-        updateAPMXML(treeAPM, fileName, "tst_config/volt/value/max", apmVals["volmax"])
-    if apmVals.has_key("volstep"):
-        updateAPMXML(treeAPM, fileName, "tst_config/volt/value/step", apmVals["volstep"])
-    if apmVals.has_key("volorder"):
-        updateAPMXML(treeAPM, fileName, "tst_config/volt/value/order", apmVals["volorder"]);
-    if apmVals.has_key("lpmval"):
-        updateAPMXML(treeAPM, fileName, "tst_config/lpm/value", apmVals["lpmval"]);
-    if apmVals.has_key("precmd"):
-        updateAPMXML(treeAPM, fileName, "tst_config/lpm/prepare_cmd", apmVals["precmd"]);
-    if apmVals.has_key("lcdfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/lcd/freq", apmVals["lcdfreq"])
-    if apmVals.has_key("ispfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/isp/freq", apmVals["ispfreq"])
-    if apmVals.has_key("vpufreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/vpu/freq", apmVals["vpufreq"])
-    if apmVals.has_key("gc2dfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/gc2d/freq", apmVals["gc2dfreq"])
-    if apmVals.has_key("gc3dfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/gc3d/freq", apmVals["gc3dfreq"])
-    if apmVals.has_key("gcshfreq"):
-        updateAPMXML(treeAPM, fileName, "tst_config/gcshader/freq", apmVals["gcshfreq"])
-    updateAPMXML(treeAPM, fileName, "mail/to", assigner)
-    treeAPM.write("auto_pm.xml", encoding="utf-8")
+    print ""
 
 def updateXML(tree, fileName, elementName, textValue):
     for elem in tree.iterfind(elementName):
