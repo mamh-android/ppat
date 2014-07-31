@@ -26,9 +26,13 @@ function ppat_load(buildtype){
                     powerDevice = new Array();
                     deviceCategory = new Array();
                     boardDevice = new Array();
+										platform = new Array();
+										powerAdvancedCase = new Array();
+										powerAdvCategory = new Array();
                     domParser = new DOMParser();
                     xmlDoc = domParser.parseFromString(msg, 'text/xml');
                     ppat_parsePowerNode();
+										ppat_parseAdvancedPowerNode();
                     ppat_parsePerformanceNode();
                     ppat_parseDeviceNode();
                     ppat_parseBoardDevice();
