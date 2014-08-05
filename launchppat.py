@@ -239,7 +239,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                             if param.find("gpu") == 0 or param.find("vpu") == 0:
                                 comp = ET.SubElement(tune, param[0:3])
                                 unit = ET.SubElement(comp,"unit")
-                                unit.attrib["unit"]=param[3]
+                                unit.attrib["id"]=param[3]
                                 for compkey,compvalue in v.items():
                                     compParam = ET.SubElement(unit,compkey)
                                     compParam.text = compvalue
@@ -281,7 +281,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                         if param.find("gpu") == 0 or param.find("vpu") == 0:
                             comp = ET.SubElement(tune, param[0:3])
                             unit = ET.SubElement(comp,"unit")
-                            unit.attrib["unit"]=param[3]
+                            unit.attrib["id"]=param[3]
                             for compkey,compvalue in v.items():
                                 compParam = ET.SubElement(unit,compkey)
                                 compParam.text = compvalue
