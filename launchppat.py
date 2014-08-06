@@ -216,7 +216,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                     taskId.text = build_num
 
                     count = ET.SubElement(child, "Count")
-                    count.text = tc["count"]
+                    if tc.has_key("count"):
+                        count.text = tc["count"]
 
                     ass = ET.SubElement(child, "assigner")
                     ass.text = assigner
@@ -258,7 +259,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                 category.text = ";Functionality Test;"
 
                 count = ET.SubElement(child, "Count")
-                count.text = tc["count"]
+                if tc.has_key("count"):
+                    count.text = tc["count"]
 
                 ass = ET.SubElement(child, "assigner")
                 ass.text = assigner
