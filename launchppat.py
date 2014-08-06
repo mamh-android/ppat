@@ -216,10 +216,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                     taskId.text = build_num
 
                     count = ET.SubElement(child, "Count")
-                    if jsonStr.has_key("count"):
-                        count.text = jsonStr["count"]
-                    else:
-                        count.text = "3"
+                    count.text = tc["count"]
 
                     ass = ET.SubElement(child, "assigner")
                     ass.text = assigner
@@ -260,14 +257,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                 category = ET.SubElement(child, "category")
                 category.text = ";Functionality Test;"
 
-                taskId = ET.SubElement(child, "taskname")
-                taskId.text = build_num
-
                 count = ET.SubElement(child, "Count")
-                if jsonStr.has_key("count"):
-                    count.text = jsonStr["count"]
-                else:
-                    count.text = "3"
+                count.text = tc["count"]
 
                 ass = ET.SubElement(child, "assigner")
                 ass.text = assigner
