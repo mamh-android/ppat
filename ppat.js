@@ -62,7 +62,7 @@ function showAPM(id,target){
 function addCmd(){
 	$("#add").before("<div id=\"div_" + countOfCmds + "\"></div>");
 	$("#div_" + countOfCmds).append("<b>Input commands before run test cases:</b></br>");
-    $("#div_" + countOfCmds).append("Description of set of cmds:<input id=" + countOfCmds + "r type=\"text\" name=\"reason\"></input> </br><textarea id=" + countOfCmds + " cols=\"60\" rows=\"10\"></textarea><img src=\"delete.png\" onclick=\"demiss(div_" + countOfCmds + ")\"></img></br>");
+    $("#div_" + countOfCmds).append("Description of set of cmds:<input id=" + countOfCmds + "r type=\"text\" name=\"reason\"></input> </br><textarea id=" + countOfCmds + " cols=\"60\" rows=\"10\"></textarea><img src=\"ppat/delete.png\" onclick=\"demiss(div_" + countOfCmds + ")\"></img></br>");
     countOfCmds +=1;
 }
 function demiss(id){
@@ -206,15 +206,15 @@ function ppat_load_tune(){
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
-								table += "<tr><td style=\"text-align:left;\" width=\"15%\">Input tune " + nodeName + ": </td>";
-								table += "<td style=\"text-align:left;\" class=\"cpu\" width=\"85%\"><input type=\"text\" name=\"cpu\" param=\"" + nodeName + "\"> split with ','";
+								table += "<tr><td class=\"category\">" + nodeName + ": </td>";
+								table += "<td class=\"case cpu\" width=\"85%\"><input type=\"text\" name=\"cpu\" param=\"" + nodeName + "\"> split with ','";
 								table += "</td></tr>";
 							}else{
-								table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectCategory(this, 'cpu_" + nodeName + "' ,tune)\">"+ nodeName + "</td>";
-								table += "<td style=\"text-align:left;\" class=\"cpu\" width=\"85%\">";
+								table += "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('tune', 'cpu_" + nodeName + "', 'cpu_" + nodeName + "')\" id=\"cpu_" + nodeName + "\">"+ nodeName + "</td>";
+								table += "<td class=\"case cpu\">";
 								var params = $(this).text().split(",");
 		                 		for(var i = 0; i < params.length; i++){
-									table += "<input type=\"checkbox\" name=\"" + params[i] + "\"" + " value=\"cpu_" + nodeName + "\" param=\"" + nodeName +"\">" + params[i];
+									table += "<div><input type=\"checkbox\" id=\"cpu_" + params[i] + "\" father=\"cpu_" + nodeName + "\" onclick=\"ppat_CheckboxSelectAll('tune', 'cpu_" + params[i] + "', 'cpu_" + nodeName + "')\" name=\"" + params[i] + "\"" + " value=\"cpu_" + nodeName + "\" param=\"" + nodeName +"\">" + params[i] + "</div>";
 								}
 								table += "</td></tr>";
 							}
@@ -226,15 +226,15 @@ function ppat_load_tune(){
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
-								table += "<tr><td style=\"text-align:left;\">Input tune " + nodeName + ": </td>";
-								table += "><td style=\"text-align:left;\" class=\"gpu\"><input type=\"text\" name=\"gpu\" param=\"" + nodeName + "\"> split with ','";
+								table += "<tr><td class=\"category\">" + nodeName + ": </td>";
+								table += "><td class=\"case gpu\"><input type=\"text\" name=\"gpu\" param=\"" + nodeName + "\"> split with ','";
 								table += "</td></tr>";
 							}else{
-								table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectCategory(this, 'gpu_" + unit + nodeName + "' ,tune)\">"+ nodeName + "</td>";
-								table += "<td style=\"text-align:left;\" class=\"gpu" + unit + "\">";
+								table += "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('tune', 'gpu_" + unit + nodeName + "' ,'gpu_" + unit + nodeName + "')\"  id=\"gpu_" + unit + nodeName + "\">"+ nodeName + "</td>";
+								table += "<td class=\"case gpu" + unit + "\">";
 								var params = $(this).text().split(",");
 		                 		for(var i = 0; i < params.length; i++){
-									table +="<input type=\"checkbox\" name=\"" + params[i] + "\"" + " value=\"gpu_" + unit + nodeName + "\" param=\"" + nodeName +"\">" + params[i];
+									table +="<div><input type=\"checkbox\" id=\"gpu_" + unit + params[i] + "\" father=\"gpu_" + unit + nodeName + "\" onclick=\"ppat_CheckboxSelectAll('tune', 'gpu_" + unit + params[i] + "', 'gpu_" + unit + nodeName + "')\" name=\"" + params[i] + "\"" + " value=\"gpu_" + unit + nodeName + "\" param=\"" + nodeName +"\">" + params[i] + "</div>";
 								}
 								table += "</td></tr>";
 							}
@@ -246,15 +246,15 @@ function ppat_load_tune(){
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
-								table += "<tr><td style=\"text-align:left;\">Input tune " + nodeName + ": </td>";
-								table += "<td style=\"text-align:left;\" class=\"vpu\"><input type=\"text\" name=\"vpu\" param=\"" + nodeName + "\"> split with ','";
+								table += "<tr><td class=\"category\">" + nodeName + ": </td>";
+								table += "<td class=\"case vpu\"><input type=\"text\" name=\"vpu\" param=\"" + nodeName + "\"> split with ','";
 								table += "</td></tr>";
 							}else{
-								table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectCategory(this, 'vpu_" + unit + nodeName + "' ,tune)\">"+ nodeName + "</td>";
-								table += "<td style=\"text-align:left;\" class=\"vpu" + unit + "\">";
+								table += "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('tune', 'vpu_" + unit + nodeName + "' ,'vpu_" + unit + nodeName + "')\"  id=\"vpu_" + unit + nodeName + "\">"+ nodeName + "</td>";
+								table += "<td class=\"case vpu" + unit + "\">";
 								var params = $(this).text().split(",");
 		                 		for(var i = 0; i < params.length; i++){
-									table +="<input type=\"checkbox\" name=\"" + params[i] + "\"" + " value=\"vpu_" + unit + nodeName + "\" param=\"" + nodeName +"\">" + params[i];
+									table +="<div><input type=\"checkbox\" id=\"vpu_" + unit + params[i] + "\" father=\"vpu_" + unit + nodeName + "\" onclick=\"ppat_CheckboxSelectAll('tune', 'vpu_" + unit + params[i] + "', 'vpu_" + unit + nodeName + "')\" name=\"" + params[i] + "\"" + " value=\"vpu_" + unit + nodeName + "\" param=\"" + nodeName +"\">" + params[i] + "</div>";
 								}
 								table += "</td></tr>";
 							}
@@ -265,15 +265,15 @@ function ppat_load_tune(){
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
-								table += "<tr><td style=\"text-align:left;\">Input tune " + nodeName + ": </td>";
-								table += "<td style=\"text-align:left;\" class=\"ddr\"><input type=\"text\" name=\"ddr\" param=\"" + nodeName + "\"> split with ','";
+								table += "<tr><td class=\"category\">" + nodeName + ": </td>";
+								table += "<td class=\"case ddr\"><input type=\"text\" name=\"ddr\" param=\"" + nodeName + "\"> split with ','";
 								table += "</td></tr>";
 							}else{
-								table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectCategory(this, 'ddr_" + nodeName + "' ,tune)\">"+ nodeName + "</td>";
-								table += "<td style=\"text-align:left;\" class=\"ddr\">";
+								table += "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('tune', 'ddr_" + nodeName + "', 'ddr_" + nodeName + "')\" id=\"ddr_" + nodeName + "\">"+ nodeName + "</td>";
+								table += "<td class=\"case ddr\">";
 								var params = $(this).text().split(",");
 		                 		for(var i = 0; i < params.length; i++){
-									table += "<input type=\"checkbox\" name=\"" + params[i] + "\"" + " value=\"ddr_" + nodeName + "\" param=\"" + nodeName +"\">" + params[i];
+									table += "<div><input type=\"checkbox\" id=\"ddr_" + params[i] + "\" father=\"ddr_" + nodeName + "\" onclick=\"ppat_CheckboxSelectAll('tune', 'ddr_" + params[i] + "', 'ddr_" + nodeName + "')\" name=\"" + params[i] + "\"" + " value=\"ddr_" + nodeName + "\" param=\"" + nodeName +"\">" + params[i] + "</div>";
 								}
 								table += "</td></tr>";
 							}
@@ -282,6 +282,7 @@ function ppat_load_tune(){
 				tunediv.append(table + "</table>");
 				}
 			});
+			style();
 		}
     });
 }
@@ -321,7 +322,7 @@ function generateUI(buildtype){
 	submit.append(colorbox);
 	submit.append("<div id=\"cmd\" style=\"display: block; \"></div>"); 
 	submit.append("<div id=\"tune\" style=\"display: block; \">");  
-	submit.append("<hr><b>Please click \"Add cmds for PPAT test\" if you need input commmands<br/><input id=\"add\" type=\"button\" onclick=\"addCmd()\" value=\"Add cmds for PPAT test\">");
+	submit.append("<hr><b>Please click \"Add cmds for PPAT test\" if you need input commmands<hr><input id=\"add\" type=\"button\" onclick=\"addCmd()\" value=\"Add cmds for PPAT test\">");
 
 }
 
@@ -334,12 +335,12 @@ function addAdvancedScenarioCheckbox(pf){
 	platform_b = platform_b.del();
 	for(var i = 0; i < platform_b.length; i++){
 		if(platform_b[i] == pf){
-			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Advanced Power Consumption Test: <input type=\"checkbox\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll(this, advscenario)\">SelectAll&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test loop:<input id=\"loopadvscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Advanced Power Consumption Test:<div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopadvscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
 			for(var j = 0; j < powerAdvCategory_b.length; j++){
-				table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" value=\"Select " + powerAdvCategory[j] + "\" onclick=\"ppat_CheckboxSelectCategory(this, '"+ powerAdvCategory[j] +"',advscenario)\">"+ powerAdvCategory[j] + "</td><td style=\"text-align:left;\" width=\"85%\">";
+				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[i] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory[j] + "</td><td class=\"case\">";
 				for(var k = 0; k < powerAdvancedCase.length; k++){
 					if(powerAdvCategory[k] == powerAdvCategory_b[j] && platform[k] == pf){
-						table += "&nbsp;&nbsp;<input id=\"" + powerAdvancedCase[k] + "\" type=\"checkbox\" value=\"" + powerAdvCategory[k] + "\"" + " name=\"powerAdv\" class=\"" + powerAdvancedCase[k] + "\" text=\""+ powerAdvancedCase[k] +"\">" + powerAdvancedCase[k] ;
+						table += "<div><input id=\"" + powerAdvancedCase[k] + "\" type=\"checkbox\" father=\"" + powerAdvCategory_b[i] + "_c\" value=\"" + powerAdvCategory[k] + "\"" + " name=\"powerAdv\" class=\"" + powerAdvancedCase[k] + "\" text=\""+ powerAdvancedCase[k] +"\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvancedCase[k] + "', '" + powerAdvCategory_b[i] + "_c')\">" + powerAdvancedCase[k] + "</div>";
 					}
 				}
 			}
@@ -349,19 +350,33 @@ function addAdvancedScenarioCheckbox(pf){
 	}
 }
 
+function style(){
+	$("table div").css({
+		"width":"200px",
+		"display": "inline-block",
+	});
+	$("#tune div").css("width","150px");
+	$(".category").css("width", "15%");
+	$(".case").css("width", "85%");
+	$(".1080p").colorbox({inline:true, width:"50%"});
+	$(".720p").colorbox({inline:true, width:"50%"});
+	$(".VGA").colorbox({inline:true, width:"50%"});
+	$(".mp3").colorbox({inline:true, width:"50%"});
+}
+
 function addScenarioCheckbox(){
 	var scenario_div = $("#scenario");
 	scenario_div.html("");
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\"  border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll(this, scenario)\">SelectAll&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
 	
 	//add button to select/de-select by category
     powerCategory_b = powerCategory.concat();
     powerCategory_b = powerCategory_b.del();
     for(var i = 0; i < powerCategory_b.length; i++){
-		table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" value=\"Select " + powerCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectCategory(this, '"+ powerCategory_b[i] +"',scenario)\">" + powerCategory_b[i] + " </td><td style=\"text-align:left;\" width=\"85%\">";
+		table += "<tr><td class=\"category\"><input type=\"checkbox\" id=\"" + powerCategory_b[i] + "_c\" father=\"scenario_checkbox_root\" value=\"Select " + powerCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectAll('scenario', '" + powerCategory_b[i] + "_c', 'scenario_checkbox_root')\">" + powerCategory_b[i] + "</div></td><td class=\"case\">";
 			for(var j = 0; j < powerCase.length; j++){
 				if(powerCategory[j] == powerCategory_b[i]){
-					table +="&nbsp;&nbsp;<input type=\"checkbox\" value=\"" + powerCategory[j] + "\"" + " name=\"power\" class=\"" + powerCase[j] + "\" text=\""+ powerCase[j] +"\" href=\"#"+ powerCase[j] +"\">" + powerCase[j];
+					table +="<div><input id=\"child\" type=\"checkbox\" father=\"" + powerCategory_b[i] + "_c\" value=\"" + powerCategory[j] + "\"" + " name=\"power\" class=\"" + powerCase[j] + "\" text=\""+ powerCase[j] +"\" href=\"#"+ powerCase[j] +"\" onclick=\"ppat_CheckboxSelectAll('scenario', 'child', '" + powerCategory_b[i] + "_c')\">" + powerCase[j] + "</div>";
 				}
     	}
 		table += "</td></tr>"
@@ -371,32 +386,30 @@ function addScenarioCheckbox(){
 
 	addAdvancedScenarioCheckbox(device);
 		
-	$(".1080p").colorbox({inline:true, width:"50%"});
-	$(".720p").colorbox({inline:true, width:"50%"});
-	$(".VGA").colorbox({inline:true, width:"50%"});
-	$(".mp3").colorbox({inline:true, width:"50%"});
+	style();//control the hole page style
 }
 
 function addUIScenarioCheckbox(){
 	var scenario_div = $("#ui");
 	scenario_div.html("");
-
-	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">UI Performance Test: <input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll(this, ui)\">SelectAll&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test loop:<input id=\"loopui\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">UI Performance Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopui\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
 
 	//add button to select/de-select by category
     performanceCategory_b = performanceCategory.concat();
     performanceCategory_b = performanceCategory_b.del();
     for(var i = 0; i < performanceCategory_b.length; i++){
-		table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" value=\"Select " + performanceCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectCategory(this, '"+ performanceCategory_b[i] +"',ui)\">" + performanceCategory_b[i] + " </td><td style=\"text-align:left;\" width=\"85%\">";
+		var category = performanceCategory_b[i].replace(/\s+/g, "_");
+		table += "<tr><td class=\"category\"><input type=\"checkbox\" id=\"" + category + "_c\" father=\"ui_checkbox_root\" value=\"Select " + performanceCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectAll('ui', '" + category + "_c', 'ui_checkbox_root')\">" + performanceCategory_b[i] + " </td><td class=\"case\">";
 			for(var j = 0; j < performanceCase.length; j++){
 				if(performanceCategory[j] == performanceCategory_b[i]){
-					table +="&nbsp;&nbsp;<input type=\"checkbox\" value=\"" + performanceCategory[j] + "\"" + " name=\"performance\" class=\"" + performanceCase[j] + "\" text=\""+ performanceCase[j] +"\" href=\"#"+ performanceCase[j] +"\">" + performanceCase[j];
+					table +="<div><input id=\"child\" type=\"checkbox\" father=\"" + category + "_c\" value=\"" + performanceCategory[j] + "\"" + " name=\"performance\" class=\"" + performanceCase[j] + "\" text=\""+ performanceCase[j] +"\" href=\"#"+ performanceCase[j] +"\" onclick=\"ppat_CheckboxSelectAll('ui', 'child', '" + category + "_c')\">" + performanceCase[j] + "</div>";
 				}
     	}
 		table += "</td></tr>"
     }
 	table += "</table></br>";
 	scenario_div.append(table);	
+	style();//control the hole page style
 }
 
 function ppat_addDeviceCase(j){
@@ -416,28 +429,27 @@ function ppat_addDeviceCase(j){
 		}
 	});
 	//reset table
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll(this, scenario)\">SelectAll&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
 	
 	//add button to select/de-select by category
 	powerCategory_c = powerCategory_b.concat();
 	powerCategory_b = powerCategory_b.del();
 	for(var i = 0; i < powerCategory_b.length; i++){
-		table += "<tr><td style=\"text-align:left;\" width=\"15%\"><input type=\"checkbox\" value=\"Select " + powerCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectCategory(this, '"+ powerCategory_b[i] +"',scenario)\">" + powerCategory_b[i] + " </td><td style=\"text-align:left;\" width=\"85%\">";
+		var category = powerCategory_b[i].replace(/\//g, "_");
+		table += "<tr><td class=\"category\"><input type=\"checkbox\" id=\"" + category + "_c\" father=\"scenario_checkbox_root\" value=\"Select " + powerCategory_b[i] + "\" onclick=\"ppat_CheckboxSelectAll('scenario', '" + category + "_c', 'scenario_checkbox_root')\">" + powerCategory_b[i] + "</div></td><td class=\"case\">";
+		
 		for(var j = 0; j < powerCase_b.length; j++){
 			if(powerCategory_c[j] == powerCategory_b[i]){
-				table +="&nbsp;&nbsp;<input type=\"checkbox\" value=\"" + powerCategory_c[j] + "\"" + " name=\"power\" class=\"" + powerCase_b[j] + "\" text=\""+ powerCase_b[j] +"\" href=\"#"+ powerCase_b[j] +"\">" + powerCase_b[j];
+				table +="<div><input id=\"child\" type=\"checkbox\" father=\"" + category + "_c\" value=\"" + powerCategory_c[j] + "\"" + " name=\"power\" class=\"" + powerCase_b[j] + "\" text=\""+ powerCase_b[j] +"\" href=\"#"+ powerCase_b[j] +"\" onclick=\"ppat_CheckboxSelectAll('scenario', 'child', '" + category + "_c')\">" + powerCase_b[j] + "</div>";	
 			}
 		}
-		table += "</tr>"
+		table += "</td></tr>";
 	}
 	table += "</table></br>";
 	scenario_div.append(table);
 
 	addAdvancedScenarioCheckbox(device);
-	$(".1080p").colorbox({inline:true, width:"50%"});
-	$(".720p").colorbox({inline:true, width:"50%"});
-	$(".VGA").colorbox({inline:true, width:"50%"});
-	$(".mp3").colorbox({inline:true, width:"50%"});
+	style();//control the hole page style
 }
 
 
@@ -697,16 +709,71 @@ function ppat_appendToText(v){
     }
 }
 
+function ppat_changeChildrenState(id, father, self){
+	if($("#" + father).attr("checked")){//if parent checked, then all children should be checked
+		$("#" + id).find(":checkbox").each(function(){
+			if($(this).attr("father") == father){
+				$(this).attr("checked", true);			
+			}
+			
+		});
+	}else{//uncheck all child checkbox
+		$("#" + id).find(":checkbox").each(function(){
+			if($(this).attr("father")){
+				if($(this).attr("father") == father){
+					$(this).attr("checked", false);
+				}	
+			}
+		});
+	}
+	
+}
 
-function ppat_CheckboxSelectAll(name, id) {
-	if($(name).attr("checked")){
-		$(id).find(":checkbox").each(function(){
-			$(this).attr("checked", true);
+function ppat_changeParentState(id, father, self){
+	var state = true;
+	$("#" + id).find(":checkbox").each(function(){
+		if($(this).attr("father") == father){
+				if(!$(this).attr("checked")){
+					state = false;
+				}
+			}
+	});
+	$("#" + father).attr("checked", state);
+	
+}
+
+function ppat_CheckboxSelectAll(id, father, grandfarther) {
+	//change children state
+	ppat_changeChildrenState(id, father, "");
+	if($("#" + father).attr("checked")){//if parent checked, then all children should be checked
+		$("#" + id).find(":checkbox").each(function(){
+			if($(this).attr("father") == father){
+				ppat_changeChildrenState(id, $(this).attr("id"), "");			
+			}
+			
 		});
-	}else{
-		$(id).find(":checkbox").each(function(){
-			$(this).attr("checked", false);
+	}else{//uncheck all child checkbox
+		$("#" + id).find(":checkbox").each(function(){
+			if($(this).attr("father")){
+				if($(this).attr("father") == father){
+					ppat_changeChildrenState(id, $(this).attr("id"), "");
+				}	
+			}
 		});
+	}
+	if(typeof($("#" + father).attr("father"))!="undefined"){
+		var state = true;
+		$("#" + id).find(":checkbox").each(function(){
+			if($(this).attr("father") == grandfarther){
+					if(!$(this).attr("checked")){
+						state = false;
+					}
+				}
+		});
+		$("#" + grandfarther).attr("checked", state);
+		if(typeof($("#" + grandfarther).attr("father"))!="undefined"){
+			ppat_changeParentState(id, $("#" + grandfarther).attr("father"), self);					
+		}
 	}
  }
 
