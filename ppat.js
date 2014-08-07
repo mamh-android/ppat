@@ -355,6 +355,9 @@ function style(){
 		"width":"200px",
 		"display": "inline-block",
 	});
+	$("table td").css({
+		"text-align":"left",
+	});
 	$("#tune div").css("width","150px");
 	$(".category").css("width", "15%");
 	$(".case").css("width", "85%");
