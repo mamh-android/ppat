@@ -169,7 +169,7 @@ function chooseTest(select){
 		addUIScenarioCheckbox();
 		$("#tune").empty();
 		$("#baremetal").empty();
-	}else if($(select).val() == "Round PP"){
+	}else if($(select).val() == "Round PP Tuning"){
 		addScenarioCheckbox();
 		addUIScenarioCheckbox();
 		$("#baremetal").empty();
@@ -200,9 +200,9 @@ function ppat_load_tune(){
              var tune_xml = new DOMParser().parseFromString(data, 'text/xml');
              $(tune_xml).find("Device").each(function(){
 				if($(this).attr("name") == device){
-					var table="<table cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Tune Parameters:</th></tr>";
+					var table="<table cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">Round PP Tuning</div></th></tr>";
 					$(this).find("cpu").each(function(){
-						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=40>CPU:</td></tr>";
+						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>CPU:</td></tr>";
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
@@ -222,7 +222,7 @@ function ppat_load_tune(){
 					});
 					$(this).find("gpu").each(function(){
 						var unit = $(this).attr("unit");
-						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=40>GPU" +unit + ":</td></tr>";
+						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>GPU" +unit + ":</td></tr>";
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
@@ -242,7 +242,7 @@ function ppat_load_tune(){
 					});	
 					$(this).find("vpu").each(function(){
 						var unit = $(this).attr("unit");
-						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=40>VPU" +unit + ":</td></tr>";
+						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>VPU" +unit + ":</td></tr>";
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
@@ -261,7 +261,7 @@ function ppat_load_tune(){
 						});
 					});	
 					$(this).find("ddr").each(function(){
-						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=40>DDR:</td></tr>";
+						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>DDR:</td></tr>";
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
@@ -299,6 +299,7 @@ function generateUI(buildtype){
         $("#odvb_ppat").html("");
         submit = $("#odvb_ppat");
     }
+	submit.append("<label id=\"DeviceHW\" style=\"display: block; \"></label><br>");
     var colorbox = "<div style='display:none'>" +
                     "<div id='1080p' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
                     "<div id='720p' style=\"padding:10px; background:#F9F7DB;\" ><div style=\"font-family:Arial; font-size:14px; color:#3b3a2b; line-height:25px; text-decoration:none\">If you need update the stream please visit <b style=\"color:#f00;\">\\\\10.38.116.40\\PPAT_test</b>, push your stream in <b style=\"color:#f00;\">video</b> folder, and update the <b style=\"color:#f00;\">config.xml</b></div></div>" +
@@ -308,11 +309,10 @@ function generateUI(buildtype){
 	submit.append("<div id=\"powercase\" style=\"display: block; \">"
 					+ "*Choose Test: <select onchange=\"chooseTest(this)\">"
 					+ "<option>PowerScenario</option>"
-					+ "<option>Round PP</option>"
-					+ "<option>Baremetal</option>"
+					+ "<option>Round PP Tuning</option>"
+					+ "<option>Baremetal Power</option>"
 					+ "</select>"
 					+ "<div id=\"selection\"><hr><b>PowerScenario Test</b><hr></div></div>");
-	submit.append("<label id=\"DeviceHW\" style=\"display: block; \"></label>"); 
 	submit.append("<div id=\"scenario\" style=\"display: block; \"></div>");
 	submit.append("<div id=\"advscenario\" style=\"display: block; \"></div>");
 	submit.append("<div id=\"ui\" style=\"display: block; \"></div>");
@@ -335,7 +335,7 @@ function addAdvancedScenarioCheckbox(pf){
 	platform_b = platform_b.del();
 	for(var i = 0; i < platform_b.length; i++){
 		if(platform_b[i] == pf){
-			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Advanced Power Consumption Test:<div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopadvscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 			for(var j = 0; j < powerAdvCategory_b.length; j++){
 				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[i] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory[j] + "</td><td class=\"case\">";
 				for(var k = 0; k < powerAdvancedCase.length; k++){
@@ -355,22 +355,35 @@ function style(){
 		"width":"200px",
 		"display": "inline-block",
 	});
+	$("table th").css({
+	    "text-align":"left",
+	    "height":"30px",
+	    "background-color":"#e1e1e1",
+	});
 	$("table td").css({
 		"text-align":"left",
 	});
 	$("#tune div").css("width","150px");
-	$(".category").css("width", "15%");
+	$(".category").css("width","15%");
 	$(".case").css("width", "85%");
 	$(".1080p").colorbox({inline:true, width:"50%"});
 	$(".720p").colorbox({inline:true, width:"50%"});
 	$(".VGA").colorbox({inline:true, width:"50%"});
 	$(".mp3").colorbox({inline:true, width:"50%"});
-}
+	$(".tabletitle").css({
+	    "display":"inline-block",
+	    "width":"197px",
+	    "text-indent":"8px",
+	});
+	$(".testloop").css({
+	    "width":"20",
+	    "text-align":"center",
+	});}
 
 function addScenarioCheckbox(){
 	var scenario_div = $("#scenario");
 	scenario_div.html("");
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 	
 	//add button to select/de-select by category
     powerCategory_b = powerCategory.concat();
@@ -395,7 +408,7 @@ function addScenarioCheckbox(){
 function addUIScenarioCheckbox(){
 	var scenario_div = $("#ui");
 	scenario_div.html("");
-	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">UI Performance Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopui\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">UI Performance</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopui\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 
 	//add button to select/de-select by category
     performanceCategory_b = performanceCategory.concat();
@@ -419,7 +432,7 @@ function ppat_addDeviceCase(j){
 	var scenario_div = $("#scenario");
 	$("#scenario_table").html("");
 	scenario_div.html("");
-		
+
 	powerCategory_b = powerCategory.concat();
 	powerCase_b = powerCase.concat();
 	$(xmlDoc).find("Device").each(function(){
@@ -432,7 +445,7 @@ function ppat_addDeviceCase(j){
 		}
 	});
 	//reset table
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Power Consumption Test: <div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop:<input id=\"loopscenario\" style=\"width:20px\" type=\"text\" name=\"loopPPAT\" /><span style=\" font-size:12px;color:#999999\">test loop, default is<b>\"3\"</b></span></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 	
 	//add button to select/de-select by category
 	powerCategory_c = powerCategory_b.concat();
@@ -938,7 +951,7 @@ function branchSelect2(){
             }
         }
 		addScenarioCheckbox();
-		if(testType == "Tune"){
+		if(testType == "Round PP Tuning"){
 			ppat_load_tune();
 		}
 }
@@ -947,7 +960,7 @@ function branchSelect3(){
         var c = {
                 "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_CSFB_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_LWG_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_400MHZ_768MB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_400MHZ_768MB.blf', 'HELN_LTE_LWG_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_533MHZ_768MB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_533MHZ_768MB.blf', 'HELN_LTE_LWG_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_TABLET_Nontrusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_CSFB_TABLET_Nontrusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_CSFB_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB_NTZ.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_CSFB_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_400MHZ_512M.blf', 'HELN_LTE_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_CSFB_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_533MHZ_512M.blf', 'HELN_LTE_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf'],
                 "pxa1U88dkb_def:pxa1U88dkb":['HLN2_Nontrusted_LPDDR3_2G_Hynix.blf'],
-                "pxa1928dkb_tz:pxa1928dkb":['PXA1928_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Elpida.blf', 'PXA1928_Trusted_eMMC_Hynix.blf', 'PXA1928_Trusted_eMMC_Hynix_Discrete.blf']
+                "pxa1928dkb_tz:pxa1928dkb":['PXA1928_B0_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Elpida.blf', 'PXA1928_Trusted_eMMC_Hynix.blf', 'PXA1928_Trusted_eMMC_Hynix_Discrete.blf']
                 };
 
         var sel = document.getElementById("property8value");
@@ -980,7 +993,7 @@ function branchSelect3(){
             }
         }
 		addScenarioCheckbox();
-		if(testType == "Tune"){
+		if(testType == "Round PP Tuning"){
 			ppat_load_tune();
 		}
 }
