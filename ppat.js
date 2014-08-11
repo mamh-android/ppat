@@ -180,11 +180,102 @@ function chooseTest(select){
 		$("#scenario").empty();
 		$("#advscenario").empty();
 		$("#ui").empty();
+		ppat_load_baremetal();
 	}	
 }
 
 function ppat_load_baremetal(){
-
+	var ubootURL = "http://10.38.32.97:3000/tc/uboot";
+	var baremetaldiv = $("#baremetal");
+	baremetaldiv.empty();
+	$.ajax({
+		type: "GET",
+        url: ubootURL,
+        timeout:3000,
+        dataType:'html',
+        success: function(data){
+			var bare_xml = new DOMParser().parseFromString(data, 'text/xml');
+			$(bare_xml).find("Device").each(function(){
+				if($(this).attr("name") == device){
+					//generate case
+					var caseCategory = new Array();
+					var caseArray = new Array();
+					var table="<table id=\"ubootScenario\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\"><div>Uboot Baremetal Test:</div><div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></div></th></tr>";
+					$(bare_xml).find("TestCase").each(function(){						
+						caseCategory.push($(this).find("Category").text());
+						caseArray.push($(this).find("CaseName").text());
+					});	
+					var caseCategory_b = caseCategory.concat().del();
+					for(var i = 0; i < caseCategory_b.length; i++){
+						table +="<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('baremetal', '" + caseCategory_b[i] + "_c', '" + caseCategory_b[i] + "')\" id=\"" + caseCategory_b[i] + "_c\">" + caseCategory_b[i] + "</td><td class=\"case\">";
+						for(var j = 0; j < caseArray.length; j++){
+							if(caseCategory_b[i] == caseCategory[j]){
+								table += "<div><input type=\"checkbox\" id=\"" + caseArray[j] + "_c\" father=\"" + caseCategory_b[i] + "_c\" onclick=\"ppat_CheckboxSelectAll('baremetal', '" + caseArray[j] + "_c', '" + caseCategory_b[i] + "_c')\" name=\"" + caseCategory_b[i] + "\" text=\"" + caseArray[j] + "\">" + caseArray[j] + "</div>";
+							}
+						}
+						table += "</td></tr>";
+					}
+					baremetaldiv.append(table + "</table><hr>");
+					
+					table="<table id=\"ubootParam\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"5\" align=\"left\" height=\"50px\">Uboot Parameters:</th></tr>";
+					
+					
+					//generate vol
+					var volCount = 0;
+					var voltable = "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('baremetal', 'voltage_c', 'voltage_c')\" id=\"voltage_c\">Voltage</td>";
+					$(this).find("voltage").each(function(){
+						volCount++;
+						voltable +="<td id=\"vol\"><div><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('baremetal', '" + $(this).text() + "_" + $(this).attr("levl") + "_c', 'voltage_c')\" id=\"" + $(this).text() + "_" + $(this).attr("levl") + "_c\" father=\"voltage_c\" name=\"" + $(this).text() + "\" param=\"VL" + $(this).attr("levl") + "\">" + "level" + $(this).attr("levl") + ": " + $(this).text() + "mV</div></td>";
+					});
+					voltable += "</tr>";		
+					$(this).find("cpu").each(function(){
+						table += "<tr><td class=\"category\">CPU CoreNum</td><td class=\"case\" id=\"CoreNum\" colspan=\"" + volCount + "\" >";
+						$(this).find("coreNum").each(function(){
+							var params = $(this).text().split(",");
+		                 		for(var i = 0; i < params.length; i++){
+									table += "<div><input type=\"checkbox\" name=\"" + params[i] + "\" param=\"CoreNum\">" + params[i] + " core </div>";
+								}
+						});
+						table += "</td></tr>";
+					});
+					table += voltable;
+					//generate cpu
+					$(this).find("cpu").each(function(){
+						table += "<tr><td class=\"category\">CPU Frequency</td>";
+						$(this).find("freq").each(function(){
+							var params = $(this).text().split(",");
+							table += "<td class=\"component\"><div id=\"CPU_VL" + $(this).attr("levl") + "\">";
+		                 		for(var i = 0; i < params.length; i++){
+									table += "<input type=\"checkbox\" name=\"" + params[i] + "\" param=\"CPU_VL" + $(this).attr("levl") + "\">" + params[i] + "<br/>";
+								}
+							table += "</div></td>";
+						});
+						table += "</tr>";
+					});
+					
+					//generate ddr/vpu/gpu
+					$(this).children().each(function(){
+						var nodeName = $(this).context.nodeName;
+						if(nodeName != "voltage" && nodeName != "cpu"){
+							table += "<tr><td class=\"category\">" + nodeName + " Frequency</td>";
+							$(this).find("freq").each(function(){
+								var params = $(this).text().split(",");
+								table += "<td class=\"component\"><div id=\"" + nodeName.toUpperCase()+ "_VL" + $(this).attr("levl") + "\">";
+									for(var i = 0; i < params.length; i++){
+										table += "<input type=\"checkbox\" name=\"" + params[i] + "\" param=\"" + nodeName.toUpperCase()+ "_VL" + $(this).attr("levl") + "\">" + params[i] + "<br/>";
+									}
+								table += "</div></td>";
+							});
+							table += "</tr>";
+						}
+					});				
+					
+					baremetaldiv.append(table + "</table>");
+				}				
+			});				
+			style();
+		}
+	});
 }
 
 function ppat_load_tune(){
@@ -487,6 +578,21 @@ function ppat_appendToText(v){
 			}
 		}
 	});
+	scenarios = $("table#ubootScenario").find("input");
+	scenarios.each(function(){
+		if($(this).attr("checked") && $(this).attr("name")){
+			caseCount += 1;
+			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\"";
+
+			//loop
+		    var lp = $("#loopscenario").val();
+		    if(lp != ""){
+		    	jsonStr +=",\"count\":\"" + $("#loopscenario").val() + "\"},";
+		    }else{
+				jsonStr +=",\"count\":\"1\"},";
+			}
+		}
+	});
 	var advscenarios = $("#advscenario").find("input");
 	advscenarios.each(function(){
 		if($(this).attr("checked") && $(this).attr("name")){
@@ -541,6 +647,64 @@ function ppat_appendToText(v){
        if(testcases != ""){
 			jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
         }
+
+//Param for baremetal test	
+		var baremetalParam = "";
+		$("table#ubootParam .component").each(function(){
+			$(this).find("div").each(function(){
+				var component_vl = $(this).attr("id");
+				var compInfo = "";
+				$(this).find("input").each(function(){
+					if($(this).attr("checked")){
+						compInfo += $(this).attr("name") + ",";
+					}
+				});
+				if(compInfo != ""){
+					baremetalParam += "\"" + component_vl + "\":\"";
+					compInfo = compInfo.substring(0, compInfo.length - 1) + "\",";
+					baremetalParam += compInfo;
+				}
+				
+			});
+		});
+		var coreInfo = "";
+		$("table#ubootParam #CoreNum").each(function(){
+			$(this).find("div").each(function(){				
+				$(this).find("input").each(function(){
+					if($(this).attr("checked")){
+						coreInfo += $(this).attr("name") + ",";
+					}
+				});
+				
+			});
+		});		
+		if(coreInfo != ""){
+			baremetalParam += "\"CoreNum\":\"";
+			coreInfo = coreInfo.substring(0, coreInfo.length - 1) + "\",";
+			baremetalParam += coreInfo;
+		}
+		var volInfo = "";
+		var volevlInfo = "";
+		$("table#ubootParam #vol").each(function(){
+			$(this).find("div").each(function(){				
+				$(this).find("input").each(function(){
+					if($(this).attr("checked")){
+						volInfo += "\"" + $(this).attr("param") + "\":\"" + $(this).attr("name") + "\",";
+						volevlInfo += $(this).attr("param") + ",";
+					}
+				});
+				
+			});
+		});		
+		if(volInfo != ""){
+			volInfo = volInfo.substring(0, volInfo.length - 1);
+			baremetalParam += volInfo;
+			baremetalParam += ",\"VL\":\"" + volevlInfo.substring(0, volevlInfo.length - 1) + "\",";
+		}
+		if(baremetalParam != ""){
+			jsonStr += ",\"bareParam\":{" + baremetalParam.substring(0, baremetalParam.length - 1) + "}";
+		}
+//Param for Round PP Tuning		
 		var tuneParam ="";
 //CPU
 		var cpu = "";
@@ -918,7 +1082,7 @@ function branchSelect2(){
         var c = {
                 "pxa1L88dkb_def:pxa1L88dkb":['HELN_LTE_CSFB_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_LWG_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_400MHZ_768MB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_400MHZ_768MB.blf', 'HELN_LTE_LWG_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Nontrusted_eMMC_533MHZ_768MB.blf', 'HELN_LTE_CSFB_Nontrusted_eMMC_533MHZ_768MB.blf', 'HELN_LTE_LWG_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_TABLET_Nontrusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_CSFB_TABLET_Nontrusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_CSFB_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB.blf', 'HELN_LTE_LWG_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_TABLET_Trusted_eMMC_DDR3L_533MHZ_1GB_NTZ.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_CSFB_Trusted_eMMC_400MHZ_1GB.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_400MHZ_512M.blf', 'HELN_LTE_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_Trusted_eMMC_400MHZ_1GB_NTZ.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_CSFB_Trusted_eMMC_533MHZ_1GB.blf', 'HELN_LTE_NOCP_Nontrusted_eMMC_533MHZ_512M.blf', 'HELN_LTE_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_CSFB_Trusted_eMMC_533MHZ_1GB_NTZ.blf', 'HELN_LTE_Nontrusted_eMMC_400MHZ_1GB.blf'],
                 "pxa1U88dkb_def:pxa1U88dkb":['HLN2_Nontrusted_LPDDR3_2G_Hynix.blf'],
-                "pxa1928dkb_tz:pxa1928dkb":['PXA1928_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Elpida.blf', 'PXA1928_Trusted_eMMC_Hynix.blf', 'PXA1928_Trusted_eMMC_Hynix_Discrete.blf']
+                "pxa1928dkb_tz:pxa1928dkb":['PXA1928_B0_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Samsung_Discrete.blf','PXA1928_Trusted_eMMC_Elpida.blf', 'PXA1928_Trusted_eMMC_Hynix.blf', 'PXA1928_Trusted_eMMC_Hynix_Discrete.blf']
                 };
 
         var sel = document.getElementById("property6value");

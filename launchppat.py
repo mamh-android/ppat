@@ -287,8 +287,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                                 compParam = ET.SubElement(comp, compkey)
                                 compParam.text = compvalue
 
-    if jsonStr.has_key("baraParam"):
-        for param,val in jsonStr["baraParam"].items():
+    if jsonStr.has_key("bareParam"):
+        for param,val in jsonStr["bareParam"].items():
             updateXML(tree, "list.xml", "Arg/Property[@name=\" + param + \"]", val)
     if jsonStr.has_key("stream"):
         for stream in jsonStr["stream"]:
