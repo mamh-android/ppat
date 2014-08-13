@@ -215,8 +215,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                     taskId = ET.SubElement(child, "taskname")
                     taskId.text = build_num
 
-                    count = ET.SubElement(child, "Count")
                     if tc.has_key("count"):
+                        count = ET.SubElement(child, "Count")
                         count.text = tc["count"]
 
                     ass = ET.SubElement(child, "assigner")
@@ -230,6 +230,12 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
 
                     cmds = ET.SubElement(child, "cmds")
                     cmds.text = commands
+
+                    if tc.has_key("Property"):
+                        for name,value in tc["Property"].items():
+                            prop = ET.SubElement(child, "Property")
+                            prop.attrib["name"] = name
+                            prop.text = value
 
                     if jsonStr.has_key("TuneParam"):
                         tune = ET.SubElement(child, "Tune")
@@ -261,8 +267,8 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                 taskId = ET.SubElement(child, "taskname")
                 taskId.text = build_num
                 
-                count = ET.SubElement(child, "Count")
                 if tc.has_key("count"):
+                    count = ET.SubElement(child, "Count")
                     count.text = tc["count"]
 
                 ass = ET.SubElement(child, "assigner")
@@ -286,6 +292,11 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                             for compkey,compvalue in v.items():
                                 compParam = ET.SubElement(comp, compkey)
                                 compParam.text = compvalue
+                if tc.has_key("Property"):
+                    for name,value in tc["Property"].items():
+                        prop = ET.SubElement(child, "Property")
+                        prop.attrib["name"] = name
+                        prop.text = value
 
     if jsonStr.has_key("bareParam"):
         Arg = tree.find("Arg")
