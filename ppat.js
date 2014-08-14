@@ -169,19 +169,22 @@ function chooseTest(select){
 		addUIScenarioCheckbox();
 		$("#tune").empty();
 		$("#baremetal").empty();
+		$("#DeviceHW").css("display", "block");
 	}else if($(select).val() == "Round PP Tuning"){
 		addScenarioCheckbox();
 		addUIScenarioCheckbox();
 		$("#baremetal").empty();
 		//add tune parameters here
+		$("#DeviceHW").css("display", "block");
 		ppat_load_tune();
 	}else{
 		$("#tune").empty();
 		$("#scenario").empty();
 		$("#advscenario").empty();
 		$("#ui").empty();
+		$("#DeviceHW").css("display", "none");
 		ppat_load_baremetal();
-	}	
+	}
 }
 
 function ppat_load_baremetal(){
@@ -205,13 +208,14 @@ function ppat_load_baremetal(){
 						//find testcase
 						$(this).find("TestCase").each(function(){
 							var caseName = $(this).find("CaseName").text();
-							$("<li><a href=\"#" + caseName + "\">" + caseName + "</a><li>").appendTo("#" + compName + " ul"); 
+							$("<li><a href=\"#" + caseName + "\">" + caseName + "</a><li>").appendTo("#" + compName + " ul");
 
 							var divInfo = "<div id=\"" + caseName + "\"></div>";
 							//add component vol/freq info
 							var table="<table cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\" align=\"left\" height=\"50px\">Select Parameters:</th></tr>";
 
 
+							table += "<tr><td class=\"category\">Voltage:</td><td class=\"case\"><input type=\"text\" onkeyup=\"verify(this)\" onblur=\"veryfyBlur(this)\" name=\"" + compName + "vol\">mV  split with ','</td></tr>";
 							$(this).children().each(function(){
 								var nodeName = $(this).context.nodeName; // name of cpu/ddr
 								if(nodeName != "CaseName"){
@@ -223,26 +227,30 @@ function ppat_load_baremetal(){
 											var type = $(this).attr("type");
 											if(type == "checkbox"){
 												if($(this).attr("checked")){
-													table +="<div><input type=\"checkbox\" checked=\"" + $(this).attr("checked") + "\" text=\"" + params[i] + "\" name=\"" + nodeName + $(this).context.nodeName + "\">" + params[i] + "</div>";
+													table +="<div><input type=\"checkbox\" checked=\"" + $(this).attr("checked") + "\" text=\"" + params[i] + "\" param=\"" + nodeName + $(this).context.nodeName + "\">" + params[i] + "</div>";
 												}else{
-													table +="<div><input type=\"checkbox\" text=\"" + params[i] + "\" name=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
-												}												
+													table +="<div><input type=\"checkbox\" text=\"" + params[i] + "\" param=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
+												}
 											}else if(type == "radio"){
-												table +="<div><input type=\"radio\" text=\"" + params[i] + "\" name=\"" + nodeName + "_" + $(this).context.nodeName + "\" >" + params[i] + "</div>";
+												if($(this).attr("checked")){
+													table +="<div><input type=\"radio\" checked=\"" + $(this).attr("checked") + "\" text=\"" + params[i] + "\" name=\"" + caseName + "_" + nodeName + "_" + $(this).context.nodeName + "\" param=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
+												}else{
+													table +="<div><input type=\"radio\" text=\"" + params[i] + "\" name=\"" + caseName + "_" + nodeName + "_" + $(this).context.nodeName + "\" param=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
+												}
+
 											}
 										}
 										table += "</td></tr>";
-									});	
+									});
 								}
-							});		
+							});
 							$(divInfo).appendTo("#" + compName);
-							$("#" + caseName).append(table);		
+							$("#" + caseName).append(table);
 						});
-						$("<li>Voltage:<input type=\"text\" name=\"" + compName + "vol\">mV  split with ','<li>").appendTo("#" + compName + " ul"); 
-						$("#" + compName).tabs();			
+						$("#" + compName).tabs();
 					});
-				}				
-			});				
+				}
+			});
 			style();
 		}
 	});
@@ -300,7 +308,7 @@ function ppat_load_tune(){
 								table += "</td></tr>";
 							}
 						});
-					});	
+					});
 					$(this).find("vpu").each(function(){
 						var unit = $(this).attr("unit");
 						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>VPU" +unit + ":</td></tr>";
@@ -320,7 +328,7 @@ function ppat_load_tune(){
 								table += "</td></tr>";
 							}
 						});
-					});	
+					});
 					$(this).find("ddr").each(function(){
 						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>DDR:</td></tr>";
 						$(this).children().each(function(){
@@ -339,7 +347,7 @@ function ppat_load_tune(){
 								table += "</td></tr>";
 							}
 						});
-					});	
+					});
 				tunediv.append(table + "</table>");
 				}
 			});
@@ -381,8 +389,8 @@ function generateUI(buildtype){
 	addScenarioCheckbox();
 	addUIScenarioCheckbox();
 	submit.append(colorbox);
-	submit.append("<div id=\"cmd\" style=\"display: block; \"></div>"); 
-	submit.append("<div id=\"tune\" style=\"display: block; \">");  
+	submit.append("<div id=\"cmd\" style=\"display: block; \"></div>");
+	submit.append("<div id=\"tune\" style=\"display: block; \">");
 	submit.append("<hr><b>Please click \"Add cmds for PPAT test\" if you need input commmands<hr><input id=\"add\" type=\"button\" onclick=\"addCmd()\" value=\"Add cmds for PPAT test\">");
 
 }
@@ -488,7 +496,7 @@ function addUIScenarioCheckbox(){
 		table += "</td></tr>"
     }
 	table += "</table></br>";
-	scenario_div.append(table);	
+	scenario_div.append(table);
 	style();//control the hole page style
 }
 
@@ -504,7 +512,7 @@ function ppat_addDeviceCase(j){
 			var tdVal="";
 			$(this).find("CaseName").each(function(){
 				powerCase_b.push($(this).text());
-				powerCategory_b.push($(this).attr("Category"));						
+				powerCategory_b.push($(this).attr("Category"));
 			});
 		}
 	});
@@ -520,7 +528,7 @@ function ppat_addDeviceCase(j){
 
 		for(var j = 0; j < powerCase_b.length; j++){
 			if(powerCategory_c[j] == powerCategory_b[i]){
-				table +="<div><input id=\"child\" type=\"checkbox\" father=\"" + category + "_c\" value=\"" + powerCategory_c[j] + "\"" + " name=\"power\" class=\"" + powerCase_b[j] + "\" text=\""+ powerCase_b[j] +"\" href=\"#"+ powerCase_b[j] +"\" onclick=\"ppat_CheckboxSelectAll('scenario', 'child', '" + category + "_c')\">" + powerCase_b[j] + "</div>";	
+				table +="<div><input id=\"child\" type=\"checkbox\" father=\"" + category + "_c\" value=\"" + powerCategory_c[j] + "\"" + " name=\"power\" class=\"" + powerCase_b[j] + "\" text=\""+ powerCase_b[j] +"\" href=\"#"+ powerCase_b[j] +"\" onclick=\"ppat_CheckboxSelectAll('scenario', 'child', '" + category + "_c')\">" + powerCase_b[j] + "</div>";
 			}
 		}
 		table += "</td></tr>";
@@ -532,6 +540,37 @@ function ppat_addDeviceCase(j){
 	style();//control the hole page style
 }
 
+function veryfyBlur(val){
+	var volVal = val.value.split(",");
+		for(var i = 0; i < volVal.length; i++){
+			if(volVal[i].trim().match(/\D/) != null){
+				alert("voltage must be number and range: [600, 1500]");
+				return;
+			}
+			var vol = parseInt(volVal[i].trim());
+			if(vol > 1500 || vol < 600){
+				alert("voltage must be range: [600, 1500]");
+				return;
+			}
+		}
+}
+
+function verify(val){
+	if(val.value.charAt(val.value.length - 1) == ","){
+		var volVal = val.value.split(",");
+		for(var i = 0; i < volVal.length; i++){
+			if(volVal[i].trim().match(/\D/) != null){
+				alert("voltage must be number and range: [600, 1500]");
+				return;
+			}
+			var vol = parseInt(volVal[i].trim());
+			if(vol > 1500 || vol < 600){
+				alert("voltage must be range: [600, 1500]");
+				return;
+			}
+		}
+	}
+}
 
 function ppat_appendToText(v){
     var jsonStr = "";
@@ -551,56 +590,48 @@ function ppat_appendToText(v){
 			}
 		}
 	});
-	//Param for baremetal test	
+	//Param for baremetal test
 	var ubootDiv = $("#baremetal");
 	//find all test case by class
-	$("#baremetal .ui-widget-header").each(function(){
+	$("#baremetal table").each(function(){
+		var totalParamNum = $(this).find("tr").length - 1;
+		var paramCount = 0;
+		var propertyStr;
 		if($(this).find("input[type=text]").val()){
+			paramCount += 1;
 			var volt = $(this).find("input[type=text]").val();
 
-			var volVal = volt.split(",");
-			for(var i = 0; i < volVal.length; i++){
-				if(volVal[i].trim().match(/\D/) != null){
-					alert("voltage must be number and range: [600, 1500]");
-					return;
-				}
-				var vol = parseInt(volVal[i].trim());
-				if(vol > 1500 || vol < 600){
-					alert("voltage must be range: [600, 1500]");
-					return;
-				}
-			}
-			caseCount += 1;
-
 			var property = "\"VL\":\"" + volt + "\",";
-
-			//find test case div
-			$(this).siblings().each(function(){
-				var caseId = $(this).attr("id");
+			var compFreqInfo = "";
+			var caseId = $(this).parent().attr("id");
+			$(this).find("td").each(function(){
 				var checked = false;
 				var compName = "";
-				var compFreqInfo = "";
-				//property of component freq info
-				$("#" + caseId + " .case" ).each(function(){
-					var compInfo = "";
-					$(this).find("input").each(function(){
-						if($(this).attr("checked")){
-							compName = $(this).attr("name");
-							checked = true;
-							compInfo += $(this).attr("text") + ",";
-						}
-					});
-					//collect freq info
-					if(checked && compInfo != ""){	
-						compFreqInfo += "\"" + compName.toUpperCase() +"\":\"" + compInfo.substring(0, compInfo.length - 1) + "\",";
+				var compInfo = "";
+
+				$(this).find("input").each(function(){
+					if($(this).attr("checked")){
+						compName = $(this).attr("param");
+						checked = true;
+						compInfo += $(this).attr("text") + ",";
 					}
-				});	
-				if(compFreqInfo != ""){
-					jsonStr += "{\"Name\":\"" + caseId + "\"";
+				});
+				//collect freq info
+				if(checked && compInfo != ""){
+					paramCount += 1;
+					compFreqInfo += "\"" + compName.toUpperCase() +"\":\"" + compInfo.substring(0, compInfo.length - 1) + "\",";
 					propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
-					jsonStr += propertyStr + ",";
 				}
 			});
+
+			if(compFreqInfo != ""){
+				propertyStr += ",";
+			}
+		}
+		if(paramCount == totalParamNum){
+			caseCount += 1;
+			jsonStr += "{\"Name\":\"" + caseId + "\"";
+			jsonStr += propertyStr;
 		}
 	});
 	var advscenarios = $("#advscenario").find("input");
@@ -641,7 +672,7 @@ function ppat_appendToText(v){
 			break;
 			}
 		}
-		$('textarea').each(function(){                      
+		$('textarea').each(function(){
 			var text = $(this).val();//commands
 			if(text != ""){
 				var description = $("#" + ($(this).attr("id")+ "r")).attr("value");//reason
@@ -658,7 +689,7 @@ function ppat_appendToText(v){
 			jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
         }
 
-//Param for baremetal test	
+//Param for baremetal test
 		var baremetalParam = "";
 		$("table#ubootParam .component").each(function(){
 			$(this).find("div").each(function(){
@@ -679,7 +710,7 @@ function ppat_appendToText(v){
 		});
 		var coreInfo = "";
 		$("table#ubootParam #CoreNum").each(function(){
-			$(this).find("div").each(function(){				
+			$(this).find("div").each(function(){
 				$(this).find("input").each(function(){
 					if($(this).attr("checked")){
 						coreInfo += $(this).attr("name") + ",";
@@ -687,7 +718,7 @@ function ppat_appendToText(v){
 				});
 
 			});
-		});		
+		});
 		if(coreInfo != ""){
 			baremetalParam += "\"CoreNum\":\"";
 			coreInfo = coreInfo.substring(0, coreInfo.length - 1) + "\",";
@@ -696,7 +727,7 @@ function ppat_appendToText(v){
 		var volInfo = "";
 		var volevlInfo = "";
 		$("table#ubootParam #vol").each(function(){
-			$(this).find("div").each(function(){				
+			$(this).find("div").each(function(){
 				$(this).find("input").each(function(){
 					if($(this).attr("checked")){
 						volInfo += "\"" + $(this).attr("param") + "\":\"" + $(this).attr("name") + "\",";
@@ -705,7 +736,7 @@ function ppat_appendToText(v){
 				});
 
 			});
-		});		
+		});
 		if(volInfo != ""){
 			volInfo = volInfo.substring(0, volInfo.length - 1);
 			baremetalParam += volInfo;
@@ -714,7 +745,7 @@ function ppat_appendToText(v){
 		if(baremetalParam != ""){
 			jsonStr += ",\"bareParam\":{" + baremetalParam.substring(0, baremetalParam.length - 1) + "}";
 		}
-//Param for Round PP Tuning		
+//Param for Round PP Tuning
 		var tuneParam ="";
 //CPU
 		var cpu = "";
@@ -903,7 +934,7 @@ function ppat_changeChildrenState(id, father, self){
 	if($("#" + father).attr("checked")){//if parent checked, then all children should be checked
 		$("#" + id).find(":checkbox").each(function(){
 			if($(this).attr("father") == father){
-				$(this).attr("checked", true);			
+				$(this).attr("checked", true);
 			}
 
 		});
@@ -912,7 +943,7 @@ function ppat_changeChildrenState(id, father, self){
 			if($(this).attr("father")){
 				if($(this).attr("father") == father){
 					$(this).attr("checked", false);
-				}	
+				}
 			}
 		});
 	}
@@ -938,7 +969,7 @@ function ppat_CheckboxSelectAll(id, father, grandfarther) {
 	if($("#" + father).attr("checked")){//if parent checked, then all children should be checked
 		$("#" + id).find(":checkbox").each(function(){
 			if($(this).attr("father") == father){
-				ppat_changeChildrenState(id, $(this).attr("id"), "");			
+				ppat_changeChildrenState(id, $(this).attr("id"), "");
 			}
 
 		});
@@ -947,7 +978,7 @@ function ppat_CheckboxSelectAll(id, father, grandfarther) {
 			if($(this).attr("father")){
 				if($(this).attr("father") == father){
 					ppat_changeChildrenState(id, $(this).attr("id"), "");
-				}	
+				}
 			}
 		});
 	}
@@ -962,7 +993,7 @@ function ppat_CheckboxSelectAll(id, father, grandfarther) {
 		});
 		$("#" + grandfarther).attr("checked", state);
 		if(typeof($("#" + grandfarther).attr("father"))!="undefined"){
-			ppat_changeParentState(id, $("#" + grandfarther).attr("father"), self);					
+			ppat_changeParentState(id, $("#" + grandfarther).attr("father"), self);
 		}
 	}
  }
