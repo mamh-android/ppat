@@ -207,7 +207,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                     name = ET.SubElement(child, "Name")
                     name.text=tc["Name"]
                     timeout = ET.SubElement(child, "timeout")
-                    timeout.text="6000"
+                    timeout.text="6000000"
 
                     category = ET.SubElement(child, "category")
                     category.text = ";Functionality Test;"
@@ -259,7 +259,7 @@ def addTestCaseList(tree, fileName, elementName, testcases, purpose, blf, assign
                 name = ET.SubElement(child, "Name")
                 name.text=tc["Name"]
                 timeout = ET.SubElement(child, "timeout")
-                timeout.text="600000"
+                timeout.text="6000000"
 
                 category = ET.SubElement(child, "category")
                 category.text = ";Functionality Test;"
