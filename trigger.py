@@ -37,7 +37,12 @@ def main():
             "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN"
     }
 
-    j.build_job("PPAT", parameters)
+    if device == "pxa1L88dkb_def:pxa1L88dkb":
+        j.build_job("PPAT_HELNLTE", parameters)
+    elif device == "pxa1U88dkb_def:pxa1U88dkb":
+        j.build_job("PPAT_HELN2", parameters)
+    else:
+        j.build_job("PPAT", parameters)
 
 def isbuilding(jobname):
     jobinfo = j.get_job_info(jobname)
