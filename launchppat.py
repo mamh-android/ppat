@@ -109,8 +109,8 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
             
             if imagepath.find("pxa1928-kk4.4") > 0:
                 print "git pull origin eden-kk4.4"
-                os.system("git checkout eden-kk4.4")
                 os.system("git fetch origin eden-kk4.4")
+                os.system("git checkout origin/eden-kk4.4")
 
         elif board == 'pxa1U88dkb':
             os.chdir("/home/buildfarm/helan2/PAT")
@@ -119,8 +119,8 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
 
             if imagepath.find("pxa988-kk4.4"):
                 print "git pull origin pxa1U88dkb-kk4.4"
-                os.system("git checkout pxa1U88-kk4.4")
                 os.system("git fetch origin pxa1U88-kk4.4")
+                os.system("git checkout origin/pxa1U88-kk4.4")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
         elif board == 'pxa1L88dkb':
@@ -130,14 +130,14 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
 
             if imagepath.find("pxa988-kk4.4") > 0:
                 print "git pull origin pxa1L88dkb-kk4.4"
-                os.system("git checkout pxa1L88dkb-kk4.4")
                 os.system("git fetch origin pxa1L88dkb-kk4.4")
+                os.system("git checkout origin/pxa1L88dkb-kk4.4")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
             if imagepath.find("pxa988-jb4.3") > 0:
                 print "git pull origin pxa1L88dkb-jb4.3"
-                os.system("git checkout pxa1L88dkb-jb4.3")
                 os.system("git fetch origin pxa1L88dkb-jb4.3")
+                os.system("git checkout origin/pxa1L88dkb-jb4.3")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
         else:
