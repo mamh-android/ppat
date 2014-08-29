@@ -73,7 +73,7 @@ def main():
         if device == 'pxa1L88dkb_def:pxa1L88dkb':
             os.chdir("/home/buildfarm/helanLTE/PAT")
             print "pwd:",os.getcwd()
-            ret = os.system("./ATF check.xml")
+            ret = os.system("./launch_ppat.sh check.xml")
             print "result: ",ret
             if ret != 0:
                 sys.exit(1)
@@ -81,7 +81,7 @@ def main():
         if device == 'pxa1928dkb_tz:pxa1928dkb':
             os.chdir("/home/buildfarm/eden/PAT")
             print "pwd:",os.getcwd()
-            ret = os.system("./ATF check.xml")
+            ret = os.system("./launch_ppat.sh check.xml")
             print "result: ",ret
             if ret != 0:
                 sys.exit(1)
@@ -89,7 +89,7 @@ def main():
         if device == 'pxa1U88dkb_def:pxa1U88dkb':
             os.chdir("/home/buildfarm/helan2/PAT")
             print "pwd:",os.getcwd()
-            ret = os.system("./ATF check.xml")
+            ret = os.system("./launch_ppat.sh check.xml")
             print "result: ",ret
             if ret != 0:
                 sys.exit(1)
@@ -190,7 +190,7 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
         print "Arg is wrong: testcase"
         sys.exit(1)
 
-    ret = os.system("./ATF ATD_config.xml")
+    ret = os.system("./launch_ppat.sh ATD_config.xml")
     print "result: ",ret
     if ret != 0:
         sys.exit(1)
