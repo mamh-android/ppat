@@ -108,8 +108,8 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
             os.system("sudo cp /PPAT_test/testcase/*.atf.xml case/android/PowerConsumption/atf/")
             
             if imagepath.find("pxa1928-kk4.4") > 0:
-                print "git pull origin eden-kk4.4"
-                os.system("git fetch origin eden-kk4.4")
+                print "git fetch origin"
+                os.system("git fetch origin")
                 os.system("git checkout origin/eden-kk4.4")
 
         elif board == 'pxa1U88dkb':
@@ -118,8 +118,8 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
             os.system("sudo cp /PPAT_test/testcase/*.atf.xml case/android/PowerConsumption/atf/")
 
             if imagepath.find("pxa988-kk4.4"):
-                print "git pull origin pxa1U88dkb-kk4.4"
-                os.system("git fetch origin pxa1U88-kk4.4")
+                print "git fetch origin"
+                os.system("git fetch origin")
                 os.system("git checkout origin/pxa1U88-kk4.4")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
@@ -129,14 +129,14 @@ def manual_run_ppat(imagepath, branch, device, blf, assigner, testcase, purpose)
             os.system("sudo cp /PPAT_test/testcase/*.atf.xml case/android/PowerConsumption/atf/")
 
             if imagepath.find("pxa988-kk4.4") > 0:
-                print "git pull origin pxa1L88dkb-kk4.4"
-                os.system("git fetch origin pxa1L88dkb-kk4.4")
+                print "git fetch origin pxa1L88dkb-kk4.4"
+                os.system("git fetch origin")
                 os.system("git checkout origin/pxa1L88dkb-kk4.4")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
             if imagepath.find("pxa988-jb4.3") > 0:
-                print "git pull origin pxa1L88dkb-jb4.3"
-                os.system("git fetch origin pxa1L88dkb-jb4.3")
+                print "git fetch origin pxa1L88dkb-jb4.3"
+                os.system("git fetch origin")
                 os.system("git checkout origin/pxa1L88dkb-jb4.3")
                 os.system("git checkout case/android/PowerConsumption/atf")
 
