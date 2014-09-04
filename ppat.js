@@ -10,7 +10,7 @@ var	platform;
 var boardDevice;
 var powerAdvCategory;
 var device;
-var testType;
+var testType="PowerScenario";
 var testcases="";
 var countOfCmds=1;
 function ppat_load(buildtype){
