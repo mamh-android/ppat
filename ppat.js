@@ -164,13 +164,17 @@ function chooseTest(select){
 	testType = $(select).val();
 	$("#selection").empty();
 	$("#selection").append("<hr><b>" + $(select).val() + " Test</b><hr>");
-	if($(select).val() == "PowerScenario"){
+	updateTable(testType);
+}
+
+function updateTable(testType){
+	if(testType == "PowerScenario"){
 		addScenarioCheckbox();
 		addUIScenarioCheckbox();
 		$("#tune").empty();
 		$("#baremetal").empty();
 		$("#DeviceHW").css("display", "block");
-	}else if($(select).val() == "Round PP Tuning"){
+	}else if(testType == "Round PP Tuning"){
 		addScenarioCheckbox();
 		addUIScenarioCheckbox();
 		$("#baremetal").empty();
@@ -185,6 +189,7 @@ function chooseTest(select){
 		$("#DeviceHW").css("display", "none");
 		ppat_load_baremetal();
 	}
+
 }
 
 function ppat_load_baremetal(){
@@ -1156,9 +1161,7 @@ function branchSelect2(){
             }
         }
 		addScenarioCheckbox();
-		if(testType == "Round PP Tuning"){
-			ppat_load_tune();
-		}
+        updateTable(testType);
 }
 
 function branchSelect3(){
@@ -1198,7 +1201,5 @@ function branchSelect3(){
             }
         }
 		addScenarioCheckbox();
-		if(testType == "Round PP Tuning"){
-			ppat_load_tune();
-		}
+        updateTable(testType);
 }
