@@ -11,8 +11,8 @@ var boardDevice;
 var powerAdvCategory;
 var device;
 var testType="PowerScenario";
-var testcases="";
 var countOfCmds=1;
+var property = new Array();
 var blfArr = new Array();
 function ppat_load(buildtype){
     var strURL = "http://10.38.32.97:3000/scenarios";
@@ -31,7 +31,7 @@ function ppat_load(buildtype){
                     boardDevice = new Array();
 					platform = new Array();
 					powerAdvancedCase = new Array();
-					powerAdvCategory = new Array();
+					powerAdvCategory = new Array();		
                     domParser = new DOMParser();
                     xmlDoc = domParser.parseFromString(msg, 'text/xml');
                     ppat_parsePowerNode();
@@ -48,9 +48,10 @@ function ppat_load(buildtype){
 
 function ppat_update_checkbox(id,stream, duration){
     $("."+id).attr("checked",true);
-    testcases += "{\"CaseName\":\"" + id + "\",";
-    testcases += "\"Stream\":\"" + stream + "\",";
-    testcases += "\"Duration\":\"" + duration + "\"},";
+		var str = "";
+    str += "\"Stream\":\"" + stream + "\",";
+    str += "\"Duration\":\"" + duration + "\"";	
+	property[id] = str;
 }
 
 function showAPM(id,target){
@@ -606,14 +607,19 @@ function ppat_appendToText(v){
 	scenarios.each(function(){
 		if($(this).attr("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\"";
+			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
+			//stream etc property
+			if(property[$(this).attr("text")]){
+				jsonStr += property[$(this).attr("text")] + ",";
+			}
+			
 			//loop
 		    var lp = $("#loopscenario").val();
 		    if(lp != ""){
-		    	jsonStr +=",\"count\":\"" + $("#loopscenario").val() + "\"},";
+		    	jsonStr +="\"count\":\"" + $("#loopscenario").val() + "\"}},";
 		    }else{
-				jsonStr +=",\"count\":\"1\"},";
+				jsonStr +="\"count\":\"1\"}},";
 			}
 		}
 	});
@@ -665,14 +671,14 @@ function ppat_appendToText(v){
 	advscenarios.each(function(){
 		if($(this).attr("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\"";
+			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
 			//loop
 		    var lp = $("#loopadvscenario").val();
 		    if(lp != ""){
-		     	jsonStr +=",\"count\":\"" + $("#loopadvscenario").val() + "\"},";
+		     	jsonStr +="\"count\":\"" + $("#loopadvscenario").val() + "\"}},";
 		    }else{
-				jsonStr +=",\"count\":\"1\"},";
+				jsonStr +="\"count\":\"1\"}},";
 			}
 		}
 	});
@@ -680,14 +686,14 @@ function ppat_appendToText(v){
 	ui.each(function(){
 		if($(this).attr("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\"";
+			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
 			//loop
 		    var lp = $("#loopui").val();
 		    if(lp != ""){
-		     	jsonStr +=",\"count\":\"" + $("#loopui").val() + "\"},";
+		     	jsonStr +="\"count\":\"" + $("#loopui").val() + "\"}},";
 		    }else{
-				jsonStr +=",\"count\":\"1\"},";
+				jsonStr +="\"count\":\"1\"}},";
 			}
 		}
 	});
@@ -695,7 +701,7 @@ function ppat_appendToText(v){
 		jsonStr = "{\"TestCaseList\":[" + jsonStr.substring(0, jsonStr.length - 1) + "]";
 		for(var c = 1; c <= countOfCmds; c++){
 			if($("#"+c).val() != "" && $("#"+c).val() != null){
-			jsonStr +=",\"inputs\":[";
+			jsonStr +=",\"roundcmd\":[";
 			break;
 			}
 		}
@@ -711,10 +717,6 @@ function ppat_appendToText(v){
 			}
        });
        jsonStr = jsonStr.substring(0, jsonStr.length - 1) + "]";
-
-       if(testcases != ""){
-			jsonStr += ",\"stream\":[" + testcases.substring(0, testcases.length - 1) + "]";
-        }
 
 //Param for baremetal test
 		var baremetalParam = "";
@@ -944,7 +946,7 @@ function ppat_appendToText(v){
 		}
 //all tune append to jsonStr
 		if(tuneParam != ""){
-			jsonStr += ",\"TuneParam\":{" + tuneParam.substring(0,tuneParam.length-1) + "}";
+			jsonStr += ",\"roundpp\":{" + tuneParam.substring(0,tuneParam.length-1) + "}";
 		}
         jsonStr += "}";
         jsonStr = jsonStr.replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
