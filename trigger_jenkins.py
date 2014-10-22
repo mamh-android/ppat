@@ -39,6 +39,7 @@ def main():
             "pxa1L88dkb_def:pxa1L88dkb":"PPAT_HELNLTE",
             "pxa1U88dkb_def:pxa1U88dkb":"PPAT_HELN2",
             "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN"
+            "pxa1908dkb_tz:pxa1908dkb":"PPAT_ULC1"
     }
 
     jobname = device_to_job.get(device, "")
