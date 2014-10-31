@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8" />
+		<title>Dashboard | Wuxia Bootstrap Admin Template</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Walking Pixels | www.walkingpixels.com" />
+		<meta name="robots" content="index, follow" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- CSS styles -->
+  		<%= stylesheet_link_tag    "wuxia-blue" %>
+		<!-- jQuery FullCalendar Styles -->
+  		<%= stylesheet_link_tag    "plugins/jquery.fullcalendar" %>
+		<!-- Fav and touch icons -->
+		<link rel="shortcut icon" href="img/icons/favicon.ico" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icons/apple-touch-icon-114-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icons/apple-touch-icon-72-precomposed.png" />
+		<link rel="apple-touch-icon-precomposed" href="img/icons/apple-touch-icon-57-precomposed.png" />
+		
+		<!-- JS Libs -->
+  		<%= javascript_include_tag "libs/jquery.min" %>
+  		<%= javascript_include_tag "libs/jquery" %>
+  		<%= javascript_include_tag "libs/modernizr" %>
+  		<%= javascript_include_tag "libs/selectivizr" %>
+
+			
+		<script>
+			$(document).ready(function(){
+				
+				// Navbar tooltips
+				$('.navbar [title]').tooltip({
+					placement: 'bottom'
+				});
+				
+				// Content tooltips
+				$('[role=main] [title]').tooltip({
+					placement: 'top'
+				});
+				
+				// Dropdowns
+				$('.dropdown-toggle').dropdown();
+				
+			});
+		</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+</head>
+<body>
+		<!-- Main navigation bar -->
+		<header class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
+						<span class="icon-user"></span>
+					</button>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navigation">
+						<span class="icon-chevron-down"></span>
+					</button>
+					<a class="brand" href="http://envato.walkingpixels.com/themes/wuxia/">Walking Pixels Wuxia Bootstrap admin template</a>
+					<nav class="nav-collapse navigation">
+						<ul class="nav" role="navigation">
+							<li class="active"><a href="test.html" title="Home"><span class="icon-home"></span>home</a></li>
+							<li><a href="index.html" title="gerrit"><span class="icon-home"></span>gerrit</a></li>
+							<li><a href="forms.html" title="buildbot"><span class="icon-tasks"></span>buildbot</a></li>
+							<li><a href="tables.html" title="RTVB"><span class="icon-table"></span>RTVB</a></li>
+							<li><a href="typography.html" title="smoke test report"><span class="icon-font"></span>smoke test report</a></li>
+							<li><a href="ui-buttons.html" title="coverity!"><span class="icon-magic"></span>coverity</a></li>
+							<li><a href="ui-buttons.html" title="autobuild!"><span class="icon-magic"></span>autobuild</a></li>
+							<li><a href="ui-buttons.html" title="xRef!"><span class="icon-magic"></span>xRef</a></li>
+							
+							<li><a href="ui-buttons.html" title="PPAT!"><span class="icon-log"></span>PPAT</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="#" title="Buttons in navbar!" class="btn-wuxia-navbar"><div class="btn btn-wuxia"><span class="icon-key"></span> Widgets</div></a></li>
+						</ul>
+					</nav>
+					<nav class="nav-collapse user">
+						<div class="user-info pull-right">
+							
+							<div class="btn-group">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+									<div><strong>John Pixel</strong>Administrator</div>
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
+									<li><a href=""><span class="icon-bell"></span> Preferences</a></li>
+									<li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
+									<li class="divider"></li>
+									<li><a href=""><span class="icon-signout"></span> Logout</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<!-- /Main navigation bar -->
+<%= yield %>
+
+</body>
+</html>

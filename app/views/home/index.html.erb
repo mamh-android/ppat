@@ -1,0 +1,295 @@
+<!-- Main content -->
+<div class="container" role="main">
+		
+	<!-- Breadcrumbs -->
+	<ul class="breadcrumb">
+		<li><a href="#"><span class="icon-home"></span> Home</a></li>
+	<!--
+		<li><a href="#">Wuxia template</a></li>
+		<li class="active">Home</li>
+	-->	
+	</ul>
+	<!-- Breadcrumbs -->
+	<div id="welcome">
+		<h1>Welcome to APSE Home Page</h1>
+	</div>
+	<div id="insele">
+		<span>
+			<input type="text" value="ALL VISITS">
+		</span>
+		<span>
+			<select>
+				<option name="wd">WIDGETS & DASHBOARD</option>
+				<option name="TEST1">TEST1</option>
+				<option name="TEST2">TEST2</option>
+			</select>
+		</span>
+	</div>
+
+	<!-- Main data container -->
+	
+	<!-- Tab content -->
+	<div class="page-container tab-content">
+
+		<!-- Tab #basic -->
+		<div class="tab-pane active" id="basic">
+	<!-- Grid row -->
+			<div class="row">
+		
+				<!-- Example jQuery FullCalendar -->
+				<!-- Page grid cell (12 blocks - full) -->
+				<article class="span12">
+					<div class='full-calendar'></div>
+				</article>
+				<!-- /Page grid cell (12 blocks - full) -->
+			
+			</div>
+			<!-- /Grid row -->		
+		</div>
+		<!-- Tab #basic -->
+		
+		<!-- Tab #google -->
+		<div class="tab-pane" id="google">		
+			<!-- Grid row -->
+			<div class="row">
+		
+				<!-- Example jQuery FullCalendar with Google Calendar -->
+				<!-- Page grid cell (12 blocks - full) -->
+				<article class="span12">
+					<h2>Calendar with Google Calendar feed</h2>
+					<p>FullCalendar is very flexible with tons of options. Except of your own events feed you can use Google or iCal calendars as your feed. This demo demonstrate Google US Holidays calendar as data feed.</p>
+					<div class='full-calendar full-calendar-gcal'></div>
+				</article>
+				<!-- /Page grid cell (12 blocks - full) -->
+			
+			</div>
+			<!-- /Grid row -->
+			
+		</div>
+		<!-- /Tab #google -->
+		
+	</div>
+	<!-- /Tab content -->
+	
+
+	<!-- /Main data container -->
+
+</div>
+<!-- /Main content -->
+		
+		
+		
+<!-- Scripts -->
+<%= javascript_include_tag "navbar" %>
+<%= javascript_include_tag "plugins/waypoints.min" %>
+<%= javascript_include_tag "bootstrap/bootstrap-tooltip" %>
+<%= javascript_include_tag "bootstrap/bootstrap-dropdown" %>
+<%= javascript_include_tag "bootstrap/bootstrap-tab" %>
+<%= javascript_include_tag "bootstrap/bootstrap-collapse" %>
+<%= javascript_include_tag "plugins/fullCalendar/jquery.fullcalendar.min" %>
+<%= javascript_include_tag "plugins/fullCalendar/gcal" %>
+
+<script>
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		$('.full-calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			buttonText: {
+				prev: '<span class="icon-circle-arrow-left"></span>',
+				next: '<span class="icon-circle-arrow-right"></span>'
+			},
+			editable: true,
+			events: [
+				{
+					title: 'All Day Event',
+					start: new Date(y, m, 1)
+				},
+				{
+					title: 'Long Event',
+					start: new Date(y, m, d-5),
+					end: new Date(y, m, d-2)
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d-3, 16, 0),
+					allDay: false
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d+4, 16, 0),
+					allDay: false
+				},
+				{
+					title: 'Meeting',
+					start: new Date(y, m, d, 10, 30),
+					allDay: false
+				},
+				{
+					title: 'Lunch',
+					start: new Date(y, m, d, 12, 0),
+					end: new Date(y, m, d, 14, 0),
+					allDay: false
+				},
+				{
+					title: 'Birthday Party',
+					start: new Date(y, m, d+1, 19, 0),
+					end: new Date(y, m, d+1, 22, 30),
+					allDay: false
+				},
+				{
+					title: 'Walking Pixels website',
+					start: new Date(y, m, 28),
+					end: new Date(y, m, 29),
+					url: 'http://www.walkingpixels.com/'
+				}
+			]
+		});
+		
+		$('.full-calendar-gcal').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			buttonText: {
+				prev: '<span class="icon-arrow-left"></span>',
+				next: '<span class="icon-arrow-right"></span>'
+			},
+			events: {
+				url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+				className: 'gcal-event', // an option!
+				currentTimezone: 'America/Chicago' // an option!
+			}
+		});
+		
+	});
+</script>
+			
+<!-- Main data container -->
+<div class="content">
+
+<!-- Page header -->
+<div class="page-header">
+	<h1>Welcome, stranger!</h1>
+	<ul class="page-header-actions">
+		<li><a href="http://twitter.github.com/bootstrap/" class="btn btn-wuxia btn-inverse pull-right" title="Official Bootstrap website" target="_blank"><span class="icon-bookmark"></span> Bootstrap v2.0.4</a></li>
+	</ul>
+</div>
+<!-- /Page header -->
+
+<!-- Page container -->
+<div class="page-container">
+
+	<!-- Grid row -->
+	<div class="row">
+	
+		<!-- Page grid cell (4 blocks) -->
+		<!-- /Page grid cell (4 blocks) -->
+		
+		<!-- Page grid cell (8 blocks) -->
+		<article class="span8">
+			<div id="flot" class="flot dashboard"></div>
+		</article>
+		<!-- /Page grid cell (8 blocks) -->
+		<div id="rglist"> 
+		<ul class="page-header-actions">
+			<li><h1>Merged patch list</h1></li>
+			<li>List all patches that merged</li>
+			<li>Category by  project</li>
+			<li><h1>Smoke test result</h1></li>
+			<li>List failed  cases</li>
+			<li>Category by component</li>
+			<li><h1>Power chart</h1></li>
+			<li>Show the power trend to that day</li>
+		</ul>
+	</div>
+	</div>
+	<!-- /Grid row -->
+	
+</div>
+<!-- /Page container -->
+	
+</div>
+<!-- /Main data container -->
+
+<!-- Main data container -->
+
+<%= javascript_include_tag "plugins/flot/jquery.flot" %>
+<%= javascript_include_tag "plugins/flot/jquery.flot.pie" %>
+		
+<script>
+	$(document).ready(function() {
+	
+		// Flot Chart
+		// we use an inline data source in the example, usually data would be fetched from a server
+		var data = [], totalPoints = 300;
+		function getRandomData() {
+			if (data.length > 0)
+				data = data.slice(1);
+		
+			// do a random walk
+			while (data.length < totalPoints) {
+				var prev = data.length > 0 ? data[data.length - 1] : 50;
+				var y = prev + Math.random() * 10 - 5;
+				if (y < 0)
+					y = 0;
+				if (y > 100)
+					y = 100;
+				data.push(y);
+			}
+		
+			// zip the generated y values with the x values
+			var res = [];
+			for (var i = 0; i < data.length; ++i)
+				res.push([i, data[i]])
+			return res;
+		}
+		
+		// setup control widget
+		var updateInterval = 30;
+		$("#updateInterval").val(updateInterval).change(function () {
+			var v = $(this).val();
+			if (v && !isNaN(+v)) {
+				updateInterval = +v;
+			if (updateInterval < 1)
+				updateInterval = 1;
+			if (updateInterval > 2000)
+				updateInterval = 2000;
+			$(this).val("" + updateInterval);
+			}
+		});
+		
+		// setup plot
+		var options = {
+			series: { shadowSize: 0, color: "#FF371B" }, // drawing is faster without shadows
+			yaxis: { min: 0, max: 100 },
+			xaxis: { show: false },
+			grid: { backgroundColor: '#ffffff' }
+		};
+		var plot = $.plot($("#flot"), [ getRandomData() ], options);
+		
+		function update() {
+			plot.setData([ getRandomData() ]);
+			// since the axes don't change, we don't need to call plot.setupGrid()
+			plot.draw();
+			setTimeout(update, updateInterval);
+		}
+		
+		update();
+	
+	});
+</script>
+		
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+
