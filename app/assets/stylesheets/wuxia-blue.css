@@ -64,6 +64,9 @@ img {
 #map_canvas img {
   max-width: none;
 }
+#rglist{
+float:left;
+padding-right:30px;}
 button,
 input,
 select,
@@ -4786,7 +4789,7 @@ a.badge:hover {
   }
   .nav-collapse .nav > li > a,
   .nav-collapse .dropdown-menu a {
-    padding: 6px 15px;
+    padding: 5px 10px;
     font-weight: bold;
     color: #fffbdb;
     -webkit-border-radius: 3px;
@@ -8379,7 +8382,7 @@ abbr[title] {
   padding: 0;
 }
 .user-info .btn-group .btn {
-  padding-left: 15px;
+  padding-left: 10px;
   background: none;
   border: none;
   text-align: left;
