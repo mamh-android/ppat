@@ -65,8 +65,35 @@ img {
   max-width: none;
 }
 #rglist{
-float:left;
-padding-right:30px;}
+  float:left;
+  padding-right:30px;
+}
+.Menubox{
+  padding-left: 40px;
+  border-bottom: 1px solid;
+  height:22px;
+}
+.Menubox li{
+  float:left;
+  height: 20px;
+  width:100px;
+  margin-top:0px;
+  color:#FFFFFF;
+  font-size: 15px;
+  list-style: none;
+  text-align: center;
+  background: #4D8AB3;
+  border: 1px solid #05090C;
+  border-radius: 5px;
+}
+#datepicker{
+  float:left;
+}
+#daylist{
+  margin-top:2%;
+  margin-left: 5%;
+  float: left;
+}
 button,
 input,
 select,

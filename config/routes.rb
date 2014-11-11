@@ -1,4 +1,8 @@
 Ppat::Application.routes.draw do
+  get "daily/index"
+
+  get "daily/query"
+
   get "home/index"
 
   # The priority is based upon order of creation:
