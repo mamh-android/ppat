@@ -1,36 +1,7 @@
-<!-- Main content -->
-<div class="container" role="main">
-		
-	<!-- Breadcrumbs -->
-	<ul class="breadcrumb">
-		<li><a href="#"><span class="icon-home"></span> Home</a></li>
-	<!--
-		<li><a href="#">Wuxia template</a></li>
-		<li class="active">Home</li>
-	-->	
-	</ul>
-	<!-- Breadcrumbs -->
 
-	<div id="welcome">
-		<h1>Welcome to APSE Home Page</h1>
-	</div>
-	<div id="insele">
-		<span>
-			<FORM METHOD=POST ACTION="" name="form1"> 
- 			<SELECT NAME="Platform" onChange="getBranch()"> 
-  				<OPTION VALUE="0">Platform </OPTION> 
-  				<OPTION VALUE="eden">eden </OPTION>  
- 				 <OPTION VALUE="pxa1908">pxa1908 </OPTION>  
-  				<OPTION VALUE="pxa1928">pxa1928 </OPTION>  
-  				<OPTION VALUE="pxa1288">pxa1288 </OPTION>  
-  				<OPTION VALUE="pxa1U88">pxa1U88 </OPTION> 
-  			</SELECT>  
- 			<SELECT NAME="Branch"> 
-  				<OPTION VALUE="0">Branch </OPTION> 
-  			</SELECT> 			
-  		</FORM>  	
-		</span>		
-	</div>
+<div class="page-header">
+		<h1><span>Welcome to APSE Home Page</span></h1>
+</div>	
 	<!-- page-container -->
 	<div class="page-container tab-content"  >
 
@@ -38,7 +9,27 @@
 		<div class="tab-pane active" id="basic">
 			<!-- Grid row -->
 			<div class="row">
-		
+				<article class="span4">
+					<h3>Select Platform</h3>
+					<form METHOD=POST ACTION="" name="form1">
+					 			<select NAME="Platform" onChange="getBranch()"> 
+					  				<option VALUE="0">Platform </option> 
+					  				<option VALUE="eden">eden </option>  
+					 				<option VALUE="pxa1908">pxa1908 </option>  
+					  				<option VALUE="pxa1928">pxa1928 </option>  
+					  				<option VALUE="pxa1288">pxa1288 </option>  
+					  				<option VALUE="pxa1U88">pxa1U88 </option> 
+					  			</select>
+	  				</form>
+				</article>
+				<article class="span8">
+					<h3>Select Branch</h3>
+					<form METHOD=POST ACTION="" name="form1">
+					 			<select NAME="Branch">
+			  						<option VALUE="0">Branch </option> 
+					  			</select>
+	  				</form>
+				</article>
 				<!-- Page grid cell (6 blocks - full) -->
 				<article class="span6">
 					<!-- Example jQuery FullCalendar -->
@@ -193,21 +184,6 @@
 	
 	</div>
 	<!-- /page-container -->
-</div>
-<!-- /Main content -->
-
-<!-- Scripts -->
-<%= javascript_include_tag "navbar" %>
-<%= javascript_include_tag "plugins/waypoints.min" %>
-<%= javascript_include_tag "bootstrap/bootstrap-tooltip" %>
-<%= javascript_include_tag "bootstrap/bootstrap-dropdown" %>
-<%= javascript_include_tag "bootstrap/bootstrap-tab" %>
-<%= javascript_include_tag "bootstrap/bootstrap-collapse" %>
-<%= javascript_include_tag "plugins/fullCalendar/jquery.fullcalendar.min" %>
-<%= javascript_include_tag "plugins/fullCalendar/gcal" %>
-<%= javascript_include_tag "plugins/flot/jquery.flot" %>
-<%= javascript_include_tag "plugins/flot/jquery.flot.pie" %>
-
 <script>
 	$(document).ready(function() {
 		var date = new Date();

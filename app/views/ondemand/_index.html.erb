@@ -1,0 +1,30 @@
+<% @scenarios = get_task_scenarios(@last_task.task_id) %>
+<% @scenarios.each do |scenario| %>
+	<article class="span6">
+		<!-- table of task list -->
+		<h2><%= get_scenario_name(scenario.power_scenario_id).last.name %></h2>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Image Date</th>
+					<th>Battery(mA)</th>
+					<th>Vcc_main(mA)</th>
+					<th>FPS</th>
+					<th>Duty Cycle</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% get_scenario_info(scenario.power_scenario_id,@last_task.task_id).each do |scenario_info| %>
+					<tr>
+						<td><%= scenario_info.platform %></td>
+						<td><%= scenario_info.device %></td>
+						<td><%= scenario_info.branch %></td>
+						<td><%= scenario_info.fps %></td>
+						<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<!--/table of task list-->
+	</article>
+<% end %>

@@ -6,8 +6,10 @@ gem 'rails', '3.2.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
-
+gem 'mysql2', '= 0.3.11'
+gem 'will_paginate', '>= 3.0.pre'
+gem 'rake'
+gem 'safe_attributes'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

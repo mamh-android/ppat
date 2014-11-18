@@ -1,4 +1,9 @@
 Ppat::Application.routes.draw do
+
+  get "ondemand/index"
+  get "ondemand/get_task_detail"
+  get "ondemand/get_dc"
+
   get "daily/index"
 
   get "daily/query"
