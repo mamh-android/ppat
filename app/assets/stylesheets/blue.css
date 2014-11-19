@@ -68,24 +68,56 @@ img {
   float:left;
   padding-right:30px;
 }
-.Menubox{
-  padding-left: 40px;
-  border-bottom: 1px solid;
-  height:22px;
+
+.nTab{
+  float: left;
+  width: 1100px;
+  margin: 0 auto;
+  border-bottom:1px #C7C7CD solid;
+  background-image: url(liback.png);
+  background-position:left;
+  background-repeat:repeat-y;
+  margin-bottom:2px;
 }
-.Menubox li{
-  float:left;
-  height: 20px;
-  width:100px;
-  margin-top:0px;
-  color:#FFFFFF;
-  font-size: 15px;
-  list-style: none;
-  text-align: center;
-  background: #4D8AB3;
-  border: 1px solid #05090C;
+.nTab .TabTitle{
+  clear: both;
+  height: 26px;
+  overflow: hidden;
+}
+.nTab .TabTitle ul{
+  margin:0;
+  padding:0;
+}
+.nTab .TabTitle li{
+  float: left;
+  width: 90px;
   border-radius: 5px;
+  cursor: pointer;
+  padding-top: 6px;
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 7px;
+  list-style-type: none;
 }
+.nTab .TabTitle .active{ 
+  background:url(http://p1.mb5u.com/texiao/tab_bg1.gif) left -25px no-repeat;
+  border-left:1px  #C7C7CD solid;
+  border-top:1px  #C7C7CD solid;
+  border-bottom:1px #fff solid;
+}
+.nTab .TabTitle .normal{ 
+  background:url(http://p1.mb5u.com/texiao/tab_bg1.gif);
+  border-top:1px #C7C7CD solid;
+  border-bottom:1px #C7C7CD solid;
+}
+.nTab .TabContent{
+  width:auto;background:#fff;
+  overflow:auto;
+  margin: 0px auto;
+  border-right:1px #C7C7CD solid;
+  border-left:1px #C7C7CD solid;
+}
+.none {display:none;}
 #datepicker{
   float:left;
 }

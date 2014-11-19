@@ -52,6 +52,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     multi_json (1.10.1)
+    mysql2 (0.3.11)
     polyglot (0.3.5)
     rack (1.4.5)
     rack-cache (1.2)
@@ -78,6 +79,8 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
+    safe_attributes (1.0.10)
+      activerecord (>= 3.0.0)
     sass (3.4.6)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -214,6 +217,7 @@ GEM
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    will_paginate (3.0.4)
 
 PLATFORMS
   ruby
@@ -221,7 +225,11 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   jquery-rails
+  mysql2 (= 0.3.11)
   rails (= 3.2.9)
+  rake
+  safe_attributes
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
+  will_paginate (>= 3.0.pre)
