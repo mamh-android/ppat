@@ -28,8 +28,8 @@ def main():
     }
 
     device_to_gcjob ={
-            "pxa1908dkb_tz:pxa1908dkb_tz":"PPAT_GC_ULC1",
-            "pxa1928dkb_tz:pxa1928dkb_tz":"PPAT_GC_EDEN"
+            "pxa1908dkb_tz:pxa1908dkb":"PPAT_GC_ULC1",
+            "pxa1928dkb_tz:pxa1928dkb":"PPAT_GC_EDEN"
     }
 
     #ondemand trigger ppat test.
