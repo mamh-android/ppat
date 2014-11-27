@@ -1,0 +1,80 @@
+/*
+ * daily css
+ */
+.nTab{
+  float: left;
+  width: 100%;
+  margin: 0 auto;
+  background-position:left;
+  background-repeat:repeat-y;
+  margin-bottom:2px;
+ }
+.nTab .TabTitle{
+ clear: both;
+ height: 26px;
+ overflow: hidden;
+  border-bottom: 2px solid #FFEAFF;
+}
+.nTab .TabTitle ul{
+ margin:0;
+ padding:0;
+ margin-left: 15%;
+}
+.nTab .TabTitle li{
+ float: left;
+ width: 8%;
+ border-radius: 5px;
+ cursor: pointer;
+ padding-top: 6px;
+ padding-right: 0px;
+ padding-left: 0px;
+ padding-bottom:7px;
+ list-style-type:none;
+
+}
+.nTab .TabTitle .active{
+  background:#3a87ad left -25px no-repeat;
+  color:#FFFFFF;
+  border-left:1px  #C7C7CD solid;
+  border-top:1px  #C7C7CD solid;
+  border-bottom:1px #fff solid;
+}
+.nTab .TabTitle .normal{
+  background:#FFFFFF;
+  border-top:1px #C7C7CD solid;
+  border-bottom:1px #C7C7CD solid;
+}
+.nTab .TabContent{
+  width:auto;
+  background:#fff;
+  overflow:auto;
+  margin: 0px auto;
+  border-right:1px #C7C7CD solid;
+  border-left:1px #C7C7CD solid;
+}
+.chartline{
+  background-color: #3a87ad;
+  font-size: 16px;
+  width:9%;
+  text-align: center;
+  border-radius: 5px;
+}
+.chartline a:link {
+  color: #FFFFFF;
+ }
+.chartline a:hover{
+  text-decoration: none;
+}
+.chartline a:visited{
+  color:#FFFFFF;
+}
+
+.none {display:none;}
+#daylist{
+  margin-top:2%;
+    float: right;
+}
+#datepicker{
+  float:left;
+  margin-left: 2%;
+}

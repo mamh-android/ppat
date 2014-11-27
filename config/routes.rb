@@ -10,6 +10,14 @@ Ppat::Application.routes.draw do
 
   get "home/index"
 
+  get "compare/index"
+
+  get "baremetal/index"
+
+  get "trigger/index"
+
+  get "query/index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

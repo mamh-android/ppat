@@ -9,27 +9,25 @@
 		<div class="tab-pane active" id="basic">
 			<!-- Grid row -->
 			<div class="row">
+			<form METHOD=POST ACTION="" name="form1">
 				<article class="span4">
 					<h3>Select Platform</h3>
-					<form METHOD=POST ACTION="" name="form1">
-					 			<select NAME="Platform" onChange="getBranch()"> 
-					  				<option VALUE="0">Platform </option> 
-					  				<option VALUE="eden">eden </option>  
-					 				<option VALUE="pxa1908">pxa1908 </option>  
-					  				<option VALUE="pxa1928">pxa1928 </option>  
-					  				<option VALUE="pxa1288">pxa1288 </option>  
-					  				<option VALUE="pxa1U88">pxa1U88 </option> 
-					  			</select>
-	  				</form>
+								<select NAME="Platform" onChange="getBranch()">
+									<option VALUE="0">Platform </option>
+									<option VALUE="eden">eden </option>
+									<option VALUE="pxa1908">pxa1908 </option>
+									<option VALUE="pxa1928">pxa1928 </option>
+									<option VALUE="pxa1288">pxa1288 </option>
+									<option VALUE="pxa1U88">pxa1U88 </option>
+								</select>
 				</article>
-				<article class="span8">
+				<article class="span4">
 					<h3>Select Branch</h3>
-					<form METHOD=POST ACTION="" name="form1">
-					 			<select NAME="Branch">
-			  						<option VALUE="0">Branch </option> 
-					  			</select>
-	  				</form>
-				</article>
+								<select NAME="Branch">
+									<option VALUE="0">Branch </option>
+								</select>
+				</article>	
+			</form>
 				<!-- Page grid cell (6 blocks - full) -->
 				<article class="span6">
 					<!-- Example jQuery FullCalendar -->
@@ -109,15 +107,15 @@
 				</article>
 
 				<article class="span6">
-					<h2><span class="icon-hand-right"></span>&nbsp;Merged patch list</h2>
-					<p>Just add <code>data-toggle="collapse"</code> and a <code>data-target</code> to element to automatically assign control of a collapsible element. The <code>data-target</code> attribute accepts a css selector to apply the collapse to. Be sure to add the class <code>collapse</code> to the collapsible element. If you'd like it to default open, add the additional class <code>in</code>.</p>
+					<h2><span class="icon-hand-right"></span>&nbsp;Smoke test result</h2>
+					<p></p>
 					<div id="accordion1" class="accordion">
 						<div class="accordion-group">
 							<div class="accordion-heading">
 								<a class="accordion-toggle" href="#collapseOne" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg"></div></a>
 							</div>
 							<div id="collapseOne" class="accordion-body in collapse" style="height: auto;">
-								<div class="accordion-inner">Anim  cliche reprehenderit, enim eiusmod high life  terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda  et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
+								<div class="accordion-inner">Anim  cliche reprehenderit, enim eiusmod high life  terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda  et. Nihil anim keffiyeh helvetica, craft beer labore wes andersoncred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beerfarm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
 							</div>
 						</div>
 						<div class="accordion-group">
@@ -133,7 +131,7 @@
 								<a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> Collapsible Group Item #3 </a>
 							</div>
 							<div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
-								<div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
+								<div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
 							</div>
 						</div>
 						<div class="accordion-group">
@@ -153,7 +151,7 @@
 							</div>
 						</div>
 					</div>													
-					<h2><span class="icon-hand-right"></span>&nbsp;Smoke test result</h2>
+					<h2><span class="icon-hand-right"></span>&nbsp;power</h2>
 					<p>Just add <code>data-toggle="collapse"</code> and a <code>data-target</code> to element to automatically assign control of a collapsible element. The <code>data-target</code> attribute accepts a css selector to apply the collapse to. Be sure to add the class <code>collapse</code> to the collapsible element. If you'd like it to default open, add the additional class <code>in</code>.</p>
 					<div id="accordion1" class="accordion">
 						<div class="accordion-group">
@@ -191,9 +189,9 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		var todays1 = " ";
-        todays1+=date.getFullYear()+"/";
-        todays1+=(date.getMonth()+1)+"/";
-        todays1+=date.getDate();
+        		todays1+=date.getFullYear()+"/";
+       		todays1+=(date.getMonth()+1)+"/";
+        		todays1+=date.getDate();
 		document.getElementById("todays").innerHTML = todays1;
 		$('.full-calendar').fullCalendar({
 			header: {
@@ -207,8 +205,8 @@
 			select : function(start,end){
 				/*var title = prompt('Event Title:');*/
 				var today =" ";
-				today+=start.getFullYear()+"/";
-				today+=(start.getMonth()+1)+"/";
+				today+=start.getFullYear()+"_";
+				today+=(start.getMonth()+1)+"_";
 				today+=start.getDate();
 				/*alert("this's  "+today);*/
 				var obj;
@@ -228,58 +226,23 @@
 			},
 			
 			events: [
-  				
-			                
+  		
 				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
+					title: '',
+					start: new Date(y, m, 6)
+				}
+				/*
 				{
 					title:' good good study, dayday up!',
 					start:new Date (y,m,d),
 					end: new  Date(y,m,d)
 				},
 				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-				{
 					title: 'Walking Pixels website',
 					start: new Date(y, m, 28),
 					end: new Date(y, m, 29),
 					url: 'http://www.walkingpixels.com/'
-				}
+				}*/
 			]
 		});
 		
@@ -303,26 +266,26 @@
 	});
 </script>
 <script language="JavaScript" type="text/javascript"> 
-  //定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
- 	 var Branch=[   
- 		 ["kk44"],  
-  		 ["kk44","kk44k314alpha1"],  
- 		 ["kk44","kk44alpha2","kk44beta1","kk44beta2","lpre"],  
- 		 ["jb43beta1","kk44","kk44k310beta1","kk44k310beta2","kk44k310beta3"],  
- 		 ["kk44"] 
- 	  ];   
-  	function getBranch(){   
-  	   	//获得Platform下拉框的对象   
-  		var sltPlatform=document.form1.Platform;   
-  		//获得Branch下拉框的对象   
-  		var sltBranch=document.form1.Branch;  
- 		//得到对应Platform的Branch数组   
-  		var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];  
-  		//清空Branch下拉框，仅留提示选项   
-  		sltBranch.length=1;  
-  		//将Branch数组中的值填充到Branch下拉框中 
- 		 for(var i=0;i<PlatformBranch.length;i++){ 
-  		sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]); 
-	 	 }  
- 	 }   
-  </script>
+//定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
+	var Branch=[
+		["kk44"],
+		["kk44","kk44k314alpha1"],
+		["kk44","kk44alpha2","kk44beta1","kk44beta2","lpre"],
+		["jb43beta1","kk44","kk44k310beta1","kk44k310beta2","kk44k310beta3"],
+		["kk44"]
+	];
+	function getBranch(){
+		//获得Platform下拉框的对象
+		var sltPlatform=document.form1.Platform;
+		//获得Branch下拉框的对象
+		var sltBranch=document.form1.Branch;
+		//得到对应Platform的Branch数组
+		var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
+		//清空Branch下拉框，仅留提示选项
+		sltBranch.length=1;
+		//将Branch数组中的值填充到Branch下拉框中
+		 for(var i=0;i<PlatformBranch.length;i++){
+		sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
+		}
+	}
+</script>

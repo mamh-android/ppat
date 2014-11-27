@@ -8,9 +8,12 @@
 		<meta name="robots" content="index, follow" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- CSS styles -->
-  		<%= stylesheet_link_tag    "blue" %>
-  		<%= stylesheet_link_tag    "ppat" %>
-  		<%= stylesheet_link_tag    "jquery-ui" %>
+  		<%= stylesheet_link_tag    "blue"%>
+  		<%= stylesheet_link_tag    "compare"%>
+  		<%= stylesheet_link_tag    "daily"%>
+  		<%= stylesheet_link_tag    "trigger"%>
+  		<%= stylesheet_link_tag    "ppat"%>
+  		<%= stylesheet_link_tag    "jquery-ui"%>
 		<!-- jQuery FullCalendar Styles -->
   		<%= stylesheet_link_tag    "plugins/jquery.fullcalendar" %>
 		<!-- Fav and touch icons -->
@@ -59,7 +62,7 @@
 		</script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 </head>
-<body>
+<body >
 		<!-- Main navigation bar -->
 		<header class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -117,9 +120,10 @@
 					<ul>
 						<li><a class="wuxify-me" href="/daily/index"><span class="icon-signal"></span>Daily</a></li>
 						<li><a class="wuxify-me" href="/ondemand/index"><span class="icon-picture"></span>Ondemand</a></li>
-						<li><a class="wuxify-me" href="#"><span class="icon-file"></span>UIAT</a></li>
-						<li><a class="wuxify-me" href="#"><span class="icon-calendar"></span>Baremetal</a></li>
-						<li><a class="wuxify-me" href="#"><span class="icon-th"></span>Memory</a></li>
+						<li><a class="wuxify-me" href="/compare/index"><span class="icon-file"></span>Compare</a></li>
+						<li><a class="wuxify-me" href="/baremetal/index"><span class="icon-calendar"></span>Baremetal</a></li>
+						<li><a class="wuxify-me" href="/trigger/index"><span class="icon-th"></span>Trigger</a></li>
+						<li><a class="wuxify-me" href="/query/index"><span class="icon-th"></span>Query</a></li>
 					</ul>
 				</nav>
 			</div>
