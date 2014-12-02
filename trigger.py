@@ -50,6 +50,8 @@ def main():
     elif mode == "gc":
         parameters = {
             'IMAGEPATH':imagepath,
+            'ASSIGNER':assigner,
+            'PURPOSE':purpose
         }
 
         jobname = device_to_gcjob.get(device,"")
@@ -64,13 +66,6 @@ def main():
     else:
         print "[debug] unknown mode: %s" % (mode)
         return 1
-
-
-def isbuilding(jobname):
-    jobinfo = j.get_job_info(jobname)
-    nextbuildnumber = jobinfo['nextBuildNumber']
-    currentbuild = j.get_build_info(jobname, jobinfo['nextBuildNumber'] - 1)
-    return currentbuild["building"]
 
 parser = OptionParser()
 parser.add_option("", "--imagepath",    dest="imagepath",   help="set image path for burn.", default="")
