@@ -245,11 +245,15 @@ function ppat_load_baremetal(){
 												}else{
 													table +="<div><input type=\"radio\" text=\"" + params[i] + "\" name=\"" + caseName + "_" + nodeName + "_" + $(this).context.nodeName + "\" param=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
 												}
-
 											}
 										}
-										table += "</td></tr>";
+                                        table += "</td></tr>";
 									});
+									if(nodeName == "cmd"){
+										table += "<tr><td class=\"category\">" + nodeName + "</td>";
+										table += "<td><input type=\"text\" name=\"cmd\" style=\"width:80%\" value=\"" + $(this).text().replace(/\"/g, '&quot;') + "\">";
+										table += "</td></tr>";
+									}
 								}
 							});
 							$(divInfo).appendTo("#" + compName);
@@ -432,7 +436,7 @@ function addAdvancedScenarioCheckbox(pf){
 	platform_b = platform_b.del();
 	for(var i = 0; i < platform_b.length; i++){
 		if(platform_b[i] == pf){
-			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
+			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
 			for(var j = 0; j < powerAdvCategory_b.length; j++){
 				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[i] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory[j] + "</td><td class=\"case\">";
 				for(var k = 0; k < powerAdvancedCase.length; k++){
@@ -483,7 +487,7 @@ function style(){
 function addScenarioCheckbox(){
 	var scenario_div = $("#scenario");
 	scenario_div.html("");
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
 
 	//add button to select/de-select by category
     powerCategory_b = powerCategory.concat();
@@ -508,7 +512,7 @@ function addScenarioCheckbox(){
 function addUIScenarioCheckbox(){
 	var scenario_div = $("#ui");
 	scenario_div.html("");
-	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">UI Performance</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopui\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
+	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">UI Performance</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopui\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
 
 	//add button to select/de-select by category
     performanceCategory_b = performanceCategory.concat();
@@ -629,42 +633,51 @@ function ppat_appendToText(v){
 	$("#baremetal table").each(function(){
 		var totalParamNum = $(this).find("tr").length - 1;
 		var paramCount = 0;
-		var propertyStr;
-		if($(this).find("input[type=text]").val()){
-			paramCount += 1;
-			var volt = $(this).find("input[type=text]").val();
+		var propertyStr = "";
 
-			var property = "\"VL\":\"" + volt + "\",";
+		var caseId = $(this).parent().attr("id");
 			var compFreqInfo = "";
-			var caseId = $(this).parent().attr("id");
+			var property = "";
 			$(this).find("td").each(function(){
 				var checked = false;
 				var compName = "";
 				var compInfo = "";
-
+				//var compFreqInfo = "";
 				$(this).find("input").each(function(){
-					if($(this).attr("checked")){
-						compName = $(this).attr("param");
-						checked = true;
-						compInfo += $(this).attr("text") + ",";
+					if($(this).attr("type") == "text"){
+						if($(this).val()){
+							paramCount += 1;
+							var value = $(this).val().replace(/\"/g, '&quot;'); //get input text value
+							var name = $(this).attr("name");
+							if(name.indexOf("vol") != -1){
+								name = "VL";
+							}
+							property += "\"" + name + "\":\"" + value + "\",";
+						}
+					}else{
+						if($(this).prop('checked')){
+							compName = $(this).attr("param");
+							checked = true;
+							compInfo += $(this).attr("text") + ",";
+						}
 					}
 				});
 				//collect freq info
 				if(checked && compInfo != ""){
 					paramCount += 1;
 					compFreqInfo += "\"" + compName.toUpperCase() +"\":\"" + compInfo.substring(0, compInfo.length - 1) + "\",";
-					propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
 				}
+				propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
 			});
 
 			if(compFreqInfo != ""){
 				propertyStr += ",";
 			}
-		}
-		if(paramCount == totalParamNum){
+			if(paramCount == totalParamNum){
 			caseCount += 1;
 			jsonStr += "{\"Name\":\"" + caseId + "\"";
 			jsonStr += propertyStr;
+
 		}
 	});
 	var advscenarios = $("#advscenario").find("input");
