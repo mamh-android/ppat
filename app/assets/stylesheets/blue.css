@@ -9741,7 +9741,7 @@ form .alert .close {
 /* Loading */
 .loading {
   display: inline-block;
-  background-image: url("../img/icons/loading_blue.gif");
+  background-image: url("../images/icons/loading_blue.gif");
   background-repeat: no-repeat;
   background-position: center;
   font: 0/0 a;
@@ -9762,7 +9762,7 @@ form .alert .close {
   background-image: url("../img/icons/loading_green.gif");
 }
 .loading.blue {
-  background-image: url("../img/icons/loading_blue.gif");
+  background-image: url("../images/icons/loading_blue.gif");
 }
 .loading.orange {
   background-image: url("../img/icons/loading_orange.gif");

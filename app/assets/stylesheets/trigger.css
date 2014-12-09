@@ -1,0 +1,32 @@
+/**
+trigger css
+
+**/
+#top1{
+    margin-top: 2%;
+}
+#top1 span{
+    margin-right: 1%;
+}
+#top1 select{
+    margin-top: 1%;
+}
+#top2 ul li{
+    float:left;
+    list-style-type: none;
+    width:50%;
+    margin-top: 2%;
+}
+#top2 select{
+    margin-top: 2%;
+    margin-left: 10%;
+}
+#top2 button{
+    width:30%;
+    height:60px;
+    margin-top: 1%;
+    font-size: 20px;
+}
+#table1 span{
+    margin-right: 20%;
+}

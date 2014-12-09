@@ -1,0 +1,157 @@
+<!--main-->
+	<div calss="container" role="main">
+		<div class="row">
+			<form METHOD=POST ACTION="" name="form1">
+				<article class="span10" id="top1">
+					<h3>
+						<span class="icon-asterisk">&nbsp;Device:</span>
+						<select NAME="Platform" onChange="getBranch()">
+							<option VALUE="0">Device </option>
+							<option VALUE="eden">pxa1U88dkb_def:pxa1U88dkb</option>
+							<option VALUE="pxa1908">pxa1908 </option>
+							<option VALUE="pxa1928">pxa1928 </option>
+							<option VALUE="pxa1288">pxa1288 </option>
+							<option VALUE="pxa1U88">pxa1U88 </option>
+						</select>
+						<span class="icon-asterisk">&nbsp;Bif:</span>
+						<select NAME="Branch">
+							<option VALUE="0">Branch </option>
+						</select>
+					</h3>
+				</article>
+			</form>
+		</div>
+		<div class="row">
+			<div id="top2" class="span10">
+				<ul>
+					<li>
+						<h4><span>Choose Board HW Module:</span></h4>
+						<h5><span class="icon-asterisk"></span>
+						<select NAME="Branch">
+							<option VALUE="0">PowerScenario</option>
+						</select>
+						</h5>
+					</li>
+					<li><button class="btn btn-wuxia btn-inverse">Add files</button></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<hr/>
+			<h4><span>PowerScenario Test</span></h4>
+			<hr/>
+			<div class="span11"  id="table1">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="2">
+								<span>AP Power</span>
+								<span><input id="10502" type="checkbox"/>SelectAll</span>
+								<span>Test loop:<input  type="text" value="3" style="width:2%;margin-left:1%;padding-top:1%;"/></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input id="10502" type="checkbox"/>LPM</td>
+							<td>
+								<span><input id="10502" type="checkbox"/>V</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+							</td>
+						</tr>
+						<tr>
+							<td><input id="10502" type="checkbox"/>Video</td>
+							<td>
+								<span><input id="10502" type="checkbox"/>V</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+							</td>
+						</tr>
+						<tr>
+							<td><input id="10502" type="checkbox"/>Game</td>
+							<td>
+								<span><input id="10502" type="checkbox"/>V</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+							</td>
+						</tr>
+						<tr>
+							<td><input id="10502" type="checkbox"/>UI</td>
+							<td>
+								<span><input id="10502" type="checkbox"/>V</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+							</td>
+						</tr>
+						<tr>
+							<td><input id="10502" type="checkbox"/>Audio</td>
+							<td>
+								<span><input id="10502" type="checkbox"/>V</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+								<span><input id="10502" type="checkbox"/>Video</span>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div id="top2" class="span10">
+				<ul>
+					<li>
+						<h4><span>Input commands before run test cases:</span></h4>
+						<h4><span>Description of set of cmds:</span>
+						<input type="text" name="#"/>
+						</h4>
+					</li>
+					<li><button class="btn btn-wuxia btn-inverse">Add files</button></li>
+				</ul>
+				<article class="span11">
+				<form />
+									<fieldset>
+										<legend>Textarea with jWYSIWYG editor</legend>
+										<div class="control-group">
+											<div class="controls">
+												<textarea id="textarea3" class="wysiwyg" rows="8"></textarea>
+											</div>
+										</div>
+										<div class="form-actions">
+											<button class="btn btn-primary btn-wuxia btn-large" type="submit">Save</button>
+										</div>
+									</fieldset>
+								</form>
+</article>
+			</div>
+		</div
+	</div>
+<!--main-->
+<!--javascript-->
+	<script language="JavaScript" type="text/javascript">
+			//定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
+		var Branch=[
+			["HLN2_Nontruste_LPDDR3_2G_Hynix.bif"],
+			["kk44","kk44k314alpha1"],
+			["kk44","kk44alpha2","kk44beta1","kk44beta2","lpre"],
+			["jb43beta1","kk44","kk44k310beta1","kk44k310beta2","kk44k310beta3"],
+			["kk44"]
+		];
+		function getBranch(){
+			//获得Platform下拉框的对
+			var sltPlatform=document.form1.Platform;
+			//获得Branch下拉框的对象
+			var sltBranch=document.form1.Branch;
+			//得到对应Platform的Branch数组
+			var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
+			//清空Branch下拉框，仅留提示选项
+			sltBranch.length=1;
+			//将Branch数组中的值填充到Branch下拉框中
+			for(var i=0;i<PlatformBranch.length;i++){
+			sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
+			}
+		}
+	</script>
+<!--javascript-->
+
+
+

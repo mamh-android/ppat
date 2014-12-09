@@ -18,6 +18,14 @@ Ppat::Application.routes.draw do
 
   get "query/index"
 
+  # other web pages from marvell
+  get "tools/gerrit"
+  get "tools/buildbot"
+  get "tools/rtvb"
+  get "tools/xref"
+  get "tools/oldppat"
+  get "tools/smoketest"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

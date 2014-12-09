@@ -9,7 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- CSS styles -->
         <%= stylesheet_link_tag    "blue" %>
-        <%= stylesheet_link_tag    "jquery-ui"%>
+        <%= stylesheet_link_tag    "ppat" %>
+        <%= stylesheet_link_tag    "jquery-ui" %>
         <!-- jQuery FullCalendar Styles -->
         <%= stylesheet_link_tag    "plugins/jquery.fullcalendar" %>
         <!-- Fav and touch icons -->
@@ -17,7 +18,6 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icons/apple-touch-icon-114-precomposed.png" />
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icons/apple-touch-icon-72-precomposed.png" />
         <link rel="apple-touch-icon-precomposed" href="img/icons/apple-touch-icon-57-precomposed.png" />
-
         <!-- JS Libs -->
         <%= javascript_include_tag "libs/jquery.min" %>
         <%= javascript_include_tag "libs/jquery" %>
@@ -34,13 +34,31 @@
         <%= javascript_include_tag "bootstrap/bootstrap-collapse" %>
         <%= javascript_include_tag "plugins/fullCalendar/jquery.fullcalendar.min" %>
         <%= javascript_include_tag "plugins/fullCalendar/gcal" %>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <%= javascript_include_tag "plugins/flot/jquery.flot" %>
+        <%= javascript_include_tag "plugins/flot/jquery.flot.pie" %>
+        <%= javascript_include_tag "libs/jquery-ui" %>
+
+        <script>
+            $(document).ready(function(){
+                // Navbar tooltips
+                $('.navbar [title]').tooltip({
+                    placement: 'bottom'
+                });
+                // Content tooltips
+                $('[role=main] [title]').tooltip({
+                    placement: 'top'
+                });
+                // Dropdowns
+                $('.dropdown-toggle').dropdown();
+            });
+        </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 </head>
-<body >
+<body>
         <!-- Main navigation bar -->
         <header class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div class="container" >
+                <div class="container">
                     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
                         <span class="icon-user"></span>
                     </button>
@@ -65,7 +83,6 @@
                     </nav>
                     <nav class="nav-collapse user" >
                         <div class="user-info pull-right">
-
                             <div class="btn-group">
                                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                     <div><strong>John Pixel</strong>Administrator</div>
@@ -84,12 +101,6 @@
                 </div>
             </div>
         </header>
-
-        <!-- /Main navigation bar -->
-        <div class="container" role="main">
-            <div class="content">
-            <%= yield %>
-            </div>
-        </div>
+        <%= yield %>
 </body>
 </html>
