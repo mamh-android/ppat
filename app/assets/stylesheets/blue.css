@@ -1,9 +1,9 @@
 /*!
  * Walkin Pixels - Wuxia v1.0.0
  * www.walkingpixels.com
- * 
+ *
  * Blue color
- * 
+ *
  */signed and built with all the love in the world @twitter by @mdo and @fat.
  */
 article,
@@ -8382,7 +8382,6 @@ abbr[title] {
 }
 .user-info .btn-group {
   float: right;
-  padding: 0;
 }
 .user-info .btn-group .btn {
   padding-left: 10px;
@@ -8419,7 +8418,7 @@ abbr[title] {
 }
 .user-info .btn-group .btn .caret {
   float: right;
-  margin: 16px 4px 0 15px;
+  margin: 10px 4px 0 15px;
   border-width: 6px;
   border-top-color: #fffbdb;
 }
@@ -10452,7 +10451,7 @@ div.wysiwyg ul.toolbar li {
 /* Responsive styles */
 /* Up to landscape phone */
 @media (max-width: 480px) {
-  
+
 }
 /* Landscape phone to small desktop and portrait tablet */
 @media (max-width: 767px) {

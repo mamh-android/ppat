@@ -11,13 +11,17 @@ Ppat::Application.routes.draw do
   get "home/index"
 
   get "compare/index"
-
+  get "compare/get_compare_detail"
   get "baremetal/index"
 
   get "trigger/index"
 
   get "query/index"
 
+  post "log/in"
+  get "log/in"
+  get "log/out"
+  
   # other web pages from marvell
   get "tools/gerrit"
   get "tools/buildbot"

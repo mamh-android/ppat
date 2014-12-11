@@ -1,0 +1,6 @@
+<%= form_tag do %>
+    <h2>Log in</h2>
+    <p>User name:<%= text_field("user", "name") %></p>
+    <p>Password:<input type="password"/></p>
+    <%= submit_tag("Login") %>
+<% end %>
