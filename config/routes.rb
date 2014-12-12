@@ -1,5 +1,11 @@
 Ppat::Application.routes.draw do
 
+  resources :record_lists
+
+
+  resources :carts
+
+
   get "ondemand/index"
   get "ondemand/get_task_detail"
   get "ondemand/get_dc"

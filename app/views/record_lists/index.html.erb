@@ -1,0 +1,17 @@
+<h1>Listing record_lists</h1>
+
+<table>
+  <tr>
+    <th>Power record</th>
+    <th>Cart</th>
+    <th></th>
+  </tr>
+
+<% @record_lists.each do |record_list| %>
+  <tr>
+    <td><%= record_list.power_record_id %></td>
+    <td><%= record_list.cart_id %></td>
+    <td><%= link_to 'Destroy', record_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>

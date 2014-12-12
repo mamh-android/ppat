@@ -85,23 +85,23 @@
                         <div class="user-info pull-right">
                             <div class="btn-group">
                                 <% if get_cur_user %>
-				<a class="btn dropdown-toggle" href="#">
-					<div><strong><%= get_cur_user %></strong></div>
-					<span class="caret"></span>
-				</a>
-				<% else %>
-				<a class="btn dropdown-toggle" href="/log/in">
-					<div><strong>Log in</strong></div>
-					<span class="caret"></span>
-				</a>
-				<% end %>
-				<ul class="dropdown-menu">
-					<li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
-					<li><a href=""><span class="icon-bell"></span> Preferences</a></li>
-					<li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
-					<li class="divider"></li>
-					<li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
-				</ul>
+                				<a class="btn dropdown-toggle" href="#">
+                					<div><strong><%= get_cur_user %></strong></div>
+                					<span class="caret"></span>
+                				</a>
+                				<% else %>
+                				<a class="btn dropdown-toggle" href="/log/in">
+                					<div><strong>Log in</strong></div>
+                					<span class="caret"></span>
+                				</a>
+                				<% end %>
+                				<ul class="dropdown-menu">
+                					<li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
+                					<li><a href=""><span class="icon-bell"></span> Preferences</a></li>
+                					<li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
+                					<li class="divider"></li>
+                					<li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
+                				</ul>
                             </div>
                         </div>
                     </nav>

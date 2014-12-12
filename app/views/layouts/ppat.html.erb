@@ -10,10 +10,11 @@
 		<!-- CSS styles -->
   		<%= stylesheet_link_tag    "blue" %>
         <%= stylesheet_link_tag    "compare"%>
+        <%= stylesheet_link_tag    "ppat"%>
         <%= stylesheet_link_tag    "daily"%>
         <%= stylesheet_link_tag    "home"%>
         <%= stylesheet_link_tag    "trigger"%>
-  		<%= stylesheet_link_tag    "jquery-ui" %>
+        <%= stylesheet_link_tag    "mbExtruder"%>
 		<!-- jQuery FullCalendar Styles -->
   		<%= stylesheet_link_tag    "plugins/jquery.fullcalendar" %>
 		<!-- Fav and touch icons -->
@@ -27,6 +28,9 @@
   		<%= javascript_include_tag "libs/jquery" %>
   		<%= javascript_include_tag "libs/modernizr" %>
   		<%= javascript_include_tag "libs/selectivizr" %>
+        <%= javascript_include_tag "jquery.hoverIntent.min" %>
+        <%= javascript_include_tag "jquery.mb.flipText" %>
+        <%= javascript_include_tag "mbExtruder" %>
 
   		<!-- Scripts -->
 		<%= javascript_include_tag "navbar" %>
@@ -64,6 +68,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 </head>
 <body>
+
+
         <!-- Main navigation bar -->
         <header class="navbar navbar-fixed-top">
             <div class="navbar-inner">
@@ -95,23 +101,23 @@
 
                             <div class="btn-group">
                                 <% if get_cur_user %>
-				<a class="btn dropdown-toggle" href="#">
-					<div><strong><%= get_cur_user %></strong></div>
-					<span class="caret"></span>
-				</a>
-				<% else %>
-				<a class="btn dropdown-toggle" href="/log/in">
-					<div><strong>Log in</strong></div>
-					<span class="caret"></span>
-				</a>
-				<% end %>
-				<ul class="dropdown-menu">
-					<li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
-					<li><a href=""><span class="icon-bell"></span> Preferences</a></li>
-					<li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
-					<li class="divider"></li>
-					<li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
-				</ul>
+                				<a class="btn dropdown-toggle" href="#">
+                					<div><strong><%= get_cur_user %></strong></div>
+                					<span class="caret"></span>
+                				</a>
+                				<% else %>
+                				<a class="btn dropdown-toggle" href="/log/in">
+                					<div><strong>Log in</strong></div>
+                					<span class="caret"></span>
+                				</a>
+                				<% end %>
+                				<ul class="dropdown-menu">
+                					<li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
+                					<li><a href=""><span class="icon-bell"></span> Preferences</a></li>
+                					<li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
+                					<li class="divider"></li>
+                					<li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
+                				</ul>
                             </div>
                         </div>
                     </nav>
@@ -134,6 +140,23 @@
                 </nav>
             </div>
             <!-- /Secondary navigation -->
+
+            <!-- cart -->
+            <div id="extruderRight" class="{title:'Compare List', url:'/record_lists'}"></div>
+            <script type="text/javascript">
+                $(function(){
+
+                    $("#extruderRight").buildMbExtruder({
+                        position:"right",
+                        width:300,
+                        extruderOpacity:.8,
+                        textOrientation:"tb",
+                        onExtOpen:function(){},
+                        onExtContentLoad:function(){},
+                        onExtClose:function(){}
+                    });
+                });
+            </script>
             <div class="content">
             <%= yield %>
             </div>

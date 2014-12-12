@@ -1,0 +1,3 @@
+module LogHelper
+
+end

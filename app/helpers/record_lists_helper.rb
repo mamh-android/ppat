@@ -1,0 +1,2 @@
+module RecordListsHelper
+end

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Power record:</b>
+  <%= @record_list.power_record_id %>
+</p>
+
+<p>
+  <b>Cart:</b>
+  <%= @record_list.cart_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_record_list_path(@record_list) %> |
+<%= link_to 'Back', record_lists_path %>
