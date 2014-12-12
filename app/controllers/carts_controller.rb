@@ -2,12 +2,8 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = Cart.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @carts }
-    end
+    @carts = get_cart
+    render :layout=>"empty"
   end
 
   # GET /carts/1

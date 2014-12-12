@@ -1,21 +1,24 @@
-<h1>Listing carts</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @carts.each do |cart| %>
-  <tr>
-    <td><%= link_to 'Show', cart %></td>
-    <td><%= link_to 'Edit', edit_cart_path(cart) %></td>
-    <td><%= link_to 'Destroy', cart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Battery</th>
+            <th>Vcc_main</th>
+            <th>FPS</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @carts.record_list.each do |record| %>
+        <tr>
+            <td><%= get_record_info(record.power_record.id).battery %></td>
+            <td><%= get_record_info(record.power_record.id).vcc_main %></td>
+            <td><%= get_record_info(record.power_record.id).fps %></td>
+            <td onclick="remove_from_cart('<%= record.id %>')"><span class="icon-remove"></span></td>
+        </tr>
+        <% end %>
+    </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Cart', new_cart_path %>
+<script language="JavaScript">
+function remove_from_cart(record_id){
+    <% remove_from_cart(25) %>
+}
+</script>

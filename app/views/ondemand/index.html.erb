@@ -38,6 +38,9 @@ function add_to_cart (power_record_id) {
 	$.ajax({
 		type: "POST",
 		data: "power_record_id=" + power_record_id,
+		headers: {
+		    'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+		  },
 		url: record_list_url,
 		success: function(msg){
 			//do nothing
@@ -91,6 +94,7 @@ function add_to_cart (power_record_id) {
 							<% end %>
 						</tbody>
 					</table>
+					<%= will_paginate @tasks, renderer: BootstrapPagination::Rails %>
 					<!--/table of task list-->
 				</article>
 				<!-- scenario table of task -->
@@ -102,7 +106,7 @@ function add_to_cart (power_record_id) {
 		</div>
 		<!-- Tab #basic -->
 
-	<p><%= will_paginate @tasks %></p>
+
 	</div>
 	<!-- /page-container -->
 
