@@ -31,7 +31,7 @@ function ppat_load(buildtype){
                     boardDevice = new Array();
 					platform = new Array();
 					powerAdvancedCase = new Array();
-					powerAdvCategory = new Array();		
+					powerAdvCategory = new Array();
                     domParser = new DOMParser();
                     xmlDoc = domParser.parseFromString(msg, 'text/xml');
                     ppat_parsePowerNode();
@@ -50,7 +50,7 @@ function ppat_update_checkbox(id,stream, duration){
     $("."+id).attr("checked",true);
 		var str = "";
     str += "\"Stream\":\"" + stream + "\",";
-    str += "\"Duration\":\"" + duration + "\"";	
+    str += "\"Duration\":\"" + duration + "\"";
 	property[id] = str;
 }
 
@@ -438,10 +438,10 @@ function addAdvancedScenarioCheckbox(pf){
 		if(platform_b[i] == pf){
 			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
 			for(var j = 0; j < powerAdvCategory_b.length; j++){
-				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[i] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory[j] + "</td><td class=\"case\">";
+				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[j] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory_b[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory_b[j] + "</td><td class=\"case\">";
 				for(var k = 0; k < powerAdvancedCase.length; k++){
 					if(powerAdvCategory[k] == powerAdvCategory_b[j] && platform[k] == pf){
-						table += "<div><input id=\"" + powerAdvancedCase[k] + "\" type=\"checkbox\" father=\"" + powerAdvCategory_b[i] + "_c\" value=\"" + powerAdvCategory[k] + "\"" + " name=\"powerAdv\" class=\"" + powerAdvancedCase[k] + "\" text=\""+ powerAdvancedCase[k] +"\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvancedCase[k] + "', '" + powerAdvCategory_b[i] + "_c')\">" + powerAdvancedCase[k] + "</div>";
+						table += "<div><input id=\"" + powerAdvancedCase[k] + "\" type=\"checkbox\" father=\"" + powerAdvCategory_b[j] + "_c\" value=\"" + powerAdvCategory[k] + "\"" + " name=\"powerAdv\" class=\"" + powerAdvancedCase[k] + "\" text=\""+ powerAdvancedCase[k] +"\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvancedCase[k] + "', '" + powerAdvCategory_b[i] + "_c')\">" + powerAdvancedCase[k] + "</div>";
 					}
 				}
 			}
@@ -617,7 +617,7 @@ function ppat_appendToText(v){
 			if(property[$(this).attr("text")]){
 				jsonStr += property[$(this).attr("text")] + ",";
 			}
-			
+
 			//loop
 		    var lp = $("#loopscenario").val();
 		    if(lp != ""){
