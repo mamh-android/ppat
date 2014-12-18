@@ -24,7 +24,7 @@
                 <article class="span4">
                     <h3>Select Branch</h3>
                                 <select NAME="Branch" id="Branch">
-                                    <option VALUE="0">kk44 </option>
+                                    <option VALUE="0">kk4.4 </option>
 
                                 </select>
                 </article>
@@ -32,83 +32,21 @@
                 <!-- Page grid cell (6 blocks - full) -->
                 <article class="span6">
                     <!-- Example jQuery FullCalendar -->
-                    <div class='full-calendar '></div>
+                    <div class='full-calendar ' onclick="javascript:update_scenario_by_task('image_date','platform','branch')"></div>
 
                     <!-- table of daily power -->
-                    <h2><span class="icon-hand-right"></span>&nbsp;Daily Power</h2>
+                    <h2><span class="icon-hand-down"></span><div id="todays"></div>Daily Power</h2>
                     <div id="container">
-                    <table class="table table-wuxia" id="tabled">
-                        <thead>
-                            <tr>
-                                <th colspan="2" ><div id="todays"></div></th>
-                                <th>1080P</th>
-                                <th>720P</th>
-                                <th>VGA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                <tr>
-                                <td rowspan="5">Battery</td>
-                                <td>Today</td>
-                                <td>459.88</td>
-                                <td>278.5</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">198.83</a></td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">Gap To Target</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
+                   <!-- table of task list -->
 
-                                <td>198.83</td>
-                                <td>198.83</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">Vcc_Main</td>
-                                <td>Today</td>
-                                <td>459.88</td>
-                                <td>278.5</td>
-                                <td>198.83</td>
-                            </tr>
-                            <tr>
 
-                                <td>Target(720P)</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                            </tr>
-                            <tr>
-                                <td>Gap To Target</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                            </tr>
-                            <tr>
-                                <td>Power(mW)</td>
-                                <td>807.23</td>
-                                <td>338.83</td>
-                                <td>197.07</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- scenario table of task -->
+                <div id="task_scenario">
+                <%= render :partial => 'index' %>
+                </div>
                     </div>
                     <div>
-                        Loading.........
+                     <p><span class="loading" data-original-title="Loading, please wait…">Loading…</span> </p>
                     </div>
                 </article>
 
@@ -165,25 +103,17 @@
                             <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
                                 <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
                             </div>
-                        </div>
-                    </div>
-                    <h2><span class="icon-hand-right"></span>&nbsp;power</h2>
-                    <p>Just add <code>data-toggle="collapse"</code> and a <code>data-target</code> to element to automatically assign control of a collapsible element. The <code>data-target</code> attribute accepts a css selector to apply the collapse to. Be sure to add the class <code>collapse</code> to the collapsible element. If you'd like it to default open, add the additional class <code>in</code>.</p>
-                    <div id="accordion1" class="accordion">
-                        <div class="accordion-group">
                             <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseOne11" data-parent="#accordion1" data-toggle="collapse"> Collapsible Group Item #1 </a>
+                                <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg2">2014_12_5-pxa1908_kk44</div></a>
                             </div>
-                            <div id="collapseOne11" class="accordion-body in collapse" style="height: auto;">
-                                <div class="accordion-inner">Anim  cliche reprehenderit, enim eiusmod high life  terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda  et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
+                            <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
+                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
                             </div>
-                        </div>
-                        <div class="accordion-group">
                             <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseTwo11" data-parent="#accordion1" data-toggle="collapse"> Collapsible Group Item #2 </a>
+                                <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg2">2014_12_5-pxa1908_kk44</div></a>
                             </div>
-                            <div id="collapseTwo11" class="accordion-body collapse" style="height: 0px;">
-                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
+                            <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
+                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
                             </div>
                         </div>
                     </div>
@@ -206,6 +136,7 @@
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
+        var h = date.getHours();
         var todays1 = " ";
                 todays1+=date.getFullYear()+"/";
             todays1+=(date.getMonth()+1)+"/";
@@ -222,14 +153,19 @@
             selectHelper : true,
             select : function(start,end){
                 /*var title = prompt('Event Title:');*/
-                var today =" ";
-                today+=start.getFullYear()+"_";
-                today+=(start.getMonth()+1)+"_";
-                today+=start.getDate();
+                var today ="";
+                today+=start.getFullYear()+"-";
+                today+=(start.getMonth()+1)+"-";
+                if(start.getDate()<10){
+                    today+="0"+start.getDate();
+                }else{
+                    today+=start.getDate();
+                }
                 /*alert("this's  "+today);*/
                 var obj;
                 obj=document.getElementById("todays");
                 obj.innerHTML=today;
+                document.getElementById("yearday").innerHTML = yearday;
                 var titlegs;
                 var branchvl=document.getElementById("Branch");
                 var Platformvl=document.getElementById("Platform");
@@ -311,12 +247,12 @@
     });
 </script>
 <script language="JavaScript" type="text/javascript">
-//定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
+//Define the Branch of two-dimensional arrays, in order to the order of the Platform is the same.Through selectedIndex Platform to get the value of the corresponding Branch array
     var Branch=[
-        ["kk44","kk44k314alpha1"],
-        ["kk44","kk44alpha2","kk44beta1","kk44beta2","lp5.0"],
-        ["jb43beta1","kk44","kk44k310beta1","kk44k310beta2","kk44k310beta3"],
-        ["kk44"]
+        ["kk4.4","kk4.4_k314alpha1"],
+        ["kk4.4","kk4.4_alpha2","kk4.4_beta1","kk4.4_beta2","lp5.0"],
+        ["jb43_beta1","kk4.4","kk4.4_k310beta1","kk4.4_k310beta2","kk4.4_k310beta3"],
+        ["kk4.4"]
     ];
     function getBranch(){
         //获得Platform下拉框的对象
@@ -332,6 +268,25 @@
         sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
         }
     }
+</script>
+</script>
+<script language="JavaScript">
+function update_scenario_by_task(image_date,platform,branch){
+               image_date = document.getElementById("todays").innerHTML;
+                var branchvl=document.getElementById("Branch");
+                var Platformvl=document.getElementById("Platform");
+                branch=branchvl.options[branchvl.selectedIndex].text;
+                platform=Platformvl.options[Platformvl.selectedIndex].text;
+    var task_url = "get_platform_detail?image_date="+image_date+"&platform="+platform+"&branch="+branch;
+    $.ajax({
+        type: "GET",
+        url: task_url,
+        success: function(msg){
+            $("#task_scenario").html("");
+            $("#task_scenario").html(msg);
+        }
+    });
+}
 </script>
 <script type="text/javascript">
 var strURL="/smoketest/php/showissuedetail.php?getflag=2&dailytest_id="lp50";
@@ -365,4 +320,3 @@ onsole.log("页面的文档高度 ："+$(document).height());
 console.log('浏览器的高度：'+$(window).height());
 loadData();
 });
-</script>

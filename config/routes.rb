@@ -15,6 +15,8 @@ Ppat::Application.routes.draw do
   get "daily/query"
 
   get "home/index"
+  get "home/get_platform_detail"
+
 
   get "compare/index"
   get "compare/get_compare_detail"
