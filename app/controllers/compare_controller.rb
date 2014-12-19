@@ -1,5 +1,6 @@
 class CompareController < ApplicationController
-  def index
-  	render :layout=>"ppat"
-  end
+	def index
+		@cart = get_cart
+		render :layout=>"ppat"
+	end
 end

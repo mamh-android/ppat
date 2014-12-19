@@ -51,6 +51,15 @@ class RecordListsController < ApplicationController
     end
   end
 
+  def create_by_task
+    @cart = get_cart
+    @scenarios = PowerRecord.find(:all, :conditions => ['task_id = ?', params[:task_id]], :group => "power_scenario_id")
+    @scenarios.each do |power_record|
+      @record_list = @cart.record_list.build(:power_record => power_record)
+      @record_list.save
+    end
+  end
+
   # PUT /record_lists/1
   # PUT /record_lists/1.json
   def update
@@ -70,6 +79,16 @@ class RecordListsController < ApplicationController
   # DELETE /record_lists/1
   # DELETE /record_lists/1.json
   def destroy
+    @record_list = RecordList.find(params[:id])
+    @record_list.destroy
+
+    respond_to do |format|
+      format.html { redirect_to record_lists_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def delete
     @record_list = RecordList.find(params[:id])
     @record_list.destroy
 

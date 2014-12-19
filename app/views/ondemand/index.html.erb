@@ -47,6 +47,21 @@ function add_to_cart (power_record_id) {
 		}
 	});
 }
+
+function add_task_scenarios_to_cart(task_id) {
+	var record_list_url = "/record_lists/create_by_task";
+	$.ajax({
+		type: "POST",
+		data: "task_id=" + task_id,
+		headers: {
+		    'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+		  },
+		url: record_list_url,
+		success: function(msg){
+			//do nothing
+		}
+	});
+}
 </SCRIPT>
 <div class="page-header">
 	<h1><span>Ondemand Power</span><%= @cart.id %></h1>
@@ -89,7 +104,7 @@ function add_to_cart (power_record_id) {
 									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.device %></td>
 									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.branch %></td>
 									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.purpose %></td>
-									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><span class="icon-refresh"></span></td>
+									<td onclick="add_task_scenarios_to_cart('<%= task.task_id %>')"><span class="icon-refresh"></span></td>
 								</tr>
 							<% end %>
 						</tbody>

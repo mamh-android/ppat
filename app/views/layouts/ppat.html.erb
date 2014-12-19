@@ -45,7 +45,9 @@
 		<%= javascript_include_tag "plugins/flot/jquery.flot" %>
 		<%= javascript_include_tag "plugins/flot/jquery.flot.pie" %>
 		<%= javascript_include_tag "libs/jquery-ui" %>
-		<%=javascript_include_tag"plugins/datepicker/bootstrap-datepicker"%>
+		<%= javascript_include_tag "plugins/datepicker/bootstrap-datepicker" %>
+        <%= javascript_include_tag "highcharts.js" %>
+        <%= javascript_include_tag "exporting.js" %>
 
 		<script>
 			$(document).ready(function(){
@@ -134,6 +136,7 @@
                         <li><a class="wuxify-me" href="/daily/index"><span class="icon-signal"></span>Daily</a></li>
                         <li><a class="wuxify-me" href="/ondemand/index"><span class="icon-picture"></span>Ondemand</a></li>
                         <li><a class="wuxify-me" href="/baremetal/index"><span class="icon-file"></span>Baremetal</a></li>
+                        <li><a class="wuxify-me" href="/compare/index"><span class="icon-file"></span>Compare</a></li>
                         <li><a class="wuxify-me" href="/query/index"><span class="icon-calendar"></span>Query</a></li>
                         <li><a class="wuxify-me" href="/trigger/index"><span class="icon-th"></span>Trigger</a></li>
                     </ul>

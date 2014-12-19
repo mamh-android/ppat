@@ -17,8 +17,19 @@
         <% end %>
     </tbody>
 </table>
-<script language="JavaScript">
-function remove_from_cart(record_id){
-    <% remove_from_cart(25) %>
+<SCRIPT LANGUAGE="JavaScript">
+function remove_from_cart (record_id) {
+    var record_list_url = "/record_lists/delete";
+    $.ajax({
+        type: "POST",
+        data: "id=" + record_id,
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: record_list_url,
+        success: function(msg){
+            //do nothing
+        }
+    });
 }
-</script>
+</SCRIPT>

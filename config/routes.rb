@@ -1,10 +1,10 @@
 Ppat::Application.routes.draw do
 
   resources :record_lists
-
+  post "record_lists/delete"
+  post "record_lists/create_by_task"
 
   resources :carts
-
 
   get "ondemand/index"
   get "ondemand/get_task_detail"
@@ -27,7 +27,7 @@ Ppat::Application.routes.draw do
   post "log/in"
   get "log/in"
   get "log/out"
-  
+
   # other web pages from marvell
   get "tools/gerrit"
   get "tools/buildbot"
