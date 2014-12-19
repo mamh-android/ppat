@@ -12,6 +12,10 @@ username = "ppat"
 password = "79fa7f655d56115da6fe7d707f63fd12"
 j = jenkins.Jenkins(url, username, password)
 
+def printcolor(msg):
+    print "\033[1;32m[debug]\033[0m\033[1;31m%s\033[0m" % msg
+
+
 def main():
     imagepath = options.imagepath
     branch = options.branch
@@ -22,7 +26,7 @@ def main():
     purpose = options.purpose
     mode = options.mode
 
-    print "[debug] options:",options
+    printcolor("options:\n%s" % options)
 
     parameters = {
         'IMAGEPATH':imagepath,
@@ -36,37 +40,61 @@ def main():
     }
 
     device_to_job={
-            "pxa1L88dkb_def:pxa1L88dkb":"PPAT_HELNLTE",
-            "pxa1U88dkb_def:pxa1U88dkb":"PPAT_HELN2",
-            "pxa1928dkb_tz:pxa1928dkb":"PPAT_EDEN",
-            "pxa1908dkb_tz:pxa1908dkb":"PPAT_ULC1",
-            "'pxa1908dkb_tz:pxa1908dkb'":"PPAT_ULC1"
+            "pxa1L88dkb_def:pxa1L88dkb":[
+                "PPAT_HELNLTE"
+                ],
+            "pxa1U88dkb_def:pxa1U88dkb":[
+                "PPAT_HELN2"
+                ],
+            "pxa1928dkb_tz:pxa1928dkb":[
+                "PPAT_EDEN"
+                ],
+            "pxa1908dkb_tz:pxa1908dkb":[
+                "PPAT_ULC1",
+                "PPAT_ULC1_1",
+                ]
     }
 
-    jobname = device_to_job.get(device, "")
+    jobname_L = device_to_job.get(device, [])
+    printcolor("job name = %s" % jobname_L)
 
-    isRunning = True
-    while isRunning:
+    if not jobname_L:
+        printcolor("job name is null. %s" % jobname_L)
+        sys.exit(1)
+
+    def get_willstartjobname():
+        willstartjobname = ""
         info = j.get_info()
         jobs = info['jobs']
         for job in jobs:
-            if job['name'] == jobname:
-                print "[debug]Task name:",job['name'],"current state:",job['color'], "Jenkins url: ", job['url'] 
-                if job['color'] == "disabled":
-                    print "[debug]PPAT currently is disabled, let's wait..."
-                    time.sleep(60)
-                else:
-                    if isbuilding(jobname):
-                        print "[debug]PPAT currently is building, let's wait..."
-                        time.sleep(60)
-                    elif os.path.exists("a"):
-                        print "[debug] pwd: ",os.getcwd()
-                        time.sleep(60)
+            printcolor("job = %s" % job)
+            for jobname in jobname_L:
+                if job['name'] == jobname:
+                    printcolor("Task name: %s" % job['name'])
+                    printcolor("current state: %s" % job['color'])
+                    printcolor("Jenkins url: %s" % job['url'])
+                    if job['color'] == "disabled":
+                        printcolor("%s is disabled" % (jobname))
+                        time.sleep(120)
                     else:
-                        isRunning = False
+                        if isbuilding(jobname):
+                            printcolor("%s is building, let's wait..." % (jobname))
+                            time.sleep(300)
+                        elif os.path.exists("a"):
+                            printcolor("pwd: ",os.getcwd())
+                            printcolor("lock this job")
+                            time.sleep(1000)
+                        else:
+                            willstartjobname = jobname
+                            printcolor("will start build job: %s " % (willstartjobname))
+                            return willstartjobname
+    willstartjobname = ""
+    while not willstartjobname:
+        willstartjobname = get_willstartjobname()
+        printcolor("willstartjobname = %s " % (willstartjobname))
 
-    print "[debug] start build job."
-    j.build_job(jobname, parameters)
+    printcolor("will start build job: %s " % (willstartjobname))
+    j.build_job(willstartjobname, parameters)
 
 def isbuilding(jobname):
     jobinfo = j.get_job_info(jobname)
@@ -76,13 +104,13 @@ def isbuilding(jobname):
 
 parser = OptionParser()
 parser.add_option("", "--imagepath",    dest="imagepath",   help="set image path for burn.", default="")
+parser.add_option("", "--device",       dest="device",      help="set the device.",default="")
 parser.add_option("", "--branch",       dest="branch",      help="set the branch.",default="")
-parser.add_option("", "--device",       dest="device",      help="set the device. pxa1U88dkb_def:pxa1U88dkb\npxa1928dkb_tz:pxa1928dkb\npxa1L88dkb_def:pxa1L88dkb\n",default="")
 parser.add_option("", "--blf",          dest="blf",         help="set the blf.",default="")
 parser.add_option("", "--assigner",     dest="assigner",    help="set the assigner,  (e.g.) mamh@marvell.com",default="mamh@marvell.com")
 parser.add_option("", "--testcase",     dest="testcase",    help="set the testcase.",default="")
 parser.add_option("", "--purpose",      dest="purpose",     help="set the purpose.",default="")
-parser.add_option("", "--mode",         dest="mode",        help="set the mode,manual, kk4.4, alpha2, kk_beta2, check.",default="")
+parser.add_option("", "--mode",         dest="mode",        help="set the mode,manual",default="")
 (options, args) = parser.parse_args()
 if __name__== "__main__":
     sys.stdout = sys.stderr
