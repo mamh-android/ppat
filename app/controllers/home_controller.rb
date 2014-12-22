@@ -12,11 +12,4 @@ class HomeController < ApplicationController
     @scenarios = PowerRecord.find(:all, :conditions => ['platform = ? and image_date = ? and branch = ?', @platform, @image_date, @branch])
     render :layout=>"empty"
   end
-
-  def get_task_detail
-    @image_date = params[:image_date]
-    @platform = params[:platform]
-    @branch = params[:branch]
-    render :layout=>"empty"
-  end
 end

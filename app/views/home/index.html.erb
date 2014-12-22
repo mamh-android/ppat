@@ -13,7 +13,7 @@
             <form METHOD=POST ACTION="" name="form1">
                 <article class="span4">
                     <h3>Select Platform</h3>
-                                <select NAME="Platform" id="Platform" onChange="getBranch()">
+                                <select NAME="Platform" id="Platform" onChange="getBranch()" onclick="javascript:update_scenario_by_task('image_date','platform','branch')">
                                     <option VALUE="eden">eden </option>
                                     <option VALUE="pxa1908">pxa1908 </option>
                                     <option VALUE="pxa1928">pxa1928 </option>
@@ -23,7 +23,7 @@
                 </article>
                 <article class="span4">
                     <h3>Select Branch</h3>
-                                <select NAME="Branch" id="Branch">
+                                <select NAME="Branch" id="Branch" onclick="javascript:update_scenario_by_task('image_date','platform','branch')">
                                     <option VALUE="0">kk4.4 </option>
 
                                 </select>
@@ -32,26 +32,19 @@
                 <!-- Page grid cell (6 blocks - full) -->
                 <article class="span6">
                     <!-- Example jQuery FullCalendar -->
-                    <div class='full-calendar ' onclick="javascript:update_scenario_by_task('image_date','platform','branch')"></div>
+                    <div class='full-calendar '></div>
 
                     <!-- table of daily power -->
                     <h2><span class="icon-hand-down"></span><div id="todays"></div>Daily Power</h2>
-                    <div id="container">
+
                    <!-- table of task list -->
-
-
                     <!-- scenario table of task -->
                 <div id="task_scenario">
-                <%= render :partial => 'index' %>
                 </div>
-                    </div>
-                    <div>
-                     <p><span class="loading" data-original-title="Loading, please wait…">Loading…</span> </p>
-                    </div>
+
                 </article>
 
                 <article class="span6">
-                <div id="container1">
                     <h2><span class="icon-hand-right"></span>&nbsp;Smoke test result</h2>
                     <p>today new issues num:6</p>
                     <div id="accordion1" class="accordion">
@@ -117,8 +110,6 @@
                             </div>
                         </div>
                     </div>
-                        </div>
-        <p><span class="loading" data-original-title="Loading, please wait…">Loading…</span> </p>
                 </article>
                 <!-- /Page grid cell (6 blocks - full) -->
 
@@ -137,9 +128,9 @@
         var m = date.getMonth();
         var y = date.getFullYear();
         var h = date.getHours();
-        var todays1 = " ";
-                todays1+=date.getFullYear()+"/";
-            todays1+=(date.getMonth()+1)+"/";
+        var todays1 = "";
+                todays1+=date.getFullYear()+"-";
+            todays1+=(date.getMonth()+1)+"-";
                 todays1+=date.getDate();
         document.getElementById("todays").innerHTML = todays1;
         $('.full-calendar').fullCalendar({
@@ -153,6 +144,8 @@
             selectHelper : true,
             select : function(start,end){
                 /*var title = prompt('Event Title:');*/
+
+
                 var today ="";
                 today+=start.getFullYear()+"-";
                 today+=(start.getMonth()+1)+"-";
@@ -161,11 +154,11 @@
                 }else{
                     today+=start.getDate();
                 }
+                update_scenario_by_task(today, "", "");
                 /*alert("this's  "+today);*/
                 var obj;
                 obj=document.getElementById("todays");
                 obj.innerHTML=today;
-                document.getElementById("yearday").innerHTML = yearday;
                 var titlegs;
                 var branchvl=document.getElementById("Branch");
                 var Platformvl=document.getElementById("Platform");
@@ -243,7 +236,7 @@
                 currentTimezone: 'America/Chicago' // an option!
             }
         });
-
+        update_scenario_by_task("","","");
     });
 </script>
 <script language="JavaScript" type="text/javascript">
@@ -272,7 +265,6 @@
 </script>
 <script language="JavaScript">
 function update_scenario_by_task(image_date,platform,branch){
-               image_date = document.getElementById("todays").innerHTML;
                 var branchvl=document.getElementById("Branch");
                 var Platformvl=document.getElementById("Platform");
                 branch=branchvl.options[branchvl.selectedIndex].text;
@@ -289,7 +281,7 @@ function update_scenario_by_task(image_date,platform,branch){
 }
 </script>
 <script type="text/javascript">
-var strURL="/smoketest/php/showissuedetail.php?getflag=2&dailytest_id="lp50";
+var strURL="/smoketest/php/showissuedetail.php?getflag=2&dailytest_id=lp50";
     $.ajax({
         type: "get",
         url:strURL,

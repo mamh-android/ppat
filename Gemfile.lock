@@ -53,6 +53,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.10.1)
     mysql2 (0.3.11)
+    net-ldap (0.10.0)
     polyglot (0.3.5)
     rack (1.4.5)
     rack-cache (1.2)
@@ -226,6 +227,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   jquery-rails
   mysql2 (= 0.3.11)
+  net-ldap
   rails (= 3.2.9)
   rake
   safe_attributes
