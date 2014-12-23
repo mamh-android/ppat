@@ -81,7 +81,7 @@ def main():
                             printcolor("%s is building, let's wait..." % (jobname))
                             time.sleep(300)
                         elif os.path.exists("a"):
-                            printcolor("pwd: ",os.getcwd())
+                            printcolor("pwd: %s" % os.getcwd())
                             printcolor("lock this job")
                             time.sleep(1000)
                         else:
