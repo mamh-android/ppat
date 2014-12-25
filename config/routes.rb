@@ -15,6 +15,7 @@ Ppat::Application.routes.draw do
   get "daily/query"
 
   get "home/index"
+  get "home/update_calendar"
   get "home/get_platform_detail"
 
 

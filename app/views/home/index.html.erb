@@ -1,126 +1,83 @@
 
-
 <div class="page-header">
-        <h1><span>Welcome to APSE Home Page</span></h1>
+    <h1>
+        <span>Welcome to APSE Home Page</span>
+    </h1>
 </div>
-    <!-- page-container -->
-    <div class="page-container tab-content"  >
-
-        <!-- Tab #basic -->
-        <div class="tab-pane active" id="basic">
-            <!-- Grid row -->
-            <div class="row">
-            <form METHOD=POST ACTION="" name="form1">
+<!-- page-container -->
+<div class="page-container tab-content">
+    <!-- Tab #basic -->
+    <div class="tab-pane active" id="basic">
+        <!-- Grid row -->
+        <div class="row">
+            <form method=post action="" name="form1">
                 <article class="span4">
                     <h3>Select Platform</h3>
-                                <select NAME="Platform" id="Platform" onChange="getBranch()" onclick="javascript:update_scenario_by_task('image_date','platform','branch')">
-                                    <option VALUE="eden">eden </option>
-                                    <option VALUE="pxa1908">pxa1908 </option>
-                                    <option VALUE="pxa1928">pxa1928 </option>
-                                    <option VALUE="pxa1288">pxa1288 </option>
-                                    <option VALUE="pxa1U88">pxa1U88 </option>
-                                </select>
+                    <select name="Platform" onChange="getBranch()" id="Platform"
+                        onclick="update_calendar()" onclick="update_scenario_by_task()">
+                        <option value="Platform">Platform</option> <%@scenariosplatform =
+                        get_all_platform() %> <% @scenariosplatform.each do |scenariosp|
+                        %>
+                        <option value="<%=scenariosp.platform%>"><%=scenariosp.platform%></option>
+                        <% end %>
+                    </select>
                 </article>
                 <article class="span4">
                     <h3>Select Branch</h3>
-                                <select NAME="Branch" id="Branch" onclick="javascript:update_scenario_by_task('image_date','platform','branch')">
-                                    <option VALUE="0">kk4.4 </option>
-
-                                </select>
+                    <select name="Branch" id="Branch" onclick="update_calendar()"
+                        onclick="update_scenario_by_task()">
+                        <option value="Branch">Branch</option>
+                    </select>
+                </article>
+                <article class="span4">
+                    <h3>Select Device</h3>
+                    <select name="Device" id="Device" onclick="update_calendar()"
+                        onclick="update_scenario_by_task()">
+                        <option value="Device">Device</option>
+                    </select>
                 </article>
             </form>
-                <!-- Page grid cell (6 blocks - full) -->
-                <article class="span6">
-                    <!-- Example jQuery FullCalendar -->
-                    <div class='full-calendar '></div>
-
-                    <!-- table of daily power -->
-                    <h2><span class="icon-hand-down"></span><div id="todays"></div>Daily Power</h2>
-
-                   <!-- table of task list -->
-                    <!-- scenario table of task -->
-                <div id="task_scenario">
-                </div>
-
-                </article>
-
-                <article class="span6">
-                    <h2><span class="icon-hand-right"></span>&nbsp;Smoke test result</h2>
-                    <p>today new issues num:6</p>
-                    <div id="accordion1" class="accordion">
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseOne" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg">2014_12_5-pxa1908_kk44</div></a>
-                            </div>
-                            <div id="collapseOne" class="accordion-body in collapse" style="height: auto;">
-                                <div class="accordion-inner">
-                                    <div id="smoketest">
-                                        <h3 style="font-family:arial;color:red">New Issues</h3>
-                                        <font style="font-family:arial">
-                                            <b style="font-family:arial">[Camera]</b>
-                                                <br>
-                                                    <ul>
-                                                        <li>
-                                                            <font color="#ff0000" size="2">The raw capture test is falled.[2014-11-30]</font>
-                                                        </li>
-                                                        <li>
-                                                            <font color="#ff0000" size="2">The camera 480p-&gt;1080p resolution i<span class="hps" closure_uid_951872314="328">n the</span> <span class="hps" closure_uid_951872314="329">recording</span> <span class="hps" closure_uid_951872314="330">mode</span>, camera app exit.[2014-11-30]</font>
-                                                        </li>
-                                                        <li>
-                                                            <font size="2" color="#ff1493">Reappears:The camera&nbsp;<span class="hps" closure_uid_951872314="374">Switching</span> <span class="hps" closure_uid_951872314="375">mode</span>&nbsp;camera app exit.[2014-11-30]</font>
-                                                        </li>
-                                                    </ul>
-                                        </font>
-                                        <h3 style="font-family:arial;color:red">Remaining Issues</h3>
-                                        <font style="font-family:arial">
-                                            <b style="font-family:arial">[Audio]</b>
-                                        </font>
-                                    </div>
-                                    <a href="/smoketest/index"><button class="btn btn-primary">Detailed</button></a>
-
-                                </div>
-                            </div>
+            <!-- Page grid cell (6 blocks - full) -->
+            <article class="span6">
+                <!-- Example jQuery FullCalendar -->
+                <div class='full-calendar '></div>
+                <!-- table of daily power -->
+                <h2>
+                    <span class="icon-hand-right"></span>&nbsp;Daily Power
+                </h2>
+                <!-- table of task list -->
+                <!-- scenario table of task -->
+                <div id="task_scenario"></div>
+            </article>
+            <article class="span6">
+                <h2>
+                    <span class="icon-hand-right"></span>&nbsp;Smoke test result
+                </h2>
+                <div id="accordion1" class="accordion">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a class="accordion-toggle" href="#collapseOne"
+                                data-parent="#accordion1" data-toggle="collapse">
+                                <div id="title_smoketest"></div>
+                            </a>
                         </div>
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseTwo" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg1">2014_12_5-pxa1908_kk44</div> </a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
-                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
-                            </div>
-                        </div>
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg2">2014_12_5-pxa1908_kk44</div></a>
-                            </div>
-                            <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
-                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
-                            </div>
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg2">2014_12_5-pxa1908_kk44</div></a>
-                            </div>
-                            <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
-                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
-                            </div>
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" href="#collapseThree" data-parent="#accordion1" data-toggle="collapse"> <div id="titleg2">2014_12_5-pxa1908_kk44</div></a>
-                            </div>
-                            <div id="collapseThree" class="accordion-body collapse" style="height: 0px;">
-                                <div class="accordion-inner"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua puta bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
+                        <div id="collapseOne" class="accordion-body in collapse"
+                            style="height: auto;">
+                            <div class="accordion-inner">
+                                <div id="smoketest_result"></div>
+                                <a href="/tools/smoketest"><button class="btn btn-primary">Detailed</button></a>
                             </div>
                         </div>
                     </div>
-                </article>
-                <!-- /Page grid cell (6 blocks - full) -->
-
-            </div>
-            <!-- /Grid row -->
+                </div>
+            </article>
+            <!-- /Page grid cell (6 blocks - full) -->
         </div>
-        <!-- Tab #basic -->
-
+        <!-- /Grid row -->
     </div>
-    <!-- /page-container -->
-
+    <!-- Tab #basic -->
+</div>
+<!-- /page-container -->
 <script>
     $(document).ready(function() {
         var date = new Date();
@@ -128,11 +85,17 @@
         var m = date.getMonth();
         var y = date.getFullYear();
         var h = date.getHours();
-        var todays1 = "";
-                todays1+=date.getFullYear()+"-";
-            todays1+=(date.getMonth()+1)+"-";
-                todays1+=date.getDate();
-        document.getElementById("todays").innerHTML = todays1;
+        var todays_smoketest = "";
+                todays_smoketest+=date.getFullYear()+"-";
+                todays_smoketest+=(date.getMonth()+1)+"-";
+                todays_smoketest+=date.getDate();
+        var branch=$("#Branch").val();
+        var platform=$("#Platform").val();
+        var device = $("#Device").val();
+                branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/(^\s*)|(\s*$)/g,"");
+                $("#title_smoketest").text(todays_smoketest+"_"+platform+"_"+branch+"_"+device);
         $('.full-calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -144,82 +107,51 @@
             selectHelper : true,
             select : function(start,end){
                 /*var title = prompt('Event Title:');*/
-
-
                 var today ="";
                 today+=start.getFullYear()+"-";
-                today+=(start.getMonth()+1)+"-";
+                if((start.getMonth()+1)<10){
+                    today+="0"+(start.getMonth()+1)+"-";
+                }else{
+                    today+=(start.getMonth()+1)+"-";
+                }
                 if(start.getDate()<10){
                     today+="0"+start.getDate();
                 }else{
                     today+=start.getDate();
                 }
-                update_scenario_by_task(today, "", "");
-                /*alert("this's  "+today);*/
-                var obj;
-                obj=document.getElementById("todays");
-                obj.innerHTML=today;
-                var titlegs;
-                var branchvl=document.getElementById("Branch");
-                var Platformvl=document.getElementById("Platform");
-                var branchvalue=branchvl.options[branchvl.selectedIndex].text;
-                var Platformvalue=Platformvl.options[Platformvl.selectedIndex].text;
-                titlegs=document.getElementById("titleg");
-                titlegs1=document.getElementById("titleg1");
-                titlegs2=document.getElementById("titleg2");
-                titlegs.innerHTML = today+"-"+Platformvalue+"_"+branchvalue;
-                titlegs1.innerHTML = today+"_1-"+Platformvalue+"_"+branchvalue;
-                titlegs2.innerHTML = today+"_2-"+Platformvalue+"_"+branchvalue;
+                update_scenario_by_task(today);
+                show_issue_detail(today);
+                var branch=$("#Branch").val();
+                var platform=$("#Platform").val();
+                var device=$("#Device").val();
+                $("#title_smoketest").html("");
+                $("#title_smoketest").append(today+"_"+platform+"_"+branch+"_"+device);
 
             },
 
             eventLimit: true,
-            editable: true,
+            editable: false,
             buttonText: {
-                prev: '<span class="icon-circle-arrow-left"></span>',
-                next: '<span class="icon-circle-arrow-right"></span>'
+                prev: '<span class="icon-circle-arrow-right"></span>',
+                next: '<span class="icon-circle-arrow-left"></span>'
             },
             businessHours: true, // display business hours
-            editable: true,
+            editable: false,
             events: [
+            //<%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
+            //<% @scenariosplatform.each do |scenariosp| %>
                 {
-                    title: '',
+                    title: 'power',
                     overlap: false,
-                    start: '2014-12-13T11:00:00',
-                    end:'2014-12-13T11:00:00',
-                    constraint: 'availableForsmoketest', // defined below
-                    color: 'red',
-                    size:'2px'
-
+                    start:"<%=scenariosp1.image_date%>",
+                    end:"<%=scenariosp1.image_date%>",
+                    color:'red',
                 },
-                {
-                    title: '',
-                    start: '2014-12-13T11:00:00',
-                    end: '2014-12-13T11:00:00',
-                    overlap: false,
-                    constraint: 'availableForMeeting', // defined below
-                    color: 'green'
-                },
-                {
-                    title: '',
-                    start: '2014-12-14T11:00:00',
-                    end: '2014-12-14T11:00:00',
-                    overlap: false,
-                    constraint: 'availableForMeeting', // defined below
-                    color: '#FF00FF'
-                },
-                {
-                    title: '',
-                    start: '2014-12-15T11:00:00',
-                    end: '2014-12-15T11:00:00',
-                    overlap: false,
-                    constraint: 'availableForMeeting', // defined below
-                    color: '#EEFFAF'
-                }
+           //<% end %>
+               {
+               }
             ]
-
         });
-
         $('.full-calendar-gcal').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -230,46 +162,22 @@
                 prev: '<span class="icon-arrow-left"></span>',
                 next: '<span class="icon-arrow-right"></span>'
             },
-            events: {
-                url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
-                className: 'gcal-event', // an option!
-                currentTimezone: 'America/Chicago' // an option!
-            }
         });
-        update_scenario_by_task("","","");
+        update_scenario_by_task("");
+
     });
 </script>
 <script language="JavaScript" type="text/javascript">
-//Define the Branch of two-dimensional arrays, in order to the order of the Platform is the same.Through selectedIndex Platform to get the value of the corresponding Branch array
-    var Branch=[
-        ["kk4.4","kk4.4_k314alpha1"],
-        ["kk4.4","kk4.4_alpha2","kk4.4_beta1","kk4.4_beta2","lp5.0"],
-        ["jb43_beta1","kk4.4","kk4.4_k310beta1","kk4.4_k310beta2","kk4.4_k310beta3"],
-        ["kk4.4"]
-    ];
-    function getBranch(){
-        //获得Platform下拉框的对象
-        var sltPlatform=document.form1.Platform;
-        //获得Branch下拉框的对象
-        var sltBranch=document.form1.Branch;
-        //得到对应Platform的Branch数组
-        var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
-        //清空Branch下拉框，仅留提示选项
-        sltBranch.length=1;
-        //将Branch数组中的值填充到Branch下拉框中
-         for(var i=0;i<PlatformBranch.length;i++){
-        sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
-        }
-    }
-</script>
-</script>
-<script language="JavaScript">
-function update_scenario_by_task(image_date,platform,branch){
-                var branchvl=document.getElementById("Branch");
-                var Platformvl=document.getElementById("Platform");
-                branch=branchvl.options[branchvl.selectedIndex].text;
-                platform=Platformvl.options[Platformvl.selectedIndex].text;
-    var task_url = "get_platform_detail?image_date="+image_date+"&platform="+platform+"&branch="+branch;
+function update_scenario_by_task(image_date){
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/(^\s*)|(\s*$)/g,"");
+                var task_url = "get_platform_detail?image_date="+image_date+"&platform="+platform+"&branch="+branch+"&device="+device;
     $.ajax({
         type: "GET",
         url: task_url,
@@ -279,36 +187,87 @@ function update_scenario_by_task(image_date,platform,branch){
         }
     });
 }
-</script>
-<script type="text/javascript">
-var strURL="/smoketest/php/showissuedetail.php?getflag=2&dailytest_id=lp50";
+
+function update_calendar(){
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/(^\s*)|(\s*$)/g,"");
     $.ajax({
-        type: "get",
-        url:strURL,
-        success: function(data){
-            $("#smoketest").html("");
-            $("#smoketest").html(data);//data就是请求页面的内容....
+        type: "GET",
+        url: 'update_calendar?platform='+platform+'&branch='+branch+'&device='+device,
+        success: function(msg){
+
         }
     });
-</script>
-
-<script type="text/javascript">
-    var totalheight = 0;     //定义一个总的高度变量
-    function loadData()
-    {
-    totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());     //浏览器的高度加上滚动条的高度
-
-    if ($(document).height() <= totalheight)     //当文档的高度小于或者等于总的高度的时候，开始动态加载数据
-    {
-        //加载数据
-        ("#container").append("我是新加载出来的数据<br/>");
-        $("#container1").append("我是新加载出来的数据<br/>");
-    }
 }
 
-$(window).scroll( function() {
-console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());
-onsole.log("页面的文档高度 ："+$(document).height());
-console.log('浏览器的高度：'+$(window).height());
-loadData();
-});
+function show_issue_detail(image_date){
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                branch = branch.replace(/[\ |\_|\.]/g,"");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/[\ |\_|\.]/g,"");
+    $.ajax({
+        type: "POST",
+        url:'http://10.38.32.174/smoketest/php/searchstateresult.php',
+        data:{platform:platform, branch:branch,prodoct:device,reportdate:image_date,mode:1},
+        success: function(data){
+            $("#smoketest_result").html("");
+            $("#smoketest_result").html(data);//data就是请求页面的内容....
+        }
+    });
+}
+        //定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
+        var Branch = [
+                <%@scenariosplatform = get_all_platform()%>
+                <% @scenariosplatform.each do |scenariosp| %>
+            [
+                <%@scenariosbranch = get_all_branch(scenariosp.platform) %>
+                <% @scenariosbranch.each do |scenariosb| %>
+                                "<%=scenariosb.branch%>",
+                   <% end %>
+            ],
+            <% end %>
+        ];
+        var Device = [
+                <%@scenariosplatform = get_all_platform()%>
+                <% @scenariosplatform.each do |scenariosp| %>
+            [
+                <%@scenariosdevice = get_all_device(scenariosp.platform) %>
+                <% @scenariosdevice.each do |scenariosdevice| %>
+                                "<%=scenariosdevice.device%>",
+                   <% end %>
+            ],
+            <% end %>
+        ];
+        function getBranch(){
+            //获得Platform下拉框的对象
+            var sltPlatform=document.form1.Platform;
+            //获得Branch下拉框的对象
+            var sltBranch=document.form1.Branch;
+             //获得Device下拉框的对象
+            var sltDevice=document.form1.Device;
+            //得到对应Platform的Branch数组
+            var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
+             //得到对应Platform的Device数组
+            var PlatformDevice=Device[sltPlatform.selectedIndex - 1];
+            //清空Branch下拉框，仅留提示选项
+            sltBranch.length=1;
+            //清空Device下拉框，仅留提示选项
+            sltDevice.length=1;
+            //将Branch数组中的值填充到Branch下拉框中
+             for(var i=0;i<PlatformBranch.length;i++){
+            sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
+            }
+             //将Device数组中的值填充到Device下拉框中
+             for(var i=0;i<PlatformDevice.length;i++){
+            sltDevice[i+1]=new Option(PlatformDevice[i],PlatformDevice[i]);
+            }
+        }
+    </script>

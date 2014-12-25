@@ -1,57 +1,54 @@
 
 <article class="span6">
- <% @scenarios = home_get_all_scenarios_info(@image_date,@platform,@branch) %>
-
+ <% @scenarios = home_get_all_scenarios_info(@image_date,@platform,@branch,@device) %>
             <% if @scenarios.size==0%>
                 <h1>sorry!today no date</h1>
             <% else %>
-    <table class="table table-wuxia">
-        <thead>
-            <tr>
-                <th>scenario</th>
-                <th>status</th>
-                <th>battery(mA)</th>
-                <th>%</th>
-            </tr>
-        </thead>
-        <tbody>
-
-
-                <% @latest_image_date = home_get_latest_image_date(@image_date,@platform,@branch).image_date %>
-
-                <% @scenarios_1 = home_get_all_scenarios_info(@latest_image_date,@platform,@branch) %>
-                <% @scenarios.each do |scenario| %>
-                    <% @scenarios_1.each do |scenario_1| %>
-                     <% if @scenarios_1.size ==0%>
+                <table class="table table-wuxia">
+                    <thead>
+                        <tr>
+                            <th>scenario</th>
+                            <th>status</th>
+                            <th>battery(mA)</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    <% @latest_image_date = home_get_latest_image_date(@image_date,@platform,@branch,@device).image_date %>
+                    <% @scenarios_lastest = home_get_all_scenarios_info(@latest_image_date,@platform,@branch,@device) %>
+                    <% @scenarios.each do |scenario| %>
+                     <% if @image_date==nil%>
                             <tr>
-                                <td><%= get_scenario_name(scenario_1.power_scenario_id).last.name %></td>
+                                <td><%= get_scenario_name(scenarios.power_scenario_id).last.name %></td>
                                 <td>--</td>
                                 <td><%= scenario.battery %></td>
                                 <td>0.0%</td>
                             </tr>
                         <% end %>
-                        <% if get_scenario_name(scenario_1.power_scenario_id).last.name==get_scenario_name(scenario.power_scenario_id).last.name %>
-
+                    <% @scenarios_lastest.each do |scenarios_lastest| %>
+                        <% if get_scenario_name(scenarios_lastest.power_scenario_id).last.name==get_scenario_name(scenario.power_scenario_id).last.name %>
                             <tr>
-                                <td><%= get_scenario_name(scenario_1.power_scenario_id).last.name %></td>
+                                <td><%= get_scenario_name(scenarios_lastest.power_scenario_id).last.name %></td>
                                 <td>
-                                    <% if scenario.battery > scenario_1.battery%>
+                                    <% if scenario.battery > scenarios_lastest.battery%>
                                     <font color="red" style="font-size:20px;font-weight:bold;text-align:center;">&#8593;</font>
                                     <% else %>
                                     <font color="green" style="font-size:20px;font-weight:bold;text-align:center;">&#8595;</font>
                                     <% end %>
                                 </td>
-                                <td><%= scenario.battery %></td>
-                                <td><%= ((((scenario.battery.to_f)-(scenario_1.battery.to_f))/(scenario_1.battery.to_f))*100).round(2) %>%</td>
+                                <% if scenario.battery > scenarios_lastest.battery%>
+                                    <td style="color:red;"><%= scenario.battery %></td>
+                                    <td style="color:red;"><%= ((((scenario.battery.to_f)-(scenarios_lastest.battery.to_f))/(scenarios_lastest.battery.to_f))*100).round(2) %>%</td>
+                                <% else %>
+                                    <td style="color:green;"><%= scenario.battery %></td>
+                                    <td style="color:green;"><%= ((((scenario.battery.to_f)-(scenarios_lastest.battery.to_f))/(scenarios_lastest.battery.to_f))*100).round(2) %>%</td>
+                                <% end %>
                             </tr>
                         <% end %>
-
                     <% end %>
                  <% end %>
-
-        </tbody>
-
-    </table>
+                </tbody>
+                </table>
     <!--/table of task list-->
  <% end %>
 </article>
