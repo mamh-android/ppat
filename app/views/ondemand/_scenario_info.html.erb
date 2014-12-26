@@ -1,3 +1,34 @@
+<SCRIPT LANGUAGE="JavaScript">
+function add_to_cart (power_record_id) {
+	var record_list_url = "/record_lists";
+	$.ajax({
+		type: "POST",
+		data: "power_record_id=" + power_record_id,
+		headers: {
+		    'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+		  },
+		url: record_list_url,
+		success: function(msg){
+			//do nothing
+		}
+	});
+}
+
+/* show footer Duty Cycle */
+function show_dc(id){
+	var task_url = "get_dc?id=" + id;
+	$.ajax({
+		type: "GET",
+		url: task_url,
+		success: function(msg){
+			$("footer").css("display","block");
+			$("#dc_info").append(msg);
+			$("#" + id).resizable();
+		}
+	});
+}
+</SCRIPT>
+<% @last_task = get_last_task_info() %>
 <% @scenarios = get_task_scenarios(@last_task.task_id) %>
 <% @scenarios.each do |scenario| %>
 	<article class="span6">

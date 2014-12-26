@@ -1,30 +1,4 @@
 <SCRIPT LANGUAGE="JavaScript">
-function update_scenario_by_task(task_id){
-	var task_url = "get_task_detail?task_id=" + task_id;
-	$.ajax({
-		type: "GET",
-		url: task_url,
-		success: function(msg){
-			$("#task_scenario").html("");
-			$("#task_scenario").html(msg);
-		}
-	});
-}
-
-/* show footer Duty Cycle */
-function show_dc(id){
-	var task_url = "get_dc?id=" + id;
-	$.ajax({
-		type: "GET",
-		url: task_url,
-		success: function(msg){
-			$("footer").css("display","block");
-			$("#dc_info").append(msg);
-			$("#" + id).resizable();
-		}
-	});
-}
-
 function remove(id){
 	$("#" + id).remove();
 	if($("#dc_info").html().length == 3){//don't know why length is 3
@@ -33,109 +7,50 @@ function remove(id){
 	}
 }
 
-function add_to_cart (power_record_id) {
-	var record_list_url = "/record_lists";
-	$.ajax({
-		type: "POST",
-		data: "power_record_id=" + power_record_id,
-		headers: {
-		    'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
-		  },
-		url: record_list_url,
-		success: function(msg){
-			//do nothing
-		}
-	});
-}
-
-function add_task_scenarios_to_cart(task_id) {
-	var record_list_url = "/record_lists/create_by_task";
-	$.ajax({
-		type: "POST",
-		data: "task_id=" + task_id,
-		headers: {
-		    'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
-		  },
-		url: record_list_url,
-		success: function(msg){
-			//do nothing
-		}
-	});
-}
 </SCRIPT>
 <div class="page-header">
-	<h1><span>Ondemand Power</span><%= @cart.id %></h1>
-
-	<ul class="page-header-actions">
-		<li class="demoTabs">
-			<input type="text" class="input-xlarge" style="height:30px">
-		</li>
-		<li class="demoTabs active">
-			<button class="btn btn-wuxia">Search</button>
-		</li>
-	</ul>
+	<h1><span>Ondemand Power</span></h1>
 </div>
-	<!-- page-container -->
-	<div class="page-container tab-content"  >
+<!-- page-container -->
+<div class="page-container tab-content"  >
 
-		<!-- Tab #basic -->
-		<div class="tab-pane active">
-			<!-- Grid row -->
-			<div class="row">
+	<!-- Tab #basic -->
+	<div class="tab-pane active">
+		<!-- Grid row -->
+		<div class="row">
 
-				<!-- Page grid cell (6 blocks - full) -->
-				<article class="span6">
-					<!-- table of task list -->
-					<h2>Task Lists</h2>
-					<table class="table table-wuxia">
-						<thead>
-							<tr>
-								<th>Platform</th>
-								<th>Device</th>
-								<th>Branch</th>
-								<th>Purpose</th>
-								<th>Compare To</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% @tasks.each do |task| %>
-								<tr>
-									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.platform %></td>
-									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.device %></td>
-									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.branch %></td>
-									<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.purpose %></td>
-									<td onclick="add_task_scenarios_to_cart('<%= task.task_id %>')"><span class="icon-refresh"></span></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-					<%= will_paginate @tasks %>
-					<!--/table of task list-->
-				</article>
-				<!-- scenario table of task -->
-				<div id="task_scenario">
-				<%= render :partial => 'index' %>
-				</div>
+			<!-- Page grid cell (6 blocks - full) -->
+			<article class="span12" id="task">
+				<h2>Task Lists</h2>
+				<!-- table of task list -->
+				<%= render :partial => 'task_info' %>
+				<!--/table of task list-->
+			</article>
+			<!-- scenario table of task -->
+			<div id="task_scenario">
+				<%= render :partial => 'scenario_info' %>
 			</div>
-			<!-- /Grid row -->
 		</div>
-		<!-- Tab #basic -->
-
-
+		<!-- /Grid row -->
 	</div>
-	<!-- /page-container -->
+	<!-- Tab #basic -->
 
-	<div class="modal fade hide" id="dcInfoModal">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h3>Duty Cycle</h3>
-		</div>
-		<div class="modal-body" id="dc_info">
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
-		</div>
+
+</div>
+<!-- /page-container -->
+
+<div class="modal fade hide" id="dcInfoModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Duty Cycle</h3>
 	</div>
+	<div class="modal-body" id="dc_info">
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
 <footer>
 	<a class="btn btn-wuxia btn-primary" data-toggle="modal" href="#dcInfoModal" style="bottom:0;left:0;right:0;position: fixed;">Click to Show Duty Cycle Info</a>
 

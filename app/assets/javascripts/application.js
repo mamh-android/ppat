@@ -12,4 +12,27 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+
+//= require libs/jquery.min
+//= require libs/modernizr
+//= require libs/selectivizr
+//= require jquery.hoverIntent.min
+//= require jquery.mb.flipText
+//= require mbExtruder
+
+//= require navbar
+//= require plugins/waypoints.min
+//= require bootstrap/bootstrap-tooltip
+//= require bootstrap/bootstrap-dropdown
+//= require bootstrap/bootstrap-tab
+//= require bootstrap/bootstrap-modal
+//= require bootstrap/bootstrap-collapse
+//= require plugins/fullCalendar/jquery.fullcalendar.min
+//= require plugins/fullCalendar/gcal
+//= require plugins/flot/jquery.flot
+//= require plugins/flot/jquery.flot.pie
+//= require plugins/dataTables/jquery.datatables.min
+//= require libs/jquery-ui
+//= require plugins/datepicker/bootstrap-datepicker
+//= require highcharts
+//= require exporting

@@ -8,17 +8,22 @@
     </thead>
     <tbody>
     <% @carts.record_list.each do |record| %>
-        <tr>
+        <tr id="<%= record.power_record.id %>">
             <td><%= get_record_info(record.power_record.id).battery %></td>
             <td><%= get_record_info(record.power_record.id).vcc_main %></td>
             <td><%= get_record_info(record.power_record.id).fps %></td>
-            <td onclick="remove_from_cart('<%= record.id %>')"><span class="icon-remove"></span></td>
+            <td onclick="remove_from_cart(this, '<%= record.id %>')"><span class="icon-remove"></span></td>
         </tr>
         <% end %>
     </tbody>
 </table>
+<div align="right">
+    <form method="get" action="/compare/index" style="display:inline;">
+        <button class="btn btn-info">Go to Compare</button>
+    </form>
+</div>
 <SCRIPT LANGUAGE="JavaScript">
-function remove_from_cart (record_id) {
+function remove_from_cart (rm_this,record_id) {
     var record_list_url = "/record_lists/delete";
     $.ajax({
         type: "POST",
@@ -28,7 +33,9 @@ function remove_from_cart (record_id) {
           },
         url: record_list_url,
         success: function(msg){
-            //do nothing
+            $(rm_this).parent().fadeOut(500, function(){
+                $(rm_this).parent().remove();
+            });
         }
     });
 }

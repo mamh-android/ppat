@@ -3,6 +3,10 @@ module OndemandHelper
 		PowerRecord.find(:all, :conditions => ['task_id = ?', task_id], :group => "power_scenario_id")
 	end
 
+	def get_last_task_info()
+		TaskInfo.last
+	end
+
 	def get_scenario_name(scenario_id)
 		PowerScenario.find(:all, :conditions => ['id = ?', scenario_id]).last.name
 	end

@@ -19,6 +19,8 @@ Ppat::Application.routes.draw do
 
 
   get "compare/index"
+  post "compare/add_daily_compare"
+  post "/compare/add_ondemand_compare"
   get "compare/get_compare_detail"
   get "baremetal/index"
 

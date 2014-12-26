@@ -3,38 +3,17 @@
  * www.walkingpixels.com
  * compare css
  */
-#up li{
+form li{
 	float:left;
 	list-style-type: none;
-	margin-top:2%;
-	width:35%;
 	text-align: center;
-	padding-left:5%
+	padding-left:10px;
 }
-
-#up select{
-	width:100%;
-	padding-right:3%;
+li select{
+	width: 150px;
 }
-#sub{
-	margin-top:-2%;
-}
-.row span{
-	margin-left:5%;
-}
-#ond{
-	margin-top:1%;
-	margin-left: 5%;
-}
-#ond input{
-	margin-left: 4%;
-	margin-top:2%;
-	margin-bottom:2%;
-	width:30%;
-}
-#ond button{
-	margin-left:5%;
-}
-#ond span{
-	margin-left:0%;
+.btn-wuxia {
+	text-shadow: none;
+	font-weight: bold;
+	padding: 5px 5px 5px;
 }

@@ -1,0 +1,235 @@
+<% @all_purposes = get_distinct_purposes() %>
+<% @all_scenarios = get_distinct_scenarios() %>
+<div style="text-align: center; background-color:#FFFFFFF;">
+
+            <div class="nTab">
+
+                <div class="TabTitle">
+                    <ul id="myTab0">
+                        <li class="active" onclick="nTabs(this,0);">All</li>
+                        <% @all_scenarios.each_index do |index| %>
+                            <li class="normal" onclick="nTabs(this,<%= index + 1 %>)"><%= @all_scenarios[index] %></li>
+                        <% end %>
+                    </ul>
+                </div>
+
+                <center>
+                    <article>
+                        <div id="accordion1" class="accordion">
+                            <div class="TabContent">
+                                <div id="demo-content">
+                                    <div id="demo-content-container">
+                                        <div id="demo-chart">
+                                            <div id="myTab0_container0">
+                                                <div id="chart_container0" style="min-width: 510px; height: 400px; margin: 0 auto">
+                                                </div>
+                                                <table class="table table-wuxia">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Image Date</th>
+                                                            <th>Platform</th>
+                                                            <th>scenario</th>
+                                                            <th>Device</th>
+                                                            <th>Branch</th>
+                                                            <th>Purpose</th>
+                                                            <th>Submitter</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% @all_purposes.each do |purpose| %>
+                                                            <% @cart.record_list.each do |record| %>
+                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
+                                                                   <tr>
+                                                                        <td><%= get_record_info(record.power_record.id).image_date %></td>
+                                                                        <td><%= get_record_info(record.power_record.id).platform %></td>
+                                                                        <td><%= get_scenario_name(record.power_record.power_scenario_id) %></td>
+                                                                        <td><%= get_record_info(record.power_record.id).device %></td>
+                                                                        <td><%= get_record_info(record.power_record.id).branch %></td>
+                                                                        <td><%= get_record_info(record.power_record.id).purpose %></td>
+                                                                        <td><%= get_record_info(record.power_record.id).submitter %></td>
+                                                                        <td onclick="remove_from_cart(this, '<%= record.id %>')"><span class="icon-remove"></span></td>
+                                                                    </tr>
+                                                                <% end %>
+                                                            <% end %>
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <% @all_scenarios.each_index do |index| %>
+                                            <div id="myTab0_container<%= index + 1 %>" class="none">
+                                                <div id="chart_container<%= index + 1 %>" style="min-width: 510px; height: 400px; margin: 0 auto">
+                                                </div>
+                                                <table class="table table-wuxia">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Image Date</th>
+                                                            <th>Platform</th>
+                                                            <th>scenario</th>
+                                                            <th>Device</th>
+                                                            <th>Branch</th>
+                                                            <th>Purpose</th>
+                                                            <th>Submitter</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% @cart.record_list.each do |record| %>
+                                                            <% if get_scenario_category(record.power_record.power_scenario_id) == @all_scenarios[index] %>
+                                                                <tr>
+                                                                    <td><%= get_record_info(record.power_record.id).image_date %></td>
+                                                                    <td><%= get_record_info(record.power_record.id).platform %></td>
+                                                                    <td><%= get_scenario_name(record.power_record.power_scenario_id) %></td>
+                                                                    <td><%= get_record_info(record.power_record.id).device %></td>
+                                                                    <td><%= get_record_info(record.power_record.id).branch %></td>
+                                                                    <td><%= get_record_info(record.power_record.id).purpose %></td>
+                                                                    <td><%= get_record_info(record.power_record.id).submitter %></td>
+                                                                    <td onclick="remove_from_cart(this, '<%= record.id %>')"><span class="icon-remove"></span></td>
+                                                                </tr>
+                                                            <% end %>
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+                </center>
+            </div>
+        </div>
+
+<script>
+$(function () {
+    $('#chart_container0').highcharts({
+        chart: {
+             type: 'column'
+         },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                <% @cart.record_list.each do |record| %>
+                    '<%= get_scenario_name(record.power_record.power_scenario_id) %>',
+                <% end %>
+            ]
+        },
+        yAxis: {
+            min: 5,
+            title: {
+             text: 'power'
+            }
+        },
+         tooltip: {
+            headerFormat: '<span style="font-size:12px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mA</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+        },
+        plotOptions: {
+            column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+            }
+        },
+        series: [
+            <% @all_purposes.each do |purpose| %>
+                {
+                    name: '<%= purpose %>',
+                    data: [
+                        <% @cart.record_list.each do |record| %>
+                            <% if get_record_info(record.power_record.id).purpose == purpose %>
+                                <%= get_record_info(record.power_record.id).battery.to_f %>,
+                            <% end %>
+                        <% end %>
+                    ]
+                },
+            <% end %>
+            ]
+        });
+});
+
+<% @all_scenarios.each_index do |index| %>
+$(function () {
+    $('#chart_container<%= index + 1 %>').highcharts({
+        chart: {
+             type: 'column'
+         },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                <% @cart.record_list.each do |record| %>
+                    <% if get_scenario_category(record.power_record.power_scenario_id) == @all_scenarios[index] %>
+                    '<%= get_scenario_name(record.power_record.power_scenario_id) %>',
+                    <% end %>
+                <% end %>
+            ]
+        },
+        yAxis: {
+            min: 5,
+            title: {
+             text: 'power'
+            }
+        },
+         tooltip: {
+            headerFormat: '<span style="font-size:12px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mA</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+        },
+        plotOptions: {
+            column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+            }
+        },
+        series: [
+            <% @all_purposes.each do |purpose| %>
+                {
+                    name: '<%= purpose %>',
+                    data: [
+                        <% @cart.record_list.each do |record| %>
+                            <% if get_scenario_category(record.power_record.power_scenario_id) == @all_scenarios[index] %>
+                                <% if get_record_info(record.power_record.id).purpose == purpose %>
+                                    <%= get_record_info(record.power_record.id).battery.to_f %>,
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    ]
+                },
+            <% end %>
+            ]
+        });
+});
+<% end %>
+
+function nTabs(thisObj, Num) {
+    if (thisObj.className == "active")
+        return;
+    var tabObj = thisObj.parentNode.id;
+    var tabList = document.getElementById(tabObj)
+            .getElementsByTagName("li");
+    for (i = 0; i < tabList.length; i++) {
+        if (i == Num) {
+            thisObj.className = "active";
+            document.getElementById(tabObj + "_container" + i).style.display = "block";
+
+        } else {
+            tabList[i].className = "normal";
+            document.getElementById(tabObj + "_container" + i).style.display = "none";
+
+        }
+    }
+}
+</script>

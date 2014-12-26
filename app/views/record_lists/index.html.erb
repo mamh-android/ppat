@@ -1,5 +1,5 @@
 <h1>Listing record_lists</h1>
-
+<div id="notice"></div>
 <table>
   <tr>
     <th>Power record</th>
@@ -11,7 +11,7 @@
   <tr>
     <td><%= record_list.power_record_id %></td>
     <td><%= record_list.cart_id %></td>
-    <td><%= link_to 'Destroy', record_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', record_list, remote: true, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

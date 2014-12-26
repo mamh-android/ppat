@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-    attr_reader :name
+    has_many :task_info
 end
