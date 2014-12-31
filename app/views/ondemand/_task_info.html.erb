@@ -139,7 +139,9 @@ function add_task_scenarios_to_cart(task_id) {
 		  },
 		url: record_list_url,
 		success: function(msg){
-			//do nothing
+			$("#extruderRight").setMbExtruderContent({
+                url:"/carts"
+            });
 		}
 	});
 }

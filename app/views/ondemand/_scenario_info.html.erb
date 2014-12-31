@@ -9,7 +9,9 @@ function add_to_cart (power_record_id) {
 		  },
 		url: record_list_url,
 		success: function(msg){
-			//do nothing
+			$("#extruderRight").setMbExtruderContent({
+                url:"/carts"
+            });
 		}
 	});
 }

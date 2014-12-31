@@ -1,3 +1,5 @@
+<% @all_purposes = get_distinct_purposes() %>
+<% @all_categories = get_distinct_scenario_categories() %>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -7,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-    <% @carts.record_list.each do |record| %>
+    <% @cart.record_list.each do |record| %>
         <tr id="<%= record.power_record.id %>">
             <td><%= get_record_info(record.power_record.id).battery %></td>
             <td><%= get_record_info(record.power_record.id).vcc_main %></td>
@@ -23,6 +25,9 @@
     </form>
 </div>
 <SCRIPT LANGUAGE="JavaScript">
+function update_charts(){
+}
+
 function remove_from_cart (rm_this,record_id) {
     var record_list_url = "/record_lists/delete";
     $.ajax({
@@ -33,6 +38,7 @@ function remove_from_cart (rm_this,record_id) {
           },
         url: record_list_url,
         success: function(msg){
+            update_charts();
             $(rm_this).parent().fadeOut(500, function(){
                 $(rm_this).parent().remove();
             });

@@ -58,6 +58,9 @@ class RecordListsController < ApplicationController
       @record_list = @cart.record_list.build(:power_record => power_record)
       @record_list.save
     end
+    respond_to do |format|
+        format.js
+    end
   end
 
   # PUT /record_lists/1
@@ -90,11 +93,11 @@ class RecordListsController < ApplicationController
 
   def delete
     @record_list = RecordList.find(params[:id])
+    @power_scenario_id = @record_list.power_record.power_scenario_id
     @record_list.destroy
-
+    @cart = get_cart
     respond_to do |format|
-      format.html { redirect_to record_lists_url }
-      format.json { head :no_content }
+      format.js
     end
   end
 end

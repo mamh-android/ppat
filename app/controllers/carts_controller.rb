@@ -2,7 +2,7 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = get_cart
+    @cart = get_cart
     render :layout=>"empty"
   end
 

@@ -11,13 +11,13 @@ module CompareHelper
 	end
 
 	#get distinct scenarios
-	def get_distinct_scenarios()
+	def get_distinct_scenario_categories()
 		@cart = get_cart
-		@scenarios = Set.new
+		@categories = Set.new
 		@cart.record_list.each do |record|
-			@scenarios.add get_scenario_category(record.power_record.power_scenario_id)
+			@categories.add get_scenario_category(record.power_record.power_scenario_id)
 		end
-		@scenarios.to_a
+		@categories.to_a
 	end
 
 	def get_scenario_category(scenario_id)
