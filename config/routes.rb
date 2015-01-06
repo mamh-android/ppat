@@ -26,6 +26,7 @@ Ppat::Application.routes.draw do
   get "baremetal/index"
 
   get "trigger/index"
+  get "trigger/get_device"
 
   get "query/index"
 
