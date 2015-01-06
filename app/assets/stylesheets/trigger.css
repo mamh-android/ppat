@@ -2,31 +2,67 @@
 trigger css
 
 **/
-#top1{
-    margin-top: 2%;
+form, .form-horizontal {
+    background: #fff;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
-#top1 span{
-    margin-right: 1%;
+label span {
+    font-size: 24px;
+    line-height: 36px;
 }
-#top1 select{
-    margin-top: 1%;
+.inline {
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+    vertical-align: middle;
+    cursor: pointer;
 }
-#top2 ul li{
-    float:left;
-    list-style-type: none;
-    width:50%;
-    margin-top: 2%;
+label .inline {
+    width: 50px;
 }
-#top2 select{
-    margin-top: 2%;
-    margin-left: 10%;
+.input-xlarge {
+    width: 370px;
 }
-#top2 button{
-    width:30%;
-    height:60px;
-    margin-top: 1%;
-    font-size: 20px;
+form .control-group, .form-horizontal .control-group {
+    padding: 10px;
+    margin: 0;
 }
-#table1 span{
-    margin-right: 20%;
+select {
+    width: 220px;
+    border: 1px solid #BBB;
+}
+
+table div {
+    width: 200px;
+    display: inline-block;
+}
+
+.table th {
+    text-align: left;
+    height: 30px;
+}
+
+.table td {
+    text-align: left;
+}
+
+.category {
+    width: 15%;
+}
+
+.case {
+    width: 85%;
+}
+
+.tabletitle {
+    display: inline-block;
+    text-indent: 8px;
+}
+
+.testloop {
+    width: 20px;
+    text-align: center;
 }

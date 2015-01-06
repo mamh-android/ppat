@@ -1,157 +1,166 @@
-<!--main-->
-	<div calss="container" role="main">
-		<div class="row">
-			<form METHOD=POST ACTION="" name="form1">
-				<article class="span10" id="top1">
-					<h3>
-						<span class="icon-asterisk">&nbsp;Device:</span>
-						<select NAME="Platform" onChange="getBranch()">
-							<option VALUE="0">Device </option>
-							<option VALUE="eden">pxa1U88dkb_def:pxa1U88dkb</option>
-							<option VALUE="pxa1908">pxa1908 </option>
-							<option VALUE="pxa1928">pxa1928 </option>
-							<option VALUE="pxa1288">pxa1288 </option>
-							<option VALUE="pxa1U88">pxa1U88 </option>
-						</select>
-						<span class="icon-asterisk">&nbsp;Bif:</span>
-						<select NAME="Branch">
-							<option VALUE="0">Branch </option>
-						</select>
-					</h3>
-				</article>
-			</form>
-		</div>
-		<div class="row">
-			<div id="top2" class="span10">
-				<ul>
-					<li>
-						<h4><span>Choose Board HW Module:</span></h4>
-						<h5><span class="icon-asterisk"></span>
-						<select NAME="Branch">
-							<option VALUE="0">PowerScenario</option>
-						</select>
-						</h5>
-					</li>
-					<li><button class="btn btn-wuxia btn-inverse">Add files</button></li>
-				</ul>
-			</div>
-		</div>
-		<div class="container">
-			<hr/>
-			<h4><span>PowerScenario Test</span></h4>
-			<hr/>
-			<div class="span11"  id="table1">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th colspan="2">
-								<span>AP Power</span>
-								<span><input id="10502" type="checkbox"/>SelectAll</span>
-								<span>Test loop:<input  type="text" value="3" style="width:2%;margin-left:1%;padding-top:1%;"/></span></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input id="10502" type="checkbox"/>LPM</td>
-							<td>
-								<span><input id="10502" type="checkbox"/>V</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-							</td>
-						</tr>
-						<tr>
-							<td><input id="10502" type="checkbox"/>Video</td>
-							<td>
-								<span><input id="10502" type="checkbox"/>V</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-							</td>
-						</tr>
-						<tr>
-							<td><input id="10502" type="checkbox"/>Game</td>
-							<td>
-								<span><input id="10502" type="checkbox"/>V</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-							</td>
-						</tr>
-						<tr>
-							<td><input id="10502" type="checkbox"/>UI</td>
-							<td>
-								<span><input id="10502" type="checkbox"/>V</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-							</td>
-						</tr>
-						<tr>
-							<td><input id="10502" type="checkbox"/>Audio</td>
-							<td>
-								<span><input id="10502" type="checkbox"/>V</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-								<span><input id="10502" type="checkbox"/>Video</span>
-							</td>
-						</tr>
+<!-- page-container -->
+<div class="page-container tab-content"  >
+    <!-- Tab #basic -->
+    <div class="tab-pane active">
+        <!-- Grid row-->
+            <div class="row">
+                <%= form_tag("/compare/add_daily_compare", method: "post", remote: true, class: "form-horizontal") do %>
+                    <div class="control-group">
+                        <label class="inline" for="input">Image Path:</label>
+                        <input id="input" class="input-xlarge inline" type="text" />
+                        <p class="help-inline">Image Path should be /autobuild/android/pxa988/2013-06-17_pxa988-jb4.2/</p>
+                    </div>
 
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row">
-			<div id="top2" class="span10">
-				<ul>
-					<li>
-						<h4><span>Input commands before run test cases:</span></h4>
-						<h4><span>Description of set of cmds:</span>
-						<input type="text" name="#"/>
-						</h4>
-					</li>
-					<li><button class="btn btn-wuxia btn-inverse">Add files</button></li>
-				</ul>
-				<article class="span11">
-				<form />
-									<fieldset>
-										<legend>Textarea with jWYSIWYG editor</legend>
-										<div class="control-group">
-											<div class="controls">
-												<textarea id="textarea3" class="wysiwyg" rows="8"></textarea>
-											</div>
-										</div>
-										<div class="form-actions">
-											<button class="btn btn-primary btn-wuxia btn-large" type="submit">Save</button>
-										</div>
-									</fieldset>
-								</form>
-</article>
-			</div>
-		</div
-	</div>
-<!--main-->
-<!--javascript-->
-	<script language="JavaScript" type="text/javascript">
-			//定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
-		var Branch=[
-			["HLN2_Nontruste_LPDDR3_2G_Hynix.bif"],
-			["kk44","kk44k314alpha1"],
-			["kk44","kk44alpha2","kk44beta1","kk44beta2","lpre"],
-			["jb43beta1","kk44","kk44k310beta1","kk44k310beta2","kk44k310beta3"],
-			["kk44"]
-		];
-		function getBranch(){
-			//获得Platform下拉框的对
-			var sltPlatform=document.form1.Platform;
-			//获得Branch下拉框的对象
-			var sltBranch=document.form1.Branch;
-			//得到对应Platform的Branch数组
-			var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
-			//清空Branch下拉框，仅留提示选项
-			sltBranch.length=1;
-			//将Branch数组中的值填充到Branch下拉框中
-			for(var i=0;i<PlatformBranch.length;i++){
-			sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
-			}
-		}
-	</script>
-<!--javascript-->
+                    <div class="control-group">
+                        <label class="inline" for="input">Purpose:</label>
+                        <input id="input" class="input-xlarge inline" type="text" />
+                        <p class="help-inline">short description of reason for trigger PPAT</p>
+                    </div>
 
+                    <div class="control-group">
+                        <label class="inline" for="input">Device</label>
+                        <select name="Device">
+                            <option value="pxa1908dkb_tz">pxa1908dkb_tz</option>
+                            <option value="pxa1928dkb_tz">pxa1928dkb_tz</option>
+                            <option value="pxa1936dkb_tz">pxa1936dkb_tz</option>
+                        </select>
+                        <label class="inline" for="input">Blf</label>
+                        <select name="Blf">
+                            <option>blf</option>
+                            <option>PXA1908_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</option>
+                        </select>
+                    </div>
 
+                    <div class="control-group" id="DeviceHW" style="display: block;">
+                        <label class="inline" for="optionsCheckbox">Choose Board HW Module:</label>
+                        <% @devices.keys.each do |device| %>
+                            <input name="hwmodule" type="radio" value="option1" onclick="update_testcases('<%= device%>')" /><%= device %>
+                        <% end %>
+                    </div>
 
+                    <div class="control-group">
+                        <label class="inline" for="input">Choose Test</label>
+                        <select name="TestType">
+                            <option>PowerScenario</option>
+                            <option>Round PP Tuning</option>
+                            <option>Baremetal Power</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="inline" for="input"><span>PowerScenario</span></label>
+                    </div>
+                    <div id="ap_scenario">
+                        <%= render :partial => 'ap_scenario' %>
+                    </div>
+
+                    <div id="cp_scenario">
+                        <%= render :partial => 'cp_scenario' %>
+                    </div>
+
+                    <div id="perf_scenario">
+                        <%= render :partial => 'perf_scenario' %>
+                    </div>
+                    <div class="control-group">
+                        <ul class="nav nav-tabs">
+                           <li class="active"><a href="#">Home</a></li>
+                           <li><a href="#">SVN</a></li>
+                           <li><a href="#">iOS</a></li>
+                           <li><a href="#">VB.Net</a></li>
+                           <li><a href="#">Java</a></li>
+                           <li><a href="#">PHP</a></li>
+                        </ul>
+
+                    </div>
+                <% end %>
+            </div>
+    </div>
+<!--top-->
+</div>
+<script>
+function update_testcases(deviceName){
+    var get_device_url = "get_device?device=" + deviceName;
+    $.ajax({
+        type: "GET",
+        url: get_device_url,
+        success: function(msg){
+        }
+    });
+}
+
+function change_category_state(node){
+    var catogry_nodes = $(node).parentsUntil("table").parent().find("tbody");
+    if($(node).is(':checked')){//checked
+        catogry_nodes.each(function(){
+            $(this).find(":checkbox").each(function(){
+                $(this).prop("checked", true);
+            });
+        });
+    }else{
+        catogry_nodes.each(function(){
+            $(this).find(":checkbox").each(function(){
+                $(this).prop("checked", false);
+            });
+        });
+    }
+}
+
+/*when click case checkbox, need update category and all checkbox state */
+function change_all_and_category_state(node){
+    var catogry_node = $(node).parent("td").siblings(".category").find(":checkbox");
+    if($(node).is(':checked')){//checked
+        var check_category = true;
+        $(node).siblings(":checkbox").each(function(){
+            check_category = check_category && $(this).is(':checked');
+        });
+
+        //update category checkbox status
+        if(check_category){
+            catogry_node.prop("checked", true);
+            update_all_state_after_category(catogry_node,$(node).is(':checked'));
+        }else{
+            catogry_node.prop("checked", false);
+            update_all_state_after_category(catogry_node,$(node).is(':checked'));
+        }
+
+    }else{//unchecked
+        catogry_node.prop("checked", false);
+        update_all_state_after_category(catogry_node,$(node).is(':checked'));
+    }
+}
+
+function change_all_and_case_state(node){
+    var node_all = $(node).parentsUntil("table").parent().find("thead :checkbox");
+    if($(node).is(':checked')){//checked
+        $(node).parent("td").siblings(".case").find(":checkbox").each(function(){
+            $(this).prop("checked", true);
+        });
+
+    }else{//unchecked
+        $(node).parent("td").siblings(".case").find(":checkbox").each(function(){
+            $(this).prop("checked", false);
+        });
+        node_all.prop("checked", false);
+    }
+    //update check all state
+    update_all_state_after_category(node,$(node).is(':checked'));
+}
+
+function update_all_state_after_category(category,state){
+    var node_all = $(category).parentsUntil("table").parent().find("thead :checkbox");
+    if(state){
+        //update check all state
+        var check_all = true;
+        $(category).parent("td").parent("tr").siblings().children(".category").each(function(){
+            check_all = check_all && $(this).find(":checkbox").is(':checked');
+        });
+        if(check_all){
+            node_all.prop("checked", true);
+        }else{
+            node_all.prop("checked", false);
+        }
+    }else{
+        node_all.prop("checked", false);
+    }
+}
+</script>

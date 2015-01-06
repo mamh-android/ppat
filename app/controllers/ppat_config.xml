@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PPATConfig>
+	<Power>
+		<CaseName>standby</CaseName>
+		<Category>LPM</Category>
+	</Power>
+	<Power>
+		<CaseName>1080p</CaseName>
+		<Category>Video</Category>
+	</Power>
+	<Power>
+		<CaseName>720p</CaseName>
+		<Category>Video</Category>
+	</Power>
+	<Power>
+		<CaseName>VGA</CaseName>
+		<Category>Video</Category>
+	</Power>
+	<Power>
+		<CaseName>home</CaseName>
+		<Category>LPM</Category>
+	</Power>
+	<Power>
+		<CaseName>KKR</CaseName>
+		<Category>Game</Category>
+	</Power>
+	<Power>
+		<CaseName>AngryBirds</CaseName>
+		<Category>Game</Category>
+	</Power>
+	<Power>
+		<CaseName>SMS</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>Menu_Navigation</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>Menu_List_Menu</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>Menu_List_Contacts</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>Menu_List_Music</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>Gallery_View</CaseName>
+		<Category>UI</Category>
+	</Power>
+	<Power>
+		<CaseName>mp3</CaseName>
+		<Category>LPM</Category>
+	</Power>
+	<Power>
+		<CaseName>Audio_Record</CaseName>
+		<Category>Audio</Category>
+	</Power>
+	<Power>
+		<CaseName>Temple_Run</CaseName>
+		<Category>Game</Category>
+	</Power>
+	<Power>
+		<CaseName>Temple_Run2</CaseName>
+		<Category>Game</Category>
+	</Power>
+	<Power>
+		<CaseName>Castle_Master</CaseName>
+		<Category>Game</Category>
+	</Power>
+	<Device>
+			<Name>HW Module1:Camera OV5647</Name>
+			<TestCase>
+				<CaseName Category="Camera">Preview(OV5647)</CaseName>
+				<CaseName Category="Camera">Take_pictures(OV5647)</CaseName>
+				<CaseName Category="Camera">Record_720p(OV5647)</CaseName>
+				<CaseName Category="Camera">Record_720p(OV5647)_2D</CaseName>
+				<CaseName Category="Camera">Take_pictures(OV5647)_2D</CaseName>
+			</TestCase>
+	</Device>
+	<Device>
+			<Name>HW Module2:Camera LSI3H7,WIB 8787</Name>
+			<TestCase>
+				<CaseName Category="Audio">FM</CaseName>
+				<CaseName Category="wifi/bt">WiFi_On</CaseName>
+				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+				<CaseName Category="wifi/bt">BT_On</CaseName>
+				<CaseName Category="wifi/bt">BT_Conn</CaseName>
+				<CaseName Category="Camera">Preview(LSI3H7)</CaseName>
+				<CaseName Category="Camera">Take_pictures(LSI3H7)</CaseName>
+				<CaseName Category="Camera">Record_720p(LSI3H7)</CaseName>
+			</TestCase>
+	</Device>
+	<Device>
+			<Name>HW Module3:WIB 8887</Name>
+			<TestCase>
+				<CaseName Category="Audio">FM</CaseName>
+				<CaseName Category="wifi/bt">WiFi_On</CaseName>
+				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+				<CaseName Category="wifi/bt">BT_On</CaseName>
+				<CaseName Category="wifi/bt">BT_Conn</CaseName>
+				<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+				<CaseName Category="wifi/bt">Video_Streaming_WiFi</CaseName>
+			</TestCase>
+	</Device>
+	<Device>
+			<Name>HW Module4:Camera OV13850</Name>
+			<TestCase>
+				<CaseName Category="Audio">FM</CaseName>
+				<CaseName Category="wifi/bt">WiFi_On</CaseName>
+				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+				<CaseName Category="wifi/bt">BT_On</CaseName>
+				<CaseName Category="wifi/bt">BT_Conn</CaseName>
+				<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+				<CaseName Category="wifi/bt">Video_Streaming_WiFi</CaseName>
+				<CaseName Category="Camera">Preview(OV13850)_2D</CaseName>
+				<CaseName Category="Camera">Take_pictures(OV13850)_2D</CaseName>
+				<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
+				<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
+			</TestCase>
+	</Device>
+	<Board>
+			<Type>pxa1908dkb_tz:pxa1908dkb</Type>
+			<HW>
+				<Name>HW Module4:Camera OV13850</Name>
+			</HW>
+	</Board>
+
+	<Board>
+			<Type>pxa1088dkb_def:pxa1088dkb</Type>
+			<HW>
+				<Name>HW Module1:Camera OV5647</Name>
+			</HW>
+	</Board>
+	<Board>
+			<Type>pxa1L88dkb_def:pxa1L88dkb</Type>
+			<HW>
+				<Name>HW Module2:Camera LSI3H7,WIB 8787</Name>
+			</HW>
+	</Board>
+	<Board>
+			<Type>pxa1928dkb_tz:pxa1928dkb</Type>
+			<HW>
+				<Name>HW Module3:WIB 8887</Name>
+			</HW>
+	</Board>
+
+	<Performance>
+		<CaseName>app_launch_browser</CaseName>
+		<Category>App Launch</Category>
+	</Performance>
+	<Performance>
+		<CaseName>app_launch_contact</CaseName>
+		<Category>App Launch</Category>
+	</Performance>
+	<Performance>
+		<CaseName>app_launch_gallery3d</CaseName>
+		<Category>App Launch</Category>
+	</Performance>
+	<Performance>
+		<CaseName>app_launch_message</CaseName>
+		<Category>App Launch</Category>
+	</Performance>
+	<Performance>
+		<CaseName>app_launch_phone</CaseName>
+		<Category>App Launch</Category>
+	</Performance>
+	<Performance>
+		<CaseName>contact_scroll</CaseName>
+		<Category>Scroll</Category>
+	</Performance>
+	<Performance>
+		<CaseName>gallery_flick_landscape</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>gallery_flick_portrait</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>home_flick_portrait_live_wallpaper</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>home_settings_switch</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>launcher_flick_portrait</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>music_scroll</CaseName>
+		<Category>Scroll</Category>
+	</Performance>
+	<Performance>
+		<CaseName>notification_bar_pull_down_live_wallpaper</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>notification_bar_pull_down_SMS</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>notification_bar_pull_down_static_wallpaper</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+	<Performance>
+		<CaseName>recent_app_scroll</CaseName>
+		<Category>Scroll</Category>
+	</Performance>
+	<Performance>
+		<CaseName>setting_rotate</CaseName>
+		<Category>Rotate</Category>
+	</Performance>
+	<Performance>
+		<CaseName>rotate_gallery3d</CaseName>
+		<Category>Rotate</Category>
+	</Performance>
+	<Performance>
+		<CaseName>SMS_scroll</CaseName>
+		<Category>Scroll</Category>
+	</Performance>
+	<Performance>
+		<CaseName>widget_flick_portrait</CaseName>
+		<Category>Flick</Category>
+	</Performance>
+
+	<!--
+	<Performance>
+		<CaseName>SMS_ui</CaseName>
+	</Performance>
+	<Performance>
+		<CaseName>browser_flick_portrait</CaseName>
+	</Performance>
+	<Performance>
+		<CaseName>browser_scroll_after_zoom</CaseName>
+	</Performance>
+	<Performance>
+		<CaseName>browser_zoom_portrait</CaseName>
+	</Performance>-->
+</PPATConfig>
