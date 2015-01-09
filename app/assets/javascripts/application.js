@@ -36,3 +36,5 @@
 //= require plugins/datepicker/bootstrap-datepicker
 //= require highcharts
 //= require exporting
+//= require plugins/plUpload/plupload.full
+//= require plugins/plUpload/jquery.plupload.queue/jquery.plupload.queue.js

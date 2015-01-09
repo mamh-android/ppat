@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag  "trigger"%>
 <!-- page-container -->
 <div class="page-container tab-content"  >
     <!-- Tab #basic -->
@@ -10,7 +11,14 @@
                         <input id="input" class="input-xlarge inline" type="text" />
                         <p class="help-inline">Image Path should be /autobuild/android/pxa988/2013-06-17_pxa988-jb4.2/</p>
                     </div>
+                    <div class="control-group">
+                        <label class="inline">Add Specify Image Files:</label>
+                        <a class="accordion-toggle btn btn-wuxia btn-inverse" href="#fileUpload" data-toggle="collapse">Add files</a>
+                        <div id="fileUpload" class="accordion-body collapse" style="height: 0; ">
 
+                        </div>
+                        <div class="plupload"></div>
+                    </div>
                     <div class="control-group">
                         <label class="inline" for="input">Purpose:</label>
                         <input id="input" class="input-xlarge inline" type="text" />
@@ -78,6 +86,29 @@
 <!--top-->
 </div>
 <script>
+
+$(document).ready(function() {
+
+    $('.plupload').pluploadQueue({
+        runtimes : 'html5,gears,flash,silverlight,browserplus',
+        url : 'upload',
+        resize : {width : 320, height : 440, quality : 90},
+        flash_swf_url : 'js/plugins/plUpload/plupload.flash.swf',
+        silverlight_xap_url : 'js/plugins/plUpload/plupload.silverlight.xap'
+    });
+    $(".plupload_header").remove();
+    $(".plupload_progress_container").addClass("progress").addClass('progress-striped');
+    $(".plupload_progress_bar").addClass("bar");
+    $(".plupload_button").each(function(e){
+        if($(this).hasClass("plupload_add")){
+            $(this).attr("class", 'btn btn-primary btn-wuxia pl_add btn-small');
+        } else {
+            $(this).attr("class", 'btn btn-success btn-wuxia pl_start btn-small');
+        }
+    });
+
+});
+
 function update_testcases(deviceName){
     var get_device_url = "get_device?device=" + deviceName;
     $.ajax({
@@ -107,13 +138,14 @@ function change_category_state(node){
 
 /*when click case checkbox, need update category and all checkbox state */
 function change_all_and_category_state(node){
-    var catogry_node = $(node).parent("td").siblings(".category").find(":checkbox");
+    var catogry_node = $(node).parentsUntil("tr").siblings(".category").find(":checkbox");
     if($(node).is(':checked')){//checked
         var check_category = true;
-        $(node).siblings(":checkbox").each(function(){
-            check_category = check_category && $(this).is(':checked');
+        $(node).parentsUntil("tr").siblings("div").each(function(){
+            $(this).find(":checkbox").each(function(){
+                check_category = check_category && $(this).is(':checked');
+            });
         });
-
         //update category checkbox status
         if(check_category){
             catogry_node.prop("checked", true);

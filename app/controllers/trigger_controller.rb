@@ -1,5 +1,8 @@
 require 'rexml/document'
 require 'set'
+require 'net/ftp'
+require 'open-uri'
+
 class TriggerController < ApplicationController
   def index
     conf_f = File.new(Rails.root.to_s + '/app/controllers/ppat_config.xml')
@@ -8,7 +11,25 @@ class TriggerController < ApplicationController
     @performance_cases = get_distinct_category_node(@tc_conf, "Performance")
     @devices = get_device_node(@tc_conf)
 
+    file_adv = File.new('/PPAT_test/testcase/config.xml')
+    @advanced_conf = REXML::Document::new file_adv
+    @cp_cases = get_distinct_advanced_category_node(@advanced_conf, "pxa1928dkb_tz:pxa1928dkb") #use a fake value here
+
+
+
     render :layout=>"ppat"
+  end
+
+  def upload
+    file = params[:file]
+    ftp = Net::FTP.new('10.38.32.98')
+    ftp.login(user = "buildfarm", passwd = "123456")
+    #ftp.chdir(path_todir) change file save dir
+    ftp.passive = true
+    #ftp.putbinaryfile(file.read, File.basename(file.original_filename))
+    ftp.storbinary("STOR " + file.original_filename, StringIO.new(file.read), Net::FTP::DEFAULT_BLOCKSIZE)
+    #ftp.getbinaryfile(file.original_filename, file.original_filename, 1024) get file
+    ftp.quit()
   end
 
   def get_device
@@ -33,6 +54,23 @@ class TriggerController < ApplicationController
             end
             @categories.add e.elements["CaseName"].text
             @hash[category] = @categories
+        }
+        @hash
+    end
+
+
+    def get_distinct_advanced_category_node(document,platform)
+        @hash = Hash.new
+        document.elements.each("PPATConfig/PowerAdvanced") { |e|
+            if platform == e.elements["Platform"].text then
+                category = e.elements["Category"].text
+                @categories = @hash[category]
+                if @categories.nil?
+                    @categories = Set.new
+                end
+                @categories.add e.elements["CaseName"].text
+                @hash[category] = @categories
+            end
         }
         @hash
     end
