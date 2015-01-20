@@ -47,6 +47,14 @@
                     </div>
 
                     <div class="control-group">
+                        <ul class="nav nav-tabs">
+                           <li class="active"><a href="#">PowerScenario</a></li>
+                           <li><a href="#">Round PP Tuning</a></li>
+                           <li><a href="#">Baremetal Power</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="control-group">
                         <label class="inline" for="input">Choose Test</label>
                         <select name="TestType">
                             <option>PowerScenario</option>
@@ -68,17 +76,6 @@
 
                     <div id="perf_scenario">
                         <%= render :partial => 'perf_scenario' %>
-                    </div>
-                    <div class="control-group">
-                        <ul class="nav nav-tabs">
-                           <li class="active"><a href="#">Home</a></li>
-                           <li><a href="#">SVN</a></li>
-                           <li><a href="#">iOS</a></li>
-                           <li><a href="#">VB.Net</a></li>
-                           <li><a href="#">Java</a></li>
-                           <li><a href="#">PHP</a></li>
-                        </ul>
-
                     </div>
                 <% end %>
             </div>

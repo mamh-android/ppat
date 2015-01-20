@@ -1,6 +1,7 @@
 require 'rexml/document'
 require 'set'
 require 'net/ftp'
+require 'net/http'
 require 'open-uri'
 
 class TriggerController < ApplicationController
@@ -9,19 +10,34 @@ class TriggerController < ApplicationController
     @tc_conf = REXML::Document::new conf_f
     @power_cases = get_distinct_category_node(@tc_conf, "Power")
     @performance_cases = get_distinct_category_node(@tc_conf, "Performance")
+
     @devices = get_device_node(@tc_conf)
 
     file_adv = File.new('/PPAT_test/testcase/config.xml')
     @advanced_conf = REXML::Document::new file_adv
     @cp_cases = get_distinct_advanced_category_node(@advanced_conf, "pxa1928dkb_tz:pxa1928dkb") #use a fake value here
+    #job_id = FollowUpEmailJob.create(:length => 100)
+    #@status = Resque::Plugins::Status::Hash.get(job_id)
+    #job_id = TestJob.create()
+    #TestJob.dequeue(TestJob,job_id)
+    #job_id = TestJob.create(:device => "pxa1928")
+    #job_id = TriggerJenkinsJob.create(:device => "pxa1908")
+    #job_id = TestJob.create(:device => "pxa1928")
+    #job_id = TriggerEdenJob.create(:platform => "pxa1928", :testcase => "1080p,720p,VGA", :submitter => "zhoulz@marvell.com", :purpose => "just a test")
+    #job_id = TriggerHelan3Job.create(:platform => "pxa1936", :testcase => "1080p,720p,VGA", :submitter => "zhoulz@marvell.com", :purpose => "just a test")
+    #job_id = TriggerULC1Job.create(:platform => "pxa1908", :testcase => "1080p,720p,VGA", :submitter => "zhoulz@marvell.com", :purpose => "just a test")
 
+
+
+    #Resque::Plugins::Status::Hash.remove("53721ac07eb90132f645704da224adaf")
+    #@size = Resque::Plugins::Status::Hash.statuses(0,20)
 
 
     render :layout=>"ppat"
   end
 
   def upload
-    file = params[:file]
+	file = params[:file]
     ftp = Net::FTP.new('10.38.32.98')
     ftp.login(user = "buildfarm", passwd = "123456")
     #ftp.chdir(path_todir) change file save dir

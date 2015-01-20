@@ -1,6 +1,6 @@
 class OndemandController < ApplicationController
     def index
-        @tasks = TaskInfo.find(:all)
+        @tasks = TaskInfo.all
         @cart = get_cart
         render :layout=>"ppat"
     end
@@ -12,7 +12,8 @@ class OndemandController < ApplicationController
 
     def get_dc
     	@power_record_id = params[:id]
-    	@record = PowerRecord.find(:all, :conditions => ['id = ?', @power_record_id]).first
+        @record = PowerRecord.where(:id, @power_record_id).first
+    	#@record = PowerRecord.find(:all, :conditions => ['id = ?', @power_record_id]).first
     	render :layout=>"empty"
     end
 end

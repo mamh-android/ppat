@@ -21,7 +21,8 @@ module CompareHelper
 	end
 
 	def get_scenario_category(scenario_id)
-		PowerScenario.find(:all, :conditions => ['id = ?', scenario_id]).last.category
+		PowerScenario.where(id: scenario_id).last.category
+		#PowerScenario.find(:all, :conditions => ['id = ?', scenario_id]).last.category
 	end
 
 end

@@ -1,4 +1,5 @@
 class Cart < ActiveRecord::Base
   has_many :record_list, :dependent => :destroy
-  attr_accessible :record_list
+  accepts_nested_attributes_for :record_list
+  #attr_accessible :record_list
 end

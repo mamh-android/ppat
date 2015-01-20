@@ -35,7 +35,7 @@ select {
     border: 1px solid #BBB;
 }
 
-table div {
+tr div {
     width: 200px;
     display: inline-block;
 }

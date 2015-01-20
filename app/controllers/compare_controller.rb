@@ -1,7 +1,7 @@
 class CompareController < ApplicationController
 	def index
 		@cart = get_cart
-		@tasks = TaskInfo.find(:all)
+		@tasks = TaskInfo.all
 		render :layout=>"ppat"
 	end
 
