@@ -245,15 +245,11 @@ function ppat_load_baremetal(){
 												}else{
 													table +="<div><input type=\"radio\" text=\"" + params[i] + "\" name=\"" + caseName + "_" + nodeName + "_" + $(this).context.nodeName + "\" param=\"" + nodeName + "_" + $(this).context.nodeName + "\">" + params[i] + "</div>";
 												}
+
 											}
 										}
-                                        table += "</td></tr>";
-									});
-									if(nodeName == "cmd"){
-										table += "<tr><td class=\"category\">" + nodeName + "</td>";
-										table += "<td><input type=\"text\" name=\"cmd\" style=\"width:80%\" value=\"" + $(this).text().replace(/\"/g, '&quot;') + "\">";
 										table += "</td></tr>";
-									}
+									});
 								}
 							});
 							$(divInfo).appendTo("#" + compName);
@@ -303,7 +299,13 @@ function ppat_load_tune(){
 				if($(this).attr("name") == device){
 					var table="<table cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">Round PP Tuning</div></th></tr>";
 					$(this).find("cpu").each(function(){
-						table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>CPU:</td></tr>";
+						var cluster = $(this).attr("cluster");
+						if (cluster != undefined){
+							table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>CPU cluster" + cluster + ":</td></tr>";
+						}else{
+							table +="<tr><td style=\"text-align:left;\" colspan=\"2\" height=20>CPU:</td></tr>";
+						}
+
 						$(this).children().each(function(){
 							var nodeName = $(this).context.nodeName;
 							if($(this).text() == null || $(this).text() == ""){
@@ -312,7 +314,11 @@ function ppat_load_tune(){
 								table += "</td></tr>";
 							}else{
 								table += "<tr><td class=\"category\"><input type=\"checkbox\" onclick=\"ppat_CheckboxSelectAll('tune', 'cpu_" + nodeName + "', 'cpu_" + nodeName + "')\" id=\"cpu_" + nodeName + "\">"+ nodeName + "</td>";
-								table += "<td class=\"case cpu\">";
+								if(cluster != undefined){
+									table += "<td class=\"case cpu" + cluster + "\">";
+								}else{
+									table += "<td class=\"case cpu" + cluster + "\">";
+								}
 								var params = $(this).text().split(",");
 		                 		for(var i = 0; i < params.length; i++){
 									table += "<div><input type=\"checkbox\" id=\"cpu_" + params[i] + "\" father=\"cpu_" + nodeName + "\" onclick=\"ppat_CheckboxSelectAll('tune', 'cpu_" + params[i] + "', 'cpu_" + nodeName + "')\" name=\"" + params[i] + "\"" + " value=\"cpu_" + nodeName + "\" param=\"" + nodeName +"\">" + params[i] + "</div>";
@@ -436,7 +442,7 @@ function addAdvancedScenarioCheckbox(pf){
 	platform_b = platform_b.del();
 	for(var i = 0; i < platform_b.length; i++){
 		if(platform_b[i] == pf){
-			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
+			var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">CP Power</div><div><input type=\"checkbox\" value=\"Select All\"  onclick=\"ppat_CheckboxSelectAll('advscenario', 'advscenario_checkbox_root', 'advscenario_checkbox_root')\" id=\"advscenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopadvscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 			for(var j = 0; j < powerAdvCategory_b.length; j++){
 				table += "<tr><td class=\"category\"><input id=\"" + powerAdvCategory_b[j] + "_c\" father=\"advscenario_checkbox_root\" type=\"checkbox\" value=\"Select " + powerAdvCategory_b[j] + "\" onclick=\"ppat_CheckboxSelectAll('advscenario', '" + powerAdvCategory_b[i] + "_c', 'advscenario_checkbox_root')\">"+ powerAdvCategory_b[j] + "</td><td class=\"case\">";
 				for(var k = 0; k < powerAdvancedCase.length; k++){
@@ -487,7 +493,7 @@ function style(){
 function addScenarioCheckbox(){
 	var scenario_div = $("#scenario");
 	scenario_div.html("");
-	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
+	var table="<table id=\"scenario_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">AP Power</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('scenario', 'scenario_checkbox_root', 'scenario_checkbox_root')\" id=\"scenario_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopscenario\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 
 	//add button to select/de-select by category
     powerCategory_b = powerCategory.concat();
@@ -512,7 +518,7 @@ function addScenarioCheckbox(){
 function addUIScenarioCheckbox(){
 	var scenario_div = $("#ui");
 	scenario_div.html("");
-	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">UI Performance</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopui\" type=\"text\" name=\"loopPPAT\" value=\"1\" class=\"testloop\"/></th></tr>";
+	var table="<table id=\"ui_table\" cellspacing=\"0px\" border=\"1\" width=\"100%\"><tr><th colspan=\"2\"><div class=\"tabletitle\">UI Performance</div><div><input type=\"checkbox\" text=\"SelectAll\" value=\"Select All\" onclick=\"ppat_CheckboxSelectAll('ui', 'ui_checkbox_root', 'ui_checkbox_root')\" id=\"ui_checkbox_root\">SelectAll</div>Test loop: <input id=\"loopui\" type=\"text\" name=\"loopPPAT\" value=\"3\" class=\"testloop\"/></th></tr>";
 
 	//add button to select/de-select by category
     performanceCategory_b = performanceCategory.concat();
@@ -609,7 +615,7 @@ function ppat_appendToText(v){
     var caseCount = 0;
 	var scenarios = $("#scenario").find("input");
 	scenarios.each(function(){
-		if($(this).attr("checked") && $(this).attr("name")){
+		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
 			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
@@ -633,56 +639,47 @@ function ppat_appendToText(v){
 	$("#baremetal table").each(function(){
 		var totalParamNum = $(this).find("tr").length - 1;
 		var paramCount = 0;
-		var propertyStr = "";
+		var propertyStr;
+		if($(this).find("input[type=text]").val()){
+			paramCount += 1;
+			var volt = $(this).find("input[type=text]").val();
 
-		var caseId = $(this).parent().attr("id");
+			var property = "\"VL\":\"" + volt + "\",";
 			var compFreqInfo = "";
-			var property = "";
+			var caseId = $(this).parent().attr("id");
 			$(this).find("td").each(function(){
 				var checked = false;
 				var compName = "";
 				var compInfo = "";
-				//var compFreqInfo = "";
+
 				$(this).find("input").each(function(){
-					if($(this).attr("type") == "text"){
-						if($(this).val()){
-							paramCount += 1;
-							var value = $(this).val().replace(/\"/g, '&quot;'); //get input text value
-							var name = $(this).attr("name");
-							if(name.indexOf("vol") != -1){
-								name = "VL";
-							}
-							property += "\"" + name + "\":\"" + value + "\",";
-						}
-					}else{
-						if($(this).prop('checked')){
-							compName = $(this).attr("param");
-							checked = true;
-							compInfo += $(this).attr("text") + ",";
-						}
+					if($(this).prop("checked")){
+						compName = $(this).attr("param");
+						checked = true;
+						compInfo += $(this).attr("text") + ",";
 					}
 				});
 				//collect freq info
 				if(checked && compInfo != ""){
 					paramCount += 1;
 					compFreqInfo += "\"" + compName.toUpperCase() +"\":\"" + compInfo.substring(0, compInfo.length - 1) + "\",";
+					propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
 				}
-				propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
 			});
 
 			if(compFreqInfo != ""){
 				propertyStr += ",";
 			}
-			if(paramCount == totalParamNum){
+		}
+		if(paramCount == totalParamNum){
 			caseCount += 1;
 			jsonStr += "{\"Name\":\"" + caseId + "\"";
 			jsonStr += propertyStr;
-
 		}
 	});
 	var advscenarios = $("#advscenario").find("input");
 	advscenarios.each(function(){
-		if($(this).attr("checked") && $(this).attr("name")){
+		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
 			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
@@ -697,7 +694,7 @@ function ppat_appendToText(v){
 	});
 	var ui = $("#ui").find("input");
 	ui.each(function(){
-		if($(this).attr("checked") && $(this).attr("name")){
+		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
 			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
 
@@ -738,7 +735,7 @@ function ppat_appendToText(v){
 				var component_vl = $(this).attr("id");
 				var compInfo = "";
 				$(this).find("input").each(function(){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						compInfo += $(this).attr("name") + ",";
 					}
 				});
@@ -754,7 +751,7 @@ function ppat_appendToText(v){
 		$("table#ubootParam #CoreNum").each(function(){
 			$(this).find("div").each(function(){
 				$(this).find("input").each(function(){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						coreInfo += $(this).attr("name") + ",";
 					}
 				});
@@ -771,7 +768,7 @@ function ppat_appendToText(v){
 		$("table#ubootParam #vol").each(function(){
 			$(this).find("div").each(function(){
 				$(this).find("input").each(function(){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						volInfo += "\"" + $(this).attr("param") + "\":\"" + $(this).attr("name") + "\",";
 						volevlInfo += $(this).attr("param") + ",";
 					}
@@ -791,32 +788,62 @@ function ppat_appendToText(v){
 		var tuneParam ="";
 //CPU
 		var cpu = "";
-		var tune = $(".cpu").each(function(){
+		var tune = $(".cpu0").each(function(){
 			var param = "";
+			var cpu_param = "";
 			var paramVal = "";
 			$(this).find("input").each(function(){
-				if($(this).attr("param") != param){
-					param = $(this).attr("param");
-					paramVal = "";
-				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
+						param = $(this).attr("param");
 						paramVal += $(this).attr("name") + ",";
 					}
-					}else{//text
-						if($(this).val() != ""){
-							paramVal += $(this).val() + ",";
-						}
-					}
+				}
+
 			});
+
 			if(paramVal != ""){
-				cpu += "\"" + param +"\":\"" + paramVal.substring(0,paramVal.length-1) +"\",";
+				cpu_param += "\"" + param +"\":\"" + paramVal.substring(0,paramVal.length-1) +"\",";
+			}
+			if(cpu_param != ""){
+				cpu += cpu_param.substring(0,cpu_param.length-1) + ",";
 			}
 		});
+
 		if(cpu != ""){
-			cpu = "\"cpu\":{" + cpu.substring(0,cpu.length-1) + "},";
+			cpu = "\"cpu0\":{" + cpu.substring(0,cpu.length-1) + "},";
+			//console.log(cpu);
 			tuneParam += cpu;
 		}
+		cpu = "";
+		tune = $(".cpu1").each(function(){
+			var param = "";
+			var cpu_param = "";
+			var paramVal = "";
+			$(this).find("input").each(function(){
+				if($(this).attr("type") == "checkbox"){
+					if($(this).prop("checked")){
+						param = $(this).attr("param");
+						paramVal += $(this).attr("name") + ",";
+					}
+				}
+
+			});
+
+			if(paramVal != ""){
+				cpu_param += "\"" + param +"\":\"" + paramVal.substring(0,paramVal.length-1) +"\",";
+			}
+			if(cpu_param != ""){
+				cpu += cpu_param.substring(0,cpu_param.length-1) + ",";
+			}
+		});
+
+		if(cpu != ""){
+			cpu = "\"cpu4\":{" + cpu.substring(0,cpu.length-1) + "},";
+			//console.log(cpu);
+			tuneParam += cpu;
+		}
+
 //DDR
 		var ddr = "";
 		var tune = $(".ddr").each(function(){
@@ -828,7 +855,7 @@ function ppat_appendToText(v){
 					paramVal = "";
 				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						paramVal += $(this).attr("name") + ",";
 					}
 				}else{//text
@@ -856,7 +883,7 @@ function ppat_appendToText(v){
 					paramVal = "";
 				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						paramVal += $(this).attr("name") + ",";
 					}
 				}else{//text
@@ -884,7 +911,7 @@ function ppat_appendToText(v){
 					paramVal = "";
 				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						paramVal += $(this).attr("name") + ",";
 					}
 				}else{//text
@@ -912,7 +939,7 @@ function ppat_appendToText(v){
 					paramVal = "";
 				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						paramVal += $(this).attr("name") + ",";
 					}
 				}else{//text
@@ -940,7 +967,7 @@ function ppat_appendToText(v){
 					paramVal = "";
 				}
 				if($(this).attr("type") == "checkbox"){
-					if($(this).attr("checked")){
+					if($(this).prop("checked")){
 						paramVal += $(this).attr("name") + ",";
 					}
 				}else{//text
