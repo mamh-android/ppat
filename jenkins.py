@@ -45,6 +45,8 @@
 See examples at :doc:`example`
 '''
 
+import sys
+sys.path.append("./")
 import base64
 import json
 
