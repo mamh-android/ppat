@@ -19,7 +19,7 @@ def printcolor(msg):
 def main():
     imagepath = options.imagepath
     branch = options.branch
-    device = options.device
+    device = options.device.split(':')[0]
     blf = options.blf
     assigner = options.assigner
     testcase = options.testcase
@@ -28,31 +28,31 @@ def main():
 
     printcolor("options:\n%s" % options)
 
+    osversion="lp5.0"
+    if "lp5.0" in imagepath:
+        osversion="lp5.0"
+    elif "kk4.4" in imagepath:
+        osversion="kk4.4"
+
     parameters = {
         'IMAGEPATH':imagepath,
-        'BRANCH':branch,
-        'DEVICE':device,
         'BLF':blf,
         'ASSIGNER':assigner,
         'TESTCASE':testcase,
         'PURPOSE':purpose,
-        'MODE':mode
+        'OS':osversion,
     }
 
     device_to_job={
-            "pxa1L88dkb_def:pxa1L88dkb":[
-                "PPAT_HELNLTE"
-                ],
-            "pxa1U88dkb_def:pxa1U88dkb":[
-                "PPAT_HELN2"
-                ],
-            "pxa1928dkb_tz:pxa1928dkb":[
+            "pxa1928dkb_tz":[
                 "PPAT_EDEN"
                 ],
-            "pxa1908dkb_tz:pxa1908dkb":[
+            "pxa1908dkb_tz":[
                 "PPAT_ULC1",
-                "PPAT_ULC1_1",
-                ]
+                ],
+            "pxa1936dkb_tz":[
+                "PPAT_HELN3",
+                ],
     }
 
     jobname_L = device_to_job.get(device, [])
