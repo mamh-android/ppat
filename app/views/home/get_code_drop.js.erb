@@ -1,0 +1,134 @@
+    <%@scenariosdata=get_all_code_drop(@platform) %>
+    <% @scenariosdata.each do |scenariosd| %>
+    $('#container_<%=scenariosd.platform%>').highcharts({
+         chart: {
+             type: 'spline'
+        },
+        title: {
+            text: 'code_drop '
+        },
+        global :{
+            useUTC : true
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+               second: '%Y:%e.%y:%e.%b: %%H:%M:%S'
+            },
+            title: {
+                text: 'Date'
+            },
+            type: 'datetime', //定义x轴上日期的显示格式
+            labels: {
+                formatter: function() {
+                    var vDate=new Date(this.value);
+                    return vDate.getFullYear()+"-"+(vDate.getMonth()+1)+"-"+vDate.getDate();
+                },
+                rotation:-45//日期倾斜角度
+            }
+        },
+        credits:{
+            enabled:false,
+        },
+        navigator:{
+         enabled:true,
+            xAxis: {
+                tickWidth: 1,
+                lineWidth: 1,
+                gridLineWidth: 0,
+                tickPixelInterval: 140,
+                labels: {
+                    align: 'center',
+                    x: 3,
+                    y: -4
+                }
+            }
+        }   ,
+        yAxis: {
+            title : {
+                text : 'Branchs'
+            },
+            categories: [
+            <%@scenariosdata=get_all_code_drop(@platform) %>
+            <% @scenariosdata.each do |scenariosd| %>
+            '<%=scenariosd.branch%>',
+            <%end %>''
+            ]
+
+        },
+        tooltip: {
+            headerFormat: '<b>Branch:{series.name}</b><br>',
+            pointFormat: 'date:{point.x:%Y-%m-%d}'
+        },
+         series: [
+            <%i = 0%>
+            <%@scenariosdata=get_all_code_drop(@platform) %>
+            <% @scenariosdata.each do |scenariosd| %>
+            <%@start_time_list =scenariosd.start_time.to_s%>
+            <%@end_time_list =scenariosd.end_time.to_s%>
+                {
+                    name: ' <%= scenariosd.branch%>',
+                    data: [
+                        {
+                            x:Date.UTC(<%=(@start_time_list[0,4])%>,  <%=(@start_time_list[5,2])%>, <%=(@start_time_list[8,2])%>),
+                            y:<%=i%>,
+                            dataLabels: {
+                                align: 'center',
+                                useHTML: true,
+                                enabled: true,
+                                formatter: function () {
+                                    return "start";
+                                }
+                            },
+                        },
+                        <%@scenariocode = get_all_code_drop_user(scenariosd.id)%>
+                        <%@scenariocode.each do |scencode|%>
+                        {
+                            <%@code_drop_dates = scencode.code_drop_date.to_s%>
+                            x: Date.UTC(<%=(@code_drop_dates[0,4])%>,  <%=(@code_drop_dates[5,2])%>, <%=(@code_drop_dates[8,2])%>),
+                            y: <%=i%>,
+                            dataLabels: {
+                                align: 'center',
+                                useHTML: true,
+                                enabled: true,
+                                color: "red",
+                                formatter: function () {
+                                    return "<%=scencode.code_drop_name%>";
+                                }
+                            },
+                        },
+                        <%end%>
+                        <%if  @end_time_list.size==0%>
+                        {
+                            x: Date.UTC(<%=Integer(@start_time_list[0,4])+10%>,  02, 21),
+                            y: <%=i%>,
+                            dataLabels: {
+                                align: 'left',
+                                useHTML: true,
+                                enabled: true,
+                                formatter: function () {
+                                    return "indeterminacy";
+                                }
+                            },
+                        },
+                        <%else%>
+                        {
+                            x:Date.UTC(<%=(@end_time_list[0,4])%>,  <%=(@end_time_list[5,2])%>, <%=(@end_time_list[8,2])%>),
+                            y:<%=i%>,
+                            dataLabels: {
+                                align: 'center',
+                                useHTML: true,
+                                enabled: true,
+                                formatter: function () {
+                                    return "end";
+                                }
+                            },
+                        },
+                        <%end%>
+                    ]
+                },
+            <% i=i+1%>
+            <% end %>
+         ]
+    });
+    <%end%>

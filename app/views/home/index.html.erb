@@ -11,29 +11,25 @@
         <!-- Grid row -->
         <div class="row">
             <form method=post action="" name="form1">
-                <article class="span4">
+                <article class="span3">
                     <h3>Select Platform</h3>
-                    <select name="Platform" onChange="getBranch()" id="Platform"
-                        onclick="update_calendar()" onclick="update_scenario_by_task()">
-                        <option value="Platform">Platform</option> <%@scenariosplatform =
-                        get_all_platform() %> <% @scenariosplatform.each do |scenariosp|
-                        %>
+                    <select name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform">
+                       <%@scenariosplatform =get_all_platform() %>
+                        <% @scenariosplatform.each do |scenariosp| %>
                         <option value="<%=scenariosp.platform%>"><%=scenariosp.platform%></option>
                         <% end %>
                     </select>
                 </article>
-                <article class="span4">
+                <article class="span3">
                     <h3>Select Branch</h3>
                     <select name="Branch" id="Branch" onclick="update_calendar()"
-                        onclick="update_scenario_by_task()">
-                        <option value="Branch">Branch</option>
+                        onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>
                 </article>
-                <article class="span4">
+                <article class="span3">
                     <h3>Select Device</h3>
                     <select name="Device" id="Device" onclick="update_calendar()"
-                        onclick="update_scenario_by_task()">
-                        <option value="Device">Device</option>
+                        onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>
                 </article>
             </form>
@@ -41,16 +37,7 @@
             <article class="span6">
                 <!-- Example jQuery FullCalendar -->
                 <div class='full-calendar '></div>
-                <!-- table of daily power -->
-                <h2>
-                    <span class="icon-hand-right"></span>&nbsp;Daily Power
-                </h2>
-                <!-- table of task list -->
-                <!-- scenario table of task -->
-                <div id="task_scenario"></div>
-            </article>
-            <article class="span6">
-                <h2>
+                 <h2>
                     <span class="icon-hand-right"></span>&nbsp;Smoke test result
                 </h2>
                 <div id="accordion1" class="accordion">
@@ -59,17 +46,41 @@
                             <a class="accordion-toggle" href="#collapseOne"
                                 data-parent="#accordion1" data-toggle="collapse">
                                 <div id="title_smoketest"></div>
+                                <div id ="sub_date" style="display:none;"></div>
+                                <div id ="show_smoketest" style="display:none;"></div>
                             </a>
                         </div>
                         <div id="collapseOne" class="accordion-body in collapse"
                             style="height: auto;">
                             <div class="accordion-inner">
                                 <div id="smoketest_result"></div>
-                                <a href="/tools/smoketest"><button class="btn btn-primary">Detailed</button></a>
+                               <a class="btn btn-wuxia btn-primary" onclick="submit_smoke()" data-toggle="modal" href="#demoModal">Detail</a>
+                               <div class="modal fade hide" id="demoModal" style="display: none;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                        <h3>Smoketest detail</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                       <div id ="smoke_detailed"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            </article>
+            <article class="span6">
+                <!-- table of daily power -->
+                <h2>
+                    <span class="icon-hand-right"></span>&nbsp;Daily Power
+                </h2>
+                <!-- table of task list -->
+                <!-- scenario table of task -->
+                <div id="task_scenario"></div>
             </article>
             <!-- /Page grid cell (6 blocks - full) -->
         </div>
@@ -77,18 +88,50 @@
     </div>
     <!-- Tab #basic -->
 </div>
-<!-- /page-container -->
+</div>
+<!-- /page-container -
+<!--PXA1928-->
+<div  class="page-container">
+    <ul class="nav nav-tabs" id="myTab" onclick="update_scenario_code()">
+    <%@scenariosplatformbranch=get_all_platformbranch() %>
+        <% @scenariosplatformbranch.each do |scenariosp| %>
+        <li><a href="#container_<%=scenariosp.platform%>"><%=scenariosp.platform%></a></li>
+        <%end%>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="container_pxa1936" style="height: 400px; margin: 0 auto"></div>
+        <%@scenariosplatformbranch=get_all_platformbranch() %>
+            <% @scenariosplatformbranch.each do |scenariosp| %>
+                <div class="tab-pane" id="container_<%=scenariosp.platform%>" style="height: 400px; margin: 0 auto"></div>
+            <%end%>
+    </div>
+</div>
+<!--/PXA1928-->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script>
     $(document).ready(function() {
+        getBranch();
+        var show_smoketest = $("#show_smoketest").text();
+        var smoke_date =  new Array();
+        smoke_date = show_smoketest.split(",");
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
         var h = date.getHours();
         var todays_smoketest = "";
-                todays_smoketest+=date.getFullYear()+"-";
-                todays_smoketest+=(date.getMonth()+1)+"-";
-                todays_smoketest+=date.getDate();
+                todays_smoketest+=date.getFullYear()+"-smoke_date";
+                if((date.getMonth()+1)<10){
+                    todays_smoketest+="0"+(date.getMonth()+1)+"-";
+                }else{
+                    todays_smoketest+=(date.getMonth()+1)+"-";
+                }
+                if(date.getDate()<10){
+                    todays_smoketest+="0"+date.getDate();
+                }else{
+                    todays_smoketest+=date.getDate();
+                }
         var branch=$("#Branch").val();
         var platform=$("#Platform").val();
         var device = $("#Device").val();
@@ -96,79 +139,19 @@
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
                 $("#title_smoketest").text(todays_smoketest+"_"+platform+"_"+branch+"_"+device);
-        $('.full-calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay'
-            },
-            defaultDate:'today',
-            selectable:true,
-            selectHelper : true,
-            select : function(start,end){
-                /*var title = prompt('Event Title:');*/
-                var today ="";
-                today+=start.getFullYear()+"-";
-                if((start.getMonth()+1)<10){
-                    today+="0"+(start.getMonth()+1)+"-";
-                }else{
-                    today+=(start.getMonth()+1)+"-";
-                }
-                if(start.getDate()<10){
-                    today+="0"+start.getDate();
-                }else{
-                    today+=start.getDate();
-                }
-                update_scenario_by_task(today);
-                show_issue_detail(today);
-                var branch=$("#Branch").val();
-                var platform=$("#Platform").val();
-                var device=$("#Device").val();
-                $("#title_smoketest").html("");
-                $("#title_smoketest").append(today+"_"+platform+"_"+branch+"_"+device);
-
-            },
-
-            eventLimit: true,
-            editable: false,
-            buttonText: {
-                prev: '<span class="icon-circle-arrow-right"></span>',
-                next: '<span class="icon-circle-arrow-left"></span>'
-            },
-            businessHours: true, // display business hours
-            editable: false,
-            events: [
-            //<%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
-            //<% @scenariosplatform.each do |scenariosp| %>
-                {
-                    title: 'power',
-                    overlap: false,
-                    start:"<%=scenariosp1.image_date%>",
-                    end:"<%=scenariosp1.image_date%>",
-                    color:'red',
-                },
-           //<% end %>
-               {
-               }
-            ]
-        });
-        $('.full-calendar-gcal').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay'
-            },
-            buttonText: {
-                prev: '<span class="icon-arrow-left"></span>',
-                next: '<span class="icon-arrow-right"></span>'
-            },
-        });
-        update_scenario_by_task("");
+                $("#sub_date").text(todays_smoketest);
+    update_scenario_by_task(todays_smoketest);
+            update_calendar();
+            show_smoketest_calendar();
+            update_scenario_code();
 
     });
 </script>
 <script language="JavaScript" type="text/javascript">
 function update_scenario_by_task(image_date){
+            var imgid = new Image();
+            imgid.src ="../images/icons/loading_blue.gif";
+            $("#task_scenario").html(imgid);
                 branch=$("#Branch").val();
                 platform=$("#Platform").val();
                 device = $("#Device").val();
@@ -188,18 +171,44 @@ function update_scenario_by_task(image_date){
     });
 }
 
+function update_scenario_code(){
+    var platform;
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+        platform = $(this).text();
+        var task_url = "get_code_drop?platform="+platform;
+        $.ajax({
+                type: "GET",
+                url: task_url,
+                success: function(msg){
+                }
+        });
+        $(this).text().remove();
+    });
+    platform = "pxa1936";
+    var task_url = "get_code_drop?platform="+platform;
+    $.ajax({
+        type: "GET",
+        url: task_url,
+        success: function(msg){
+        }
+    });
+}
+
 function update_calendar(){
                 branch=$("#Branch").val();
                 platform=$("#Platform").val();
                 device = $("#Device").val();
                 platform=$("#Platform").val();
                 device = $("#Device").val();
+                show_smoketest = $("#show_smoketest").text();
                 branch = branch.replace(/(^\s*)|(\s*$)/g,"");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
     $.ajax({
         type: "GET",
-        url: 'update_calendar?platform='+platform+'&branch='+branch+'&device='+device,
+        url: 'update_calendar?platform='+platform+'&branch='+branch+'&device='+device+'&show_smoketest='+show_smoketest,
         success: function(msg){
 
         }
@@ -207,10 +216,14 @@ function update_calendar(){
 }
 
 function show_issue_detail(image_date){
+            var imgid = new Image();
+            imgid.src ="../images/icons/loading_blue.gif";
+            $("#smoketest_result").html(imgid);
                 branch=$("#Branch").val();
                 platform=$("#Platform").val();
                 device = $("#Device").val();
                 branch = branch.replace(/[\ |\_|\.]/g,"");
+                branch = branch.replace("master","");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/[\ |\_|\.]/g,"");
     $.ajax({
@@ -220,6 +233,45 @@ function show_issue_detail(image_date){
         success: function(data){
             $("#smoketest_result").html("");
             $("#smoketest_result").html(data);//data就是请求页面的内容....
+        }
+    });
+}
+
+function show_smoketest_calendar(){
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                branch = branch.replace(/[\ |\_|\.]/g,"");
+                branch = branch.replace("master","");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+    $.ajax({
+        type: "POST",
+        url:'http://10.38.32.174/smoketest/php/searchstateresult.php',
+        data:{platform:platform, branch:branch,mode:2},
+        success: function(data){
+            $("#show_smoketest").html("");
+            $("#show_smoketest").html(data);//data就是请求页面的内容....
+            //console.log(data);
+        }
+    });
+
+}
+function submit_smoke(image_date){
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                var image_date = $("#sub_date").text();
+                branch = branch.replace(/[\ |\_|\.]/g,"");
+                branch = branch.replace("master","");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/[\ |\_|\.]/g,"");
+    $.ajax({
+        type: "GET",
+        url: "http://10.38.32.174/smoketest/php/searchstateresult.php?reportdate="+image_date+"&platform="+platform+"&branch="+branch+"&prodoct="+device,
+        success: function(msg){
+              $("#smoke_detailed").html("");
+            $("#smoke_detailed").html(msg);//msg...
+
         }
     });
 }
@@ -254,20 +306,20 @@ function show_issue_detail(image_date){
              //获得Device下拉框的对象
             var sltDevice=document.form1.Device;
             //得到对应Platform的Branch数组
-            var PlatformBranch=Branch[sltPlatform.selectedIndex - 1];
+            var PlatformBranch=Branch[sltPlatform.selectedIndex];
              //得到对应Platform的Device数组
-            var PlatformDevice=Device[sltPlatform.selectedIndex - 1];
+            var PlatformDevice=Device[sltPlatform.selectedIndex];
             //清空Branch下拉框，仅留提示选项
             sltBranch.length=1;
             //清空Device下拉框，仅留提示选项
             sltDevice.length=1;
             //将Branch数组中的值填充到Branch下拉框中
              for(var i=0;i<PlatformBranch.length;i++){
-            sltBranch[i+1]=new Option(PlatformBranch[i],PlatformBranch[i]);
+            sltBranch[i]=new Option(PlatformBranch[i],PlatformBranch[i]);
             }
              //将Device数组中的值填充到Device下拉框中
              for(var i=0;i<PlatformDevice.length;i++){
-            sltDevice[i+1]=new Option(PlatformDevice[i],PlatformDevice[i]);
+            sltDevice[i]=new Option(PlatformDevice[i],PlatformDevice[i]);
             }
         }
     </script>

@@ -1,168 +1,121 @@
-
 update_scenario_by_task("");
+show_smoketest_calendar();
 $('.full-calendar').html("");
 var date = new Date();
 var d = date.getDate();
 var m = date.getMonth();
 var y = date.getFullYear();
 var h = date.getHours();
-var todays1 = "";
-todays1 += date.getFullYear() + "-";
-todays1 += (date.getMonth() + 1) + "-";
-todays1 += date.getDate();
-var branch = $("#Branch").val();
-var platform = $("#Platform").val();
+var show_smoketest = $("#show_smoketest").text();
+var smoke_date =  new Array();
+smoke_date = show_smoketest.split(",");
+var todays_smoketest = "";
+todays_smoketest+=date.getFullYear()+"-";
+if((date.getMonth()+1)<10){
+            todays_smoketest+="0"+(date.getMonth()+1)+"-";
+        }else{
+            todays_smoketest+=(date.getMonth()+1)+"-";
+        }
+        if(date.getDate()<10){
+            todays_smoketest+="0"+date.getDate();
+        }else{
+                    todays_smoketest+=date.getDate();
+        }
+var branch=$("#Branch").val();
+var platform=$("#Platform").val();
 var device = $("#Device").val();
-branch = branch.replace(/(^\s*)|(\s*$)/g, "");
-platform = platform.replace(/(^\s*)|(\s*$)/g, "");
-device = device.replace(/(^\s*)|(\s*$)/g, "");
-$("#titleg").text(todays1 + "_" + platform + "_" + branch + "_" + device);
-$('.full-calendar').fullCalendar(
-        {
-            header : {
-                left : 'prev,next today',
-                center : 'title',
-                right : 'month,basicWeek,basicDay'
-            },
-            defaultDate : 'today',
-            selectable : true,
-            selectHelper : true,
-            select : function(start, end) {
-                /*var title = prompt('Event Title:');*/
-                var today = "";
-                today += start.getFullYear() + "-";
-                if ((start.getMonth() + 1) < 10) {
-                    today += "0" + (start.getMonth() + 1) + "-";
-                } else {
-                    today += (start.getMonth() + 1) + "-";
-                }
-                if (start.getDate() < 10) {
-                    today += "0" + start.getDate();
-                } else {
-                    today += start.getDate();update_scenario_by_task("");
-                    $('.full-calendar').html("");
-                    var date = new Date();
-                    var d = date.getDate();
-                    var m = date.getMonth();
-                    var y = date.getFullYear();
-                    var h = date.getHours();
-                    var todays1 = "";
-                    todays1+=date.getFullYear()+"-";
-                    todays1+=(date.getMonth()+1)+"-";
-                    todays1+=date.getDate();
-                    var branch=$("#Branch").val();
-                    var platform=$("#Platform").val();
-                    var device = $("#Device").val();
-                    branch = branch.replace(/(^\s*)|(\s*$)/g,"");
-                    platform = platform.replace(/(^\s*)|(\s*$)/g,"");
-                    device = device.replace(/(^\s*)|(\s*$)/g,"");
-                    $("#titleg").text(todays1+"_"+platform+"_"+branch+"_"+device);
-                $('.full-calendar').fullCalendar({
-                        header: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'month,basicWeek,basicDay'
-                        },
-                            defaultDate:'today',
-                            selectable:true,
-                            selectHelper : true,
-                        select : function(start,end){
-                            /*var title = prompt('Event Title:');*/
-                            var today ="";
-                            today+=start.getFullYear()+"-";
-                            if((start.getMonth()+1)<10){
-                                today+="0"+(start.getMonth()+1)+"-";
-                            }else{
-                                today+=(start.getMonth()+1)+"-";
-                            }
-                            if(start.getDate()<10){
-                                today+="0"+start.getDate();
-                            }else{
-                                today+=start.getDate();
-                            }
-                            update_scenario_by_task(today);
-                            show_issue_detail(today);
-                            var branch=$("#Branch").val();
-                            var platform=$("#Platform").val();
-                            var device=$("#Device").val();
-                            $("#titleg").html("");
-                            $("#titleg").append(today+"_"+platform+"_"+branch+"_"+device);
-                        },
-                        eventLimit: true,
-                        editable: false,
-                        buttonText: {
-                            prev: '<span class="icon-circle-arrow-right"></span>',
-                            next: '<span class="icon-circle-arrow-left"></span>'
-                        },
-                        businessHours: true, // display business hours
-                        editable: false,
-                        events: [
-                        //<%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
-                        //<% @scenariosplatform.each do |scenariosp| %>
-                            {
-                                title: 'power',
-                                overlap: false,
-                                start:"<%=scenariosp.image_date%>",
-                                end:"<%=scenariosp.image_date%>",
-                                color:'red',
-                            },
-                       //<% end %>
-                           {
-                           }
-                        ]
-                    });
-                    $('.full-calendar-gcal').fullCalendar({
-                        header: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'month,basicWeek,basicDay'
-                        },
-                        buttonText: {
-                            prev: '<span class="icon-arrow-left"></span>',
-                            next: '<span class="icon-arrow-right"></span>'
-                        },
-                    });
+branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+device = device.replace(/(^\s*)|(\s*$)/g,"");
+$("#title_smoketest").text(todays_smoketest+"_"+platform+"_"+branch+"_"+device);
+$("#sub_date").text(todays_smoketest);
+$('.full-calendar').fullCalendar({
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,basicWeek,basicDay'
+    },
+        defaultDate:'today',
+        selectable:true,
+        selectHelper : true,
+    select : function(start,end){
+        /*var title = prompt('Event Title:');*/
+        var today ="";
+        today+=start.getFullYear()+"-";
+        if((start.getMonth()+1)<10){
+            today+="0"+(start.getMonth()+1)+"-";
+        }else{
+            today+=(start.getMonth()+1)+"-";
+        }
+        if(start.getDate()<10){
+            today+="0"+start.getDate();
+        }else{
+            today+=start.getDate();
+        }
+        update_scenario_by_task(today);
+        show_issue_detail(today);
+        var branch=$("#Branch").val();
+        var platform=$("#Platform").val();
+        var device=$("#Device").val();
+        $("#title_smoketest").html("");
+        $("#title_smoketest").append(today+"_"+platform+"_"+branch+"_"+device);
+        $("#sub_date").html("");
+        $("#sub_date").append(today);
+    },
+    eventLimit: true,
+    editable: false,
+    buttonText: {
+        prev: '<span class="icon-circle-arrow-left"></span>',
+        next: '<span class="icon-circle-arrow-right"></span>'
+    },
+    businessHours: true, // display business hours
+    editable: false,
+    eventClick: function(calEvent) {
+        var startdate = calEvent.start;    <%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
 
-                }
-                update_scenario_by_task(today);
-                show_issue_detail(today);
-                var branch = $("#Branch").val();
-                var platform = $("#Platform").val();
-                var device = $("#Device").val();
-                $("#titleg").html("");
-                $("#titleg").append(
-                        today + "_" + platform + "_" + branch + "_"
-                                + device);
-            },
-            eventLimit : true,
-            editable : false,
-            buttonText : {
-                prev : '<span class="icon-circle-arrow-right"></span>',
-                next : '<span class="icon-circle-arrow-left"></span>'
-            },
-            businessHours : true, // display business hours
-            editable : false,
-            events : [
-            //<%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
-            //<% @scenariosplatform.each do |scenariosp| %>
-            {
-                title : 'power',
-                overlap : false,
-                start : "<%=scenariosp.image_date%>",
-                end : "<%=scenariosp.image_date%>",
-                color : 'red',
-            },
-            //<% end %>
-            {} ]
-        });
-$('.full-calendar-gcal').fullCalendar({
-    header : {
-        left : 'prev,next today',
-        center : 'title',
-        right : 'month,basicWeek,basicDay'
+         var today_event ="";
+        today_event+=startdate.getFullYear()+"-";
+        if((startdate.getMonth()+1)<10){
+            today_event+="0"+(startdate.getMonth()+1)+"-";
+        }else{
+            today_event+=(startdate.getMonth()+1)+"-";
+        }
+        if(startdate.getDate()<10){
+            today_event+="0"+startdate.getDate();
+        }else{
+            today_event+=startdate.getDate();
+        }
+        update_scenario_by_task(today_event);
+        show_issue_detail(today_event);
+         $("#title_smoketest").html("");
+        $("#title_smoketest").append(today_event+"_"+platform+"_"+branch+"_"+device);
+        $("#sub_date").html("");
+        $("#sub_date").append(today_event);
     },
-    buttonText : {
-        prev : '<span class="icon-arrow-left"></span>',
-        next : '<span class="icon-arrow-right"></span>'
-    },
+    events: [
+    <%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
+    <% @scenariosplatform.each do |scenariosp| %>
+        {
+            title: 'power',
+            overlap: false,
+            start:"<%=scenariosp.image_date%>",
+            end:"<%=scenariosp.image_date%>",
+            color:'red',
+        },
+   <% end %>
+   <% i = 0 %>
+   <%  while i<300 do  %>
+        {
+                title: 'smoke',
+                start:smoke_date[<%=i%>],
+                end:smoke_date[<%=i%>],
+                color:'green'
+        },
+    <% i = i+1 %>
+    <% end %>
+       {
+       }
+    ]
 });
+update_scenario_by_task(todays_smoketest);
+update_scenario_code();
