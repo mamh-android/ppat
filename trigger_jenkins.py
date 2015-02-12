@@ -60,7 +60,7 @@ def main():
 
     if not jobname_L:
         printcolor("job name is null. %s" % jobname_L)
-        sys.exit(1)
+        sys.exit(0)
 
     def get_willstartjobname():
         willstartjobname = ""
