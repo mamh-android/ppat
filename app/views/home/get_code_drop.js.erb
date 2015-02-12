@@ -70,7 +70,7 @@
                     name: ' <%= scenariosd.branch%>',
                     data: [
                         {
-                            x:Date.UTC(<%=(@start_time_list[0,4])%>,  <%=(@start_time_list[5,2])%>, <%=(@start_time_list[8,2])%>),
+                            x:Date.UTC(<%=(@start_time_list[0,4])%>,  <%=(@start_time_list[5,2].to_i)-1%>, <%=(@start_time_list[8,2])%>),
                             y:<%=i%>,
                             dataLabels: {
                                 align: 'center',
@@ -85,7 +85,7 @@
                         <%@scenariocode.each do |scencode|%>
                         {
                             <%@code_drop_dates = scencode.code_drop_date.to_s%>
-                            x: Date.UTC(<%=(@code_drop_dates[0,4])%>,  <%=(@code_drop_dates[5,2])%>, <%=(@code_drop_dates[8,2])%>),
+                            x: Date.UTC(<%=(@code_drop_dates[0,4])%>,  <%=(@code_drop_dates[5,2].to_i)-1%>, <%=(@code_drop_dates[8,2])%>),
                             y: <%=i%>,
                             dataLabels: {
                                 align: 'center',
@@ -113,7 +113,7 @@
                         },
                         <%else%>
                         {
-                            x:Date.UTC(<%=(@end_time_list[0,4])%>,  <%=(@end_time_list[5,2])%>, <%=(@end_time_list[8,2])%>),
+                            x:Date.UTC(<%=(@end_time_list[0,4])%>,  <%=(@end_time_list[5,2].to_i)-1%>, <%=(@end_time_list[8,2])%>),
                             y:<%=i%>,
                             dataLabels: {
                                 align: 'center',
