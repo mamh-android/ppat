@@ -1,0 +1,8 @@
+$("#test_type").html("<%= @testtype %> Test");
+$("#ap_scenario").html("<%= escape_javascript(render :partial => 'ap_scenario', :object => @power_cases) %>");
+$("#cp_scenario").html("<%= escape_javascript(render :partial => 'cp_scenario', :object => @cp_cases) %>");
+$("#perf_scenario").html("<%= escape_javascript(render :partial => 'perf_scenario', :object => @power_cases) %>");
+$("#pp_tuning").html("<%= escape_javascript(render :partial => 'round_pp', :object => @pp_infos) %>");
+$("#uboot").html("<%= escape_javascript(render :partial => 'uboot_scenario', :object => @bare_infos) %>");
+$("#DeviceHW").html("<%= escape_javascript(render :partial => 'device_info', :object => @device_with_module) %>");
+

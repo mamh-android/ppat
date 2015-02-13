@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Uboot>
+	<Device name="pxa1928dkb_tz:pxa1928dkb">
+		<Component name="lpm">
+			<TestCase>
+				<CaseName>lpm</CaseName>
+				<lpm>
+					<case type="checkbox">c1mp0,c2mp0,c1mp1,c2m2mp2,c2m4mp2,d0cg,d0cglcd,d1,d2</case>
+				</lpm>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="cpu">
+			<TestCase>
+				<CaseName>cpu_idle</CaseName>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpu_active</CaseName>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpueater</CaseName>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>coremark</CaseName>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="ddr">
+			<TestCase>
+				<CaseName>ddr_idle</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>ddr_active</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>bw_mem</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+			</TestCase>
+		</Component>
+		<Component name="gpu">
+			<TestCase>
+				<CaseName>gpu2d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu2d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">208,312</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gcubench</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">208,312</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">208,312,416</freq>
+				</gc3d>
+			</TestCase>
+			<TestCase>
+				<CaseName>texture</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">208,312,416</freq>
+				</gc3d>
+			</TestCase>
+		</Component>
+		<Component name="vpu">
+			<TestCase>
+				<CaseName>vpu_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>vpu_dec_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>1080p_dec</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>720p_dec</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>vga_dec</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>vpu_enc_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">156</freq>
+				</cpu>
+				<vpu_enc>
+					<freq type="checkbox">156,208,312,416</freq>
+				</vpu_enc>
+			</TestCase>
+			<TestCase>
+				<CaseName>1080p_enc</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>720p_enc</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+			<TestCase>
+				<CaseName>vga_enc</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+				<vpu_dec>
+					<freq type="checkbox">104,156,208,312,416</freq>
+				</vpu_dec>
+			</TestCase>
+		</Component>
+	</Device>
+
+	<Device name="pxa1L88dkb_def:pxa1L88dkb">
+		<Component name="lpm">
+			<TestCase>
+				<CaseName>lpm</CaseName>
+				<lpm>
+					<case type="checkbox">c12,c13,c22,m11_c13,m11_c22,m21,m22,d1p,d1pddr,d1pp,d1ppstdby,d1,d2,d2p,d2pp</case>
+				</lpm>
+				<cpu>
+					<freq type="checkbox">312,624,1066,1183</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,533</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,156,266</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="cpu">
+			<TestCase>
+				<CaseName>cpu_idle</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,1066,1183</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,533</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,156,266</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpu_active</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,1066,1183</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,533</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,156,266</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="ddr">
+			<TestCase>
+				<CaseName>ddr_idle</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,533</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,156,266</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">312,624,1066,1183</freq>
+				</cpu>
+			</TestCase>
+		</Component>
+		<Component name="gpu">
+			<TestCase>
+				<CaseName>gpu2d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu2d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">156,312,416,624</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">156,312,416,624</freq>
+				</gc3d>
+			</TestCase>
+		</Component>
+		<Component name="vpu">
+			<TestCase>
+				<CaseName>vpu_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>vpu_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,533</freq>
+				</vpu>
+			</TestCase>
+		</Component>
+	</Device>
+
+
+	<Device name="pxa1U88dkb_def:pxa1U88dkb">
+		<Component name="lpm">
+			<TestCase>
+				<CaseName>lpm</CaseName>
+				<lpm>
+					<case type="checkbox">c12,c13,c22,m11_c13,m11_c22,m21,m22,d1p,d1pddr,d1pp,d1ppstdby,d1,d2,d2p,d2pp</case>
+				</lpm>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248,1526,1803</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528,797</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="cpu">
+			<TestCase>
+				<CaseName>cpu_idle</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248,1526,1803</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528,797</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpu_active</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248,1526,1803</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528,797</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="ddr">
+			<TestCase>
+				<CaseName>ddr_idle</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528,797</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">312,624,832,1057,1248,1526,1803</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>ddr_active</CaseName>
+				<ddr>
+					<freq type="checkbox">78,104,156,208,312,398,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">78,104,156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">156,312,398,624,797,1057,1196</freq>
+				</cpu>
+			</TestCase>
+		</Component>
+		<Component name="gpu">
+			<TestCase>
+				<CaseName>gpu2d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu2d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">78,156,208,312,416</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">156,312,416,624,705</freq>
+				</gc3d>
+			</TestCase>
+		</Component>
+		<Component name="vpu">
+			<TestCase>
+				<CaseName>vpu_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>vpu_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">78</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+			</TestCase>
+		</Component>
+	</Device>
+
+	<Device name="pxa1908dkb_tz:pxa1908dkb">
+		<Component name="lpm">
+			<TestCase>
+				<CaseName>lpm</CaseName>
+				<lpm>
+					<case type="checkbox">c12,c13,c22,m0,m11_c22,m21,m22,d1p,d1pddr,d1pp,d1ppstdby,d1,d2,d2p,d2pp</case>
+				</lpm>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+		</Component>
+		<Component name="cpu">
+			<TestCase>
+				<CaseName>cpu_idle</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpu_active</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="radio">156,312,416,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+			</TestCase>
+			<TestCase>
+				<CaseName>cpueater</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+			</TestCase>
+			<TestCase>
+				<CaseName>coremark</CaseName>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+					<coreNum type="checkbox">1,2,3,4</coreNum>
+				</cpu>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+			</TestCase>
+		</Component>
+		<Component name="ddr">
+			<TestCase>
+				<CaseName>ddr_idle</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">312,624,832,1057,1248</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>ddr_active</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<axi>
+					<freq type="radio">156,208,312</freq>
+				</axi>
+				<cpu>
+					<freq type="radio">312,624,832,1057,1248</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>bw_mem</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="radio">312,624,832,1057,1248</freq>
+				</cpu>
+			</TestCase>
+		</Component>
+		<Component name="gpu">
+			<TestCase>
+				<CaseName>gpu2d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu2d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">156,312,416,624</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gcubench</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<gc2d>
+					<freq type="checkbox">156,312,416,624</freq>
+				</gc2d>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>gpu3d_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">156,312,416,624,705</freq>
+				</gc3d>
+			</TestCase>
+			<TestCase>
+				<CaseName>texture</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<gc3d>
+					<freq type="checkbox">156,312,416,624,705</freq>
+				</gc3d>
+			</TestCase>
+		</Component>
+		<Component name="vpu">
+			<TestCase>
+				<CaseName>vpu_power_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>vpu_clock_on</CaseName>
+				<ddr>
+					<freq type="radio" checked="true">156</freq>
+				</ddr>
+				<axi>
+					<freq type="radio" checked="true">156</freq>
+				</axi>
+				<cpu>
+					<freq type="radio" checked="true">312</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+			</TestCase>
+			<TestCase>
+				<CaseName>1080p_dec</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+				<Is_running>
+					<cpueater type="radio">Y,N</cpueater>
+				</Is_running>
+				<cmd>appCoda7542Dec &quot;-fmt:5 -i:/data/1080p_1200f.h264 -yuv:1 -fps:30 -len:/data/1080p_1200f.len -maxfrm:3000&quot;</cmd>
+			</TestCase>
+			<TestCase>
+				<CaseName>720p_dec</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+				<Is_running>
+					<cpueater type="radio">Y,N</cpueater>
+				</Is_running>
+				<cmd>appCoda7542Dec &quot;-fmt:5 -i:/data/720p_2400f.h264 -yuv:1 -fps:30 -len:/data/720p_2400f.len -maxfrm:3000&quot;</cmd>
+			</TestCase>
+			<TestCase>
+				<CaseName>1080p_enc</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+				<Is_running>
+					<cpueater type="radio">Y,N</cpueater>
+				</Is_running>
+				<cmd>appCoda7542Enc &quot;-p:/data/Coda7542EncConfig_1080p.par -lessinfo:1 -preload:30 -fps:30 -i:/data/MacaoScenery_1920x1080_30f.nv12 -n:3000 -iInputYUVFmt:1&quot;</cmd>
+			</TestCase>
+			<TestCase>
+				<CaseName>720p_enc</CaseName>
+				<ddr>
+					<freq type="checkbox">156,312,416,528</freq>
+				</ddr>
+				<cpu>
+					<freq type="checkbox">312,624,832,1057,1248</freq>
+				</cpu>
+				<vpu>
+					<freq type="checkbox">156,208,312,416,528</freq>
+				</vpu>
+				<Is_running>
+					<cpueater type="radio">Y,N</cpueater>
+				</Is_running>
+				<cmd>appCoda7542Enc &quot;-p:/data/Coda7542EncConfig_720p.par -lessinfo:1 -preload:30 -fps:30 -i:/data/Transformers_2007_720p_30f.nv12 -n:3000 -iInputYUVFmt:1&quot;</cmd>
+			</TestCase>
+		</Component>
+	</Device>
+</Uboot>

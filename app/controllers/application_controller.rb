@@ -9,4 +9,7 @@ private
 			session[:cart_id] = cart.id
 			cart
 	end
+	def get_now
+		Time.now.to_i
+	end
 end

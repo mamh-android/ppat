@@ -12,6 +12,7 @@
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
 							<div class="bar" style="width: 89%">89%</div>
 						</div>
+						<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 					</div>
 				<% end %>
 			<% end %>
@@ -32,6 +33,8 @@
 			<% if info.status == 'completed' %>
 				<div class="alert alert-info">
 					<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
+					</br>
+					<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 				</div>
 			<% end %>
 		<% end %>

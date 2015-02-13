@@ -1,0 +1,75 @@
+<% if !@bare_infos.nil? %>
+<article class="span12" id="baremetal">
+<% @bare_infos.elements.each { |comp| %>
+    <div class="control-group">
+        <label class="inline" for="input"><span><%= comp.attributes["name"] %></span></label>
+    </div>
+    <ul class="nav nav-tabs" id="uboot_tab_<%= comp.attributes["name"] %>">
+    <% comp.elements.each("TestCase") { |tc| %>
+        <li><a href="#<%= tc.elements["CaseName"].text %>"><%= tc.elements["CaseName"].text %></a></li>
+    <% } %>
+    </ul>
+    <div class="tab-content">
+        <% comp.elements.each("TestCase") { |tc| %>
+            <div class="tab-pane" id="<%= tc.elements["CaseName"].text %>">
+                <table id="baremetal_table" class="table table-bordered table-wuxia ">
+                    <tbody>
+                    <% tc.elements.each { |info| %>
+                        <% if info.name != "CaseName" %>
+                            <% info.elements.each { |cmp| %>
+                                <tr>
+                                    <td class="category">
+                                        <%= info.name %> <%= cmp.name%>
+                                    </td>
+                                    <td class="case">
+                                        <% cmp.text.split(',').each do |param| %>
+                                        <div>
+                                            <% if cmp.attributes["type"] == "checkbox" %>
+                                                <input type="checkbox" value="<%= cmp.name %>" name="<%= param %>" class="<%= param %>" text="<%= param %>"/>
+                                            <% elsif cmp.attributes["type"] == "radio" %>
+                                                <input type="radio" value="<%= cmp.name %>" name="<%= cmp.name%>" class="<%= param %>" text="<%= param %>" />
+                                            <% end %>
+                                            <%= param %>
+                                        </div>
+                                        <% end %>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            <% if info.name == "cmd" %>
+                                <tr>
+                                    <td class="category">
+                                        <%= info.name %>
+                                    </td>
+                                    <td class="case">
+                                        <div>
+                                            <input type="text" value="<%= info.text %>" name="<%= info.name %>" class="input-xxlarge inline"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        <% end %>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+<% } %>
+</article>
+<% end %>
+
+<script>
+<% if !@bare_infos.nil? %>
+$(function () {
+    <% @bare_infos.elements.each { |comp| %>
+        $('#uboot_tab_<%= comp.attributes["name"] %> a:first').tab('show');
+        $('#uboot_tab_<%= comp.attributes["name"] %> a').click(function (e) {
+          e.preventDefault();//阻止a链接的跳转行为
+          $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+    <% } %>
+
+})
+<% end %>
+</script>

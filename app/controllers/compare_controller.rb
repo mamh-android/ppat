@@ -10,10 +10,10 @@ class CompareController < ApplicationController
 	    branch = params[:Branch]
 	    device = params[:Device]
 	    platform = params[:Platform]
-	    @task_id = PowerRecord.find(:all, :conditions => ['image_date = ? and branch = ? and device = ? and platform = ?', image_date,
-	      branch, device, platform]).first.task_id
+	    @task_id = PowerRecord.where('image_date = ? and branch = ? and device = ? and platform = ?', image_date,
+	      branch, device, platform).first.task_id
 	    @cart = get_cart
-	    @scenarios = PowerRecord.find(:all, :conditions => ['task_id = ?', @task_id], :group => "power_scenario_id")
+	    @scenarios = PowerRecord.where('task_id = ?', @task_id).group(:power_scenario_id)
 	    @scenarios.each do |power_record|
 	        @record_list = @cart.record_list.build(:power_record => power_record)
 	        @record_list.save

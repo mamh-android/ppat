@@ -5,58 +5,44 @@
     <div class="tab-pane active">
         <!-- Grid row-->
             <div class="row">
-                <%= form_tag("/compare/add_daily_compare", method: "post", remote: true, class: "form-horizontal") do %>
                     <div class="control-group">
-                        <label class="inline" for="input">Image Path:</label>
-                        <input id="input" class="input-xlarge inline" type="text" />
+                        <label class="inline" for="input" style="width:100px;">Image Path:&nbsp;&nbsp;</label>
+                        <input id="image_path" class="input-xlarge inline" type="text" />
                         <p class="help-inline">Image Path should be /autobuild/android/pxa988/2013-06-17_pxa988-jb4.2/</p>
                     </div>
-                    <div class="control-group">
-                        <label class="inline">Add Specify Image Files:</label>
-                        <a class="accordion-toggle btn btn-wuxia btn-inverse" href="#fileUpload" data-toggle="collapse">Add files</a>
-                        <div id="fileUpload" class="accordion-body collapse" style="height: 0; ">
 
-                        </div>
-                        <div class="plupload"></div>
+                     <div class="control-group">
+                        <label class="inline" style="width:100px;">Add Specify Image Files:</label>
+                        <a class="accordion-toggle btn btn-wuxia btn-inverse" onclick="show('imgFileUpload')" data-toggle="collapse">Add files</a>
+                        <div class="plupload" id="imgFileUpload" style="display:none"></div>
                     </div>
+
                     <div class="control-group">
-                        <label class="inline" for="input">Purpose:</label>
-                        <input id="input" class="input-xlarge inline" type="text" />
+                        <label class="inline" for="input" style="width:100px;">Purpose:</label>
+                        <input id="purpose" class="input-xlarge inline" type="text" />
                         <p class="help-inline">short description of reason for trigger PPAT</p>
                     </div>
 
                     <div class="control-group">
-                        <label class="inline" for="input">Device</label>
-                        <select name="Device">
-                            <option value="pxa1908dkb_tz">pxa1908dkb_tz</option>
-                            <option value="pxa1928dkb_tz">pxa1928dkb_tz</option>
-                            <option value="pxa1936dkb_tz">pxa1936dkb_tz</option>
+                        <label class="inline" for="input" style="width:100px;">Device</label>
+                        <select name="Device" onchange="choose_test()">
+                            <option value="device">device</option>
+                            <option value="pxa1908dkb_tz:pxa1908dkb">pxa1908dkb_tz</option>
+                            <option value="pxa1928dkb_tz:pxa1928dkb">pxa1928dkb_tz</option>
+                            <option value="pxa1936dkb_tz:pxa1936dkb">pxa1936dkb_tz</option>
                         </select>
-                        <label class="inline" for="input">Blf</label>
-                        <select name="Blf">
-                            <option>blf</option>
-                            <option>PXA1908_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</option>
-                        </select>
-                    </div>
+                        </div>
 
                     <div class="control-group" id="DeviceHW" style="display: block;">
-                        <label class="inline" for="optionsCheckbox">Choose Board HW Module:</label>
-                        <% @devices.keys.each do |device| %>
-                            <input name="hwmodule" type="radio" value="option1" onclick="update_testcases('<%= device%>')" /><%= device %>
-                        <% end %>
+                        <%= render :partial => 'device_info' %>
                     </div>
 
-                    <div class="control-group">
-                        <ul class="nav nav-tabs">
-                           <li class="active"><a href="#">PowerScenario</a></li>
-                           <li><a href="#">Round PP Tuning</a></li>
-                           <li><a href="#">Baremetal Power</a></li>
-                        </ul>
-
+                    <div class="control-group" id="blf">
+                        <%= render :partial => 'blf' %>
                     </div>
                     <div class="control-group">
-                        <label class="inline" for="input">Choose Test</label>
-                        <select name="TestType">
+                        <label class="inline" for="input" style="width:100px;">Choose Test</label>
+                        <select name="TestType" onchange="choose_test()">
                             <option>PowerScenario</option>
                             <option>Round PP Tuning</option>
                             <option>Baremetal Power</option>
@@ -64,7 +50,7 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="inline" for="input"><span>PowerScenario</span></label>
+                        <label class="inline" for="input"><span id="test_type">PowerScenario</span></label>
                     </div>
                     <div id="ap_scenario">
                         <%= render :partial => 'ap_scenario' %>
@@ -77,18 +63,276 @@
                     <div id="perf_scenario">
                         <%= render :partial => 'perf_scenario' %>
                     </div>
-                <% end %>
+
+                    <div id="pp_tuning">
+                        <%= render :partial => 'round_pp' %>
+                    </div>
+
+                    <div id="uboot">
+                        <%= render :partial => 'uboot_scenario' %>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="inline">Add Specify Test Files:</label>
+                        <a class="accordion-toggle btn btn-wuxia btn-inverse" onclick="show('testFileUpload')" data-toggle="collapse">Add files</a>
+                        <div class="plupload" id="testFileUpload" style="display:none"></div>
+                    </div>
+
+                    <div class="control-group" id="roundcmd">
+                        <label for="input">Please click "Add cmds for PPAT test" if you need input commmands</label>
+                        <button class="btn btn-primary btn-wuxia" onclick="add_cmd(this)">Add cmds for PPAT test</button>
+                    </div>
+		    <br/>
             </div>
     </div>
 <!--top-->
 </div>
+<footer>
+    <a class="btn btn-wuxia btn-primary" onclick="trigger_ppat()">Trigger PPAT</a>
+</footer>
+
 <script>
+
+/*
+    collect job info and trigger job
+*/
+function trigger_ppat(){
+    var device = $("select[name='Device']").val();
+    var blf = $("select[name='Blf']").val();
+    var purpose = $("#purpose").val();
+    var image_path = $("#image_path").val();
+    var hw = $('input[name=hwmodule]:checked').val();
+
+    var image_files = "";
+    $("#imgFileUpload ul").find("li").each(function(){
+        var fileName = $(this).find(".plupload_file_name span").html();
+        if(fileName != undefined){
+             image_files += fileName + ",";
+            //console.log($(this).find(".plupload_file_name span").html()); //get upload file name
+            //console.log($(this).find(".plupload_file_status").html()); //file upload status
+            if($(this).find(".plupload_file_status").html() != "100%"){
+                alert("File upload not finished yet!!!");
+            }
+        }
+    });
+
+    var test_files = "";
+    $("#testFileUpload ul").find("li").each(function(){
+        var fileName = $(this).find(".plupload_file_name span").html();
+        if(fileName != undefined){
+             test_files += fileName + ",";
+            //console.log($(this).find(".plupload_file_name span").html()); //get upload file name
+            //console.log($(this).find(".plupload_file_status").html()); //file upload status
+            if($(this).find(".plupload_file_status").html() != "100%"){
+                alert("File upload not finished yet!!!");
+            }
+        }
+    });
+
+    //collect test case list
+    var scenarios = new Array();
+
+    //ap scenarios
+    var ap_scenario_loop = $("#loopscenario").val();
+    $("#ap_table").find("input").each(function(){
+        if($(this).prop("checked") && $(this).attr("name")) {
+            var scenario_info = new Object();
+            scenario_info.name = $(this).attr("text");
+            var property = new Object();
+            property.count = ap_scenario_loop;
+            scenario_info.property = property;
+            scenarios.push(scenario_info);
+        }
+    });
+
+    //cp scenarios
+    var cp_scenario_loop = $("#loopcpscenario").val();
+    $("#cp_table").find("input").each(function(){
+        if($(this).prop("checked") && $(this).attr("name")) {
+            var scenario_info = new Object();
+            scenario_info.name = $(this).attr("text");
+            var property = new Object();
+            property.count = cp_scenario_loop;
+            scenario_info.property = property;
+            scenarios.push(scenario_info);
+        }
+    });
+
+    //performance scenarios
+    var performance_loop = $("#loopperfscenario").val();
+    $("#performance_table").find("input").each(function(){
+        if($(this).prop("checked") && $(this).attr("name")) {
+            var scenario_info = new Object();
+            scenario_info.name = $(this).attr("text");
+            var property = new Object();
+            property.count = performance_loop;
+            scenario_info.property = property;
+            scenarios.push(scenario_info);
+        }
+    });
+
+    //round pp info
+    var round_pp_infos = new Object();
+    var cpu0_info = new Object();
+    cpu0_info.CoreNum = "";
+    cpu0_info.Frequency = "";
+    $(".cpu0").find("input").each(function(){
+        if($(this).prop("checked")){
+            var type = $(this).attr("value");
+            if(type == "CoreNum"){
+                cpu0_info.CoreNum += $(this).attr("text") + ",";
+            }else if(type == "Frequency"){
+                cpu0_info.Frequency += $(this).attr("text") + ",";
+            }
+        }
+    });
+    if(cpu0_info.CoreNum != "" || cpu0_info.Frequency != ""){
+        round_pp_infos.cpu0 = cpu0_info;
+    }
+
+    var cpu4_info = new Object();
+    cpu4_info.CoreNum = "";
+    cpu4_info.Frequency = "";
+    $(".cpu4").find("input").each(function(){
+        if($(this).prop("checked")){
+            var type = $(this).attr("value");
+            if(type == "CoreNum"){
+                cpu4_info.CoreNum += $(this).attr("text") + ",";
+            }else if(type == "Frequency"){
+                cpu4_info.Frequency += $(this).attr("text") + ",";
+            }
+        }
+    });
+    if(cpu4_info.CoreNum != "" || cpu4_info.Frequency != ""){
+        round_pp_infos.cpu4 = cpu4_info;
+    }
+
+    var gpu0_info = new Object();
+    gpu0_info.Frequency = "";
+    $(".gpu0").find("input").each(function(){
+        if($(this).prop("checked")){
+            gpu0_info.Frequency += $(this).attr("text") + ",";
+        }
+    });
+    if(gpu0_info.Frequency != ""){
+        round_pp_infos.cpu4 = gpu0_info;
+    }
+
+    var gpu1_info = new Object();
+    gpu1_info.Frequency = "";
+    $(".gpu1").find("input").each(function(){
+        if($(this).prop("checked")){
+            gpu1_info.Frequency += $(this).attr("text") + ",";
+        }
+    });
+
+    if(gpu1_info.Frequency != ""){
+        round_pp_infos.gpu1 = gpu1_info;
+    }
+
+    var vpu0_info = new Object();
+    vpu0_info.Frequency = "";
+    $(".vpu0").find("input").each(function(){
+        if($(this).prop("checked")){
+            vpu0_info.Frequency += $(this).attr("text") + ",";
+        }
+    });
+
+    if(vpu0_info.Frequency != ""){
+        round_pp_infos.vpu0 = vpu0_info;
+    }
+
+    var vpu1_info = new Object();
+    vpu1_info.Frequency = "";
+    $(".gpu1").find("input").each(function(){
+        if($(this).prop("checked")){
+            vpu1_info.Frequency += $(this).attr("text") + ",";
+        }
+    });
+
+    if(vpu1_info.Frequency != ""){
+        round_pp_infos.vpu1 = vpu1_info;
+    }
+
+    var ddr_info = new Object();
+    ddr_info.Frequency = "";
+    $(".ddr").find("input").each(function(){
+        if($(this).prop("checked")){
+            ddr_info.Frequency += $(this).attr("text") + ",";
+        }
+    });
+
+    if(ddr_info.Frequency != ""){
+        round_pp_infos.ddr = ddr_info;
+    }
+
+    //round cmd
+    var round_cmd_infos = new Array();
+    $("#roundcmd").find("textarea").each(function(){
+        var cmd_info = new Object();
+        cmd_info.description = $(this).prev("input").val();
+        cmd_info.commands = $(this).val().replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
+        round_cmd_infos.push(cmd_info);
+    });
+
+    var testcase = new Object();
+    if(scenarios.length == 0){
+        alert("Please at least choose one test cases.");
+        return;
+    }
+    testcase.TestCaseList = scenarios;
+    var hasProp = false;
+    for (var prop in round_pp_infos){
+        hasProp = true;
+        break;
+    }
+    if(hasProp){
+        testcase.roundpp = round_pp_infos;
+    }
+    if(round_cmd_infos.length > 0){
+        testcase.roundcmd = round_cmd_infos;
+    }
+    if(image_files != "" || test_files != ""){
+        testcase.folder = "<%= @now %>";
+         if(test_files != ""){
+            testcase.test_files = test_files;
+        }
+        if(image_files != ""){
+            testcase.image_files = image_files;
+        }
+    }
+
+    var json = JSON.stringify(testcase);
+    //console.log($("#imgFileUpload ul li"));
+    //console.log($("#image_path").val() + $("#purpose").val() + $("select[name='Blf']").val() + $("select[name='Device']").val());
+
+    $.ajax({
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: "trigger",
+        data:{device:device, blf:blf, purpose:purpose, image_path:image_path, hw:hw, testcase:json},
+        success: function(msg){
+        }
+    });
+}
+
+function add_cmd(th){
+    $(th).before("<label class=\"inline\" for=\"input\">Description of set of cmds:</label>\
+                <input class=\"input-xlarge inline\" type=\"text\" />\
+                <textarea class=\"input-xxlarge\" rows=\"5\"></textarea><br/>");
+}
+
+function show(id){
+    $("#" + id).css("display", "block");
+}
 
 $(document).ready(function() {
 
     $('.plupload').pluploadQueue({
         runtimes : 'html5,gears,flash,silverlight,browserplus',
-        url : 'upload',
+        url : 'upload?dir=<%= @now %>',
         resize : {width : 320, height : 440, quality : 90},
         flash_swf_url : 'js/plugins/plUpload/plupload.flash.swf',
         silverlight_xap_url : 'js/plugins/plUpload/plupload.silverlight.xap'
@@ -106,8 +350,21 @@ $(document).ready(function() {
 
 });
 
+function choose_test(){
+    var module = $("#device input[type='radio']:checked").val()
+    var device = $("select[name='Device']").val();
+    var test_type = $("select[name='TestType']").val();
+    var update_tc_url = "update_testcase?device=" + device + "&type=" + test_type + "&module=" + module;
+    $.ajax({
+        type: "GET",
+        url: update_tc_url,
+        success: function(msg){
+        }
+    });
+}
+
 function update_testcases(deviceName){
-    var get_device_url = "get_device?device=" + deviceName;
+    var get_device_url = "get_device?module=" + deviceName;
     $.ajax({
         type: "GET",
         url: get_device_url,

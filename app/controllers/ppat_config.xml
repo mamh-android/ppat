@@ -81,6 +81,7 @@
 				<CaseName Category="Camera">Record_720p(OV5647)_2D</CaseName>
 				<CaseName Category="Camera">Take_pictures(OV5647)_2D</CaseName>
 			</TestCase>
+			<BLF>a.blf</BLF>
 	</Device>
 	<Device>
 			<Name>HW Module2:Camera LSI3H7,WIB 8787</Name>
@@ -94,6 +95,7 @@
 				<CaseName Category="Camera">Take_pictures(LSI3H7)</CaseName>
 				<CaseName Category="Camera">Record_720p(LSI3H7)</CaseName>
 			</TestCase>
+			<BLF>b.blf</BLF>
 	</Device>
 	<Device>
 			<Name>HW Module3:WIB 8887</Name>
@@ -106,6 +108,7 @@
 				<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
 				<CaseName Category="wifi/bt">Video_Streaming_WiFi</CaseName>
 			</TestCase>
+			<BLF>c.blf</BLF>
 	</Device>
 	<Device>
 			<Name>HW Module4:Camera OV13850</Name>
@@ -122,11 +125,13 @@
 				<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
 				<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
 			</TestCase>
+			<BLF>d.blf</BLF>
 	</Device>
 	<Board>
 			<Type>pxa1908dkb_tz:pxa1908dkb</Type>
 			<HW>
 				<Name>HW Module4:Camera OV13850</Name>
+				<Name>HW Module1:Camera OV5647</Name>
 			</HW>
 	</Board>
 
@@ -146,6 +151,7 @@
 			<Type>pxa1928dkb_tz:pxa1928dkb</Type>
 			<HW>
 				<Name>HW Module3:WIB 8887</Name>
+				<Name>HW Module1:Camera OV5647</Name>
 			</HW>
 	</Board>
 
@@ -243,4 +249,83 @@
 	<Performance>
 		<CaseName>browser_zoom_portrait</CaseName>
 	</Performance>-->
+	<Tune>
+		<Device name="pxa1L88dkb_def:pxa1L88dkb">
+			<cpu cluster="0">
+				<CoreNum>1,2,3,4</CoreNum>
+				<Frequency>312000,624000,1066000,1183000</Frequency>
+				<upthrehold/>
+				<downthrehold/>
+			</cpu>
+			<gpu unit="0">
+				<Frequency>156000,312000,416000,624000</Frequency>
+			</gpu>
+			<gpu unit="1">
+				<Frequency>156000,312000,416000,624000</Frequency>
+			</gpu>
+			<vpu unit="0">
+				<Frequency>156000,208000,312000,416000,533000</Frequency>
+			</vpu>
+			<ddr>
+				<Frequency>156000,312000,533000</Frequency>
+			</ddr>
+		</Device>
+		<Device name="pxa1U88dkb_def:pxa1U88dkb">
+			<cpu cluster="0">
+				<CoreNum>1,2,3,4</CoreNum>
+				<Frequency>312000,624000,832000,1057000,1248000,1526000,1803000</Frequency>
+			</cpu>
+			<gpu unit="0">
+				<Frequency>156000,312000,416000,624000,705000</Frequency>
+			</gpu>
+			<gpu unit="1">
+				<Frequency>78000,156000,208000,312000,416000</Frequency>
+			</gpu>
+			<vpu unit="0">
+				<Frequency>156000,208000,312000,416000,528000</Frequency>
+			</vpu>
+			<ddr>
+				<Frequency>156000,312000,416000,528000,797000</Frequency>
+			</ddr>
+		</Device>
+		<Device name="pxa1928dkb_tz:pxa1928dkb">
+			<cpu cluster="0">
+				<CoreNum>1,2,3,4</CoreNum>
+				<Frequency>156000,312000,398000,624000,797000,1057000,1196000</Frequency>
+			</cpu>
+			<gpu unit="0">
+				<Frequency>208000,312000,416000,624000</Frequency>
+			</gpu>
+			<gpu unit="1">
+				<Frequency>156000,208000,312000</Frequency>
+			</gpu>
+			<vpu unit="0">
+				<Frequency>104000,156000,208000,312000,416000</Frequency>
+			</vpu>
+			<vpu unit="1">
+				<Frequency>156000,208000,312000,416000</Frequency>
+			</vpu>
+			<ddr>
+				<Frequency>78000,104000,156000,208000,312000,398000,528000</Frequency>
+			</ddr>
+		</Device>
+		<Device name="pxa1908dkb_tz:pxa1908dkb">
+			<cpu cluster="0">
+				<CoreNum>1,2,3,4</CoreNum>
+				<Frequency>312000,624000,832000,1057000,1248000</Frequency>
+			</cpu>
+			<gpu unit="0">
+				<Frequency>156000,312000,416000,624000,705000</Frequency>
+			</gpu>
+			<gpu unit="1">
+				<Frequency>156000,312000,416000,624000</Frequency>
+			</gpu>
+			<vpu unit="0">
+				<Frequency>156000,208000,312000,416000,528000</Frequency>
+			</vpu>
+			<ddr>
+				<Frequency>156000,312000,416000,528000</Frequency>
+			</ddr>
+		</Device>
+	</Tune>
 </PPATConfig>

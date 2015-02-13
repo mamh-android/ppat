@@ -15,7 +15,6 @@ label span {
 }
 .inline {
     display: inline-block;
-    padding-left: 20px;
     margin-bottom: 0;
     vertical-align: middle;
     cursor: pointer;
@@ -25,6 +24,10 @@ label .inline {
 }
 .input-xlarge {
     width: 370px;
+}
+
+.input-xxlarge {
+    width: 800px;
 }
 form .control-group, .form-horizontal .control-group {
     padding: 10px;
@@ -65,4 +68,14 @@ tr div {
 .testloop {
     width: 20px;
     text-align: center;
+}
+footer{
+    display: block;
+}
+footer a{
+    bottom: 0;
+    left:0;
+    right:0;
+    position: fixed;
+    display: block;
 }

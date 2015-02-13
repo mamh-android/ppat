@@ -29,6 +29,7 @@ gem 'jquery-rails'
 gem "resque", '1.25.2'
 gem 'resque-scheduler', '4.0.0'
 gem 'resque-status', '0.4.3'
+gem 'jenkins_api_client'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -1,0 +1,8 @@
+<label class="inline" for="input" style="width:100px;">Blf</label>
+<select name="Blf">
+    <% if !@blf_arr.nil? %>
+    	<% @blf_arr.each do |blf| %>
+    		<option><%= blf %></option>
+    	<% end %>
+    <% end %>
+</select>

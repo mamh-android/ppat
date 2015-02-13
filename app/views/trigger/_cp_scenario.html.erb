@@ -1,11 +1,12 @@
-<article class="span12" id="performance">
-<table id="performance_table" class="table table-bordered table-wuxia ">
+<% if !@cp_cases.nil? %>
+<article class="span12" id="cp">
+<table id="cp_table" class="table table-bordered table-wuxia ">
     <thead>
         <tr>
             <th colspan="2">
                 <div class="tabletitle">CP Power</div>
                 <div><input type="checkbox" text="SelectAll" value="Select All" onclick="change_category_state(this)"/>SelectAll</div>
-                Test loop: <input id="loopscenario" type="text" name="loopPPAT" value="3" class="testloop"/>
+                Test loop: <input id="loopcpscenario" type="text" name="loopPPAT" value="3" class="testloop"/>
             </th>
         </tr>
     </thead>
@@ -28,3 +29,4 @@
     </tbody>
 </table>
 </article>
+<% end %>

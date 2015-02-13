@@ -1,0 +1,46 @@
+<% if !@pp_infos.nil? %>
+<article class="span12" id="roundpp">
+<table id="roundpp_table" class="table table-bordered table-wuxia ">
+    <thead>
+        <tr>
+            <th colspan="2">
+                <div class="tabletitle">Round PP Tuning</div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @pp_infos.elements.each { |comp| %>
+        <% @id = "" %>
+        <tr>
+            <td colspan="2">
+            <% if comp.name == "cpu" %>
+                <% @id = comp.attributes["cluster"] %>
+                <%= comp.name %> culster<%= comp.attributes["cluster"] %>:
+            <% elsif comp.name =="ddr" %>
+                <%= comp.name %>:
+            <% else %>
+                <% @id = comp.attributes["unit"] %>
+                <%= comp.name %><%= comp.attributes["unit"] %>:
+            <% end %>
+            </td>
+        </tr>
+        <% comp.elements.each { |info| %>
+        <tr>
+            <td class="category">
+                <input type="checkbox" id="<%= info.name %>_c" onclick="change_all_and_case_state(this)"/> <%= info.name %>
+            </td>
+            <td class="case <%= comp.name %><%= @id %>">
+                <% info.text.split(',').each do |param| %>
+                <div>
+                    <input id="child" type="checkbox" value="<%= info.name %>" name="<%= param %>" class="<%= param %>" text="<%= param %>" href="#<%= param %>" onclick="change_all_and_category_state(this)"/>
+                    <%= param %>
+                </div>
+                <% end %>
+            </td>
+        </tr>
+        <% } %>
+    <% } %>
+    </tbody>
+</table>
+</article>
+<% end %>

@@ -38,4 +38,4 @@
 //= require highcharts
 //= require exporting
 //= require plugins/plUpload/plupload.full
-//= require plugins/plUpload/jquery.plupload.queue/jquery.plupload.queue.js
+//= require plugins/plUpload/jquery.plupload.queue/jquery.plupload.queue
