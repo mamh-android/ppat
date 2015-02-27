@@ -107,12 +107,7 @@
         </div>
     </div>
 
-
-
 <!-- Scripts -->
-<%=javascript_include_tag"plugins/datepicker/bootstrap-datepicker"%>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
 <SCRIPT LANGUAGE="JavaScript">
 $(function () {
         $('#scenario_category a:first').tab('show');
@@ -122,14 +117,6 @@ $(function () {
         })
 })
 
- function setTab(name,cursel,n){
-    for(i=0;i<n;i++){
-        var menu=document.getElementById(name+i);
-        var con=document.getElementById("con_"+name+"_"+i);
-        menu.className=i==cursel?"hover":"";
-        con.style.display=i==cursel?"block":"none";
-    }
-}
 function updateComment(imagedate, casename, power, comment, email,verify, soc, os){
     var strURL = "updateComment?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + email) + "&verify=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&soc=" + soc + "&os=" + os;
     $.ajax({
