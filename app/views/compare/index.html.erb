@@ -65,3 +65,19 @@ $(document).ready(function() {
     $('.datepicker').datepicker();
 });
 </script>
+<div class="modal fade hide" id="dcInfoModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Duty Cycle</h3>
+    </div>
+    <div class="modal-body" id="dc_info">
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
+    </div>
+</div>
+
+<footer>
+    <a class="btn btn-wuxia btn-primary" data-toggle="modal" href="#dcInfoModal" style="bottom:0;left:0;right:0;position: fixed;">Click to Show Duty Cycle Info</a>
+
+</footer>

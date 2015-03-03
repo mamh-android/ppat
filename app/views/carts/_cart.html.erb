@@ -1,5 +1,6 @@
 <% @all_purposes = get_distinct_purposes() %>
 <% @all_categories = get_distinct_scenario_categories() %>
+<%@get_scenario_name_comall=get_scenario_name_comall()%>
 <div style="text-align: center; background-color:#FFFFFFF;">
     <center>
         <article>
@@ -16,38 +17,41 @@
                         <table class="table table-wuxia">
                                 <thead>
                                     <tr>
-                                        <th>Image Date</th>
-                                        <th>Platform</th>
-                                        <th>Device</th>
-                                        <th>Branch</th>
-                                        <th>Purpose</th>
                                         <th>Scenario</th>
-                                        <th>Battey</th>
-                                        <th>Vcc_main</th>
-                                        <th>Submitter</th>
+                                        <th colspan="6">Battery</th>
+                                        <th colspan="6">Vcc_main</th>
+                                        <th colspan="6">Fps</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% @all_purposes.each do |purpose| %>
-                                        <% @cart.record_list.each do |record| %>
-                                            <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                               <tr>
-                                                    <td><%= get_record_info(record.power_record.id).image_date %></td>
-                                                    <td><%= get_record_info(record.power_record.id).platform %></td>
-                                                    <td><%= get_record_info(record.power_record.id).device %></td>
-                                                    <td><%= get_record_info(record.power_record.id).branch %></td>
-                                                    <td><%= get_record_info(record.power_record.id).purpose %></td>
-                                                    <td><%= get_scenario_name(record.power_record.power_scenario_id) %></td>
-                                                    <td><%= get_record_info(record.power_record.id).battery %></td>
-                                                    <td><%= get_record_info(record.power_record.id).vcc_main %></td>
-                                                    <td><%= get_record_info(record.power_record.id).submitter %></td>
-                                                    <td onclick="remove_from_cart(this, '<%= record.id %>')"><span class="icon-remove"></span></td>
-                                                </tr>
-                                            <% end %>
-                                        <% end %>
-                                    <% end %>
-                            </tbody>
+                                    <%@get_scenario_name_comall.each do |scenarioname|%>
+                                        <tr>
+                                            <td><%=scenarioname.name%></td>
+                                                <% @cart.record_list.each do |record| %>
+                                                    <%@get_power_record_info_all=get_power_record_info_all(record.power_record.id,scenarioname.id)%>
+                                                    <%@get_power_record_info_all.each do |powerrecordinfo|%>
+                                                        <td><%=powerrecordinfo.battery%></td>
+                                                    <%end%>
+                                                <%end%>
+                                            <td></td>
+                                                <% @cart.record_list.each do |record| %>
+                                                    <%@get_power_record_info_all=get_power_record_info_all(record.power_record.id,scenarioname.id)%>
+                                                    <%@get_power_record_info_all.each do |powerrecordinfo|%>
+                                                        <td><%=powerrecordinfo.vcc_main%></td>
+                                                    <%end%>
+                                                <%end%>
+                                            <td></td>
+                                                <% @cart.record_list.each do |record| %>
+                                                    <%@get_power_record_info_all=get_power_record_info_all(record.power_record.id,scenarioname.id)%>
+                                                    <%@get_power_record_info_all.each do |powerrecordinfo|%>
+                                                        <td><%=powerrecordinfo.fps%></td>
+                                                    <%end%>
+                                                <%end%>
+                                            <td></td>
+                                        </tr>
+                                    <%end%>
+                                </tbody>
                         </table>
                     </div>
                     <% @all_categories.each do |category| %>
@@ -129,7 +133,25 @@ $(function () {
             column: {
             pointPadding: 0.2,
             borderWidth: 0
-            }
+            },
+            series: {
+               cursor: 'pointer',
+               events: {
+                click: function show_dc(battery){
+                        var point_y =battery.point.y;
+                        var task_url = "get_dc?battery=" + point_y;
+                        $.ajax({
+                            type: "GET",
+                            url: task_url,
+                            success: function(msg){
+                                $("footer").css("display","block");
+                                $("#dc_info").append(msg);
+                                $("#" + battery).resizable();
+                            }
+                        });
+                    }
+              }
+         }
         },
         series: [
             <% @all_purposes.each do |purpose| %>
@@ -184,7 +206,25 @@ $(function () {
             column: {
             pointPadding: 0.2,
             borderWidth: 0
-            }
+            },
+            series: {
+               cursor: 'pointer',
+               events: {
+                click: function show_dc(battery){
+                        var point_y =battery.point.y;
+                        var task_url = "get_dc?battery=" + point_y;
+                        $.ajax({
+                            type: "GET",
+                            url: task_url,
+                            success: function(msg){
+                                $("footer").css("display","block");
+                                $("#dc_info").append(msg);
+                                $("#" + battery).resizable();
+                            }
+                        });
+                    }
+              }
+         }
         },
         series: [
             <% @all_purposes.each do |purpose| %>
