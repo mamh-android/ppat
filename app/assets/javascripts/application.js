@@ -21,7 +21,6 @@
 //= require jquery.mb.flipText
 //= require mbExtruder
 
-//= require navbar
 //= require plugins/waypoints.min
 //= require bootstrap/bootstrap-tooltip
 //= require bootstrap/bootstrap-dropdown

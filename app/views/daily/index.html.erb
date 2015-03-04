@@ -1,112 +1,96 @@
+<%= stylesheet_link_tag    "jquery-ui"%>
+<%= stylesheet_link_tag    "ppat"%>
+<h5>Latest Power Data on <%= @branch %> Branch<%= @last_image %></h5>
+
+<% if @device == "pxa1L88dkb" %>
+    <h5> Board: pxa1920_DKB_v20_847, DRO744, Profile 6, 720p panel, RF/SKYLARK_V13A, Camera LSI3H7, G-Sensor</h5>
+<% end %>
+
+<% if @device == "pxa1928dkb" %>
+    <h5> Board: DRO357, profile 11, 720p panel</h5>
+<% end %>
+
+<% if @device == "pxa1908dkb" %>
+    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 11-05th change to WVGA panel.</h5>
+    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 01-24th change to 720p panel.</h5>
+<% end %>
+
+<% if @device == "pxa1936dkb" %>
+    <h5> Board: PXA1936_DKB_V10_117, LVTDRO = 519, SVTDRO = 360, Profile = 11, LCD 720p 2015-01-13 update</h5>
+    <h5> Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p 2015-01-30 update. camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p 2015-01-30 update</h5>
+<% end %>
 <!--top-->
 <div id="top">
     <!-- Grid row-->
-    <div class="row">
-        <div class="topbutton">
-            <!-- date picker-->
-            <article class="span2">
-                <div id="datepicker">
-                    <form>
-                        <fieldset>
-                            <div class="input-append" onload="showLeftTime()">
-                                <input value="26/11/2014" class="datepicker" style="width: 80px;" type="text"> <span class="add-on"><i class="icon-calendar"></i></span>
-                            </div>
-                        </fieldset>
-                    </form>
+    <div class="row topcenter">
+            <article class="span4">
+                <input type="radio" name="radio_chart" value="battery" checked="checked" onclick="show('battery')">Battery
+                <input type="radio" name="radio_chart" value="vcc_main" onclick="show('vcc_main')">Vcc_main
+                <input id="editcheckboxId" type="checkbox">Edit Comments
+            </article>
+            <article class="span3">
+                <div class="input-append">
+                    <input id="datepicker" style="width: 80px;" type="text"> <span class="add-on"><i class="icon-calendar"></i></span>
                 </div>
             </article>
-            <a class="accordion-toggle"href="#collapseOne" data-parent="#accordion1"data-toggle="collapse" >
-                <button> <span class="icon-hand-right"></span>TABLE</button>
-            </a>
-            <a class="accordion-toggle"href="#collapseTwo" data-parent="#accordion1"data-toggle="collapse">
-                <button> <span class="icon-hand-right"></span>CHART</button>
-            </a>
-        </div>
-        <div class="topcenter">
-
-            <input type="radio" name="radio_chart" value="battery" checked="checked" onclick="show('container')">Battery
-            <input type="radio" name="radio_chart" value="vcc_main" onclick="show('container_vcc_main')">Vcc_main
-            <input id="editcheckboxId" type="checkbox">Edit Comments
-        </div>
-        <!--daylist-->
-        <div id="daylist">
-            <article class="span3">
-
-                <a href="#"><span class="badge">10</span></a>
-                <a href="#"><span class="badge badge-success">20</span></a>
-                <a href="#"><span class="badge badge-warning">30</span></a>
-                <a href="#"><span class="badge badge-important">60</span></a>
-                <a href="#"><span class="badge badge-info">90</span></a>
+            <article class="span4">
+                <span class="badge" onclick="update_chart_table(this)">10</span>
+                <span class="badge badge-success" onclick="update_chart_table(this)">20</span>
+                <span class="badge badge-warning" onclick="update_chart_table(this)">30</span>
+                <span class="badge badge-important" onclick="update_chart_table(this)">60</span>
+                <span class="badge badge-info" onclick="update_chart_table(this)">90</span>
             </article>
-        </div>
-        <!--daylist-->
     </div>
     <!--Grid row-->
 </div>
 <!--top-->
 
+<div class="container" role="main" id="power_record">
+    <%= render :partial => 'index' %>
+</div>
 
-<div class="container" role="main">
-    <div style="text-align: center; background-color:#FFFFFFF;">
-    <ul class="nav nav-tabs" id="scenario_category">
-            <li><a href="#All">All</a></li>
-        <% @categorys.each do |category| %>
-            <li><a href="#<%= category.category %>"><%= category.category %></a></li>
-        <% end %>
-    </ul>
-    <div class="tab-content">
-                    <div class="tab-pane" id="All">
-                        <div id="chart_container_All" style="min-width: 510px; height: 400px; margin: 0 auto">
-                        </div>
-                        <table class="table table-wuxia">
-                                <thead>
-                                    <tr>
-                                        <th>Image Date</th>
-                                        <th>Platform</th>
-                                        <th>scenario</th>
-                                        <th>Device</th>
-                                        <th>Branch</th>
-                                        <th>Purpose</th>
-                                        <th>Submitter</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-                    <% @categorys.each do |category| %>
-                    <div class="tab-pane" id="<%= category.category %>">
-                        <div id="chart_container<%= category.category %>" style="min-width: 510px; height: 400px; margin: 0 auto">
-                        </div>
-                        <table class="table table-wuxia">
-                            <thead>
-                                <tr>
-                                    <th>Image Date</th>
-                                    <th>Platform</th>
-                                    <th>scenario</th>
-                                    <th>Device</th>
-                                    <th>Branch</th>
-                                    <th>Purpose</th>
-                                    <th>Submitter</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <tr>
-                                        <td>2</td>
-                                    </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    <% end %>
-            </div>
-        </div>
+<div  id="dialog-form"  title="Add Comments">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <fieldset>
+            <label id="soc" class="label-none-block"><%= @device %> </label>,
+            <label id="os" class="label-none-block"><%= @branch %></label></br>
+
+            <label id="imagedate"  class="label-none-block"></label>,
+            <label id="casename" class="label-none-block"></label>,
+            <label id="power" class="label-none-block"></label>mA</br>
+
+            <label for="comment" class="label-none-block">Comments</label></br>
+            <textarea name="comment" id="comment" rows="3" cols="50" class="text ui-widget-content ui-corner-all"></textarea></br>
+
+            <label for="email" class="label-none-block">Email</label></br>
+            <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></br>
+
+            <label for="verify" class="label-none-block">Verify</label></br>
+            <input type="radio" name="verify" id="passverify" value="P" class="text ui-widget-content ui-corner-all">Pass
+            <input type="radio" name="verify" id="failverify" value="F" class="text ui-widget-content ui-corner-all">Fail
+
+            </br>
+        </fieldset>
+    </form>
+</div>
+
+<div class="modal fade hide" id="dcInfoModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Duty Cycle</h3>
     </div>
+    <div class="modal-body" id="dc_info">
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
+    </div>
+</div>
 
+<footer>
+    <a class="btn btn-wuxia btn-primary" data-toggle="modal" href="#dcInfoModal" style="bottom:0;left:0;right:0;position: fixed;">Click to Show Duty Cycle Info</a>
+
+</footer>
 <!-- Scripts -->
 <SCRIPT LANGUAGE="JavaScript">
 $(function () {
@@ -117,8 +101,8 @@ $(function () {
         })
 })
 
-function updateComment(imagedate, casename, power, comment, email,verify, soc, os){
-    var strURL = "updateComment?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + email) + "&verify=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&soc=" + soc + "&os=" + os;
+function updateComment(imagedate, casename, power, comment, email,verify, device, branch){
+    var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&varified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -128,28 +112,26 @@ function updateComment(imagedate, casename, power, comment, email,verify, soc, o
     });
 }
 
-function showChart(caseName, power,image_date){
-    var strURL = "show_detail?case_name=" + caseName + "&power=" + power + "&image_date=" + image_date;
+/* show footer Duty Cycle */
+function show_dc(caseName, power,image_date){
+    var task_url = "show_dc?scenario=" + caseName + "&battery=" + power + "&image_date=" + image_date;
     $.ajax({
         type: "GET",
-        url: strURL,
+        url: task_url,
         success: function(msg){
-            $("#detailedChart").append(msg);
-            $("#empty").html("");
-            $("#empty").html("<button id=\"emptys\">Empty</button>");
+            $("footer").css("display","block");
+            $("#dc_info").append(msg);
+            $("#" + id).resizable();
         }
     });
-    document.getElementById("empty").onclick=function(){
-        $("#detailedChart").html(" ");
-    }
 }
 
 function showLCDInfo(soc,resolution){
     alert("test");
 }
-function getComment(image_date, power){
+function getComment(image_date, battery){
     var comments = "";
-    var strURL = "getComment?image=" + image_date + "&power=" + power;
+    var strURL = "get_comment?image_date=" + image_date + "&battery=" + battery;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -160,9 +142,9 @@ function getComment(image_date, power){
     });
     return comments;
 }
-function getVerify(image_date, power){
+function getVerify(image_date, battery){
     var v = "";
-    var strURL = "getVerify?image=" + image_date + "&power=" + power;
+    var strURL = "get_verify?image_date=" + image_date + "&battery=" + battery;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -186,9 +168,20 @@ function showChart_vcc(caseName, vcc){
     });
 
     document.getElementById("empty").onclick=function(){
-    $("#detailedChart").html(" ");
+        $("#detailedChart").html(" ");
+    }
 }
-
+function update_chart_table(th){
+    image_date = $("#datepicker").val();
+    record_num = $(th).html();
+    var strURL = "query?image_date=" + image_date + "&record_num=" + record_num;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+        }
+    });
 }
 
 var chart;
@@ -212,13 +205,21 @@ function Hide(id){
     $("#" + id).remove();
 }
 
-function show(id){
-    if(id == "container"){
-        $("#container").css("display", "block");
-        $("#container_vcc_main").css("display", "none");
+function show(chart_type){
+    if(chart_type == "battery"){
+        $("#chart_container_All").css("display", "block");
+        $("#chart_container_vcc_main_All").css("display", "none");
+        <% @categorys.each do |category| %>
+            $("#chart_container_<%= category.category %>").css("display", "block");
+            $("#chart_container_vcc_main_<%= category.category %>").css("display", "none");
+        <% end %>
     }else{
-        $("#container").css("display", "none");
-        $("#container_vcc_main").css("display", "block");
+        $("#chart_container_All").css("display", "none");
+        $("#chart_container_vcc_main_All").css("display", "block");
+        <% @categorys.each do |category| %>
+            $("#chart_container_<%= category.category %>").css("display", "none");
+            $("#chart_container_vcc_main_<%= category.category %>").css("display", "block");
+        <% end %>
     }
 }
 
@@ -231,344 +232,9 @@ function getParent(o, tag) {
     }
 }
 
-
-
-
-$(function () {
-    var dialog,form;
-    var comment = $( "#comment" ),
-    email = $( "#email" ),
-    passverify = $( "#passverify" ),
-    failverify = $( "#failverify" ),
-    imagedate=$("#imagedate"),
-    casename=$("#casename"),
-    power=$("#power"),
-    soc=$("#soc"),
-    os=$("#os"),
-    allFields = $( [] ).add( comment ).add( email ).add( passverify ).add(failverify),
-    tips = $( ".validateTips" );
-    function updateTips( t ) {
-      tips
-        .text( t )
-        .addClass( "ui-state-highlight" );
-      setTimeout(function() {
-        tips.removeClass( "ui-state-highlight", 1500 );
-      }, 500 );
-    }
-
-    dialog = $( "#dialog-form" ).dialog({
-      autoOpen: false,
-      height: 350,
-      width: 500,
-      modal: true,
-      buttons: {
-        "Add comments": function() {
-            var v = "TBD";
-            if(passverify.attr('checked')){
-                v = "P";
-            }else if(failverify.attr('checked')){
-                v = "F";
-            }
-            updateComment(imagedate.html(), casename.html(), power.html(), comment.val(), email.val(),v, soc.html(), os.html());
-
-            allFields.removeClass( "ui-state-error" );
-            $( this ).dialog( "close" );
-        },
-        Cancel: function() {
-            $( this ).dialog( "close" );
-        }
-      },
-      close: function() {
-          form[0].reset();
-          allFields.removeClass("ui-state-error");
-      }
-    });
-
-    form = dialog.find("form").on("submit", function(event){
-        event.preeventDefault();
-    });
-
-    $(document).ready(function() {
-
-//vcc_main chart
-<% @categorys.each do |category| %>
-    chart_vcc = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container_vcc_main_<%= category.category %>',
-                type: 'spline'
-            },
-            title: {
-                text: '<%= @device %> <%= @os.branch %> Branch Power Vcc_main'
-            },
-            subtitle: {
-                text: null
-            },
-            xAxis: {
-                type: "datetime",
-                tickInterval: 24 * 3600 * 1000, // one day
-                dateTimeLabelFormats:{
-                    day: '%m/%e<br/>%Y'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Power'
-                },
-                labels: {
-                    formatter: function() {
-                        return this.value + 'mA'
-                    }
-                }
-            },
-            tooltip: {
-                useHTML: true,
-                formatter: function() {
-                    var hour=Highcharts.dateFormat('%H', this.x);
-                    hour /= 10;
-                    return '<b>'+ this.series.name +
-                        '</b><br/>'+
-                        Highcharts.dateFormat('%Y-%m-%d', this.x) +
-                        ' _ ('+hour + ')'+
-                        '<br/>'+
-                        this.y +'mA' +
-                        '</b><br/>'+
-                        '<font color=\"#ff0000\">'+
-                        getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
-                        '</font>';
-                }
-            },
-            plotOptions: {
-                series: {
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function() {
-                                var name=this.series.name;
-                                var power=this.y;
-                                showChart_vcc(name,power);
-                            }
-                        }
-                    },
-                    marker: {
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [
-            <% @scenarios.each do |scenario| %>
-                <% if scenario.category == category.category %>
-                    {
-                <% @imagedatehour=0 %>
-                <% @imagedate=0 %>
-                        name: '<%= scenario.name %>',
-                        data:[<% @image_dates.each do |image| %>
-                            <% if scenario.id == image.scenario_id %>
-                                {
-                                            //如果日期相等
-                                            <% if @imagedate == image.image_date %>
-                                                <% @imagedatehour += 10 %>
-                                                //判断是否超过24小时
-                                                <% if @imagedatehour>=24 %>
-                                                    <% @imagedatehour=23 %>
-                                                <% end %>
-                                            <% else %>
-                                                <% @imagedatehour = 0 %>
-                                            <% end %>
-                                            <% @imagedate = image.image_date %>
-
-                                            x: Date.UTC("<%= get_year(image.image_date) %>",
-                                                    "<%= get_month(image.image_date) %>",
-                                                    "<%= get_day(image.image_date) %>",
-                                                    "<%= @imagedatehour %>"),
-                                    y: <%= image.vcc_main %>,
-                                    marker: {
-                                    <% if image.verify == "P" %>
-                                        fillColor: '#6dc22c'
-                                    <% else if image.verify == "F" %>
-                                        fillColor: '#ff0000'
-                                        <% end %>
-                                    <% end %>
-                                    }
-                                },
-                            <% end %>
-                        <% end %>]
-                    },
-                <% end %>
-            <% end %>
-            ]
-        });
-<% end %>
-
-
-//battery chart
-        <% @categorys.each do |category| %>
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container_<%= category.category %>',
-                type: 'spline'
-            },
-            title: {
-                text: '<%= @device %> <%= @os.branch %> Branch Power Battery'
-            },
-            subtitle: {
-                text: null
-            },
-            xAxis: {
-                type: "datetime",
-                tickInterval: 24*3600*1000, // one day
-                tickColor:"#ff0000",
-                dateTimeLabelFormats:{
-                    day: '%m/%e'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Power'
-                },
-                labels: {
-                    formatter: function() {
-                        return this.value +'mA'
-                    }
-                }
-            },
-            tooltip: {
-                useHTML: true,
-                formatter: function() {
-                    var hour=Highcharts.dateFormat('%H', this.x);
-                    hour /= 10;
-                    return '<b>'+ this.series.name +
-                            '</b><br/>'+
-                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
-                            ' _ ('+hour + ')'+
-                            '<br/><b>'+
-                            this.y +'mA' +
-                            '</b>'+
-                            '<br/>' +
-                            '<font color=\"#ff0000\">'+
-                            getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
-                            '</font>';
-                }
-            },
-            plotOptions: {
-                series: {
-                    cursor: 'pointer',
-                    point: {
-                        events: {
-                            click: function() {
-                                var editcheckbox = $("#editcheckboxId");
-                                var name=this.series.name;
-                                var power=this.y;
-                                var comments = $.trim(getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString());
-                                var verify = getVerify(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString();
-                                $("#imagedate").html(Highcharts.dateFormat('%Y-%m-%d', this.x));
-                                $("#casename").html(name);
-                                $("#power").html(power);
-                                $("#comment").html(comments);
-                                if(verify.indexOf("F") != -1){
-                                    $('input[name=verify]').get(1).checked=true;
-                                }else if(verify.indexOf("P") != -1){
-                                    $('input[name=verify]').get(0).checked=true;
-                                }
-                                //edit mode or show dutycycle mode
-                                if(editcheckbox.attr("checked")){
-                                    dialog.dialog( "open" );
-                                }else{
-                                    showChart(name,power,Highcharts.dateFormat('%Y-%m-%d', this.x));
-                                }
-
-                            }
-                        }
-                    },
-                    marker: {
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [
-            <% @scenarios.each do |scenario| %>
-            <% if scenario.category == category.category %>
-            {
-                <% @imagedatehour=0 %>
-                <% @imagedate=0 %>
-                name: '<%= scenario.name %>',
-                data:[<% @image_dates.each do |image| %>
-                        <% if scenario.id == image.scenario_id %>
-                            {
-                                            //如果日期相等
-                                            <% if @imagedate == image.image_date %>
-                                                <% @imagedatehour += 10 %>
-                                                //判断是否超过24小时
-                                                <% if @imagedatehour>=24 %>
-                                                    <% @imagedatehour=23 %>
-                                                <% end %>
-                                            <% else %>
-                                                <% @imagedatehour = 0 %>
-                                            <% end %>
-                                            <% @imagedate = image.image_date %>
-
-                                            x: Date.UTC("<%= get_year(image.image_date) %>",
-                                                       "<%= get_month(image.image_date) %>",
-                                                       "<%= get_day(image.image_date) %>",
-                                                       "<%= @imagedatehour %>" ),
-                                            y: <%= get_power(image.power) %>,
-                                            marker: {
-                                            <% if image.verify == "P" %>
-                                                fillColor: '#6dc22c'
-                                            <% else if image.verify == "F" %>
-                                                fillColor: '#ff0000'
-                                            <% end %>
-                        <% end %>
-                                            }
-                            },
-                        <% end %>
-                                <% end %>
-                ]//end data
-            },
-            <% end %>
-        <% end %>
-            ]//end series
-        });
-        <% end %>
-
-    });
-});
 </SCRIPT>
 <script LANGUAGE="JavaScript">
     $(document).ready(function() {
-        $('.datepicker').datepicker();
+       $('#datepicker').datepicker('setValue', new Date());
     });
-    function airporthover(c) {
-        c.style.color = "#FFFFFF";
-        c.style.background = "#4D8AB3";
-    }
-
-    function airport(c) {
-        c, onclick = function() {
-            setTab(name, cursel, n);
-        }
-        c.style.color = "#000000";
-        c.style.background = "#FFEAFF"
-    }
-    function setTab(name, cursel, n) {
-
-        /*for(i=0;i<n;i++){*/
-
-        var lis = document.getElementById(name + cursel);
-
-        lis.style.background = "#FFEAFF";
-        lis.style.color = "#000000";
-
-        var menu = document.getElementById(name + n);
-        var con = document.getElementById("con_" + name + "_" + n);
-        menu.className = i == cursel ? "hover" : "";
-        con.style.display = i == cursel ? "block" : "none";
-        alert(menu);
-        alert(con);
-        alert("end ");
-        alert("nei" + i);
-        /*}*/
-        alert(i);
-    }
-
-
 </script>

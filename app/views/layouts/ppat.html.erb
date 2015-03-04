@@ -66,7 +66,7 @@
                             <!--<li><a href="ui-buttons.html" title="coverity!"><span class="icon-magic"></span>coverity</a></li>-->
                             <li><a href="/tools/oldppat" title="Oldppat!"><span class="icon-plane"></span>Oldppat</a></li>
                             <li><a href="/tools/xref" title="xRef!"><span class="icon-pushpin"></span>xRef</a></li>
-                            <li><a href="/daily/index" title="PPAT!"><span class="icon-refresh"></span>PPAT</a></li>
+                            <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master" title="PPAT!"><span class="icon-refresh"></span>PPAT</a></li>
                             <li class="divider-vertical"></li>
                             <li><a href="#" title="Buttons in navbar!" class="btn-wuxia-navbar"><div class="btn btn-wuxia"><span class="icon-key"></span> Widgets</div></a></li>
                         </ul>
@@ -106,16 +106,38 @@
             <div class="nav-secondary">
                 <nav>
                     <ul>
-                        <li><a class="wuxify-me" href="/daily/index"><span class="icon-signal"></span>Daily</a></li>
-                        <li><a class="wuxify-me" href="/ondemand/index"><span class="icon-picture"></span>Ondemand</a></li>
+                        <li role="presentation" class="dropdown wuxify-me">
+                            <a class="dropdown-toggle wuxify-me" data-toggle="dropdown" href="#" aria-expanded="false">
+                              <span class="icon-calendar"></span>Power<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown-submenu"> <a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master">HELAN3</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master">lp5.0</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_k314_alpha1">k314_alpha1</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu"> <a href="/daily/index?device=pxa1908dkb&branch=lp5.0_master">ULC1</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=kk4.4_master">kk4.4_master</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                          </li>
+                        <li><a class="wuxify-me" href="/ondemand/index"><span class="icon-random"></span>Ondemand</a></li>
                         <li><a class="wuxify-me" href="/baremetal/index"><span class="icon-file"></span>Baremetal</a></li>
-                        <li><a class="wuxify-me" href="/compare/index"><span class="icon-file"></span>Compare</a></li>
+                        <li><a class="wuxify-me" href="/compare/index"><span class="icon-align-left"></span>Compare</a></li>
                         <li><a class="wuxify-me" href="/query/index"><span class="icon-calendar"></span>Query</a></li>
                         <li><a class="wuxify-me" href="/trigger/index"><span class="icon-th"></span>Trigger</a></li>
                     </ul>
                 </nav>
             </div>
             <!-- /Secondary navigation -->
+
 
             <!-- cart -->
             <div id="extruderRight" class="{title:'Compare List', url:'/carts'}"></div>

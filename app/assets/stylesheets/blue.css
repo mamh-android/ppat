@@ -1959,7 +1959,6 @@ table .span24 {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
   padding: 4px 0;
   margin: 1px 0 0;
   list-style: none;
@@ -1996,7 +1995,6 @@ table .span24 {
   padding: 3px 15px;
   clear: both;
   font-weight: normal;
-  line-height: 18px;
   color: #333333;
   white-space: nowrap;
 }
@@ -3128,11 +3126,10 @@ input[type="submit"].btn.btn-mini {
 }
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
   right: 0;
   left: 0;
   z-index: 1030;
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-fixed-bottom .navbar-inner {
@@ -8183,9 +8180,7 @@ ul.icons li .icon-large:before {
   background-position: -1198px -126px;
 }
 /* Global styles */
-body {
-  padding-top: 55px;
-}
+
 .container {
   padding: 0 1px;
 }
@@ -8446,8 +8441,7 @@ abbr[title] {
 }
 /* Secondary navigation */
 .nav-secondary {
-  margin-bottom: 20px;
-  margin-top: -10px;
+  margin-bottom: 10px;
 }
 .nav-secondary ul {
   margin: 0;
@@ -8469,7 +8463,7 @@ abbr[title] {
   display: block;
   position: relative;
   margin-right: 10px;
-  margin-top: 10px;
+  margin-top: 3px;
 }
 .nav-secondary li:last-child {
   margin-right: 0;
@@ -8485,19 +8479,17 @@ abbr[title] {
   padding: 5px;
   background-color: #e9eaf0;
   color: #949599;
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 20px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .nav-secondary a span {
-  display: block;
   font-size: 26px;
   font-weight: normal;
   line-height: normal;
-  margin: 15px auto 0;
 }
 .nav-secondary a:hover,
 .nav-secondary .active a {
