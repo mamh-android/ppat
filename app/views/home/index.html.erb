@@ -1,9 +1,3 @@
-
-<div class="page-header">
-    <h1>
-        <span>Welcome to APSE Home Page</span>
-    </h1>
-</div>
 <!-- page-container -->
 <div class="page-container tab-content">
     <!-- Tab #basic -->
@@ -11,8 +5,8 @@
         <!-- Grid row -->
         <div class="row">
             <form method=post action="" name="form1">
-                <article class="span3">
-                    <h3>Select Platform</h3>
+                <article class="span4">
+                    Platform
                     <select name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform">
                        <%@scenariosplatform =get_all_platform() %>
                         <% @scenariosplatform.each do |scenariosp| %>
@@ -20,14 +14,14 @@
                         <% end %>
                     </select>
                 </article>
-                <article class="span3">
-                    <h3>Select Branch</h3>
+                <article class="span4">
+                    Branch
                     <select name="Branch" id="Branch" onclick="update_calendar()"
                         onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>
                 </article>
-                <article class="span3">
-                    <h3>Select Device</h3>
+                <article class="span4">
+                    Device
                     <select name="Device" id="Device" onclick="update_calendar()"
                         onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>

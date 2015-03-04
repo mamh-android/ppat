@@ -1,24 +1,6 @@
 <%= stylesheet_link_tag    "jquery-ui"%>
 <%= stylesheet_link_tag    "ppat"%>
-<h5>Latest Power Data on <%= @branch %> Branch<%= @last_image %></h5>
 
-<% if @device == "pxa1L88dkb" %>
-    <h5> Board: pxa1920_DKB_v20_847, DRO744, Profile 6, 720p panel, RF/SKYLARK_V13A, Camera LSI3H7, G-Sensor</h5>
-<% end %>
-
-<% if @device == "pxa1928dkb" %>
-    <h5> Board: DRO357, profile 11, 720p panel</h5>
-<% end %>
-
-<% if @device == "pxa1908dkb" %>
-    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 11-05th change to WVGA panel.</h5>
-    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 01-24th change to 720p panel.</h5>
-<% end %>
-
-<% if @device == "pxa1936dkb" %>
-    <h5> Board: PXA1936_DKB_V10_117, LVTDRO = 519, SVTDRO = 360, Profile = 11, LCD 720p 2015-01-13 update</h5>
-    <h5> Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p 2015-01-30 update. camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p 2015-01-30 update</h5>
-<% end %>
 <!--top-->
 <div id="top">
     <!-- Grid row-->
@@ -74,7 +56,25 @@
         </fieldset>
     </form>
 </div>
+<h5>Latest Power Data on <%= @branch %> Branch<%= @last_image %></h5>
 
+<% if @device == "pxa1L88dkb" %>
+    <h5> Board: pxa1920_DKB_v20_847, DRO744, Profile 6, 720p panel, RF/SKYLARK_V13A, Camera LSI3H7, G-Sensor</h5>
+<% end %>
+
+<% if @device == "pxa1928dkb" %>
+    <h5> Board: DRO357, profile 11, 720p panel</h5>
+<% end %>
+
+<% if @device == "pxa1908dkb" %>
+    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 11-05th change to WVGA panel.</h5>
+    <h5> Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, 01-24th change to 720p panel.</h5>
+<% end %>
+
+<% if @device == "pxa1936dkb" %>
+    <h5> Board: PXA1936_DKB_V10_117, LVTDRO = 519, SVTDRO = 360, Profile = 11, LCD 720p 2015-01-13 update</h5>
+    <h5> Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p 2015-01-30 update. camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p 2015-01-30 update</h5>
+<% end %>
 <div class="modal fade hide" id="dcInfoModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>

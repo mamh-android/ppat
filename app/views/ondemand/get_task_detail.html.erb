@@ -21,6 +21,7 @@
 						<td><%= scenario_info.device %></td>
 						<td><%= scenario_info.branch %></td>
 						<td><%= scenario_info.fps %></td>
+						<td onclick="add_to_cart('<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
 						<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
 					</tr>
 				<% end %>

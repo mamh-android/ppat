@@ -18,7 +18,7 @@ function add_to_cart (power_record_id) {
 
 /* show footer Duty Cycle */
 function show_dc(id){
-	var task_url = "get_dc?id=" + id;
+	var task_url = "/ondemand/get_dc?id=" + id;
 	$.ajax({
 		type: "GET",
 		url: task_url,

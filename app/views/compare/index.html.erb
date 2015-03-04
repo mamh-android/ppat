@@ -1,4 +1,7 @@
 <%= stylesheet_link_tag    "compare"%>
+<div class="container" role="main" id="cart">
+    <%= render @cart %>
+</div>
 <!-- page-container -->
 <div class="page-container tab-content"  >
     <!-- Tab #basic -->
@@ -51,13 +54,14 @@
         <!--Grid row-->
             <div  class="row">
                 <h2><span>Select Ondemand</span></h2>
-            </div>
                 <%= render :template => "/ondemand/_task_info" %>
+                <div id="task_scenario">
+                    <%= render :template => "/ondemand/_scenario_info" %>
+                </div>
+
+            </div>
     </div>
 <!--top-->
-</div>
-<div class="container" role="main" id="cart">
-    <%= render @cart %>
 </div>
 <!--mian-->
 <script>
