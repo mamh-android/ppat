@@ -617,7 +617,7 @@ function ppat_appendToText(v){
 	scenarios.each(function(){
 		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
+			jsonStr += "{\"name\":\"" + $(this).attr("text") + "\",\"property\":{";
 
 			//stream etc property
 			if(property[$(this).attr("text")]){
@@ -663,7 +663,7 @@ function ppat_appendToText(v){
 				if(checked && compInfo != ""){
 					paramCount += 1;
 					compFreqInfo += "\"" + compName.toUpperCase() +"\":\"" + compInfo.substring(0, compInfo.length - 1) + "\",";
-					propertyStr = ",\"Property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
+					propertyStr = ",\"property\":{" + property + compFreqInfo.substring(0, compFreqInfo.length - 1)+ "}}";
 				}
 			});
 
@@ -673,7 +673,7 @@ function ppat_appendToText(v){
 		}
 		if(paramCount == totalParamNum){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + caseId + "\"";
+			jsonStr += "{\"name\":\"" + caseId + "\"";
 			jsonStr += propertyStr;
 		}
 	});
@@ -681,7 +681,7 @@ function ppat_appendToText(v){
 	advscenarios.each(function(){
 		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
+			jsonStr += "{\"name\":\"" + $(this).attr("text") + "\",\"property\":{";
 
 			//loop
 		    var lp = $("#loopadvscenario").val();
@@ -696,7 +696,7 @@ function ppat_appendToText(v){
 	ui.each(function(){
 		if($(this).prop("checked") && $(this).attr("name")){
 			caseCount += 1;
-			jsonStr += "{\"Name\":\"" + $(this).attr("text") + "\",\"Property\":{";
+			jsonStr += "{\"name\":\"" + $(this).attr("text") + "\",\"property\":{";
 
 			//loop
 		    var lp = $("#loopui").val();
