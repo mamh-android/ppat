@@ -13,16 +13,20 @@ module OndemandHelper
         PowerScenario.where(id: scenario_id).last.name
     end
 
+    def get_scenario_name_category(name)
+        PowerScenario.where(name:name).last.category
+    end
+
     def get_scenario_name_com(category)
         PowerScenario.where(category: category).select("distinct name")
     end
 
-    def get_scenario_name_comall()
-        PowerScenario.order("name")
+    def get_task_id_purpose(task_id)
+        PowerRecord.where(task_id:task_id)
     end
 
-    def get_power_record_info_all(id,power_scenario_id)
-        PowerRecord.where('id = ? and power_scenario_id = ?',id,power_scenario_id)
+    def get_power_record_result(power_scenario_id,purpose,id,image_date)
+        PowerRecord.where('power_scenario_id = ? and purpose = ? and id =? and image_date = ? ',power_scenario_id,purpose,id,image_date)
     end
 
     def get_scenario_info(scenario_id,task_id)
