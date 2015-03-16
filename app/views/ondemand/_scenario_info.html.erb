@@ -31,35 +31,38 @@ function show_dc(id){
 }
 </SCRIPT>
 <% @last_task = get_last_task_info() %>
-<% @scenarios = get_task_scenarios(@last_task.task_id) %>
-<% @scenarios.each do |scenario| %>
-	<article class="span6">
-		<!-- table of task list -->
-		<h2><%= get_scenario_name(scenario.power_scenario_id) %></h2>
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>Image Date</th>
-					<th>Battery(mA)</th>
-					<th>Vcc_main(mA)</th>
-					<th>FPS</th>
-					<th>Compare</th>
-					<th>Duty Cycle</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% get_scenario_info(scenario.power_scenario_id,@last_task.task_id).each do |scenario_info| %>
+<% if @last_task.nil? %>
+<% else %>
+	<% @scenarios = get_task_scenarios(@last_task.task_id) %>
+	<% @scenarios.each do |scenario| %>
+		<article class="span6">
+			<!-- table of task list -->
+			<h2><%= get_scenario_name(scenario.power_scenario_id) %></h2>
+			<table class="table table-bordered table-striped">
+				<thead>
 					<tr>
-						<td><%= scenario_info.image_date %></td>
-						<td><%= scenario_info.battery %></td>
-						<td><%= scenario_info.vcc_main %></td>
-						<td><%= scenario_info.fps %></td>
-						<td onclick="add_to_cart('<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
-						<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
+						<th>Image Date</th>
+						<th>Battery(mA)</th>
+						<th>Vcc_main(mA)</th>
+						<th>FPS</th>
+						<th>Compare</th>
+						<th>Duty Cycle</th>
 					</tr>
-				<% end %>
-			</tbody>
-		</table>
-		<!--/table of task list-->
-	</article>
+				</thead>
+				<tbody>
+					<% get_scenario_info(scenario.power_scenario_id,@last_task.task_id).each do |scenario_info| %>
+						<tr>
+							<td><%= scenario_info.image_date %></td>
+							<td><%= scenario_info.battery %></td>
+							<td><%= scenario_info.vcc_main %></td>
+							<td><%= scenario_info.fps %></td>
+							<td onclick="add_to_cart('<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
+							<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<!--/table of task list-->
+		</article>
+	<% end %>
 <% end %>

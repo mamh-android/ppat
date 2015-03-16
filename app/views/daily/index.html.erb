@@ -93,13 +93,6 @@
 </footer>
 <!-- Scripts -->
 <SCRIPT LANGUAGE="JavaScript">
-$(function () {
-        $('#scenario_category a:first').tab('show');
-        $('#scenario_category a').click(function (e){
-            e.preventDefault();
-          $(this).tab('show');
-        })
-})
 
 function updateComment(imagedate, casename, power, comment, email,verify, device, branch){
     var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&varified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
@@ -174,7 +167,7 @@ function showChart_vcc(caseName, vcc){
 function update_chart_table(th){
     image_date = $("#datepicker").val();
     record_num = $(th).html();
-    var strURL = "query?image_date=" + image_date + "&record_num=" + record_num;
+    var strURL = "query?image_date=" + image_date + "&record_num=" + record_num + "&device=<%= @device %>&branch=<%= @branch %>&scenario_id_list=<%= @scenario_id_list %>";
     $.ajax({
         type: "GET",
         url: strURL,

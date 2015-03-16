@@ -1,6 +1,7 @@
+require 'json'
 class OndemandController < ApplicationController
     def index
-        @tasks = TaskInfo.all
+        @tasks = TaskInfo.where(run_type: "ondemand")
         @cart = get_cart
         render :layout=>"ppat"
     end
@@ -16,4 +17,8 @@ class OndemandController < ApplicationController
     	#@record = PowerRecord.find(:all, :conditions => ['id = ?', @power_record_id]).first
     	render :layout=>"empty"
     end
+
+    def get_task
+            render json: TaskDatatable.new(view_context)
+        end
 end

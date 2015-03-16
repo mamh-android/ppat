@@ -27,13 +27,15 @@ class TriggerController < ApplicationController
     image_path = params[:image_path]
     hw = params[:hw]
     testcase = params[:testcase]
+    purpose = params[:purpose]
+    assigner = params[:assigner]
 
     if device == "pxa1908dkb_tz:pxa1908dkb"
-        TriggerULC1Job.create({:platform => "ulc1", :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        TriggerULC1Job.create({:platform => "ulc1", :purpose => purpose, :assigner => assigner, :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1928dkb_tz:pxa1928dkb"
-        TriggerEdenJob.create({:platform => "eden", :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        TriggerEdenJob.create({:platform => "eden", :purpose => purpose, :assigner => assigner, :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1936dkb_tz:pxa1936dkb"
-        TriggerHelan3Job.create({:platform => "helan3", :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        TriggerHelan3Job.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device, :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     end
     redirect_to "/query/index"
   end

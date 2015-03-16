@@ -3,11 +3,6 @@ trigger css
 
 **/
 form, .form-horizontal {
-    background: #fff;
-    border: none;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
 }
 label span {
     font-size: 24px;

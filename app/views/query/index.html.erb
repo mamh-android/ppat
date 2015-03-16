@@ -25,6 +25,7 @@
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
 							<div class="bar" style="width: 89%">89%</div>
 						</div>
+						<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 					</div>
 				<% end %>
 			<% end %>

@@ -73,86 +73,121 @@
 		<Category>Game</Category>
 	</Power>
 	<Device>
-			<Name>HW Module1:Camera OV5647</Name>
-			<TestCase>
-				<CaseName Category="Camera">Preview(OV5647)</CaseName>
-				<CaseName Category="Camera">Take_pictures(OV5647)</CaseName>
-				<CaseName Category="Camera">Record_720p(OV5647)</CaseName>
-				<CaseName Category="Camera">Record_720p(OV5647)_2D</CaseName>
-				<CaseName Category="Camera">Take_pictures(OV5647)_2D</CaseName>
-			</TestCase>
-			<BLF>a.blf</BLF>
+		<Name>HELAN3_1: Daily use</Name>
+		<TestCase>
+			<CaseName Category="Audio">FM</CaseName>
+			<CaseName Category="wifi/bt">WiFi_On</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+			<CaseName Category="wifi/bt">BT_On</CaseName>
+			<CaseName Category="wifi/bt">BT_Conn</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+		</TestCase>
+		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
 	</Device>
 	<Device>
-			<Name>HW Module2:Camera LSI3H7,WIB 8787</Name>
-			<TestCase>
-				<CaseName Category="Audio">FM</CaseName>
-				<CaseName Category="wifi/bt">WiFi_On</CaseName>
-				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
-				<CaseName Category="wifi/bt">BT_On</CaseName>
-				<CaseName Category="wifi/bt">BT_Conn</CaseName>
-				<CaseName Category="Camera">Preview(LSI3H7)</CaseName>
-				<CaseName Category="Camera">Take_pictures(LSI3H7)</CaseName>
-				<CaseName Category="Camera">Record_720p(LSI3H7)</CaseName>
-			</TestCase>
-			<BLF>b.blf</BLF>
+		<Name>HELAN3_2: Camera OV13850</Name>
+		<TestCase>
+			<CaseName Category="Camera">Preview(OV13850)</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)</CaseName>
+			<CaseName Category="Camera">Preview(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
+			<CaseName Category="Game">Fishing</CaseName>
+			<CaseName Category="Game">Temple_Run</CaseName>
+			<CaseName Category="Game">Castle_Master</CaseName>
+		</TestCase>
+		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
 	</Device>
 	<Device>
-			<Name>HW Module3:WIB 8887</Name>
-			<TestCase>
-				<CaseName Category="Audio">FM</CaseName>
-				<CaseName Category="wifi/bt">WiFi_On</CaseName>
-				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
-				<CaseName Category="wifi/bt">BT_On</CaseName>
-				<CaseName Category="wifi/bt">BT_Conn</CaseName>
-				<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
-				<CaseName Category="wifi/bt">Video_Streaming_WiFi</CaseName>
-			</TestCase>
-			<BLF>c.blf</BLF>
+		<Name>EDEN_1: Daily use</Name>
+		<TestCase>
+			<CaseName Category="Audio">FM</CaseName>
+			<CaseName Category="wifi/bt">WiFi_On</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+			<CaseName Category="wifi/bt">BT_On</CaseName>
+			<CaseName Category="wifi/bt">BT_Conn</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+			<CaseName Category="Game">Fishing</CaseName>
+			<CaseName Category="Game">Temple_Run</CaseName>
+			<CaseName Category="Game">Castle_Master</CaseName>
+		</TestCase>
+		<BLF>PXA1928_B0_Trusted_eMMC_Samsung_lpddr3_1g_discrete_KMQ7X000SA_KMQ72000SM.blf</BLF>
 	</Device>
 	<Device>
-			<Name>HW Module4:Camera OV13850</Name>
-			<TestCase>
-				<CaseName Category="Audio">FM</CaseName>
-				<CaseName Category="wifi/bt">WiFi_On</CaseName>
-				<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
-				<CaseName Category="wifi/bt">BT_On</CaseName>
-				<CaseName Category="wifi/bt">BT_Conn</CaseName>
-				<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
-				<CaseName Category="wifi/bt">Video_Streaming_WiFi</CaseName>
-				<CaseName Category="Camera">Preview(OV13850)_2D</CaseName>
-				<CaseName Category="Camera">Take_pictures(OV13850)_2D</CaseName>
-				<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
-				<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
-			</TestCase>
-			<BLF>d.blf</BLF>
+		<Name>EDEN_2: Camera OV13850</Name>
+		<TestCase>
+			<CaseName Category="Camera">Preview(OV13850)</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)</CaseName>
+			<CaseName Category="Camera">Preview(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
+		</TestCase>
+		<BLF>PXA1928_B0_Trusted_eMMC_Samsung_lpddr3_1g_discrete_KMQ7X000SA_KMQ72000SM.blf</BLF>
+	</Device>
+	<Device>
+		<Name>ULC1_1: Daily use</Name>
+		<TestCase>
+			<CaseName Category="Audio">FM</CaseName>
+			<CaseName Category="wifi/bt">WiFi_On</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+			<CaseName Category="wifi/bt">BT_On</CaseName>
+			<CaseName Category="wifi/bt">BT_Conn</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+			<CaseName Category="Game">Fishing</CaseName>
+			<CaseName Category="Game">Temple_Run</CaseName>
+			<CaseName Category="Game">Castle_Master</CaseName>
+			<CaseName Category="Camera">Preview(SR544)_2D</CaseName>
+			<CaseName Category="Camera">Take_pictures(SR544)_2D</CaseName>
+			<CaseName Category="Camera">Record_720p(SR544)_2D</CaseName>
+			<CaseName Category="Camera">Record_1080p(SR544)_2D</CaseName>
+		</TestCase>
+		<BLF>PXA1908_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</BLF>
+	</Device>
+	<Device>
+		<Name>ULC1_2: Camera OV13850</Name>
+		<TestCase>
+			<CaseName Category="Audio">FM</CaseName>
+			<CaseName Category="wifi/bt">WiFi_On</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+			<CaseName Category="wifi/bt">BT_On</CaseName>
+			<CaseName Category="wifi/bt">BT_Conn</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
+			<CaseName Category="Game">Fishing</CaseName>
+			<CaseName Category="Game">Temple_Run</CaseName>
+			<CaseName Category="Game">Castle_Master</CaseName>
+			<CaseName Category="Camera">Preview(OV13850)</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)</CaseName>
+		</TestCase>
+		<BLF>PXA1908_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</BLF>
 	</Device>
 	<Board>
-			<Type>pxa1908dkb_tz:pxa1908dkb</Type>
-			<HW>
-				<Name>HW Module4:Camera OV13850</Name>
-				<Name>HW Module1:Camera OV5647</Name>
-			</HW>
-	</Board>
-
-	<Board>
-			<Type>pxa1088dkb_def:pxa1088dkb</Type>
-			<HW>
-				<Name>HW Module1:Camera OV5647</Name>
-			</HW>
+		<Type>pxa1908dkb_tz:pxa1908dkb</Type>
+		<HW>
+			<Name>ULC1_1: Daily use</Name>
+			<Name>ULC1_2: Camera OV13850</Name>
+		</HW>
 	</Board>
 	<Board>
-			<Type>pxa1L88dkb_def:pxa1L88dkb</Type>
-			<HW>
-				<Name>HW Module2:Camera LSI3H7,WIB 8787</Name>
-			</HW>
+		<Type>pxa1928dkb_tz:pxa1928dkb</Type>
+		<HW>
+			<Name>EDEN_1: Daily use</Name>
+			<Name>EDEN_2: Camera OV13850</Name>
+		</HW>
 	</Board>
 	<Board>
-			<Type>pxa1928dkb_tz:pxa1928dkb</Type>
-			<HW>
-				<Name>HW Module3:WIB 8887</Name>
-				<Name>HW Module1:Camera OV5647</Name>
-			</HW>
+		<Type>pxa1936dkb_tz:pxa1936dkb</Type>
+		<HW>
+			<Name>HELAN3_1: Daily use</Name>
+			<Name>HELAN3_2: Camera OV13850</Name>
+		</HW>
 	</Board>
 
 	<Performance>

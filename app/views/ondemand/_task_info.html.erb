@@ -4,7 +4,6 @@
 $.extend( $.fn.dataTableExt.oStdClasses, {
 	"sWrapper": "dataTables_wrapper form-inline"
 } );
-
 /* API method to get paging information */
 $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 {
@@ -96,25 +95,22 @@ $.extend( $.fn.dataTableExt.oPagination, {
 	}
 });
 
-/* Show/hide table column */
-function dtShowHideCol( iCol ) {
-	var oTable = $('#example-2').dataTable();
-	var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-	oTable.fnSetColumnVis( iCol, bVis ? false : true );
-};
-
 /* Table #example */
 $(document).ready(function() {
-	$('.datatable').dataTable( {
-		"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
-		"sPaginationType": "bootstrap",
-		"oLanguage": {
-			"sLengthMenu": "_MENU_ records per page"
-		}
+	$('#task_list').dataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax": $('#task_list').data('source'),
+		"pagingType": "bootstrap"
 	});
-	$('.datatable-controls').on('click','li input',function(){
-		dtShowHideCol( $(this).val() );
-	})
+	$("#task_list tbody").delegate("tr td:not(:last)", "click", function() {
+		var id = $(this).parent().find("td:nth-child(2)").text();
+		update_scenario_by_task(id);
+	});
+	$("#task_list tbody").delegate("tr td:last-child", "click", function() {
+		var id = $(this).parent().find("td:nth-child(2)").text();
+		add_task_scenarios_to_cart(id);
+	});
 });
 
 function update_scenario_by_task(task_id){
@@ -140,15 +136,16 @@ function add_task_scenarios_to_cart(task_id) {
 		url: record_list_url,
 		success: function(msg){
 			$("#extruderRight").setMbExtruderContent({
-                url:"/carts"
+                		url:"/carts"
             });
 		}
 	});
 }
 </script>
-<table class="datatable table table-wuxia table-bordered" id="example-2">
+<table class="datatable table table-wuxia table-bordered" id="task_list" data-source="/ondemand/get_task">
 	<thead>
 		<tr>
+			<th>ID</th>
 			<th>Task ID</th>
 			<th>Platform</th>
 			<th>Device</th>
@@ -159,16 +156,5 @@ function add_task_scenarios_to_cart(task_id) {
 		</tr>
 	</thead>
 	<tbody>
-		<% @tasks.each do |task| %>
-			<tr>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.task_id %></td>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.platform %></td>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.device %></td>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.branch %></td>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.purpose %></td>
-				<td onclick="update_scenario_by_task('<%= task.task_id %>')"><%= task.user.name %></td>
-				<td onclick="add_task_scenarios_to_cart('<%= task.task_id %>')"><span class="icon-refresh"></span></td>
-			</tr>
-		<% end %>
 	</tbody>
 </table>

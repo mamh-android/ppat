@@ -5,7 +5,7 @@ module OndemandHelper
     end
 
     def get_last_task_info()
-        TaskInfo.last
+        TaskInfo.where(run_type: "ondemand").last
     end
 
     def get_scenario_name(scenario_id)

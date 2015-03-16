@@ -9540,11 +9540,6 @@ footer.container p a:hover {
 /* Forms */
 form,
 .form-horizontal {
-  background: #f6f6f6;
-  border: none;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
 form .control-group,
 .form-horizontal .control-group {

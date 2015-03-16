@@ -1,7 +1,7 @@
 class CompareController < ApplicationController
     def index
         @cart = get_cart
-        @tasks = TaskInfo.all
+        @tasks = TaskInfo.where(run_type: "ondemand")
         render :layout=>"ppat"
     end
 

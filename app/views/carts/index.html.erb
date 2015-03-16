@@ -19,8 +19,11 @@
         <% end %>
     </tbody>
 </table>
-<div align="right">
+<div style="display:inline">
     <form method="get" action="/compare/index" style="display:inline;">
+        <button class="btn btn-danger">Empty</button>
+    </form>
+    <form method="get" action="/compare/index" style="display:inline;margin-right:0px;">
         <button class="btn btn-info">Go to Compare</button>
     </form>
 </div>
@@ -39,7 +42,7 @@ function remove_from_cart (rm_this,record_id) {
         url: record_list_url,
         success: function(msg){
             update_charts();
-            $(rm_this).parent().fadeOut(500, function(){
+            $(rm_this).parent().fadeOut(100, function(){
                 $(rm_this).parent().remove();
             });
         }

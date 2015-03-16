@@ -1,7 +1,7 @@
 class LogController < ApplicationController
     def in
-        unless request.get?
-            session[:return_to] ||= request.referer
+        session[:return_to] ||= request.referer
+        if request.post?
             username = params[:user][:name]
             password = params[:pwd]
             @result = varify_user_login(username, password)

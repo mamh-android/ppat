@@ -53,7 +53,7 @@ class RecordListsController < ApplicationController
 
   def create_by_task
     @cart = get_cart
-    @scenarios = PowerRecord.where(task_id:  params[:task_id]).group(:power_scenario_id)
+    @scenarios = PowerRecord.where(task_id:  params[:task_id])
     @scenarios.each do |power_record|
       @record_list = @cart.record_list.build(:power_record => power_record)
       @record_list.save
