@@ -1,35 +1,31 @@
-<!-- page-container -->
+
+<%snplatform_list=[]%>
 <div class="page-container tab-content">
-    <!-- Tab #basic -->
     <div class="tab-pane active" id="basic">
-        <!-- Grid row -->
         <div class="row">
             <form method=post action="" name="form1">
                 <article class="span4">
                     Platform
                     <select name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform">
-                       <%@scenariosplatform =get_all_platform() %>
-                        <% @scenariosplatform.each do |scenariosp| %>
-                        <option value="<%=scenariosp.platform%>"><%=scenariosp.platform%></option>
+
+                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988']%>
+                         <%snplatform_list.each do |snplatform_list|%>
+                        <option value="<%=snplatform_list%>"><%=snplatform_list%></option>
                         <% end %>
                     </select>
                 </article>
                 <article class="span4">
                     Branch
-                    <select name="Branch" id="Branch" onclick="update_calendar()"
-                        onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
+                    <select name="Branch" id="Branch" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>
                 </article>
                 <article class="span4">
                     Device
-                    <select name="Device" id="Device" onclick="update_calendar()"
-                        onclick="update_scenario_by_task()" onchange="show_smoketest_calendar()">
+                    <select name="Device" id="Device" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()">
                     </select>
                 </article>
             </form>
-            <!-- Page grid cell (6 blocks - full) -->
             <article class="span6">
-                <!-- Example jQuery FullCalendar -->
                 <div class='full-calendar '></div>
                  <h2>
                     <span class="icon-hand-right"></span>&nbsp;Smoke test result
@@ -68,23 +64,15 @@
 
             </article>
             <article class="span6">
-                <!-- table of daily power -->
                 <h2>
                     <span class="icon-hand-right"></span>&nbsp;Daily Power
                 </h2>
-                <!-- table of task list -->
-                <!-- scenario table of task -->
                 <div id="task_scenario"></div>
             </article>
-            <!-- /Page grid cell (6 blocks - full) -->
         </div>
-        <!-- /Grid row -->
     </div>
-    <!-- Tab #basic -->
 </div>
 </div>
-<!-- /page-container -
-<!--PXA1928-->
 <div  class="page-container">
     <ul class="nav nav-tabs" id="myTab" onclick="update_scenario_code()">
     <%@scenariosplatformbranch=get_all_platformbranch() %>
@@ -100,7 +88,6 @@
             <%end%>
     </div>
 </div>
-<!--/PXA1928-->
 <script>
     $(document).ready(function() {
         getBranch();
@@ -267,12 +254,10 @@ function submit_smoke(image_date){
         }
     });
 }
-        //定义了Branch的二维数组，里面的顺序跟Platform的顺序是相同的。通过selectedIndex获得Platform的下标值来得到相应的Branch数组
         var Branch = [
-                <%@scenariosplatform = get_all_platform()%>
-                <% @scenariosplatform.each do |scenariosp| %>
+                <% snplatform_list.each do |scenariosp| %>
             [
-                <%@scenariosbranch = get_all_branch(scenariosp.platform) %>
+                <%@scenariosbranch = get_all_branch(scenariosp) %>
                 <% @scenariosbranch.each do |scenariosb| %>
                                 "<%=scenariosb.branch%>",
                    <% end %>
@@ -280,10 +265,9 @@ function submit_smoke(image_date){
             <% end %>
         ];
         var Device = [
-                <%@scenariosplatform = get_all_platform()%>
-                <% @scenariosplatform.each do |scenariosp| %>
+                <% snplatform_list.each do |scenariosp| %>
             [
-                <%@scenariosdevice = get_all_device(scenariosp.platform) %>
+                <%@scenariosdevice = get_all_device(scenariosp) %>
                 <% @scenariosdevice.each do |scenariosdevice| %>
                                 "<%=scenariosdevice.device%>",
                    <% end %>
@@ -291,25 +275,16 @@ function submit_smoke(image_date){
             <% end %>
         ];
         function getBranch(){
-            //获得Platform下拉框的对象
             var sltPlatform=document.form1.Platform;
-            //获得Branch下拉框的对象
             var sltBranch=document.form1.Branch;
-             //获得Device下拉框的对象
             var sltDevice=document.form1.Device;
-            //得到对应Platform的Branch数组
             var PlatformBranch=Branch[sltPlatform.selectedIndex];
-             //得到对应Platform的Device数组
             var PlatformDevice=Device[sltPlatform.selectedIndex];
-            //清空Branch下拉框，仅留提示选项
             sltBranch.length=1;
-            //清空Device下拉框，仅留提示选项
             sltDevice.length=1;
-            //将Branch数组中的值填充到Branch下拉框中
              for(var i=0;i<PlatformBranch.length;i++){
             sltBranch[i]=new Option(PlatformBranch[i],PlatformBranch[i]);
             }
-             //将Device数组中的值填充到Device下拉框中
              for(var i=0;i<PlatformDevice.length;i++){
             sltDevice[i]=new Option(PlatformDevice[i],PlatformDevice[i]);
             }
