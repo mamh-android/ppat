@@ -25,6 +25,9 @@ module OndemandHelper
         PowerRecord.where(task_id:task_id)
     end
 
+    def get_user_name_by_id(id)
+        User.where(id: id).last.name
+    end
     def get_power_record_result(power_scenario_id,purpose,id,image_date)
         PowerRecord.where('power_scenario_id = ? and purpose = ? and id =? and image_date = ? ',power_scenario_id,purpose,id,image_date)
     end

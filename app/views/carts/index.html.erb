@@ -1,6 +1,6 @@
 <% @all_purposes = get_distinct_purposes() %>
 <% @all_categories = get_distinct_scenario_categories() %>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="cart_list">
     <thead>
         <tr>
             <th>Battery</th>
@@ -20,15 +20,28 @@
     </tbody>
 </table>
 <div style="display:inline">
+    <button class="btn btn-danger" onclick="empty_cart()">Empty</button>
     <form method="get" action="/compare/index" style="display:inline;">
-        <button class="btn btn-danger">Empty</button>
-    </form>
-    <form method="get" action="/compare/index" style="display:inline;margin-right:0px;">
         <button class="btn btn-info">Go to Compare</button>
     </form>
 </div>
 <SCRIPT LANGUAGE="JavaScript">
-function update_charts(){
+function empty_cart(){
+    var carts_url = "/carts/empty";
+    $.ajax({
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: carts_url,
+        success: function(msg){
+            $("#cart_list").find("tr td").each(function(){
+                $(this).fadeOut(100,function(){
+                    $(this).remove();
+                });
+            });
+        }
+    });
 }
 
 function remove_from_cart (rm_this,record_id) {
@@ -41,7 +54,6 @@ function remove_from_cart (rm_this,record_id) {
           },
         url: record_list_url,
         success: function(msg){
-            update_charts();
             $(rm_this).parent().fadeOut(100, function(){
                 $(rm_this).parent().remove();
             });

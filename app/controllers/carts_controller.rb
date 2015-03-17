@@ -76,4 +76,11 @@ class CartsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def empty
+    @cart = get_cart
+    @cart.record_list.each do |record|
+      record.destroy
+    end
+  end
 end

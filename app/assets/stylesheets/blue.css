@@ -3524,7 +3524,7 @@ input[type="submit"].btn.btn-mini {
   top: -25%;
 }
 .modal.fade.in {
-  top: 50%;
+  top: 70%;
 }
 .modal-header {
   padding: 9px 15px;
@@ -3535,7 +3535,7 @@ input[type="submit"].btn.btn-mini {
 }
 .modal-body {
   overflow-y: auto;
-  max-height: 800px;
+  max-height: 500px;
   padding: 15px;
 }
 .modal-form {
@@ -5637,6 +5637,7 @@ ul.icons li .icon-large:before {
   font-family: FontAwesome;
   font-style: normal;
   font-weight: normal;
+  font-size: 20px;
 }
 .btn.dropdown-toggle [class^="icon-"],
 .btn.dropdown-toggle [class*=" icon-"] {

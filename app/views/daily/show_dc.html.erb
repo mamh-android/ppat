@@ -1,5 +1,10 @@
 <% if !@record.nil? %>
 	<pre class="html ui-resizable" id="<%= @record.power_scenario_id %>" ondblclick="remove(<%= @record.power_scenario_id %>)">
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @record.image_date %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @record.platform %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= get_scenario_name(@record.power_scenario_id) %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;">Battery:<%= @record.battery %>mA, Vcc_main:<%= @record.vcc_main %>mA</h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;">PT4 file: <a href="<%= @record.pt4_link %>" target="_blank">LINK</a></h5>
 		<%= @record.duty_cycle %>
 	</pre>
 <% end %>

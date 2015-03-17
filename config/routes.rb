@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 resources :record_lists
 post "record_lists/delete"
 post "record_lists/create_by_task"
+post "carts/empty"
 resources :carts
 get "ondemand/index"
 get "ondemand/get_task_detail"
@@ -19,7 +20,7 @@ get "home/update_calendar"
 get "home/get_platform_detail"
 get "home/get_code_drop"
 get "compare/index"
-post "compare/add_daily_compare"
+post "/compare/add_daily_compare"
 post "/compare/add_ondemand_compare"
 get "compare/get_compare_detail"
 get "compare/get_dc"

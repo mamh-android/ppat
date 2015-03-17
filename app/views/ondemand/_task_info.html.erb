@@ -110,6 +110,8 @@ $(document).ready(function() {
 	$("#task_list tbody").delegate("tr td:last-child", "click", function() {
 		var id = $(this).parent().find("td:nth-child(2)").text();
 		add_task_scenarios_to_cart(id);
+		$(this).find("span").removeClass(" icon-refresh");
+		$(this).find("span").addClass("icon-ok");
 	});
 });
 

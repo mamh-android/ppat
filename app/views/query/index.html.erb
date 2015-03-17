@@ -10,7 +10,7 @@
 						<button class="close" data-dismiss="alert" type="button" onclick="kill_job(this, '<%= info.uuid %>')">×</button>
 						<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
-							<div class="bar" style="width: 89%">89%</div>
+							<div class="bar" style="width: 1%">1%</div>
 						</div>
 						<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 					</div>
@@ -23,7 +23,7 @@
 						<button class="close" data-dismiss="alert" type="button" onclick="kill_job(this, '<%= info.uuid %>')">×</button>
 						<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
-							<div class="bar" style="width: 89%">89%</div>
+							<div class="bar" style="width: 1%">1%</div>
 						</div>
 						<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 					</div>

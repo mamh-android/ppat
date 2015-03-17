@@ -10,11 +10,12 @@ class TriggerHelan3Job < Resque::JobWithStatus
  		#build job
 		client = JenkinsApi::Client.new(:server_ip => '10.38.120.30', :username => 'ppat', :password => '79fa7f655d56115da6fe7d707f63fd12')
 		build_que = JenkinsApi::Client::BuildQueue.new(client)
+		device = options['device'].split(":")[0]
 		job_params = {
 		    'IMAGEPATH' => options['image_path'],
 		    'PURPOSE' => options['purpose'],
 		    'BLF' => options['blf'],
-		    'DEVICE' => options['device'],
+		    'DEVICE' => device,
 		    'TESTCASE' => options['testcase'],
 		    'ASSIGNER' => options['assigner']
 		}
