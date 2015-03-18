@@ -8,7 +8,7 @@
                     Platform
                     <select name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform">
 
-                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988']%>
+                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988','pxa1908','pxa1908FF',]%>
                          <%snplatform_list.each do |snplatform_list|%>
                         <option value="<%=snplatform_list%>"><%=snplatform_list%></option>
                         <% end %>
@@ -27,9 +27,9 @@
             </form>
             <article class="span6">
                 <div class='full-calendar '></div>
-                 <h2>
+                 <h3>
                     <span class="icon-hand-right"></span>&nbsp;Smoke test result
-                </h2>
+                </h3>
                 <div id="accordion1" class="accordion">
                     <div class="accordion-group">
                         <div class="accordion-heading">
@@ -39,16 +39,16 @@
                                 <div id ="sub_date" style="display:none;"></div>
                                 <div id ="show_smoketest" style="display:none;"></div>
                             </a>
+                                <div style="float:right;margin-top:-6%;margin-right:10px;"><a  onclick="submit_smoke()" data-toggle="modal" href="#demoModal"><button style="size:10px;padding:3px;" class="btn btn-info btn-flat">Detail</button></a></div>
                         </div>
                         <div id="collapseOne" class="accordion-body in collapse"
                             style="height: auto;">
                             <div class="accordion-inner">
                                 <div id="smoketest_result"></div>
-                               <a class="btn btn-wuxia btn-primary" onclick="submit_smoke()" data-toggle="modal" href="#demoModal">Detail</a>
                                <div class="modal fade hide" id="demoModal" style="display: none;">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">×</button>
-                                        <h3>Smoketest detail</h3>
+                                        <h5>Smoketest detail</h5>
                                     </div>
                                     <div class="modal-body">
                                        <div id ="smoke_detailed"></div>
@@ -64,9 +64,9 @@
 
             </article>
             <article class="span6">
-                <h2>
+                <h3>
                     <span class="icon-hand-right"></span>&nbsp;Daily Power
-                </h2>
+                </h3>
                 <div id="task_scenario"></div>
             </article>
         </div>
@@ -207,7 +207,7 @@ function show_issue_detail(image_date){
                 device = device.replace(/[\ |\_|\.]/g,"");
     $.ajax({
         type: "POST",
-        url:'http://10.38.32.174/smoketest/php/searchstateresult.php',
+        url:'http://10.38.116.60/smoketest/php/searchstateresult.php',
         data:{platform:platform, branch:branch,prodoct:device,reportdate:image_date,mode:1},
         success: function(data){
             $("#smoketest_result").html("");
@@ -225,7 +225,7 @@ function show_smoketest_calendar(){
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
     $.ajax({
         type: "POST",
-        url:'http://10.38.32.174/smoketest/php/searchstateresult.php',
+        url:'http://10.38.116.60/smoketest/php/searchstateresult.php',
         data:{platform:platform, branch:branch,mode:2},
         success: function(data){
             $("#show_smoketest").html("");
@@ -246,7 +246,7 @@ function submit_smoke(image_date){
                 device = device.replace(/[\ |\_|\.]/g,"");
     $.ajax({
         type: "GET",
-        url: "http://10.38.32.174/smoketest/php/searchstateresult.php?reportdate="+image_date+"&platform="+platform+"&branch="+branch+"&prodoct="+device,
+        url: "http://10.38.116.60/smoketest/php/searchstateresult.php?reportdate="+image_date+"&platform="+platform+"&branch="+branch+"&prodoct="+device,
         success: function(msg){
               $("#smoke_detailed").html("");
             $("#smoke_detailed").html(msg);//msg...

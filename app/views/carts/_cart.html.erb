@@ -4,14 +4,14 @@
 <%task_id_list=[]%>
 <%task_purpose=[]%>
 <%count=0%>
-<% @all_purposes.each do |purpose| %>
+<%purpose_list=[]%>
+<%purpose_image=[]%>
+<%purpose_device=[]%>
+<%purpose_branch=[]%>
     <% @cart.record_list.each do |record| %>
-        <% if get_record_info(record.power_record.id).purpose == purpose %>
             <%scenario_name_list<<get_record_info(record.power_record.id).power_scenario_id%>
             <%task_id_list<<get_record_info(record.power_record.id).task_id%>
-        <% end %>
     <% end %>
-<% end %>
 <div style="text-align: center; background-color:#FFFFFFF;">
     <center>
         <article>
@@ -48,6 +48,10 @@
                                             <td>
                                                 <input type="checkbox" name="compare_battery" onclick="cmp_battery()">
                                                     <hr/>
+                                                <%purpose_list<<getpurpose.purpose%>
+                                                <%purpose_image<<getpurpose.image_date%>
+                                                <%purpose_device<<getpurpose.device%>
+                                                <%purpose_branch<<getpurpose.branch%>
                                                 <%=getpurpose.purpose%>
                                             </td>
                                             <%break%>
@@ -56,30 +60,22 @@
                                     <td>
                                         Diff
                                     </td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                            <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                            <%@get_task_id_purpose.each do |getpurpose|%>
+                                            <%purpose_list.each do |purpose_list_vcc|%>
                                                 <td>
                                                     <input type="checkbox" name="compare_vcc_main" onclick="cmp_vcc_main()">
                                                         <hr/>
-                                                    <%=getpurpose.purpose%>
+                                                    <%=purpose_list_vcc%>
                                                 </td>
-                                                <%break%>
-                                            <%end%>
                                         <%end%>
                                     <td>
                                         Diff
                                     </td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                            <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                            <%@get_task_id_purpose.each do |getpurpose|%>
+                                        <%purpose_list.each do |purpose_list_fps|%>
                                                 <td>
                                                     <input type="checkbox" name="compare_fps" onclick="cmp_fps()">
                                                         <hr/>
-                                                    <%=getpurpose.purpose%>
+                                                    <%=purpose_list_fps%>
                                                 </td>
-                                                <%break%>
-                                            <%end%>
                                         <%end%>
                                     <td>
                                         Diff
@@ -87,82 +83,46 @@
                                     </tr>
                                     <tr>
                                         <td>Image_date</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>devices</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
-                                         <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                         <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
-                                         <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                         <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Branch</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
@@ -171,46 +131,52 @@
                                         <tr>
                                             <td><%=get_scenario_name(snl)%></td>
                                                 <%task_purpose.each do |tk_purpose|%>
+                                                <%battery_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.battery%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%battery_a<<index_battery.battery.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if battery_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(battery_a.sum.to_f/battery_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_purpose.each do |tk_purpose|%>
+                                                <%vcc_main_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.vcc_main%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%vcc_main_a<<index_battery.vcc_main.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if vcc_main_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(vcc_main_a.sum.to_f/vcc_main_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_purpose.each do |tk_purpose|%>
+                                                <%fps_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.fps%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%fps_a<<index_battery.fps.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if fps_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(fps_a.sum.to_f/fps_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
@@ -243,46 +209,34 @@
                                             <hr/>
                                     purpose
                                     </td>
-                                    <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
+                                    <%purpose_list.each do |purpose_list_b|%>
                                             <td>
                                                 <input type="checkbox" name="compare_battery_<%=category%>" onclick="cmp_battery_<%=category%>()">
                                                         <hr/>
-                                                    <%=getpurpose.purpose%>
+                                                    <%=purpose_list_b%>
                                             </td>
-                                            <%break%>
-                                        <%end%>
-                                        <%end%>
-                                        <td>
+                                    <%end%>
+                                    <td>
                                             <hr/>
                                         Diff
                                     </td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
+                                        <%purpose_list.each do |purpose_list_vcc|%>
                                             <td>
                                                 <input type="checkbox" name="compare_vcc_main_<%=category%>" onclick="cmp_vcc_main_<%=category%>()">
                                                         <hr/>
-                                                    <%=getpurpose.purpose%>
+                                                    <%=purpose_list_vcc%>
                                             </td>
-                                            <%break%>
-                                        <%end%>
                                         <%end%>
                                         <td>
                                             <hr/>
                                         Diff
                                     </td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
+                                        <%purpose_list.each do |purpose_list_fps|%>
                                             <td>
                                                 <input type="checkbox" name="compare_fps_<%=category%>" onclick="cmp_fps_<%=category%>()">
                                                         <hr/>
-                                                    <%=getpurpose.purpose%>
+                                                    <%=purpose_list_fps%>
                                             </td>
-                                            <%break%>
-                                        <%end%>
                                         <%end%>
                                         <td>
                                             <hr/>
@@ -291,82 +245,46 @@
                                     </tr>
                                     <tr>
                                         <td>Image_date</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.image_date%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_image.each do |purpose_image_b|%>
+                                            <td><%=purpose_image_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>devices</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
-                                         <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                         <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
-                                         <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.device%></td>
-                                            <%break%>
-                                        <%end%>
+                                         <%purpose_device.each do |purpose_device_b|%>
+                                            <td><%=purpose_device_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Branch</td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
-                                        <%task_id_list.uniq.each do |taskid|%>
-                                        <%@get_task_id_purpose=get_task_id_purpose(taskid)%>
-                                        <%@get_task_id_purpose.each do |getpurpose|%>
-                                            <td><%=getpurpose.branch%></td>
-                                            <%break%>
-                                        <%end%>
+                                        <%purpose_branch.each do |purpose_branch_b|%>
+                                            <td><%=purpose_branch_b%></td>
                                         <%end%>
                                         <td></td>
                                     </tr>
@@ -374,47 +292,53 @@
                                     <%if get_scenario_name_category(get_scenario_name(snl))==category%>
                                         <tr>
                                             <td><%=get_scenario_name(snl)%></td>
-                                             <%task_purpose.each do |tk_purpose|%>
+                                              <%task_purpose.each do |tk_purpose|%>
+                                                <%battery_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.battery%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%battery_a<<index_battery.battery.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if battery_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(battery_a.sum.to_f/battery_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                           <%task_purpose.each do |tk_purpose|%>
+                                            <%task_purpose.each do |tk_purpose|%>
+                                                <%vcc_main_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.vcc_main%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%vcc_main_a<<index_battery.vcc_main.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if vcc_main_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(vcc_main_a.sum.to_f/vcc_main_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                           <%task_purpose.each do |tk_purpose|%>
+                                            <%task_purpose.each do |tk_purpose|%>
+                                                <%fps_a=[]%>
                                                 <td>
-                                                    <% @all_purposes.each do |purpose| %>
-                                                        <% @cart.record_list.each do |record| %>
-                                                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                                                    <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                                    <%@get_power_record_result.each do |index_battery|%>
-                                                                        <%=index_battery.fps%>
-                                                                    <%end%>
-                                                                <%end%>
+                                                    <% @cart.record_list.uniq.each do |record| %>
+                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                        <%@get_power_record_result.each do |index_battery|%>
+                                                            <%fps_a<<index_battery.fps.to_f%>
                                                         <%end%>
+                                                    <%end%>
+                                                    <%if fps_a.size==0%>
+                                                    0.0
+                                                    <%else%>
+                                                    <%=(fps_a.sum.to_f/fps_a.size).round(5)%>
                                                     <%end%>
                                                 </td>
                                                 <%end%>
@@ -617,70 +541,38 @@ function cmp_battery(){
     var tab_count=<%=count%>;
     var battery_list =new Array();
     var com_battery=new Array();
-    var checked_counts = 0;
-    for(var i=0;i<inputs.length;i++){
-        if(inputs[i].checked){
-            for(var j=2;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
-            battery_list.push(battery_col);
-        }
-            checked_counts++;
-            if(checked_counts>2){
-                alert("Is not greater than 2!");
-                inputs[i].checked=false;
-            }
-        }
-    }
-    for(var i=0;i<battery_list.length/2;i++){
-         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
-    }
-    if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText=com_battery[j-2];
-    }
-    }
-
-}
-function cmp_vcc_main(){
-    var inputs = document.getElementsByName("compare_vcc_main");
-    var gettd=document.getElementById("compare_tab");
-    var tab_count=<%=count%>;
     var vcc_main_list=new Array();
     var com_vcc_main=new Array();
-    var checked_counts = 0;
-    for(var i=0;i<inputs.length;i++){
-        if(inputs[i].checked){
-            for(var j=2;j<gettd.rows.length;j++){
-            var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
-            vcc_main_list.push(vcc_main_col);
-        }
-            checked_counts++;
-            if(checked_counts>2){
-                alert("Is not greater than 2!");
-                inputs[i].checked=false;
-            }
-        }
-    }
-    for(var i=0;i<vcc_main_list.length/2;i++){
-         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
-    }
-    if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=com_vcc_main[j-2];
-    }
-    }
-
-}
-function cmp_fps(){
-    var inputs = document.getElementsByName("compare_fps");
-    var gettd=document.getElementById("compare_tab");
-    var tab_count=<%=count%>;
     var fps_list =new Array();
     var com_fps=new Array();
     var checked_counts = 0;
+    var checked_counts_toher=0;
     for(var i=0;i<inputs.length;i++){
         if(inputs[i].checked){
+            $('input[name=compare_vcc_main]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_fps]').each(function(idx){
+                if(idx == i){
+                   if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
             for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
             var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
             fps_list.push(fps_col);
         }
@@ -690,13 +582,176 @@ function cmp_fps(){
                 inputs[i].checked=false;
             }
         }
+        else{
+            $('input[name=compare_vcc_main]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_fps]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
+        }
     }
-    for(var i=0;i<fps_list.length/2;i++){
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
         for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=com_fps[j-2];
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+    }
+    }
+
+}
+function cmp_vcc_main(){
+    var inputs = document.getElementsByName("compare_vcc_main");
+    var gettd=document.getElementById("compare_tab");
+    var tab_count=<%=count%>;
+    var battery_list =new Array();
+    var com_battery=new Array();
+    var vcc_main_list=new Array();
+    var com_vcc_main=new Array();
+    var fps_list =new Array();
+    var com_fps=new Array();
+    var checked_counts = 0;
+    var checked_counts_toher=0;
+    for(var i=0;i<inputs.length;i++){
+        if(inputs[i].checked){
+            $('input[name=compare_battery]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_fps]').each(function(idx){
+                if(idx == i){
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            fps_list.push(fps_col);
+        }
+            checked_counts++;
+            if(checked_counts>2){
+                alert("Is not greater than 2!");
+                inputs[i].checked=false;
+            }
+        }
+        else{
+            $('input[name=compare_battery]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_fps]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
+        }
+    }
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
+         com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
+    }
+    if(checked_counts==2){
+        for(var j=2;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+    }
+    }
+
+}
+function cmp_fps(){
+    var inputs = document.getElementsByName("compare_fps");
+    var gettd=document.getElementById("compare_tab");
+     var tab_count=<%=count%>;
+    var battery_list =new Array();
+    var com_battery=new Array();
+    var vcc_main_list=new Array();
+    var com_vcc_main=new Array();
+    var fps_list =new Array();
+    var com_fps=new Array();
+    var checked_counts = 0;
+    var checked_counts_toher=0;
+    for(var i=0;i<inputs.length;i++){
+        if(inputs[i].checked){
+            $('input[name=compare_vcc_main]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_battery]').each(function(idx){
+                if(idx == i){
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            fps_list.push(fps_col);
+        }
+            checked_counts++;
+            if(checked_counts>2){
+                alert("Is not greater than 2!");
+                inputs[i].checked=false;
+            }
+        }else{
+            $('input[name=compare_vcc_main]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_battery]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
+        }
+    }
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
+         com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
+    }
+    if(checked_counts==2){
+        for(var j=2;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
     }
     }
 
@@ -714,70 +769,38 @@ function cmp_battery_<%=category%>(){
     var tab_count=<%=count%>;
     var battery_list =new Array();
     var com_battery=new Array();
-    var checked_counts = 0;
-    for(var i=0;i<inputs.length;i++){
-        if(inputs[i].checked){
-            for(var j=2;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
-            battery_list.push(battery_col);
-        }
-            checked_counts++;
-            if(checked_counts>2){
-                alert("Is not greater than 2!");
-                inputs[i].checked=false;
-            }
-        }
-    }
-    for(var i=0;i<battery_list.length/2;i++){
-         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
-    }
-    if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText=com_battery[j-2];
-    }
-    }
-
-}
-function cmp_vcc_main_<%=category%>(){
-    var inputs = document.getElementsByName("compare_vcc_main_<%=category%>");
-    var gettd=document.getElementById("table_<%=category%>");
-    var tab_count=<%=count%>;
     var vcc_main_list=new Array();
     var com_vcc_main=new Array();
-    var checked_counts = 0;
-    for(var i=0;i<inputs.length;i++){
-        if(inputs[i].checked){
-            for(var j=2;j<gettd.rows.length;j++){
-            var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
-            vcc_main_list.push(vcc_main_col);
-        }
-            checked_counts++;
-            if(checked_counts>2){
-                alert("Is not greater than 2!");
-                inputs[i].checked=false;
-            }
-        }
-    }
-    for(var i=0;i<vcc_main_list.length/2;i++){
-         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
-    }
-    if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=com_vcc_main[j-2];
-    }
-    }
-
-}
-function cmp_fps_<%=category%>(){
-    var inputs = document.getElementsByName("compare_fps_<%=category%>");
-    var gettd=document.getElementById("table_<%=category%>");
-    var tab_count=<%=count%>;
     var fps_list =new Array();
     var com_fps=new Array();
     var checked_counts = 0;
+    var checked_counts_toher=0;
     for(var i=0;i<inputs.length;i++){
         if(inputs[i].checked){
+            $('input[name=compare_vcc_main_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_fps_<%=category%>]').each(function(idx){
+                if(idx == i){
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
             for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
             var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
             fps_list.push(fps_col);
         }
@@ -786,14 +809,175 @@ function cmp_fps_<%=category%>(){
                 alert("Is not greater than 2!");
                 inputs[i].checked=false;
             }
+        }else{
+            $('input[name=compare_vcc_main_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_fps_<%=category%>]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
         }
     }
-    for(var i=0;i<fps_list.length/2;i++){
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
         for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=com_fps[j-2];
+       gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+    }
+    }
+
+}
+function cmp_vcc_main_<%=category%>(){
+    var inputs = document.getElementsByName("compare_vcc_main_<%=category%>");
+    var gettd=document.getElementById("table_<%=category%>");
+    var tab_count=<%=count%>;
+    var battery_list =new Array();
+    var com_battery=new Array();
+    var vcc_main_list=new Array();
+    var com_vcc_main=new Array();
+    var fps_list =new Array();
+    var com_fps=new Array();
+    var checked_counts = 0;
+    var checked_counts_toher = 0;
+    for(var i=0;i<inputs.length;i++){
+        if(inputs[i].checked){
+            $('input[name=compare_battery_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_fps_<%=category%>]').each(function(idx){
+                if(idx == i){
+                     if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            fps_list.push(fps_col);
+        }
+            checked_counts++;
+            if(checked_counts>2){
+                alert("Is not greater than 2!");
+                inputs[i].checked=false;
+            }
+        }else{
+            $('input[name=compare_battery_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_fps_<%=category%>]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
+        }
+    }
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
+         com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
+    }
+    if(checked_counts==2){
+        for(var j=2;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+    }
+    }
+
+}
+function cmp_fps_<%=category%>(){
+    var inputs = document.getElementsByName("compare_fps_<%=category%>");
+    var gettd=document.getElementById("table_<%=category%>");
+    var tab_count=<%=count%>;
+    var battery_list =new Array();
+    var com_battery=new Array();
+    var vcc_main_list=new Array();
+    var com_vcc_main=new Array();
+    var fps_list =new Array();
+    var com_fps=new Array();
+    var checked_counts = 0;
+    var checked_counts_toher = 0;
+    for(var i=0;i<inputs.length;i++){
+        if(inputs[i].checked){
+            $('input[name=compare_vcc_main_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    checked_counts_toher++;
+                     if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            $('input[name=compare_battery_<%=category%>]').each(function(idx){
+                if(idx == i){
+                    if(checked_counts_toher>2){
+                        $(this).prop("checked",false);
+                    }else{
+                        $(this).prop("checked",true);
+                    }
+                }
+            });
+            for(var j=2;j<gettd.rows.length;j++){
+            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            battery_list.push(battery_col);
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+            vcc_main_list.push(vcc_main_col);
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            fps_list.push(fps_col);
+        }
+            checked_counts++;
+            if(checked_counts>2){
+                alert("Is not greater than 2!");
+                inputs[i].checked=false;
+            }
+        }else{
+            $('input[name=compare_vcc_main_<%=category%>]').each(function(idx){
+                if(idx==i){
+                    $(this).prop("checked",false);
+                }
+            });
+            $('input[name=compare_battery_<%=category%>]').each(function(idx){
+                if(idx == i){
+                    $(this).prop("checked", false);
+                }
+            });
+        }
+    }
+    for(var i=0;i<battery_list.length/2;i++){
+         com_battery.push(battery_list[i]-battery_list[battery_list.length/2+i]);
+         com_vcc_main.push(vcc_main_list[i]-vcc_main_list[vcc_main_list.length/2+i]);
+         com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
+    }
+    if(checked_counts==2){
+        for(var j=2;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
     }
     }
 
