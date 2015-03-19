@@ -29,7 +29,6 @@ form .control-group, .form-horizontal .control-group {
     margin: 0;
 }
 select {
-    width: 220px;
     border: 1px solid #BBB;
 }
 

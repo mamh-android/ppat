@@ -21,7 +21,7 @@
 						<td><%= scenario_info.battery %></td>
 						<td><%= scenario_info.vcc_main %></td>
 						<td><%= scenario_info.fps %></td>
-						<td onclick="add_to_cart('<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
+						<td onclick="add_to_cart(this,'<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
 						<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
 					</tr>
 				<% end %>

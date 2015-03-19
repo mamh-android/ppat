@@ -4,14 +4,27 @@
 <%task_id_list=[]%>
 <%task_purpose=[]%>
 <%count=0%>
+<% record_list = [] %>
 <%purpose_list=[]%>
 <%purpose_image=[]%>
 <%purpose_device=[]%>
 <%purpose_branch=[]%>
+<% @all_purposes.each do |purpose| %>
     <% @cart.record_list.each do |record| %>
+        <% record_info = get_record_info(record.power_record.id) %>
+        <% record_list << record_info %>
+        <% if record_info.device.nil? %>
+                <% record_info.device = "" %>
+        <% end %>
+        <% if record_info.image_date.nil? %>
+                <% record_info.image_date="" %>
+        <% end %>
+        <% if record_info.purpose + "-" + record_info.device + "-" + record_info.image_date == purpose %>
             <%scenario_name_list<<get_record_info(record.power_record.id).power_scenario_id%>
             <%task_id_list<<get_record_info(record.power_record.id).task_id%>
+        <% end %>
     <% end %>
+<% end %>
 <div style="text-align: center; background-color:#FFFFFFF;">
     <center>
         <article>
@@ -193,7 +206,6 @@
                     <div class="tab-pane" id="<%= category %>">
                         <div id="chart_container<%= category %>" style="min-width: 70%; height: 400px; margin: 0 auto">
                         </div>
-
                         <table class="table table-wuxia" id ="table_<%=category%>">
                             <thead>
                                 <tr>
@@ -367,8 +379,8 @@ $(function () {
         },
         xAxis: {
             categories: [
-                <% @cart.record_list.each do |record| %>
-                    '<%= get_scenario_name(record.power_record.power_scenario_id) %>',
+                <% scenario_name_list.uniq.each do |record| %>
+                    '<%= get_scenario_name(record) %>',
                 <% end %>
             ]
         },
@@ -387,27 +399,24 @@ $(function () {
                 useHTML: true
         },
         plotOptions: {
-            column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-            },
             series: {
                cursor: 'pointer',
-               events: {
-                click: function show_dc(battery){
-                        var point_y =battery.point.y;
-                        var task_url = "get_dc?battery=" + point_y;
-                        $.ajax({
-                            type: "GET",
-                            url: task_url,
-                            success: function(msg){
-                                $("footer").css("display","block");
-                                $("#dc_info").append(msg);
-                                $("#" + battery).resizable();
-                            }
-                        });
-                    }
-              }
+               point:{
+                   events: {
+                    click: function(){
+                            var task_url = "/compare/get_dc_by_battery?battery=" + this.y;
+                            $.ajax({
+                                type: "GET",
+                                url: task_url,
+                                success: function(msg){
+                                    $("footer").css("display","block");
+                                    $("#dc_info").append(msg);
+                                    $("#" + battery).resizable();
+                                }
+                            });
+                        }
+                  }
+               }
          }
         },
         series: [
@@ -415,9 +424,15 @@ $(function () {
                 {
                     name: '<%= purpose %>',
                     data: [
-                        <% @cart.record_list.each do |record| %>
-                            <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                <%= get_record_info(record.power_record.id).battery.to_f %>,
+                        <% record_list.each do |record_info| %>
+                            <% if record_info.device.nil? %>
+                                    <% record_info.device = "" %>
+                            <% end %>
+                            <% if record_info.image_date.nil? %>
+                                    <% record_info.image_date="" %>
+                            <% end %>
+                            <% if record_info.purpose + "-" + record_info.device + "-" + record_info.image_date == purpose %>
+                                [<%= scenario_name_list.uniq.index record_info.power_scenario_id %>, <%= record_info.battery.to_f %>],
                             <% end %>
                         <% end %>
                     ]
@@ -428,6 +443,12 @@ $(function () {
 });
 
 <% @all_categories.each do |category| %>
+    <% scenario_name_list_category = [] %>
+    <% scenario_name_list.uniq.each do |record| %>
+        <% if get_scenario_category(record) == category %>
+                <% scenario_name_list_category << record %>
+        <% end %>
+    <% end %>
 $(function () {
     $('#chart_container<%= category %>').highcharts({
         chart: {
@@ -438,10 +459,8 @@ $(function () {
         },
         xAxis: {
             categories: [
-                <% @cart.record_list.each do |record| %>
-                    <% if get_scenario_category(record.power_record.power_scenario_id) == category %>
-                    '<%= get_scenario_name(record.power_record.power_scenario_id) %>',
-                    <% end %>
+                <% scenario_name_list_category.uniq.each do |record| %>
+                    '<%= get_scenario_name(record) %>',
                 <% end %>
             ]
         },
@@ -460,27 +479,24 @@ $(function () {
                 useHTML: true
         },
         plotOptions: {
-            column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-            },
             series: {
                cursor: 'pointer',
-               events: {
-                click: function show_dc(battery){
-                        var point_y =battery.point.y;
-                        var task_url = "get_dc?battery=" + point_y;
-                        $.ajax({
-                            type: "GET",
-                            url: task_url,
-                            success: function(msg){
-                                $("footer").css("display","block");
-                                $("#dc_info").append(msg);
-                                $("#" + battery).resizable();
-                            }
-                        });
-                    }
-              }
+               point:{
+                   events: {
+                    click: function(){
+                            var task_url = "/compare/get_dc_by_battery?battery=" + this.y;
+                            $.ajax({
+                                type: "GET",
+                                url: task_url,
+                                success: function(msg){
+                                    $("footer").css("display","block");
+                                    $("#dc_info").append(msg);
+                                    $("#" + battery).resizable();
+                                }
+                            });
+                        }
+                  }
+               }
          }
         },
         series: [
@@ -488,10 +504,16 @@ $(function () {
                 {
                     name: '<%= purpose %>',
                     data: [
-                        <% @cart.record_list.each do |record| %>
-                            <% if get_scenario_category(record.power_record.power_scenario_id) == category %>
-                                <% if get_record_info(record.power_record.id).purpose == purpose %>
-                                    <%= get_record_info(record.power_record.id).battery.to_f %>,
+                        <% record_list.each do |record_info| %>
+                            <% if get_scenario_category(record_info.power_scenario_id) == category %>
+                                <% if record_info.device.nil? %>
+                                        <% record_info.device = "" %>
+                                <% end %>
+                                <% if record_info.image_date.nil? %>
+                                        <% record_info.image_date="" %>
+                                <% end %>
+                                <% if record_info.purpose + "-" + record_info.device + "-" + record_info.image_date == purpose %>
+                                        [<%= scenario_name_list_category.uniq.index record_info.power_scenario_id %>, <%= record_info.battery.to_f %>],
                                 <% end %>
                             <% end %>
                         <% end %>
@@ -510,31 +532,13 @@ $(function () {
           $(this).tab('show');
         })
 })
-
-function nTabs(thisObj, Num) {
-    if (thisObj.className == "active")
-        return;
-    var tabObj = thisObj.parentNode.id;
-    var tabList = document.getElementById(tabObj)
-            .getElementsByTagName("li");
-    for (i = 0; i < tabList.length; i++) {
-        if (i == Num) {
-            thisObj.className = "active";
-            document.getElementById(tabObj + "_container" + i).style.display = "block";
-
-        } else {
-            tabList[i].className = "normal";
-            document.getElementById(tabObj + "_container" + i).style.display = "none";
-
-        }
-    }
-}
 $(function(){
     var th_span=<%=count%>
     document.getElementById('battery').setAttribute("colspan",1+th_span);
     document.getElementById('vcc_main').setAttribute("colspan",1+th_span);
     document.getElementById('fps').setAttribute("colspan",1+th_span);
 });
+
 function cmp_battery(){
     var inputs = document.getElementsByName("compare_battery");
     var gettd=document.getElementById("compare_tab");
@@ -683,6 +687,7 @@ function cmp_vcc_main(){
     }
 
 }
+
 function cmp_fps(){
     var inputs = document.getElementsByName("compare_fps");
     var gettd=document.getElementById("compare_tab");
@@ -754,7 +759,6 @@ function cmp_fps(){
         gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
     }
     }
-
 }
 <% @all_categories.each do |category| %>
 $(function(){

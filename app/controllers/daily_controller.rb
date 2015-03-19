@@ -1,6 +1,10 @@
 class DailyController < ApplicationController
 	def index
- 		@categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
+ 		categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
+             @categorys = []
+             categorys.each do |cat|
+                @categorys << cat
+              end
   		@device=params[:device]
   		@branch= params[:branch]
 
@@ -104,11 +108,19 @@ class DailyController < ApplicationController
   		@os = PowerRecord.where(:device => @device, :branch => @branch).last
 
               	@images = PowerRecord.where("device = ? AND branch = ? and run_type =  ?", @device, @branch, "daily").select("distinct image_date").order("image_date desc").limit(15)
-		@image_dates = PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ?",
+		image_dates = PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ?",
 		                    @images.last.image_date, @images.first.image_date, @device, @branch, "daily").select("distinct image_date,battery,vcc_main,power_scenario_id,varified,fps,comments,vcc_main_power").order("image_date asc")
-		@last_image= PowerRecord.where("run_type = ? and branch = ? and device = ? AND power_scenario_id in (" + @scenario_id_list + ")", "daily", @branch, @device).order("image_date asc").last.image_date
-		@scenarios = PowerScenario.where("id in (" + @scenario_id_list + ")")
-		@latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", 11.weeks.ago, get_last_date(@last_image), @device, @branch).order("image_date asc").last
+		@image_dates = []
+            image_dates.each do |img|
+                @image_dates << img
+            end
+            @last_image= PowerRecord.where("run_type = ? and branch = ? and device = ? AND power_scenario_id in (" + @scenario_id_list + ")", "daily", @branch, @device).order("image_date asc").last.image_date
+		scenarios = PowerScenario.where("id in (" + @scenario_id_list + ")")
+            @scenarios = []
+              scenarios.each do |scenario|
+                @scenarios << scenario
+              end
+		@latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", @images.last.image_date, get_last_date(@last_image), @device, @branch).order("image_date asc").last
 		@lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
 		@latest_image=@latest_image_last.image_date
   		render :layout=>"ppat"

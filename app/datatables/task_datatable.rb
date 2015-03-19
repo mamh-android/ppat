@@ -39,7 +39,10 @@ private
     task_infos = TaskInfo.where(run_type: "ondemand").order("#{sort_column} #{sort_direction}")
     task_infos = task_infos.page(page).per_page(per_page)
     if params[:search]["value"] != ""
-      task_infos = task_infos.where("branch like :search or device like :search or task_id like :search or platform like :search or purpose like :search", search: "%#{params[:search]["value"]}%")
+      search_str = params[:search]["value"].split(/[\s]/)
+      search_str.each do |val|
+        task_infos = task_infos.where("branch like :search or device like :search or task_id like :search or platform like :search or purpose like :search", search: "%#{val}%")
+      end
     end
     task_infos
   end

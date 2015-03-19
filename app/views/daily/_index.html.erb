@@ -1,9 +1,9 @@
 <div style="text-align: center; background-color:#FFFFFFF;">
         <ul class="nav nav-tabs" id="scenario_category">
-                <li><a href="#All">All</a></li>
             <% @categorys.each do |category| %>
                 <li><a href="#<%= category.category %>"><%= category.category %></a></li>
             <% end %>
+                <li><a href="#All">All</a></li>
         </ul>
 <div class="tab-content">
                     <div class="tab-pane" id="All">
@@ -917,16 +917,12 @@ $(function () {
           $(this).tab('show');
 
           var category = $(this).text();
-          if(category == "All"){
-            show_all();
-          }else{
               $.ajax({
                     type: "GET",
                     url: "/daily/show_chart_by_tab?category=" + category + "&device=<%= @device %>&branch=<%= @branch %>&scenario_id_list=<%= @scenario_id_list %>",
                     success: function(msg){
                     }
                 });
-          }
         })
 })
 
@@ -935,7 +931,7 @@ function show_all(){
     // all category
     chart = new Highcharts.Chart({
             chart: {
-                renderTo: 'chart_container_All',
+                renderTo: 'chart_container_<%= @categorys[0].category %>',
                 type: 'spline'
             },
             title: {
@@ -1017,6 +1013,7 @@ function show_all(){
             },
             series: [
             <% @scenarios.each do |scenario| %>
+            <% if scenario.category == @categorys[0].category %>
             {
                 <% @imagedatehour=0 %>
                 <% @imagedate=0 %>
@@ -1055,6 +1052,7 @@ function show_all(){
                 ]//end data
             },
             <% end %>
+            <% end %>
             ]//end series
     });
 
@@ -1063,7 +1061,7 @@ function show_all(){
     // all category
     chart_vcc = new Highcharts.Chart({
             chart: {
-                renderTo: 'chart_container_vcc_main_All',
+                renderTo: 'chart_container_vcc_main_<%= @categorys[0].category %>',
                 type: 'spline'
             },
             title: {
@@ -1145,6 +1143,7 @@ function show_all(){
             },
             series: [
             <% @scenarios.each do |scenario| %>
+            <% if scenario.category ==  @categorys[0].category %>
             {
                 <% @imagedatehour=0 %>
                 <% @imagedate=0 %>
@@ -1182,6 +1181,7 @@ function show_all(){
                                 <% end %>
                 ]//end data
             },
+            <% end %>
             <% end %>
             ]//end series
     });

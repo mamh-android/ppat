@@ -1,5 +1,5 @@
 <SCRIPT LANGUAGE="JavaScript">
-function add_to_cart (power_record_id) {
+function add_to_cart (th,power_record_id) {
 	var record_list_url = "/record_lists";
 	$.ajax({
 		type: "POST",
@@ -10,8 +10,11 @@ function add_to_cart (power_record_id) {
 		url: record_list_url,
 		success: function(msg){
 			$("#extruderRight").setMbExtruderContent({
-                url:"/carts"
-            });
+                			url:"/carts"
+            			});
+
+			$(th).find("span").removeClass(" icon-refresh");
+			$(th).find("span").addClass("icon-ok");
 		}
 	});
 }
@@ -56,7 +59,7 @@ function show_dc(id){
 							<td><%= scenario_info.battery %></td>
 							<td><%= scenario_info.vcc_main %></td>
 							<td><%= scenario_info.fps %></td>
-							<td onclick="add_to_cart('<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
+							<td onclick="add_to_cart(this, '<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
 							<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
 						</tr>
 					<% end %>

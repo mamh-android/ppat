@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag    "compare"%>
 <div class="container" role="main" id="cart">
-    <%= render @cart %>
+        <%= render :partial => 'cart' %>
 </div>
 <!-- page-container -->
 <div class="page-container tab-content"  >
@@ -9,11 +9,11 @@
         <!-- Grid row-->
             <div class="row">
                 <h2><span>Select Daily</span></h2>
-                <%= form_tag("/compare/add_daily_compare", method: "post", remote: true) do %>
+                <%= form_tag("#", method: "post", remote: true, value: "form_authenticity_token") do %>
                     <ul>
                         <fieldset>
                         <li>
-                            <select NAME="Platform" onChange="getBranch()">
+                            <select NAME="Platform" onChange="getBranch()" >
                                 <option VALUE="pxa1908">pxa1908</option>
                                 <option VALUE="pxa1928">pxa1928</option>
                                 <option VALUE="pxa1936">pxa1936</option>
@@ -38,14 +38,14 @@
                             <div style="background-color:#FFFFFF">
                                 <div class="controls">
                                     <div class="input-append" onload="showLeftTime()" >
-                                        <input name="ImageDate" value="2014-12-29" class="datepicker" style="width: 80px;" type="text"/>
+                                        <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
                                         <span class="add-on"><i class="icon-calendar"></i></span>
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <%= submit_tag "Add to Compare", name: "submit", class: "btn btn-info btn-wuxia" %>
+                            <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-wuxia">
                         </li>
                         </fieldset>
                     </ul>
@@ -66,8 +66,47 @@
 <!--mian-->
 <script>
 $(document).ready(function() {
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker('setValue', new Date());
 });
+
+function add_daily_scenarios_to_cart(){
+    var record_list_url = "/compare/add_daily_compare";
+    var ImageDate = $("input[name='ImageDate']").val();
+    var Device = $("select[name='Device']").val();
+    var Platform = $("select[name='Platform']").val();
+    var Branch = $("select[name='Branch']").val();
+    $.ajax({
+        type: "POST",
+        data: {ImageDate:ImageDate, Device: Device, Platform:Platform, Branch:Branch},
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: record_list_url,
+        success: function(msg){
+            $("#extruderRight").setMbExtruderContent({
+                        url:"/carts"
+            });
+        }
+    });
+}
+
+
+function add_task_scenarios_to_cart(task_id) {
+    var record_list_url = "/compare/create_by_task";
+    $.ajax({
+        type: "POST",
+        data: "task_id=" + task_id,
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: record_list_url,
+        success: function(msg){
+            $("#extruderRight").setMbExtruderContent({
+                        url:"/carts"
+            });
+        }
+    });
+}
 </script>
 <div class="modal fade hide" id="dcInfoModal">
     <div class="modal-header">

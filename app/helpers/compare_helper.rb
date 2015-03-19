@@ -3,11 +3,18 @@ module CompareHelper
     #get distinct purpose
     def get_distinct_purposes()
         @cart = get_cart
-        @purposes = Set.new
+        @purposes = []
         @cart.record_list.each do |record|
-            @purposes.add get_record_info(record.power_record.id).purpose
+            record_info = get_record_info(record.power_record.id)
+            if record_info.device.nil?
+                record_info.device = ""
+            end
+            if record_info.image_date.nil?
+                record_info.image_date=""
+            end
+            @purposes << record_info.purpose + "-" + record_info.device + "-" + record_info.image_date
         end
-        @purposes
+        @purposes.uniq
     end
 
     #get distinct scenarios
@@ -34,4 +41,15 @@ module CompareHelper
         PowerScenario.where(name: name).select("distinct id")
     end
 
+    class Array
+        def count(val)
+            cnt = 0
+            self.each{|x|
+                if x == val
+                    cnt+=1
+                end
+            }
+                cnt
+            end
+        end
 end

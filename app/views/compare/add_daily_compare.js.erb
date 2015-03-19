@@ -1,4 +1,4 @@
-$("#cart").html("<%= escape_javascript(render(@cart)) %>");
+$("#cart").html("<%= escape_javascript(render :partial => 'cart', :object => @cart) %>");
 $("#extruderRight").setMbExtruderContent({
     url:"/carts"
 });
