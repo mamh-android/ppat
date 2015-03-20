@@ -70,7 +70,7 @@ $(document).ready(function() {
 });
 
 function add_daily_scenarios_to_cart(){
-    var record_list_url = "/compare/add_daily_compare";
+    var update_cart_url = "/compare/add_daily_compare";
     var ImageDate = $("input[name='ImageDate']").val();
     var Device = $("select[name='Device']").val();
     var Platform = $("select[name='Platform']").val();
@@ -81,7 +81,7 @@ function add_daily_scenarios_to_cart(){
         headers: {
             'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
           },
-        url: record_list_url,
+        url: update_cart_url,
         success: function(msg){
             $("#extruderRight").setMbExtruderContent({
                         url:"/carts"
@@ -90,16 +90,34 @@ function add_daily_scenarios_to_cart(){
     });
 }
 
+function add_to_cart (th,power_record_id) {
+    var update_cart_url = "/compare/create_by_scenario";
+    $.ajax({
+        type: "POST",
+        data: "power_record_id=" + power_record_id,
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: update_cart_url,
+        success: function(msg){
+            $("#extruderRight").setMbExtruderContent({
+                            url:"/carts"
+                        });
 
+            $(th).find("span").removeClass(" icon-refresh");
+            $(th).find("span").addClass("icon-ok");
+        }
+    });
+}
 function add_task_scenarios_to_cart(task_id) {
-    var record_list_url = "/compare/create_by_task";
+    var update_cart_url = "/compare/create_by_task";
     $.ajax({
         type: "POST",
         data: "task_id=" + task_id,
         headers: {
             'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
           },
-        url: record_list_url,
+        url: update_cart_url,
         success: function(msg){
             $("#extruderRight").setMbExtruderContent({
                         url:"/carts"
@@ -107,6 +125,21 @@ function add_task_scenarios_to_cart(task_id) {
         }
     });
 }
+
+function remove_by_taskid(task_id){
+    var update_cart_url = "/compare/remove_by_taskid";
+    $.ajax({
+        type: "POST",
+        data: "task_id=" + task_id,
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: update_cart_url,
+        success: function(msg){
+        }
+    });
+}
+
 </script>
 <div class="modal fade hide" id="dcInfoModal">
     <div class="modal-header">

@@ -9,22 +9,15 @@
 <%purpose_image=[]%>
 <%purpose_device=[]%>
 <%purpose_branch=[]%>
-<% @all_purposes.each do |purpose| %>
+<% scenario_id_map_name = Hash.new %>
     <% @cart.record_list.each do |record| %>
         <% record_info = get_record_info(record.power_record.id) %>
         <% record_list << record_info %>
-        <% if record_info.device.nil? %>
-                <% record_info.device = "" %>
-        <% end %>
-        <% if record_info.image_date.nil? %>
-                <% record_info.image_date="" %>
-        <% end %>
-        <% if record_info.purpose + "-" + record_info.device + "-" + record_info.image_date == purpose %>
-            <%scenario_name_list<<get_record_info(record.power_record.id).power_scenario_id%>
-            <%task_id_list<<get_record_info(record.power_record.id).task_id%>
-        <% end %>
+            <% scenario_id_map_name[record_info.power_scenario_id] = get_scenario_name(record_info.power_scenario_id) %>
+            <%scenario_name_list<<record_info.power_scenario_id%>
+            <%task_id_list<<record_info.task_id%>
     <% end %>
-<% end %>
+
 <div style="text-align: center; background-color:#FFFFFFF;">
     <center>
         <article>
@@ -60,7 +53,6 @@
                                             <%task_purpose<<getpurpose%>
                                             <td>
                                                 <input type="checkbox" name="compare_battery" onclick="cmp_battery()">
-                                                    <hr/>
                                                 <%purpose_list<<getpurpose.purpose%>
                                                 <%purpose_image<<getpurpose.image_date%>
                                                 <%purpose_device<<getpurpose.device%>
@@ -76,7 +68,6 @@
                                             <%purpose_list.each do |purpose_list_vcc|%>
                                                 <td>
                                                     <input type="checkbox" name="compare_vcc_main" onclick="cmp_vcc_main()">
-                                                        <hr/>
                                                     <%=purpose_list_vcc%>
                                                 </td>
                                         <%end%>
@@ -86,13 +77,26 @@
                                         <%purpose_list.each do |purpose_list_fps|%>
                                                 <td>
                                                     <input type="checkbox" name="compare_fps" onclick="cmp_fps()">
-                                                        <hr/>
                                                     <%=purpose_list_fps%>
                                                 </td>
                                         <%end%>
                                     <td>
                                         Diff
                                     </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
+                                        <% end %>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
+                                        <% end %>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
+                                        <% end %>
                                     </tr>
                                     <tr>
                                         <td>Image_date</td>
@@ -140,61 +144,44 @@
                                         <td></td>
                                     </tr>
 
-                                    <%scenario_name_list.uniq.each do |snl|%>
+                                    <%battery_a=Hash.new%>
+                                    <%vcc_main_a=Hash.new%>
+                                    <%fps_a=Hash.new%>
+                                    <%scenario_id_map_name.each do |id,name|%>
                                         <tr>
-                                            <td><%=get_scenario_name(snl)%></td>
+                                            <td><%=name%></td>
                                                 <%task_purpose.each do |tk_purpose|%>
-                                                <%battery_a=[]%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                        <%@get_power_record_result.each do |index_battery|%>
-                                                            <%battery_a<<index_battery.battery.to_f%>
-                                                        <%end%>
+                                                    <% record_list.uniq.each do |record| %>
+                                                        <% if record.task_id == tk_purpose.task_id && record.power_scenario_id == id %>
+                                                            <%@get_power_record_result=get_power_record_result(id,tk_purpose.purpose,record.id,tk_purpose.image_date)%>
+                                                            <%@get_power_record_result.each do |index_battery|%>
+                                                                <%battery_a[tk_purpose.task_id] = index_battery.battery.to_f%>
+                                                                <%vcc_main_a[tk_purpose.task_id] = index_battery.vcc_main.to_f%>
+                                                                <%fps_a[tk_purpose.task_id] = index_battery.fps.to_f%>
+                                                            <%end%>
+                                                        <% end %>
                                                     <%end%>
-                                                    <%if battery_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(battery_a.sum.to_f/battery_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= battery_a[tk_purpose.task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                            <%task_purpose.each do |tk_purpose|%>
-                                                <%vcc_main_a=[]%>
+                                            <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                        <%@get_power_record_result.each do |index_battery|%>
-                                                            <%vcc_main_a<<index_battery.vcc_main.to_f%>
-                                                        <%end%>
-                                                    <%end%>
-                                                    <%if vcc_main_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(vcc_main_a.sum.to_f/vcc_main_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= vcc_main_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                            <%task_purpose.each do |tk_purpose|%>
-                                                <%fps_a=[]%>
+                                            <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                        <%@get_power_record_result.each do |index_battery|%>
-                                                            <%fps_a<<index_battery.fps.to_f%>
-                                                        <%end%>
-                                                    <%end%>
-                                                    <%if fps_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(fps_a.sum.to_f/fps_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= fps_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                         </tr>
+                                        <%battery_a=Hash.new%>
+                                        <%vcc_main_a=Hash.new%>
+                                        <%fps_a=Hash.new%>
                                     <%end%>
                             </tbody>
                         </table>
@@ -224,7 +211,6 @@
                                     <%purpose_list.each do |purpose_list_b|%>
                                             <td>
                                                 <input type="checkbox" name="compare_battery_<%=category%>" onclick="cmp_battery_<%=category%>()">
-                                                        <hr/>
                                                     <%=purpose_list_b%>
                                             </td>
                                     <%end%>
@@ -235,7 +221,6 @@
                                         <%purpose_list.each do |purpose_list_vcc|%>
                                             <td>
                                                 <input type="checkbox" name="compare_vcc_main_<%=category%>" onclick="cmp_vcc_main_<%=category%>()">
-                                                        <hr/>
                                                     <%=purpose_list_vcc%>
                                             </td>
                                         <%end%>
@@ -246,7 +231,6 @@
                                         <%purpose_list.each do |purpose_list_fps|%>
                                             <td>
                                                 <input type="checkbox" name="compare_fps_<%=category%>" onclick="cmp_fps_<%=category%>()">
-                                                        <hr/>
                                                     <%=purpose_list_fps%>
                                             </td>
                                         <%end%>
@@ -254,6 +238,12 @@
                                             <hr/>
                                         Diff
                                     </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td><span class="icon-remove"></span></td>
+                                        <% end %>
                                     </tr>
                                     <tr>
                                         <td>Image_date</td>
@@ -300,63 +290,47 @@
                                         <%end%>
                                         <td></td>
                                     </tr>
-                                <%scenario_name_list.uniq.each do |snl|%>
-                                    <%if get_scenario_name_category(get_scenario_name(snl))==category%>
+
+                                <%battery_a=Hash.new%>
+                                <%vcc_main_a=Hash.new%>
+                                <%fps_a=Hash.new%>
+                                <%scenario_id_map_name.each do |id,name|%>
+                                    <%if get_scenario_name_category(name)==category%>
                                         <tr>
-                                            <td><%=get_scenario_name(snl)%></td>
+                                            <td><%=name%></td>
                                               <%task_purpose.each do |tk_purpose|%>
-                                                <%battery_a=[]%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
+                                                    <% record_list.uniq.each do |record| %>
+                                                        <% if record.task_id == tk_purpose.task_id && record.power_scenario_id == id %>
+                                                        <%@get_power_record_result=get_power_record_result(id,tk_purpose.purpose,record.id,tk_purpose.image_date)%>
                                                         <%@get_power_record_result.each do |index_battery|%>
-                                                            <%battery_a<<index_battery.battery.to_f%>
+                                                            <%battery_a[tk_purpose.task_id] = index_battery.battery.to_f%>
+                                                            <%vcc_main_a[tk_purpose.task_id] = index_battery.vcc_main.to_f%>
+                                                            <%fps_a[tk_purpose.task_id] = index_battery.fps.to_f%>
                                                         <%end%>
+                                                    <% end %>
                                                     <%end%>
-                                                    <%if battery_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(battery_a.sum.to_f/battery_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= battery_a[tk_purpose.task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                            <%task_purpose.each do |tk_purpose|%>
-                                                <%vcc_main_a=[]%>
+                                            <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                        <%@get_power_record_result.each do |index_battery|%>
-                                                            <%vcc_main_a<<index_battery.vcc_main.to_f%>
-                                                        <%end%>
-                                                    <%end%>
-                                                    <%if vcc_main_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(vcc_main_a.sum.to_f/vcc_main_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= vcc_main_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
-                                            <%task_purpose.each do |tk_purpose|%>
-                                                <%fps_a=[]%>
+                                            <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <% @cart.record_list.uniq.each do |record| %>
-                                                        <%@get_power_record_result=get_power_record_result(snl,tk_purpose.purpose,record.power_record.id,tk_purpose.image_date)%>
-                                                        <%@get_power_record_result.each do |index_battery|%>
-                                                            <%fps_a<<index_battery.fps.to_f%>
-                                                        <%end%>
-                                                    <%end%>
-                                                    <%if fps_a.size==0%>
-                                                    0.0
-                                                    <%else%>
-                                                    <%=(fps_a.sum.to_f/fps_a.size).round(5)%>
-                                                    <%end%>
+                                                    <%= fps_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                         </tr>
                                     <%end%>
+                                    <%battery_a=Hash.new%>
+                                    <%vcc_main_a=Hash.new%>
+                                    <%fps_a=Hash.new%>
                                 <%end%>
                             </tbody>
                         </table>

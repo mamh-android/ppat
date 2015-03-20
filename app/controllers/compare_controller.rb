@@ -43,6 +43,27 @@ class CompareController < ApplicationController
         end
       end
 
+      def create_by_scenario
+        @cart = get_cart
+        power_record = PowerRecord.find(params[:power_record_id])
+        @record_list = @cart.record_list.build(:power_record => power_record)
+        @record_list.save
+        respond_to do |format|
+          format.js
+        end
+    end
+
+    def remove_by_taskid
+        @cart = get_cart
+        @cart.record_list.each do |record|
+            if PowerRecord.find(record.power_record_id).task_id == params[:task_id]
+                record.destroy
+            end
+        end
+        respond_to do |format|
+            format.js
+        end
+    end
     def get_dc
             @battery = params[:battery]
                 @record = PowerRecord.where(battery: @battery).first
