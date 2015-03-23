@@ -389,7 +389,7 @@ h1 small {
   font-size: 18px;
 }
 h2 {
-  font-size: 24px;
+  font-size: 15px;
   line-height: 36px;
 }
 h2 small {
@@ -9943,7 +9943,7 @@ form .alert .close {
 }
 .full-calendar .fc-button.fc-state-default {
   display: inline-block;
-  padding: 5px 10px 8px;
+  padding: 1px 3px 2px;
   margin-bottom: 0;
   font-size: 13px;
   line-height: 18px;
@@ -9984,7 +9984,7 @@ form .alert .close {
 }
 .full-calendar .fc-button.fc-state-active {
   display: inline-block;
-  padding: 5px 10px 8px;
+  padding: 1px 3px 2px;
   margin-bottom: 0;
   font-size: 13px;
   line-height: 18px;
@@ -10026,7 +10026,7 @@ form .alert .close {
 }
 .full-calendar .fc-button.fc-state-disabled {
   display: inline-block;
-  padding: 5px 10px 8px;
+  padding: 1px 3px 2px;
   margin-bottom: 0;
   font-size: 13px;
   line-height: 18px;
@@ -10097,8 +10097,8 @@ form .alert .close {
   border-width: 0;
 }
 .full-calendar .fc-button-content {
-  line-height: 18px;
-  height: 18px;
+  line-height: 25px;
+  height: 30px;
   padding: 0;
 }
 .full-calendar .fc-state-default .fc-button-effect span {

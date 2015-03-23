@@ -3,28 +3,6 @@
 <div class="page-container tab-content">
     <div class="tab-pane active" id="basic">
         <div class="row">
-            <form method=post action="" name="form1">
-                <article class="span4">
-                    Platform
-                    <select name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform">
-
-                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988','pxa1908','pxa1908FF',]%>
-                         <%snplatform_list.each do |snplatform_list|%>
-                        <option value="<%=snplatform_list%>"><%=snplatform_list%></option>
-                        <% end %>
-                    </select>
-                </article>
-                <article class="span4">
-                    Branch
-                    <select name="Branch" id="Branch" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()">
-                    </select>
-                </article>
-                <article class="span4">
-                    Device
-                    <select name="Device" id="Device" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()">
-                    </select>
-                </article>
-            </form>
             <article class="span6">
                 <div class='full-calendar '></div>
                  <h3>
@@ -35,15 +13,15 @@
                         <div class="accordion-heading">
                             <a class="accordion-toggle" href="#collapseOne"
                                 data-parent="#accordion1" data-toggle="collapse">
-                                <div id="title_smoketest"></div>
-                                <div id ="sub_date" style="display:none;"></div>
-                                <div id ="show_smoketest" style="display:none;"></div>
+                                <div style="height:15px;">
+                                    <span style="width:90%;float:left;" id="title_smoketest"></span>
+                                    <span style="width:4%;float:left;"onclick="openstr()" class=" icon-folder-open" title="image link"></span>
+                                    <span style="float:right;width:4%;"onclick="submit_smoke()" data-toggle="modal" href="#demoModal" class="icon-fullscreen"title="details"></span>
+                                </div>
                             </a>
-                                <div style="float:right;margin-top:-6%;margin-right:10px;"><a  onclick="submit_smoke()" data-toggle="modal" href="#demoModal"><button style="size:10px;padding:3px;" class="btn btn-info btn-flat">Detail</button></a></div>
                         </div>
-                        <div id="collapseOne" class="accordion-body in collapse"
-                            style="height: auto;">
-                            <div class="accordion-inner">
+                        <div id="collapseOne" style="height: auto;">
+                            <div>
                                 <div id="smoketest_result"></div>
                                <div class="modal fade hide" id="demoModal" style="display: none;">
                                     <div class="modal-header">
@@ -61,13 +39,37 @@
                         </div>
                     </div>
                 </div>
-
+                <div id ="sub_date" style="display:none;"></div>
+                <div id ="show_smoketest" style="display:none;"></div>
             </article>
             <article class="span6">
+                <form method=post action="" name="form1" class="span6">
+                    <span>
+                        Platform
+                        <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
+                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988','pxa1908','pxa1908FF',]%>
+                            <%snplatform_list.each do |snplatform_list|%>
+                                <option value="<%=snplatform_list%>"><%=snplatform_list%></option>
+                            <% end %>
+                        </select>
+                    </span>
+                    <span style="margin-left:2%;">
+                        Branch
+                        <select style="width:20%;" name="Branch" id="Branch" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()" class="form-control">
+                        </select>
+                    </span>
+                    <span style="margin-left:2%;">
+                        Device
+                        <select style="width:20%;" name="Device" id="Device" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()" class="form-control">
+                        </select>
+                    </span>
+                </form>
+                <span class="span6" style="margin-top:-2%;">
                 <h3>
                     <span class="icon-hand-right"></span>&nbsp;Daily Power
                 </h3>
                 <div id="task_scenario"></div>
+                </span>
             </article>
         </div>
     </div>
@@ -119,10 +121,10 @@
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
                 $("#title_smoketest").text(todays_smoketest+"_"+platform+"_"+branch+"_"+device);
                 $("#sub_date").text(todays_smoketest);
-    update_scenario_by_task(todays_smoketest);
-            update_calendar();
-            show_smoketest_calendar();
-            update_scenario_code();
+                update_scenario_by_task(todays_smoketest);
+                update_calendar();
+                show_smoketest_calendar();
+                update_scenario_code();
 
     });
 </script>
@@ -290,3 +292,15 @@ function submit_smoke(image_date){
             }
         }
     </script>
+    <script type="text/javascript">
+        function openstr() {
+            var branch=$("#Branch").val();
+            var platform=$("#Platform").val();
+            var device = $("#Device").val();
+            var image_date= $("#sub_date").text();
+            branch=branch.replace(/(^\s*)|(\s*$)/g,"");
+            branch = branch.replace("_master","");
+            platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+            window.open("http://10.38.116.40/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+        }
+        </script>
