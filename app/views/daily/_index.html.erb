@@ -6,911 +6,702 @@
                 <li><a href="#All">All</a></li>
         </ul>
 <div class="tab-content">
-                    <div class="tab-pane" id="All">
-                        <div id="chart_container_All" style="min-width: 70%; height: 600px; margin: 0 auto">
-                        </div>
-                        <div id="chart_container_vcc_main_All" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
-                        </div>
-                        <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2"><%= @last_image %></th>
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.name.index('(').nil? %>
-                                                    <th> <%= scenario.name %></th>
-                                                <% else %>
-                                                    <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
+            <div class="tab-pane" id="All">
+                <div id="chart_container_All" style="min-width: 70%; height: 600px; margin: 0 auto">
+                </div>
+                <div id="chart_container_vcc_main_All" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
+                </div>
+                <table class="table table-wuxia">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><%= @last_image %></th>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% if scenario.name.index('(').nil? %>
+                                            <th> <%= scenario.name %></th>
+                                        <% else %>
+                                            <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">Battery</td>
+                                <td >Today</td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                            <%= get_sub_power(consumption.battery) %>
+                                        <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                <% if @lcd.nil? %>
+                                    <% @lcdbacklight = 0 %>
+                                <% else %>
+                                    <% @lcdbacklight = 100 - @lcd.battery.to_f %>
+                                <% end %>
+                                LCD=100mA,
+                                <a href="#" class="btn btn-flat btn-danger Popover" title="<%= @device %> LCD power" data-content="
+                                    <table class='table table-bordered table-striped'>
+                                        <tr>
+                                            <th><%= @device %></th>
+                                            <th>Battery(mA)</th>
+                                            <th>Vcc_main(mA)</th>
+                                        </tr>
+                                        <% @lcd_infos.each do |item| %>
+                                        <tr>
+                                                <td><%= item.item %></td>
+                                                <td><%= item.battery %></td>
+                                                <td><%= item.vcc_main %></td>
+                                        </tr>
+                                        <% end %>
+                                    </table>">
+                                    <% if @lcdbacklight >= 0 %>
+                                        +<%= @lcdbacklight%>
+                                    <% else %>
+                                        <%= @lcdbacklight%>
+                                    <% end %>
+                                    </a>
+                                </td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                                <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
+                                        <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td>&Delta; <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                            <% last_power = get_last_power(@latest_image, scenario.id, @device, @branch) %>
+                                            <% if last_power.nil? %>
+                                                <font color="#000000"></font>
+                                            <% else %>
+                                                <% if (record.battery.to_f - last_power.battery.to_f) < 0 %>
+                                                    <font color=green><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
+                                                <% end %>
+                                                <% if (record.battery.to_f - last_power.battery.to_f) == 0 %>
+                                                    <font color="#000000"><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
+                                                <% end %>
+                                                <% if (record.battery.to_f - last_power.battery.to_f) > 0 %>
+                                                    <font color=FF0000><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
+                                                <% end %>
                                                 <% end %>
                                             <% end %>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="5">Battery</td>
-                                        <td width="100px">Today</td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
-                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <%= get_sub_power(consumption.battery) %>
-                                                <% end %>
-                                            </td>
                                         <% end %>
-                                    </tr>
+                                    </td>
+                            </tr>
 
-                                    <tr>
+                            <tr>
+                                    <td>
+                                        <font>Target(<%= @resolution %>)</font>
+                                    </td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% target = get_target(scenario.id) %>
+                                        <% if  !target.nil? and target.battery.to_f > 0 %>
+                                            <td><font color=blue><%= target.battery %></font></td>
+                                        <% else %>
+                                            <td><font color=black></font></td>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta; Target</font></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% target = get_target(scenario.id) %>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                        <% if target.nil? || target.battery.to_f == 0 %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% diff = record.battery.to_f - target.battery.to_f %>
+                                            <% if diff < 0 %>
+                                                <font color=green><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff == 0 %>
+                                                <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff > 0 %>
+                                                <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                             <tr>
+                                <td rowspan="4">Vcc_Main</td>
+                                <td>Today</td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                            <%= get_sub_power(consumption.vcc_main) %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                             <tr>
+                                <td>&Delta; <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                        <% last_power = get_last_power(@latest_image, scenario.id, @device, @branch) %>
+                                        <% if last_power.nil? %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) < 0 %>
+                                            <font color=green><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                        <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) == 0 %>
+                                            <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                            <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) > 0 %>
+                                            <font color=red><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                    <td>
+                                        <font>Target(<%= @resolution %>)</font>
+                                    </td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% target = get_target(scenario.id) %>
+                                        <% if  !target.nil? and target.vcc_main.to_f > 0 %>
+                                            <td><font color=blue><%= target.vcc_main %></font></td>
+                                        <% else %>
+                                            <td><font color=black></font></td>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta; Target</font></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% target = get_target(scenario.id) %>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                        <% if target.nil? || target.battery.to_f == 0 %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% diff = record.vcc_main.to_f - target.vcc_main.to_f %>
+                                            <% if diff < 0 %>
+                                                <font color=green><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff == 0 %>
+                                                <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff > 0 %>
+                                                <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">FPS</td>
+                                <% @scenarios.each do |scenario| %>
+                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                        <% @fps = get_sub_power(consumption.fps) %>
+                                        <% if @fps != 0 %>
+                                            <%= @fps %>
+                                        <% end %>
+                                <% end %>
+                                </td>
+                            <% end %>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="All">
+                <div id="chart_container_All" style="min-width: 70%; height: 400px; margin: 0 auto">
+                </div>
+                <table class="table table-wuxia">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><%= @last_image %></th>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% if scenario.name.index('(').nil? %>
+                                            <th> <%= scenario.name %></th>
+                                        <% else %>
+                                            <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">Battery</td>
+                                <td >Today</td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                            <%= get_sub_power(consumption.battery) %>
+                                        <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                <% if @lcd.nil? %>
+                                    <% @lcdbacklight = 0 %>
+                                <% else %>
+                                    <% @lcdbacklight = 100 - @lcd.battery.to_f %>
+                                <% end %>
+                                LCD=100mA,
+                                <a href="#" class="btn btn-flat btn-danger Popover" title="<%= @device %> LCD power" data-content="
+                                    <table class='table table-bordered table-striped'>
+                                        <tr>
+                                            <th><%= @device %></th>
+                                            <th>Battery(mA)</th>
+                                            <th>Vcc_main(mA)</th>
+                                        </tr>
+                                        <% @lcd_infos.each do |item| %>
+                                        <tr>
+                                                <td><%= item.item %></td>
+                                                <td><%= item.battery %></td>
+                                                <td><%= item.vcc_main %></td>
+                                        </tr>
+                                        <% end %>
+                                    </table>">
+                                    <% if @lcdbacklight >= 0 %>
+                                        +<%= @lcdbacklight%>
+                                    <% else %>
+                                        <%= @lcdbacklight%>
+                                    <% end %>
+                                    </a>
+                                </td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                            <% if scenario.id == 5 or scenario.id == 6 or scenario.id == 11 or scenario.id == 14 or scenario.id == 15 or scenario.id == 16 or scenario.id == 17 or scenario.id == 19 or scenario.id == 25 or scenario.id == 26 or scenario.id == 27 or scenario.id == 28 or scenario.id == 29 or scenario.id == 30 or scenario.id == 31 or scenario.id == 32 or scenario.id == 33 or scenario.id == 34 or scenario.id == 35 or scenario.id == 36 %>
+                                                <%= get_sub_power(consumption.battery) %>
+                                            <% else %>
+                                                <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
+                                            <% end %>
+                                        <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td>Diff with <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                            <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
+                                                <font color="#000000"></font>
+                                            <% else %>
+                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) < 0 %>
+                                                    <font color=green><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                <% end %>
+                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) == 0 %>
+                                                    <font color="#000000"><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                <% end %>
+                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) > 0 %>
+                                                    <font color=FF0000><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                <% end %>
+                                                <% end %>
+                                            <% end %>
+                                        <% end %>
+                                    </td>
+                            </tr>
+
+                            <tr>
+                                    <td>
+                                        <font>Target(<%= @resolution %>)</font>
+                                    </td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% target = get_target(scenario.id) %>
+                                        <% if  !target.nil? and target.battery.to_f > 0 %>
+                                            <td><font color=blue><%= target.battery %></font></td>
+                                        <% else %>
+                                            <td><font color=black></font></td>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta; Target</font></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% target = get_target(scenario.id) %>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                        <% if target.nil? || target.battery.to_f == 0 %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% diff = record.battery.to_f - target.battery.to_f %>
+                                            <% if diff < 0 %>
+                                                <font color=green><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff == 0 %>
+                                                <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff > 0 %>
+                                                <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                             <tr>
+                                <td rowspan="4">Vcc_Main</td>
+                                <td>Today</td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                            <%= get_sub_power(consumption.vcc_main) %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                             <tr>
+                                <td>Diff with <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                        <% last_power = get_last_power(@latest_image, scenario.id, @device, @branch) %>
+                                        <% if last_power.nil? %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) < 0 %>
+                                            <font color=green><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                        <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) == 0 %>
+                                            <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                            <% if (consumption.vcc_main.to_f - last_power.vcc_main.to_f) > 0 %>
+                                            <font color=red><%= get_sub_power((consumption.vcc_main.to_f - last_power.vcc_main.to_f).to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                    <td>
+                                        <font>Target(<%= @resolution %>)</font>
+                                    </td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% target = get_target(scenario.id) %>
+                                        <% if  !target.nil? and target.vcc_main.to_f > 0 %>
+                                            <td><font color=blue><%= target.vcc_main %></font></td>
+                                        <% else %>
+                                            <td><font color=black></font></td>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta; Target</font></td>
+                                <% @scenarios.each do |scenario| %>
+                                    <td>
+                                    <% target = get_target(scenario.id) %>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                        <% if target.nil? || target.battery.to_f == 0 %>
+                                            <font color="#000000"></font>
+                                        <% else %>
+                                            <% diff = record.vcc_main.to_f - target.vcc_main.to_f %>
+                                            <% if diff < 0 %>
+                                                <font color=green><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff == 0 %>
+                                                <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                            <% if diff > 0 %>
+                                                <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                    </td>
+                                <% end %>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">FPS</td>
+                                <% @scenarios.each do |scenario| %>
+                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                        <% @fps = get_sub_power(consumption.fps) %>
+                                        <% if @fps != 0 %>
+                                            <%= @fps %>
+                                        <% end %>
+                                <% end %>
+                                </td>
+                            <% end %>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <% @categorys.each do |category| %>
+            <div class="tab-pane" id="<%= category.category %>">
+                <div id="chart_container_<%= category.category %>" style="min-width: 70%; height: 400px; margin: 0 auto">
+                </div>
+                <div id="chart_container_vcc_main_<%= category.category %>" style="min-width: 70%; height: 400px; margin: 0 auto;display:none;">
+                </div>
+                <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><%= @last_image %></th>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
+                                            <% if scenario.name.index('(').nil? %>
+                                                <th> <%= scenario.name %></th>
+                                            <% else %>
+                                                <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">Battery</td>
+                                <td >Today</td>
+                                <% @scenarios.each do |scenario| %>
+                                    <% if scenario.category == category.category %>
                                         <td>
-                                        <% if @lcd.nil? %>
-                                            <% @lcdbacklight = 0 %>
-                                        <% else %>
-                                            <% @lcdbacklight = 100 - @lcd.battery.to_f %>
-                                        <% end %>
-                                        <% if @lcdbacklight >= 0 %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/>+<%= @lcdbacklight%></a>)
-                                        <% else %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/><%= @lcdbacklight%></a>)
-                                        <% end %>
+                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                                <%= get_sub_power(consumption.battery) %>
+                                                <br/>
+                                            <% end %>
                                         </td>
-                                        <% @scenarios.each do |scenario| %>
+                                    <% end %>
+                            <% end %>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                <% if @lcd.nil? %>
+                                    <% @lcdbacklight = 0 %>
+                                <% else %>
+                                    <% @lcdbacklight = 100 - @lcd.battery.to_f %>
+                                <% end %>
+                                LCD=100mA,
+                                <a href="#" class="btn btn-flat btn-danger Popover" title="<%= @device %> LCD power" data-content="
+                                    <table class='table table-bordered table-striped'>
+                                        <tr>
+                                            <th><%= @device %></th>
+                                            <th>Battery(mA)</th>
+                                            <th>Vcc_main(mA)</th>
+                                        </tr>
+                                        <% @lcd_infos.each do |item| %>
+                                        <tr>
+                                                <td><%= item.item %></td>
+                                                <td><%= item.battery %></td>
+                                                <td><%= item.vcc_main %></td>
+                                        </tr>
+                                        <% end %>
+                                    </table>">
+                                    <% if @lcdbacklight >= 0 %>
+                                        +<%= @lcdbacklight%>
+                                    <% else %>
+                                        <%= @lcdbacklight%>
+                                    <% end %>
+                                    </a>
+                                </td>
+                                <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
                                             <td>
-                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.id == 5 or scenario.id == 6 or scenario.id == 11 or scenario.id == 14 or scenario.id == 15 or scenario.id == 16 or scenario.id == 17 or scenario.id == 19 or scenario.id == 25 or scenario.id == 26 or scenario.id == 27 or scenario.id == 28 or scenario.id == 29 or scenario.id == 30 or scenario.id == 31 or scenario.id == 32 or scenario.id == 33 or scenario.id == 34 or scenario.id == 35 or scenario.id == 36 %>
-                                                        <%= get_sub_power(consumption.battery) %>
-                                                    <% else %>
-                                                        <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
-                                                    <% end %>
-                                                <% end %>
+                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                                <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
+                                            <% end %>
                                             </td>
                                         <% end %>
-                                    </tr>
+                                <% end %>
+                            </tr>
 
-                                    <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
+                            <tr>
+                                <td>&Delta;  <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
                                             <td>
                                                 <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
-                                                    <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
+                                                    <% last_power = get_last_power(@latest_image, scenario.id, @device, @branch) %>
+                                                    <% if last_power.nil? %>
                                                         <font color="#000000"></font>
                                                     <% else %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) < 0 %>
-                                                            <font color=green><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                        <% if (record.battery.to_f - last_power.battery.to_f) < 0 %>
+                                                            <font color=green><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
                                                         <% end %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) == 0 %>
-                                                            <font color="#000000"><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                        <% if (record.battery.to_f - last_power.battery.to_f) == 0 %>
+                                                            <font color="#000000"><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
                                                         <% end %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) > 0 %>
-                                                            <font color=FF0000><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
-                                                        <% end %>
+                                                        <% if (record.battery.to_f - last_power.battery.to_f) > 0 %>
+                                                            <font color=FF0000><%= get_sub_power((record.battery.to_f - last_power.battery.to_f).to_s) %></font>
                                                         <% end %>
                                                     <% end %>
                                                 <% end %>
                                             </td>
-                                    </tr>
-
-                                    <tr>
-                                            <% if @device == "pxa1L88dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_helnlte.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_helnlte %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-                                            <% else if @device == "pxa1U88dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_helan2.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_helan2 %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-
-                                            <% else if @device == "pxa1928dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_eden.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_eden %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-                                            <% else %>
-                                                <td>
-                                                    <font>Target</font>
-                                                    <% @scenarios.each do |scenario| %>
-                                                    <td><font color=blue> </font></td>
-                                                <% end %>
-                                                </td>
-                                            <% end %>
-                                            <% end %>
-                                            <% end %>
-                                    </tr>
-                                    <tr>
-                                        <td><font>Gap To Target</font></td>
-                                        <% if @device == "pxa1L88dkb" %>
-                                                <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_helnlte.to_f > 0 %>
-                                                        <% if (consumption.battery.to_f - scenario.target_720p_helnlte.to_f) < 0 %>
-                                                            <font color=green><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helnlte.to_f).to_s) %><br/>
-                                                                (<%= get_sub_power(((consumption.battery.to_f  - scenario.target_720p_helnlte.to_f)/scenario.target_720p_helnlte.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                        <% if (consumption.battery.to_f - scenario.target_720p_helnlte.to_f) > 0 %>
-                                                            <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helnlte.to_f).to_s) %><br/>
-                                                                (<%= get_sub_power((( consumption.battery.to_f - scenario.target_720p_helnlte.to_f)/scenario.target_720p_helnlte.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                        <% else %>
-                                                            <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_helan2.to_f > 0 %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_helan2.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helan2.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_helan2.to_f)/scenario.target_720p_helan2.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_helan2.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helan2.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_helan2.to_f)/scenario.target_720p_helan2.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_eden.to_f > 0 %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_eden.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.battery.to_f + 100 - @lcd.battery.to_f- scenario.target_720p_eden.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_eden.to_f)/scenario.target_720p_eden.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_eden.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_eden.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_eden.to_f)/scenario.target_720p_eden.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <font color=green></font>
-                                                <% end %>
-                                                </td>
-                                            <% end %>
                                         <% end %>
-                                    <% end %>
-                                    <% end %>
-                                    </tr>
+                                <% end %>
+                            </tr>
 
-                                     <tr>
-                                        <td rowspan="4">Vcc_Main</td>
-                                        <td>Today</td>
+                            <tr>
+                                    <td>
+                                        <font>Target</font>
                                         <% @scenarios.each do |scenario| %>
-                                            <td>
-                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <%= get_sub_power(consumption.vcc_main) %>
-                                            <% end %>
-                                            </td>
-                                        <% end %>
-                                    </tr>
-
-                                     <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
-                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
-                                                    <font color="#000000"></font>
-                                                <% else %>
-                                                    <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) == 0 %>
-                                                    <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                    <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                <% end %>
-                                            <% end %>
-                                        <% end %>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <% if @device == "pxa1L88dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.target_720p_helnlte_vcc_main.to_f > 0 %>
-                                                    <td><font color=blue> <%= scenario.target_720p_helnlte_vcc_main %></font></td>
-                                                <% else %>
-                                                    <td><font color=black>N/A</font></td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-                                            <% @scenarios.each do |scenario| %>
-                                            <% if scenario.target_720p_helan2_vcc_main.to_f > 0 %>
-                                                <td><font color=blue> <%= scenario.target_720p_helan2_vcc_main %></font></td>
-                                            <% else %>
-                                                <td><font color=black>N/A</font></td>
-                                            <% end %>
-                                        <% end %>
-
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-                                            <% @scenarios.each do |scenario| %>
-                                            <% if scenario.target_720p_eden_vcc_main.to_f > 0 %>
-                                                <td><font color=blue> <%= scenario.target_720p_eden_vcc_main %></font></td>
-                                            <% else %>
-                                                <td><font color=black>N/A</font></td>
-                                            <% end %>
-                                        <% end %>
-                                        <% else %>
-                                            <td>
-                                                <font >Target</font>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <td><font color=blue> </font></td>
-                                                <% end %>
-                                            </td>
-                                        <% end %>
-                                        <% end %>
-                                        <% end %>
-                                </tr>
-
-                                <tr>
-                                        <td><font>Gap To Target</font></td>
-                                        <% if @device == "pxa1L88dkb" %>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                        <% if scenario.target_720p_helnlte_vcc_main.to_f > 0 %>
-                                                            <% if (consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f) < 0 %>
-                                                                <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helanlte_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                            <% if (consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f) > 0 %>
-                                                                <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                                <% end %>
-                                                        <% else %>
-                                                            <font color=black>N/A</font>
-                                                        <% end %>
-                                                    </td>
-                                                <% end %>
-                                        <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.target_720p_helan2_vcc_main.to_f > 0 %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f) < 0 %>
-                                                        <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f) > 0 %>
-                                                        <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
+                                            <% if scenario.category == category.category %>
+                                                <% target = get_target(scenario.id) %>
+                                                    <% if  !target.nil? and target.battery.to_f > 0 %>
+                                                        <td><font color=blue><%= target.battery %></font></td>
                                                     <% else %>
-                                                        <font color=black>N/A</font>
+                                                        <td><font color=black></font></td>
                                                     <% end %>
-                                                </td>
                                             <% end %>
                                         <% end %>
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.target_720p_eden_vcc_main.to_f > 0 %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f) < 0 %>
-                                                        <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f) > 0 %>
-                                                        <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td>
-                                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                       <font color=green></font>
-                                                    <% end %>
-                                                </td>
-                                            <% end %>
-                                        <% end %>
-                                    <% end %>
-                                    <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="2">FPS</td>
-                                        <% @scenarios.each do |scenario| %>
-                                        <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                <% @fps = get_sub_power(consumption.fps) %>
-                                                <% if @fps != 0 %>
-                                                    <%= @fps %>
-                                                <% end %>
-                                        <% end %>
-                                        </td>
-                                    <% end %>
-                                    </tr>
-                                </tbody>
-                        </table>
-                    </div>
-                    <div class="tab-pane" id="All">
-                        <div id="chart_container_All" style="min-width: 70%; height: 400px; margin: 0 auto">
-                        </div>
-                        <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2"><%= @last_image %></th>
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.name.index('(').nil? %>
-                                                    <th> <%= scenario.name %></th>
-                                                <% else %>
-                                                    <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
-                                                <% end %>
-                                            <% end %>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="5">Battery</td>
-                                        <td width="100px">Today</td>
-                                        <% @scenarios.each do |scenario| %>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta;  Target</font></td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
                                             <td>
-                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <%= get_sub_power(consumption.battery) %>
-                                                <% end %>
-                                            </td>
-                                        <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                        <% if @lcd.nil? %>
-                                            <% @lcdbacklight = 0 %>
-                                        <% else %>
-                                            <% @lcdbacklight = 100 - @lcd.battery.to_f %>
-                                        <% end %>
-                                        <% if @lcdbacklight >= 0 %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/>+<%= @lcdbacklight%></a>)
-                                        <% else %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/><%= @lcdbacklight%></a>)
-                                        <% end %>
-                                        </td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
-                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.id == 5 or scenario.id == 6 or scenario.id == 11 or scenario.id == 14 or scenario.id == 15 or scenario.id == 16 or scenario.id == 17 or scenario.id == 19 or scenario.id == 25 or scenario.id == 26 or scenario.id == 27 or scenario.id == 28 or scenario.id == 29 or scenario.id == 30 or scenario.id == 31 or scenario.id == 32 or scenario.id == 33 or scenario.id == 34 or scenario.id == 35 or scenario.id == 36 %>
-                                                        <%= get_sub_power(consumption.battery) %>
-                                                    <% else %>
-                                                        <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
-                                                    <% end %>
-                                                <% end %>
-                                            </td>
-                                        <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
+                                                <% target = get_target(scenario.id) %>
                                                 <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
-                                                    <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
+                                                    <% if target.nil? || target.battery.to_f == 0 %>
                                                         <font color="#000000"></font>
                                                     <% else %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) < 0 %>
-                                                            <font color=green><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                        <% diff = record.battery.to_f - target.battery.to_f %>
+                                                        <% if diff < 0 %>
+                                                            <font color=green><%= get_sub_power(diff.to_s) %></font>
                                                         <% end %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) == 0 %>
-                                                            <font color="#000000"><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
+                                                        <% if diff == 0 %>
+                                                            <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
                                                         <% end %>
-                                                        <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) > 0 %>
-                                                            <font color=FF0000><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
-                                                        <% end %>
+                                                        <% if diff > 0 %>
+                                                            <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
                                                         <% end %>
                                                     <% end %>
                                                 <% end %>
                                             </td>
-                                    </tr>
-
-                                    <tr>
-                                            <% if @device == "pxa1L88dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_helnlte.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_helnlte %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-                                            <% else if @device == "pxa1U88dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_helan2.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_helan2 %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-
-                                            <% else if @device == "pxa1928dkb" %>
-                                                <td>
-                                                    <font>Target(720p)</font>
-                                                </td>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.target_720p_eden.to_f > 0 %>
-                                                        <td><font color=blue> <%= scenario.target_720p_eden %></font></td>
-                                                    <% else %>
-                                                        <td><font color=black>N/A</font></td>
-                                                    <% end %>
-                                                <% end %>
-                                            <% else %>
-                                                <td>
-                                                    <font>Target</font>
-                                                    <% @scenarios.each do |scenario| %>
-                                                    <td><font color=blue> </font></td>
-                                                <% end %>
-                                                </td>
-                                            <% end %>
-                                            <% end %>
-                                            <% end %>
-                                    </tr>
-                                    <tr>
-                                        <td><font>Gap To Target</font></td>
-                                        <% if @device == "pxa1L88dkb" %>
-                                                <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_helnlte.to_f > 0 %>
-                                                        <% if (consumption.battery.to_f - scenario.target_720p_helnlte.to_f) < 0 %>
-                                                            <font color=green><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helnlte.to_f).to_s) %><br/>
-                                                                (<%= get_sub_power(((consumption.battery.to_f  - scenario.target_720p_helnlte.to_f)/scenario.target_720p_helnlte.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                        <% if (consumption.battery.to_f - scenario.target_720p_helnlte.to_f) > 0 %>
-                                                            <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helnlte.to_f).to_s) %><br/>
-                                                                (<%= get_sub_power((( consumption.battery.to_f - scenario.target_720p_helnlte.to_f)/scenario.target_720p_helnlte.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                        <% else %>
-                                                            <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_helan2.to_f > 0 %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_helan2.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helan2.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_helan2.to_f)/scenario.target_720p_helan2.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_helan2.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_helan2.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_helan2.to_f)/scenario.target_720p_helan2.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% consumption.battery = consumption.battery.to_f + 100 - @lcd.battery.to_f%>
-                                                    <% if scenario.target_720p_eden.to_f > 0 %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_eden.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.battery.to_f + 100 - @lcd.battery.to_f- scenario.target_720p_eden.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_eden.to_f)/scenario.target_720p_eden.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% if (consumption.battery.to_f - scenario.target_720p_eden.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.battery.to_f - scenario.target_720p_eden.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.battery.to_f - scenario.target_720p_eden.to_f)/scenario.target_720p_eden.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <font color=green></font>
-                                                <% end %>
-                                                </td>
-                                            <% end %>
                                         <% end %>
                                     <% end %>
-                                    <% end %>
-                                    </tr>
+                            </tr>
 
-                                     <tr>
-                                        <td rowspan="4">Vcc_Main</td>
-                                        <td>Today</td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
-                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <%= get_sub_power(consumption.vcc_main) %>
-                                            <% end %>
-                                            </td>
-                                        <% end %>
-                                    </tr>
-
-                                     <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
-                                            <td>
-                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
-                                                    <font color="#000000"></font>
-                                                <% else %>
-                                                    <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) < 0 %>
-                                                    <font color=green><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) == 0 %>
-                                                    <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                    <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) > 0 %>
-                                                    <font color=red><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                    <% end %>
-                                                <% end %>
-                                            <% end %>
-                                        <% end %>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <% if @device == "pxa1L88dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.target_720p_helnlte_vcc_main.to_f > 0 %>
-                                                    <td><font color=blue> <%= scenario.target_720p_helnlte_vcc_main %></font></td>
-                                                <% else %>
-                                                    <td><font color=black>N/A</font></td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-                                            <% @scenarios.each do |scenario| %>
-                                            <% if scenario.target_720p_helan2_vcc_main.to_f > 0 %>
-                                                <td><font color=blue> <%= scenario.target_720p_helan2_vcc_main %></font></td>
-                                            <% else %>
-                                                <td><font color=black>N/A</font></td>
-                                            <% end %>
-                                        <% end %>
-
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <td>
-                                                <font >Target(720p)</font>
-                                            </td>
-                                            <% @scenarios.each do |scenario| %>
-                                            <% if scenario.target_720p_eden_vcc_main.to_f > 0 %>
-                                                <td><font color=blue> <%= scenario.target_720p_eden_vcc_main %></font></td>
-                                            <% else %>
-                                                <td><font color=black>N/A</font></td>
-                                            <% end %>
-                                        <% end %>
-                                        <% else %>
-                                            <td>
-                                                <font >Target</font>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <td><font color=blue> </font></td>
-                                                <% end %>
-                                            </td>
-                                        <% end %>
-                                        <% end %>
-                                        <% end %>
-                                </tr>
-
-                                <tr>
-                                        <td><font>Gap To Target</font></td>
-                                        <% if @device == "pxa1L88dkb" %>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                        <% if scenario.target_720p_helnlte_vcc_main.to_f > 0 %>
-                                                            <% if (consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f) < 0 %>
-                                                                <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helanlte_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                            <% end %>
-                                                            <% if (consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f) > 0 %>
-                                                                <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helnlte_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                                <% end %>
-                                                        <% else %>
-                                                            <font color=black>N/A</font>
-                                                        <% end %>
-                                                    </td>
-                                                <% end %>
-                                        <% end %>
-                                        <% else if @device == "pxa1U88dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.target_720p_helan2_vcc_main.to_f > 0 %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f) < 0 %>
-                                                        <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f) > 0 %>
-                                                        <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_helan2_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                </td>
-                                            <% end %>
-                                        <% end %>
-                                        <% else if @device == "pxa1928dkb" %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                    <% if scenario.target_720p_eden_vcc_main.to_f > 0 %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f) < 0 %>
-                                                        <font color=green><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                        <% if (consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f) > 0 %>
-                                                        <font color=red><%= get_sub_power((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f).to_s) %><br/>(<%= get_sub_power(((consumption.vcc_main.to_f - scenario.target_720p_eden_vcc_main.to_f)/consumption.vcc_main.to_f*100).to_s) %>%)</font>
-                                                        <% end %>
-                                                    <% else %>
-                                                        <font color=black>N/A</font>
-                                                    <% end %>
-                                                </td>
-                                                <% end %>
-                                            <% end %>
-                                        <% else %>
-                                            <% @scenarios.each do |scenario| %>
-                                                <td>
-                                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                       <font color=green></font>
-                                                    <% end %>
-                                                </td>
-                                            <% end %>
-                                        <% end %>
-                                    <% end %>
-                                    <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="2">FPS</td>
-                                        <% @scenarios.each do |scenario| %>
-                                        <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                <% @fps = get_sub_power(consumption.fps) %>
-                                                <% if @fps != 0 %>
-                                                    <%= @fps %>
-                                                <% end %>
-                                        <% end %>
-                                        </td>
-                                    <% end %>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-                    <% @categorys.each do |category| %>
-                    <div class="tab-pane" id="<%= category.category %>">
-                        <div id="chart_container_<%= category.category %>" style="min-width: 70%; height: 400px; margin: 0 auto">
-                        </div>
-                        <div id="chart_container_vcc_main_<%= category.category %>" style="min-width: 70%; height: 400px; margin: 0 auto;display:none;">
-                        </div>
-                        <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2"><%= @last_image %></th>
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <% if scenario.name.index('(').nil? %>
-                                                        <th> <%= scenario.name %></th>
-                                                    <% else %>
-                                                        <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
-                                                    <% end %>
-                                                <% end %>
-                                            <% end %>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="5">Battery</td>
-                                        <td width="100px">Today</td>
-                                        <% @scenarios.each do |scenario| %>
+                             <tr>
+                                <td rowspan="4">Vcc_Main</td>
+                                <td>Today</td>
+                                    <% @scenarios.each do |scenario| %>
                                             <% if scenario.category == category.category %>
                                                 <td>
                                                     <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                        <%= get_sub_power(consumption.battery) %>
-                                                        <br/>
+                                                            <%= get_sub_power(consumption.vcc_main) %>
                                                     <% end %>
                                                 </td>
                                             <% end %>
                                     <% end %>
-                                    </tr>
+                            </tr>
 
-                                    <tr>
-                                        <td>
-                                        <% if @lcd.nil? %>
-                                            <% @lcdbacklight = 0 %>
-                                        <% else %>
-                                            <% @lcdbacklight = 100 - @lcd.battery.to_f %>
-                                        <% end %>
-                                        <% if @lcdbacklight >= 0 %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/>+<%= @lcdbacklight%></a>)
-                                        <% else %>
-                                            Today(aligned <br/> LCD(100mA), <a href="/lcd/query?soc=<%= @device%>&resolution=<%= @resolution%>"><br/><%= @lcdbacklight%></a>)
-                                        <% end %>
-                                        </td>
-                                        <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <td> <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                            <% if scenario.id == 5 or scenario.id == 6 or scenario.id == 11 or scenario.id == 14 or scenario.id == 15 or scenario.id == 16 or scenario.id == 17 or scenario.id == 19 or scenario.id == 25 or scenario.id == 26 or scenario.id == 27 or scenario.id == 28 or scenario.id == 29 or scenario.id == 30 or scenario.id == 31 or scenario.id == 32 or scenario.id == 33 or scenario.id == 34 or scenario.id == 35 or scenario.id == 36 %>
-                                                                <%= get_sub_power(consumption.battery) %>
-                                                            <% else %>
-                                                                <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
-                                                            <% end %>
-                                                    <% end %>
-                                                    </td>
-                                                <% end %>
-                                        <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <td>
-                                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
-                                                            <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
-                                                                <font color="#000000"></font>
-                                                            <% else %>
-                                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) < 0 %>
-                                                                    <font color=green><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
-                                                                <% end %>
-                                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) == 0 %>
-                                                                    <font color="#000000"><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
-                                                                <% end %>
-                                                                <% if (record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f) > 0 %>
-                                                                    <font color=FF0000><%= get_sub_power((record.battery.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).battery.to_f).to_s) %></font>
-                                                                <% end %>
-                                                            <% end %>
-                                                        <% end %>
-                                                    </td>
-                                                <% end %>
-                                        <% end %>
-                                    </tr>
-
-                                    <tr>
-                                                <td>
-                                                    <font>Target</font>
-                                                    <% @scenarios.each do |scenario| %>
-                                                        <% if scenario.category == category.category %>
-                                                            <td><font color=blue> </font></td>
-                                                        <% end %>
-                                                    <% end %>
-                                                </td>
-                                    </tr>
-                                    <tr>
-                                        <td><font>Gap To Target</font></td>
-                                            <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <td>
-                                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                            <font color=green></font>
-                                                        <% end %>
-                                                    </td>
-                                                <% end %>
-                                            <% end %>
-                                    </tr>
-
-                                     <tr>
-                                        <td rowspan="4">Vcc_Main</td>
-                                        <td>Today</td>
-                                            <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.category == category.category %>
-                                                        <td>
-                                                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                                    <%= get_sub_power(consumption.vcc_main) %>
-                                                            <% end %>
-                                                        </td>
-                                                    <% end %>
-                                            <% end %>
-                                    </tr>
-
-                                     <tr>
-                                        <td>Diff with <br/> <%= @latest_image %></td>
-                                        <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <td>
-                                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                            <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
-                                                                <font color="#000000"></font>
-                                                            <% else %>
-                                                                <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) < 0 %>
-                                                                    <font color=green><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                                <% end %>
-                                                                <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) == 0 %>
-                                                                    <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                                <% end %>
-                                                                <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) > 0 %>
-                                                                    <font color=red><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
-                                                                 <% end %>
-                                                            <% end %>
-                                                        <% end %>
-                                                    </td>
-                                                <% end %>
-                                        <% end %>
-                                    </tr>
-
-                                    <tr>
+                             <tr>
+                                <td>&Delta;  <%= @latest_image %></td>
+                                <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
                                             <td>
-                                                <font >Target</font>
-                                                <% @scenarios.each do |scenario| %>
-                                                    <% if scenario.category == category.category %>
-                                                        <td><font color=blue> </font></td>
+                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                                    <% if get_last_power(@latest_image, scenario.id, @device, @branch).nil? %>
+                                                        <font color="#000000"></font>
+                                                    <% else %>
+                                                        <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) < 0 %>
+                                                            <font color=green><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
+                                                        <% end %>
+                                                        <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) == 0 %>
+                                                            <font color="#000000"><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
+                                                        <% end %>
+                                                        <% if (consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f) > 0 %>
+                                                            <font color=red><%= get_sub_power((consumption.vcc_main.to_f - get_last_power(@latest_image, scenario.id, @device, @branch).vcc_main.to_f).to_s) %></font>
+                                                         <% end %>
                                                     <% end %>
                                                 <% end %>
                                             </td>
-                                    </tr>
+                                        <% end %>
+                                <% end %>
+                            </tr>
 
-                                    <tr>
-                                        <td><font>Gap To Target</font></td>
+                            <tr>
+                                    <td>
+                                        <font>Target</font>
                                         <% @scenarios.each do |scenario| %>
                                             <% if scenario.category == category.category %>
-                                                <td>
-                                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                        <font color=green></font>
+                                                <% target = get_target(scenario.id) %>
+                                                    <% if  !target.nil? and target.vcc_main.to_f > 0 %>
+                                                        <td><font color=blue><%= target.vcc_main %></font></td>
+                                                    <% else %>
+                                                        <td><font color=black></font></td>
                                                     <% end %>
-                                                </td>
                                             <% end %>
                                         <% end %>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="2">FPS</td>
-                                        <% @scenarios.each do |scenario| %>
-                                                <% if scenario.category == category.category %>
-                                                    <td>
-                                                        <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                                            <% @fps = get_sub_power(consumption.fps) %>
-                                                            <% if @fps != 0 %>
-                                                                <%= @fps %>
-                                                            <% end %>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <td><font>&Delta;  Target</font></td>
+                                    <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
+                                            <td>
+                                                <% target = get_target(scenario.id) %>
+                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |record| %>
+                                                    <% if target.nil? || target.battery.to_f == 0 %>
+                                                        <font color="#000000"></font>
+                                                    <% else %>
+                                                        <% diff = record.vcc_main.to_f - target.vcc_main.to_f %>
+                                                        <% if diff < 0 %>
+                                                            <font color=green><%= get_sub_power(diff.to_s) %></font>
                                                         <% end %>
-                                                    </td>
+                                                        <% if diff == 0 %>
+                                                            <font color="#000000"><%= get_sub_power(diff.to_s) %></font>
+                                                        <% end %>
+                                                        <% if diff > 0 %>
+                                                            <font color=FF0000><%= get_sub_power(diff.to_s) %></font>
+                                                        <% end %>
+                                                    <% end %>
                                                 <% end %>
+                                            </td>
                                         <% end %>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-                    <% end %>
+                                    <% end %>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">FPS</td>
+                                <% @scenarios.each do |scenario| %>
+                                        <% if scenario.category == category.category %>
+                                            <td>
+                                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                                    <% @fps = get_sub_power(consumption.fps) %>
+                                                    <% if @fps != 0 %>
+                                                        <%= @fps %>
+                                                    <% end %>
+                                                <% end %>
+                                            </td>
+                                        <% end %>
+                                <% end %>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <% end %>
         </div>
 </div>
 <!-- Scripts -->
 <SCRIPT LANGUAGE="JavaScript">
 $(function () {
+        // Popovers
+        $('.Popover').popover();
         $('#scenario_category a:first').tab('show');
         $('#scenario_category a').click(function (e){
             e.preventDefault();

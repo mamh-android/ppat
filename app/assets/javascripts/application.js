@@ -27,6 +27,7 @@
 //= require bootstrap/bootstrap-tab
 //= require bootstrap/bootstrap-modal
 //= require bootstrap/bootstrap-collapse
+//= require bootstrap/bootstrap-popover
 //= require plugins/fullCalendar/jquery.fullcalendar.min
 //= require plugins/fullCalendar/gcal
 //= require plugins/flot/jquery.flot

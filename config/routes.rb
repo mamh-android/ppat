@@ -47,6 +47,7 @@ get "tools/rtvb"
 get "tools/xref"
 get "tools/oldppat"
 get "tools/smoketest"
+get "thermal/index"
 
 
 

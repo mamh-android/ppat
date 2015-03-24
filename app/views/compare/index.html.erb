@@ -8,10 +8,21 @@
     <div class="tab-pane active">
         <!-- Grid row-->
             <div class="row">
-                <h2><span>Select Daily</span></h2>
+                    <div class="control-group">
+                        <span>Select Daily</span>
+                            <select NAME="Platform" onChange="getBranch()" >
+                                <option VALUE="pxa1908">pxa1908</option>
+                                <option VALUE="pxa1928">pxa1928</option>
+                                <option VALUE="pxa1936">pxa1936</option>
+                                <option VALUE="pxa1U88">pxa1U88</option>
+                            </select>
+                    </div>
                 <%= form_tag("#", method: "post", remote: true, value: "form_authenticity_token") do %>
                     <ul>
                         <fieldset>
+                        <li>
+                                <h4>></h4>
+                        </li>
                         <li>
                             <select NAME="Platform" onChange="getBranch()" >
                                 <option VALUE="pxa1908">pxa1908</option>
@@ -53,12 +64,13 @@
             </div>
         <!--Grid row-->
             <div  class="row">
-                <h2><span>Select Ondemand</span></h2>
-                <%= render :template => "/ondemand/_task_info" %>
-                <div id="task_scenario">
-                    <%= render :template => "/ondemand/_scenario_info" %>
-                </div>
-
+                <h4>Select Ondemand</h4>
+                <article class="span12" id="task">
+                    <%= render :template => "/ondemand/_task_info" %>
+                </article>
+                    <div id="task_scenario">
+                        <%= render :template => "/ondemand/_scenario_info" %>
+                    </div>
             </div>
     </div>
 <!--top-->

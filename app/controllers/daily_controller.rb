@@ -122,6 +122,7 @@ class DailyController < ApplicationController
               end
 		@latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", @images.last.image_date, get_last_date(@last_image), @device, @branch).order("image_date asc").last
 		@lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
+            @lcd_infos = LcdPower.where("device = ? and resolution = ?", @device, @resolution)
 		@latest_image=@latest_image_last.image_date
   		render :layout=>"ppat"
   	end
@@ -149,7 +150,8 @@ class DailyController < ApplicationController
               @last_image= PowerRecord.where("branch = ? and device = ? AND power_scenario_id in (" + @scenario_id_list + ")", @branch, @device).order("image_date asc").last.image_date
               @scenarios = PowerScenario.where("id in (" + @scenario_id_list + ")")
               @latest_image_last = PowerRecord.where("image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", image_date_before, get_last_date(image_date_after), @device, @branch).order("image_date asc").last
-              @lcd = LcdPower.where("device = ? and resolution = ? and item = ?", "pxa1L88dkb", "720p", "LCD").select("battery").last
+              @lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
+            @lcd_infos = LcdPower.where("device = ? and resolution = ?", @device, @resolution)
               @latest_image=@latest_image_last.image_date
               respond_to do |format|
                   format.js

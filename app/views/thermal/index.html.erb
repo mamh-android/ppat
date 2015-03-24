@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag    "jquery-ui"%>
+<%= stylesheet_link_tag    "ppat"%>
+
+<!--top-->
+<div id="top">
+    <!-- Grid row-->
+    <div class="row topcenter">
+            <article class="span4">
+                <input type="radio" name="radio_chart" value="battery" checked="checked" onclick="show('battery')">Battery
+                <input type="radio" name="radio_chart" value="vcc_main" onclick="show('vcc_main')">Vcc_main
+                <input type="radio" name="radio_chart" value="thermal" onclick="show('thermal')">Thermal
+                <input id="editcheckboxId" type="checkbox">Edit Comments
+            </article>
+            <article class="span3">
+                <div class="input-append">
+                    <input id="datepicker" style="width: 80px;" type="text"> <span class="add-on"><i class="icon-calendar"></i></span>
+                </div>
+            </article>
+            <article class="span4">
+                <span class="badge" onclick="update_chart_table(this)">10</span>
+                <span class="badge badge-success" onclick="update_chart_table(this)">20</span>
+                <span class="badge badge-warning" onclick="update_chart_table(this)">30</span>
+                <span class="badge badge-important" onclick="update_chart_table(this)">60</span>
+                <span class="badge badge-info" onclick="update_chart_table(this)">90</span>
+            </article>
+    </div>
+    <!--Grid row-->
+</div>
+<!--top-->
+
+<div class="container" role="main" id="thermal_record">
+    <%= render :partial => 'index' %>
+</div>

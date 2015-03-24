@@ -6,6 +6,10 @@ module DailyHelper
         #Helnconsumption.find(:all, :conditions => ['image_date = ? and scenario_id = ? and verify = ?', image_date, scenario_id, "P"]).last
         PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ?', image_date, scenario_id, device, branch).last
     end
+
+    def get_target(scenario_id)
+        PowerTarget.where(power_scenario_id: scenario_id).last
+    end
     def get_year(image_date)
        	image_date.to_s.split('-')[0]
     end

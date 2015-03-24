@@ -1,0 +1,100 @@
+<div class="tab-content">
+	<div class="tab-pane">
+                	<div id="chart_container_battery" style="min-width: 70%; height: 600px; margin: 0 auto">
+                	</div>
+                	<div id="chart_container_vcc_main" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
+                	</div>
+                	<div id="chart_container_thermal" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
+                	</div>
+             </div>
+</div>
+
+<!-- Scripts -->
+<script language="JavaScript">
+$(function () {
+	//battery chart
+	chart = new Highcharts.Chart({
+	            chart: {
+	                	renderTo: 'chart_container_thermal',
+            			zoomType: 'xy'
+	            },
+	            title: {
+	                text: 'Thermal'
+	            },
+	            subtitle: {
+	                text: null
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Temperature'
+	                },
+	                labels: {
+	                    formatter: function() {
+	                        return {value}°C
+	                    }
+	                }
+	            },
+	            tooltip: {
+	                shared: true
+	            },
+	            plotOptions: {
+	                series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function() {
+	                            	show_temp_detail(this.series.name, this.y);
+	                            }
+	                        }
+	                    },
+	                    marker: {
+	                        lineWidth: 1
+	                    }
+	                }
+	            },
+	            series: [
+	            <% @scenarios.each do |scenario| %>
+	            <% if scenario.category == @categorys[0].category %>
+	            {
+	                <% @imagedatehour=0 %>
+	                <% @imagedate=0 %>
+	                name: '<%= scenario.name %>',
+	                data:[<% @image_dates.each do |image| %>
+	                        <% if scenario.id == image.power_scenario_id %>
+	                            {
+	                                            //如果日期相等
+	                                            <% if @imagedate == image.image_date %>
+	                                                <% @imagedatehour += 10 %>
+	                                                //判断是否超过24小时
+	                                                <% if @imagedatehour>=24 %>
+	                                                    <% @imagedatehour=23 %>
+	                                                <% end %>
+	                                            <% else %>
+	                                                <% @imagedatehour = 0 %>
+	                                            <% end %>
+	                                            <% @imagedate = image.image_date %>
+
+	                                            x: Date.UTC("<%= get_year(image.image_date) %>",
+	                                                       "<%= get_month(image.image_date) %>",
+	                                                       "<%= get_day(image.image_date) %>",
+	                                                       "<%= @imagedatehour %>" ),
+	                                            y: <%= get_power(image.battery) %>,
+	                                            marker: {
+	                                            <% if image.varified == "P" %>
+	                                                fillColor: '#6dc22c'
+	                                            <% else if image.varified == "F" %>
+	                                                fillColor: '#ff0000'
+	                                            <% end %>
+	                        <% end %>
+	                                            }
+	                            },
+	                        <% end %>
+	                                <% end %>
+	                ]//end data
+	            },
+	            <% end %>
+	            <% end %>
+	            ]//end series
+	    });
+})
+</script>
