@@ -2,7 +2,8 @@
 trigger css
 
 **/
-form, .form-horizontal {
+code {
+    line-height: 32px;
 }
 label span {
     font-size: 24px;

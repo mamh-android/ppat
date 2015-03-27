@@ -58,41 +58,49 @@
                     <!-- <a class="brand" href="http://envato.walkingpixels.com/themes/wuxia/">Walking Pixels Wuxia Bootstrap admin template</a> -->
                     <nav class="nav-collapse navigation">
                         <ul class="nav" role="navigation">
-                            <li class="active"><a href="/home/index" title="Home"><span class="icon-home"></span>home</a></li>
-                            <li><a href="/tools/gerrit" target="_blank" title="gerrit"><span class="icon-sitemap"></span>gerrit</a></li>
-                            <li><a href="/tools/buildbot" title="buildbot"><span class="icon-tasks"></span>buildbot</a></li>
+                            <li class="active"><a href="/home/index" title="Home"><span class="icon-home"></span>Home</a></li>
+                            <li><a href="/tools/gerrit" title="gerrit" target="_blank"><span class="icon-sitemap"></span>Gerrit</a></li>
+                            <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master" title="PPAT"><span class="icon-signal"></span>PPAT</a></li>
+                            <li><a href="/tools/buildbot" title="buildbot"><span class="icon-tasks"></span>Buildbot</a></li>
                             <li><a href="/tools/rtvb" title="RTVB"><span class="icon-table"></span>RTVB</a></li>
-                             <li><a href="/tools/smoketest" title="smoke test"><span class="icon-font"></span>smoke test</a></li>
-                            <!--<li><a href="ui-buttons.html" title="coverity!"><span class="icon-magic"></span>coverity</a></li>-->
-                            <li><a href="/tools/oldppat" title="Oldppat!"><span class="icon-plane"></span>Oldppat</a></li>
+                             <li><a href="/tools/smoketest" title="smoke test"><span class="icon-font"></span>Smoke Test</a></li>
                             <li><a href="/tools/xref" title="xRef!"><span class="icon-pushpin"></span>xRef</a></li>
-                            <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master" title="PPAT!"><span class="icon-refresh"></span>PPAT</a></li>
+                            <li  class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                   <span class="icon-plus"></span>More
+                                   <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="http://apse.marvell.com/atf" target="_blank"><span class="icon-group"></span>ATF</a></li>
+                                    <li><a href="http://apse.marvell.com/perf" target="_blank"><span class="icon-bell"></span>PREF</a></li>
+                                    <li><a href="http://apse.marvell.com/coverity" target="_blank"><span class="icon-exclamation-sign"></span>Coverity</a></li>
+                                    <li><a href="http://apse.marvell.com/autobuild" target="_blank"><span class="icon-hdd"></span>AutoBuild</a></li>
+                                    <li><a href="http://rqe.marvell.com/" target="_blank"><span class="icon-cloud"></span>RQE</a></li>
+                                    <li><a href="http://apse.marvell.com/pqm" target="_blank"><span class=" icon-dashboard"></span>PQM</a></li>
+                                    <li><a href="http://sh-gfxrank.marvell.com/" target="_blank"><span class="icon-tasks"></span>GFX Rank</a></li>
+                                    <li><a href="http://sc-sp01/sites/SH-HW/SH-HWAudit/UserForms/WeeklyAudit.aspx" target="_blank"><span class="icon-globe"></span>HW Audit</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                     <nav class="nav-collapse user" >
                         <div class="user-info pull-right">
-
-                            <div class="btn-group">
-                                <% if get_cur_user %>
-                                <a class="btn dropdown-toggle" href="#">
-                                    <div><strong><%= get_cur_user %></strong></div>
-                                    <span class="caret"></span>
-                                </a>
-                                <% else %>
-                                <a class="btn dropdown-toggle" href="/log/in">
-                                    <div><strong>Log in</strong></div>
-                                    <span class="caret"></span>
-                                </a>
-                                <% end %>
-                                <ul class="dropdown-menu">
-                                    <li><a href=""><span class="icon-cogs"></span> Account settings</a></li>
-                                    <li><a href=""><span class="icon-bell"></span> Preferences</a></li>
-                                    <li><a href=""><span class="icon-envelope"></span> Email notifications</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
-                                </ul>
+                                  <ul class="nav navbar-nav">
+                                    <% if get_cur_user %>
+                                     <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                           <%= get_cur_user %>
+                                           <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                           <li><a href="/log/out"><span class="icon-signout"></span> Logout</a></li>
+                                        </ul>
+                                     </li>
+                                     <% else %>
+                                     <li><a href="/log/in">Login</a></li>
+                                     <% end %>
+                                  </ul>
                             </div>
-                        </div>
                     </nav>
                 </div>
             </div>
@@ -128,7 +136,7 @@
                                         </li>
                                         <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_master">lp5.0_master</a>
                                         </li>
-                                        <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_k314_alpha1">k314_alpha1</a>
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=kk4.4_k314_alpha1">k314_alpha1</a>
                                         </li>
                                         <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_k314_alpha2">k314_alpha2</a>
                                         </li>
@@ -136,6 +144,7 @@
                                 </li>
                             </ul>
                           </li>
+                        <li><a class="wuxify-me" href="/thermal/index"><span class="icon-align-left"></span>Thermal</a></li>
                         <li><a class="wuxify-me" href="/ondemand/index"><span class="icon-random"></span>Ondemand</a></li>
                         <li><a class="wuxify-me" href="/compare/index"><span class="icon-align-left"></span>Compare</a></li>
                         <li><a class="wuxify-me" href="/query/index"><span class="icon-calendar"></span>Query</a></li>

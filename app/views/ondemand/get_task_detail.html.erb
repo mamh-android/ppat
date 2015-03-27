@@ -1,8 +1,9 @@
 <% @scenarios = get_task_scenarios(@task_id) %>
+<h2><%= @purpose %></h2>
 <% @scenarios.each do |scenario| %>
 	<article class="span6">
 		<!-- table of task list -->
-		<h2><%= get_scenario_name(scenario.power_scenario_id) %></h2>
+		<h3><%= get_scenario_name(scenario.power_scenario_id) %></h3>
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>

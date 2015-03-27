@@ -1,41 +1,61 @@
 <div class="tab-content">
 	<div class="tab-pane">
-                	<div id="chart_container_battery" style="min-width: 70%; height: 600px; margin: 0 auto">
-                	</div>
-                	<div id="chart_container_vcc_main" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
-                	</div>
-                	<div id="chart_container_thermal" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
-                	</div>
              </div>
 </div>
 
+                	<div id="chart_container_thermal" style="min-width: 70%; height: 600px; margin: 0 auto;display:block;">
+                	</div>
+                	<div id="chart_container_battery" style="min-width: 70%; height: 600px; margin: 0 auto;display:none;">
+                	</div>
 <!-- Scripts -->
 <script language="JavaScript">
 $(function () {
+	show_thermal();
+	//show_battery();
+})
+function show_battery(){
 	//battery chart
 	chart = new Highcharts.Chart({
 	            chart: {
-	                	renderTo: 'chart_container_thermal',
-            			zoomType: 'xy'
+	                	renderTo: 'chart_container_battery'
 	            },
 	            title: {
-	                text: 'Thermal'
+	                text: 'Battery'
 	            },
 	            subtitle: {
 	                text: null
 	            },
+	            xAxis: {
+	                type: "datetime",
+	                tickInterval: 24*3600*1000, // one day
+	                tickColor:"#ff0000",
+	                dateTimeLabelFormats:{
+	                    day: '%m/%e'
+	                }
+	            },
 	            yAxis: {
 	                title: {
-	                    text: 'Temperature'
+	                    text: 'Power'
 	                },
 	                labels: {
 	                    formatter: function() {
-	                        return {value}°C
+	                        return this.value + 'mA'
 	                    }
 	                }
 	            },
 	            tooltip: {
-	                shared: true
+	                useHTML: true,
+	                formatter: function() {
+	                    var hour=Highcharts.dateFormat('%H', this.x);
+	                    hour /= 10;
+	                    return '<b>'+ this.series.name +
+	                            '</b><br/>'+
+	                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+	                            ' _ ('+hour + ')'+
+	                            '<br/><b>'+
+	                            this.y +'°C' +
+	                            '</b>';
+	                }
 	            },
 	            plotOptions: {
 	                series: {
@@ -43,7 +63,7 @@ $(function () {
 	                    point: {
 	                        events: {
 	                            click: function() {
-	                            	show_temp_detail(this.series.name, this.y);
+	                            	show_temp_detail(this.series.name, Highcharts.dateFormat('%Y-%m-%d', this.x), this.y);
 	                            }
 	                        }
 	                    },
@@ -53,48 +73,138 @@ $(function () {
 	                }
 	            },
 	            series: [
-	            <% @scenarios.each do |scenario| %>
-	            <% if scenario.category == @categorys[0].category %>
-	            {
-	                <% @imagedatehour=0 %>
-	                <% @imagedate=0 %>
-	                name: '<%= scenario.name %>',
-	                data:[<% @image_dates.each do |image| %>
-	                        <% if scenario.id == image.power_scenario_id %>
-	                            {
-	                                            //如果日期相等
-	                                            <% if @imagedate == image.image_date %>
-	                                                <% @imagedatehour += 10 %>
-	                                                //判断是否超过24小时
-	                                                <% if @imagedatehour>=24 %>
-	                                                    <% @imagedatehour=23 %>
-	                                                <% end %>
-	                                            <% else %>
-	                                                <% @imagedatehour = 0 %>
-	                                            <% end %>
-	                                            <% @imagedate = image.image_date %>
-
-	                                            x: Date.UTC("<%= get_year(image.image_date) %>",
-	                                                       "<%= get_month(image.image_date) %>",
-	                                                       "<%= get_day(image.image_date) %>",
-	                                                       "<%= @imagedatehour %>" ),
-	                                            y: <%= get_power(image.battery) %>,
-	                                            marker: {
-	                                            <% if image.varified == "P" %>
-	                                                fillColor: '#6dc22c'
-	                                            <% else if image.varified == "F" %>
-	                                                fillColor: '#ff0000'
-	                                            <% end %>
-	                        <% end %>
-	                                            }
-	                            },
-	                        <% end %>
-	                                <% end %>
-	                ]//end data
-	            },
-	            <% end %>
+	            <% @thermal_scenarios.each do |scenario| %>
+		{
+			name: '<%= scenario.name %>',
+		            	data: [
+	            		<% @thermal.each do |record| %>
+	            		<% if record.name == scenario.name %>
+		              	<% @imagedatehour=0 %>
+		                	<% @imagedate=0 %>
+		            		{
+					//如果日期相等
+                                            		<% if @imagedate == record.image_date %>
+                                                			<% @imagedatehour += 10 %>
+                                                			//判断是否超过24小时
+                                                			<% if @imagedatehour>=24 %>
+                                                    				<% @imagedatehour=23 %>
+                                                			<% end %>
+                                            		<% else %>
+                                                			<% @imagedatehour = 0 %>
+                                            		<% end %>
+		            			x: Date.UTC("<%= get_year(record.image_date) %>",
+                                                       			"<%= get_month(record.image_date) %>",
+                                                       			"<%= get_day(record.image_date) %>",
+                                                       			"<%= @imagedatehour %>" ),
+                                            		y: <%= record.battery %>,
+		            		},
+		            	<% end %>
+	            		<% end %>]
+		        },
 	            <% end %>
 	            ]//end series
 	    });
-})
+}
+
+function show_thermal(){
+	//battery chart
+	chart = new Highcharts.Chart({
+	            chart: {
+	                	renderTo: 'chart_container_thermal'
+	            },
+	            title: {
+	                text: 'Thermal'
+	            },
+	            subtitle: {
+	                text: null
+	            },
+	            xAxis: {
+	                type: "datetime",
+	                tickInterval: 24*3600*1000, // one day
+	                tickColor:"#ff0000",
+	                dateTimeLabelFormats:{
+	                    day: '%m/%e'
+	                }
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Temperature'
+	                },
+	                labels: {
+	                    formatter: function() {
+	                        return this.value + '°C'
+	                    }
+	                }
+	            },
+	            tooltip: {
+	                useHTML: true,
+	                formatter: function() {
+	                    var hour=Highcharts.dateFormat('%H', this.x);
+	                    hour /= 10;
+	                    return '<b>'+ this.series.name +
+	                            '</b><br/>'+
+	                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+	                            ' _ ('+hour + ')'+
+	                            '<br/><b>'+
+	                            this.y +'°C' +
+	                            '</b>';
+	                }
+	            },
+	            plotOptions: {
+	                series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function() {
+	                            	show_temp_detail(this.series.name, Highcharts.dateFormat('%Y-%m-%d', this.x), this.y);
+	                            }
+	                        }
+	                    },
+	                    marker: {
+	                        lineWidth: 1
+	                    }
+	                }
+	            },
+	            series: [
+	            <% @thermal_scenarios.each do |scenario| %>
+		{
+			name: '<%= scenario.name %>',
+		            	data: [
+	            		<% @thermal.each do |record| %>
+	            		<% if record.name == scenario.name %>
+		              	<% @imagedatehour=0 %>
+		                	<% @imagedate=0 %>
+		            		{
+                                            		<% if @imagedate == record.image_date %>
+                                                			<% @imagedatehour += 10 %>
+                                                			<% if @imagedatehour>=24 %>
+                                                    				<% @imagedatehour=23 %>
+                                                			<% end %>
+                                            		<% else %>
+                                                			<% @imagedatehour = 0 %>
+                                            		<% end %>
+		            			x: Date.UTC("<%= get_year(record.image_date) %>",
+                                                       			"<%= get_month(record.image_date) %>",
+                                                       			"<%= get_day(record.image_date) %>",
+                                                       			"<%= @imagedatehour %>" ),
+                                            		y: <%= record.max_temp %>,
+		            		},
+		            	<% end %>
+	            		<% end %>]
+		        },
+	            <% end %>
+	            ]//end series
+	    });
+}
+function show_temp_detail(scenario, x_axis, y_axis){
+	var task_url = "query?scenario=" + scenario + "&temp=" +y_axis + "&image_date=" + x_axis;
+	    $.ajax({
+	        type: "GET",
+	        url: task_url,
+	        success: function(msg){
+	            $("footer").css("display","block");
+	            $("#dc_info").append(msg);
+	        }
+	    });
+}
 </script>

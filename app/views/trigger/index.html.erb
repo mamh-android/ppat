@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="inline" for="input" style="width:100px;">Device</label>
+                        <label class="inline" for="input" style="width:100px;">Device:</label>
                         <select name="Device" onchange="choose_test()" class="form-control">
                             <option value="device">device</option>
                             <option value="pxa1908dkb_tz:pxa1908dkb">pxa1908dkb_tz</option>
@@ -41,7 +41,7 @@
                         <%= render :partial => 'blf' %>
                     </div>
                     <div class="control-group">
-                        <label class="inline" for="input" style="width:100px;">Choose Test</label>
+                        <label class="inline" for="input" style="width:100px;">Choose Test:</label>
                         <select name="TestType" onchange="choose_test()" class="form-control">
                             <option>PowerScenario</option>
                             <option>Round PP Tuning</option>
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="control-group" id="roundcmd">
-                        <label for="input">Please click "Add cmds for PPAT test" if you need input commmands</label>
+                        <label for="input">Please click "<code>Add cmds for PPAT test</code>" if you need input commmands</label></br>
                         <button class="btn btn-primary btn-wuxia" onclick="add_cmd(this)">Add cmds for PPAT test</button>
                     </div>
 		    <br/>

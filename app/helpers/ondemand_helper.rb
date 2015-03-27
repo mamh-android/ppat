@@ -13,6 +13,11 @@ module OndemandHelper
         PowerScenario.where(id: scenario_id).last.name
     end
 
+    def get_scenario_error_rate(scenario_id)
+        #PowerScenario.find(:all, :conditions => ['id = ?', scenario_id]).last.name
+        PowerScenario.where(id: scenario_id).last.error_rate
+    end
+
     def get_scenario_name_category(name)
         PowerScenario.where(name:name).last.category
     end

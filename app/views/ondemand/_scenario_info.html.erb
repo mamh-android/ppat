@@ -36,11 +36,12 @@ function show_dc(id){
 <% @last_task = get_last_task_info() %>
 <% if @last_task.nil? %>
 <% else %>
+<h2><%= @last_task.purpose %></h2>
 	<% @scenarios = get_task_scenarios(@last_task.task_id) %>
 	<% @scenarios.each do |scenario| %>
 		<article class="span6">
 			<!-- table of task list -->
-			<h2><%= get_scenario_name(scenario.power_scenario_id) %></h2>
+			<h3><%= get_scenario_name(scenario.power_scenario_id) %></h3>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>

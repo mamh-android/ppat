@@ -6,7 +6,7 @@
             <article class="span6">
                 <div class='full-calendar '></div>
                  <h3>
-                    <span class="icon-hand-right"></span>&nbsp;Smoke test result
+                    <span class="icon-hand-right"></span>&nbsp;Smoke Test Detail
                 </h3>
                 <div id="accordion1" class="accordion">
                     <div class="accordion-group">
@@ -26,7 +26,7 @@
                                <div class="modal fade hide" id="demoModal" style="display: none;">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">×</button>
-                                        <h5>Smoketest detail</h5>
+                                        <h5>Smoke Test Detail</h5>
                                     </div>
                                     <div class="modal-body">
                                        <div id ="smoke_detailed"></div>
@@ -49,7 +49,7 @@
                         <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
                             <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988','pxa1908','pxa1908FF',]%>
                             <%snplatform_list.each do |snplatform_list|%>
-                                <option value="<%=snplatform_list%>"><%=snplatform_list%></option>
+                                <option value="<%=snplatform_list %>"><%=snplatform_list.upcase %></option>
                             <% end %>
                         </select>
                     </span>
@@ -74,21 +74,6 @@
         </div>
     </div>
 </div>
-</div>
-<div  class="page-container">
-    <ul class="nav nav-tabs" id="myTab" onclick="update_scenario_code()">
-    <%@scenariosplatformbranch=get_all_platformbranch() %>
-        <% @scenariosplatformbranch.each do |scenariosp| %>
-        <li><a href="#container_<%=scenariosp.platform%>"><%=scenariosp.platform%></a></li>
-        <%end%>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="container_pxa1936" style="height: 400px; margin: 0 auto"></div>
-        <%@scenariosplatformbranch=get_all_platformbranch() %>
-            <% @scenariosplatformbranch.each do |scenariosp| %>
-                <div class="tab-pane" id="container_<%=scenariosp.platform%>" style="height: 400px; margin: 0 auto"></div>
-            <%end%>
-    </div>
 </div>
 <script>
     $(document).ready(function() {
@@ -261,7 +246,7 @@ function submit_smoke(image_date){
             [
                 <%@scenariosbranch = get_all_branch(scenariosp) %>
                 <% @scenariosbranch.each do |scenariosb| %>
-                                "<%=scenariosb.branch%>",
+                                "<%=scenariosb.branch.upcase%>",
                    <% end %>
             ],
             <% end %>
@@ -271,7 +256,7 @@ function submit_smoke(image_date){
             [
                 <%@scenariosdevice = get_all_device(scenariosp) %>
                 <% @scenariosdevice.each do |scenariosdevice| %>
-                                "<%=scenariosdevice.device%>",
+                                "<%=scenariosdevice.device.upcase%>",
                    <% end %>
             ],
             <% end %>

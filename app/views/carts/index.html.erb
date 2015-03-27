@@ -1,5 +1,3 @@
-<% @all_purposes = get_distinct_purposes() %>
-<% @all_categories = get_distinct_scenario_categories() %>
 <table class="table table-bordered table-striped" id="cart_list">
     <thead>
         <tr>
@@ -10,10 +8,11 @@
     </thead>
     <tbody>
     <% @cart.record_list.each do |record| %>
+    <% record_info = get_record_info(record.power_record.id) %>
         <tr id="<%= record.power_record.id %>">
-            <td><%= get_record_info(record.power_record.id).battery %></td>
-            <td><%= get_record_info(record.power_record.id).vcc_main %></td>
-            <td><%= get_record_info(record.power_record.id).fps %></td>
+            <td><%= record_info.battery %></td>
+            <td><%= record_info.vcc_main %></td>
+            <td><%= record_info.fps %></td>
             <td onclick="remove_from_cart(this, '<%= record.id %>')"><span class="icon-remove"></span></td>
         </tr>
         <% end %>

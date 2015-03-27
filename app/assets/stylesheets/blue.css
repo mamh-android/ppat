@@ -389,7 +389,7 @@ h1 small {
   font-size: 18px;
 }
 h2 {
-  font-size: 15px;
+  font-size: 24px;
   line-height: 36px;
 }
 h2 small {
@@ -636,7 +636,6 @@ textarea {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 label {
-  display: block;
   margin-bottom: 5px;
 }
 select,
@@ -657,8 +656,7 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 18px;
-  padding: 4px;
+  height: 30px;
   margin-bottom: 9px;
   font-size: 13px;
   line-height: 18px;
@@ -1241,7 +1239,6 @@ legend + .control-group {
   clear: both;
 }
 .form-horizontal .control-label {
-  float: left;
   width: 140px;
   padding-top: 5px;
   text-align: right;
@@ -10436,7 +10433,6 @@ div.wysiwyg ul.toolbar li {
 .datepicker {
   top: 0;
   left: 0;
-  padding: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -10915,7 +10911,7 @@ div.wysiwyg ul.toolbar li {
   }
   .content .page-container .row .span2,
   .content .page-container .thumbnails .span2 {
-    width: 168px;
+    width: 130px;
   }
   .content .page-container .row .span1,
   .content .page-container .thumbnails .span1 {

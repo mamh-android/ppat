@@ -10,24 +10,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS styles -->
     <%= stylesheet_link_tag    "blue" %>
-    <%= stylesheet_link_tag    "jquery-ui"%>
+    <%= stylesheet_link_tag    "ppat"%>
+    <%= stylesheet_link_tag    "daily"%>
+    <%= stylesheet_link_tag    "home"%>
+    <%= stylesheet_link_tag    "mbExtruder"%>
     <!-- jQuery FullCalendar Styles -->
     <%= stylesheet_link_tag    "plugins/jquery.fullcalendar" %>
-    <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="img/icons/favicon.ico" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icons/apple-touch-icon-114-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icons/apple-touch-icon-72-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" href="img/icons/apple-touch-icon-57-precomposed.png" />
+    <%= stylesheet_link_tag    "plugins/jquery.plupload.queue"%>
+    <%= stylesheet_link_tag    "plugins/jquery.ui.plupload"%>
 
     <!-- JS Libs -->
     <%= javascript_include_tag "application" %>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script>
+        $(document).ready(function(){
+
+            // Navbar tooltips
+            $('.navbar [title]').tooltip({
+                placement: 'bottom'
+            });
+
+            // Content tooltips
+            $('[role=main] [title]').tooltip({
+                placement: 'top'
+            });
+
+            // Dropdowns
+            $('.dropdown-toggle').dropdown();
+
+        });
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 </head>
-<body >
+<body>
+
+
         <!-- Main navigation bar -->
         <header class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div class="container" >
+                <div class="container">
                     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".user">
                         <span class="icon-user"></span>
                     </button>
@@ -84,9 +105,54 @@
                 </div>
             </div>
         </header>
-
         <!-- /Main navigation bar -->
         <div class="container" role="main">
+
+            <!-- Secondary navigation -->
+            <div class="nav-secondary">
+                <nav>
+                    <ul>
+                        <li role="presentation" class="dropdown wuxify-me">
+                            <a class="dropdown-toggle wuxify-me" data-toggle="dropdown" href="#" aria-expanded="false">
+                              <span class="icon-calendar"></span>Power<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown-submenu"> <a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master">HELAN3</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_master">lp5.0</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_k314_alpha1">k314_alpha1</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_k314_alpha2">k314_alpha2</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1936dkb&branch=lp5.0_k314_beta1">k314_beta1</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu"> <a href="/daily/index?device=pxa1908dkb&branch=lp5.0_master">ULC1</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=kk4.4_master">kk4.4_master</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_master">lp5.0_master</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_k314_alpha1">k314_alpha1</a>
+                                        </li>
+                                        <li><a href="/daily/index?device=pxa1908dkb&branch=lp5.0_k314_alpha2">k314_alpha2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                          </li>
+                        <li><a class="wuxify-me" href="/thermal/index"><span class="icon-align-left"></span>Thermal</a></li>
+                        <li><a class="wuxify-me" href="/ondemand/index"><span class="icon-random"></span>Ondemand</a></li>
+                        <li><a class="wuxify-me" href="/compare/index"><span class="icon-align-left"></span>Compare</a></li>
+                        <li><a class="wuxify-me" href="/query/index"><span class="icon-calendar"></span>Query</a></li>
+                        <li><a class="wuxify-me" href="/trigger/index"><span class="icon-th"></span>Trigger</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- /Secondary navigation -->
             <div class="content">
             <%= yield %>
             </div>

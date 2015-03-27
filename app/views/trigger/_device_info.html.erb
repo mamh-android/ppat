@@ -1,5 +1,5 @@
 <% if !@device_with_module.nil? %>
-	<label class="inline" for="optionsCheckbox">Choose Board HW Module:</label>
+	<label class="inline" for="optionsCheckbox" style="width:100px;">Choose Board HW Module:</label>
 	<% @devices.keys.each do |device| %>
 		<% @device_with_module.each do |dev| %>
 			<% if dev == device %>

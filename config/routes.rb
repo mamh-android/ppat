@@ -48,6 +48,7 @@ get "tools/xref"
 get "tools/oldppat"
 get "tools/smoketest"
 get "thermal/index"
+get "thermal/query"
 
 
 

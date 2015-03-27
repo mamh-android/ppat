@@ -7,64 +7,45 @@
     <!-- Tab #basic -->
     <div class="tab-pane active">
         <!-- Grid row-->
-            <div class="row">
-                    <div class="control-group">
-                        <span>Select Daily</span>
-                            <select NAME="Platform" onChange="getBranch()" >
-                                <option VALUE="pxa1908">pxa1908</option>
-                                <option VALUE="pxa1928">pxa1928</option>
-                                <option VALUE="pxa1936">pxa1936</option>
-                                <option VALUE="pxa1U88">pxa1U88</option>
-                            </select>
+            <div class="row" id="daily">
+
+                <article class="span2">
+                    <span style="font-size:14px;font-weight:bold;line-height:34px;">Select Daily</span>
+                </article>
+
+                <article class="span2">
+                    <select NAME="Platform" onChange="getBranch()" class="form-control">
+                        <option VALUE="pxa1908">pxa1908</option>
+                        <option VALUE="pxa1928">pxa1928</option>
+                        <option VALUE="pxa1936">pxa1936</option>
+                        <option VALUE="pxa1U88">pxa1U88</option>
+                    </select>
+                </article>
+                <article class="span2">
+                    <select NAME="Device" class="form-control">
+                        <option VALUE="pxa1908dkb">pxa1908dkb</option>
+                        <option VALUE="pxa1928dkb">pxa1928dkb</option>
+                        <option VALUE="pxa1936dkb">pxa1936dkb</option>
+                    </select>
+                </article>
+                <article class="span2">
+                    <select NAME="Branch" class="form-control">
+                        <option VALUE="kk4.4_master">kk4.4_master</option>
+                        <option VALUE="kk4.4_beta2">kk4.4_beta2</option>
+                        <option VALUE="lp5.0_master">lp5.0_master</option>
+                    </select>
+                </article>
+                <article class="span2">
+                    <div style="background-color:#FFFFFF;display:inline;" onload="showLeftTime()" >
+                        <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
                     </div>
-                <%= form_tag("#", method: "post", remote: true, value: "form_authenticity_token") do %>
-                    <ul>
-                        <fieldset>
-                        <li>
-                                <h4>></h4>
-                        </li>
-                        <li>
-                            <select NAME="Platform" onChange="getBranch()" >
-                                <option VALUE="pxa1908">pxa1908</option>
-                                <option VALUE="pxa1928">pxa1928</option>
-                                <option VALUE="pxa1936">pxa1936</option>
-                                <option VALUE="pxa1U88">pxa1U88</option>
-                            </select>
-                        </li>
-                        <li>
-                            <select NAME="Device">
-                                <option VALUE="pxa1908dkb">pxa1908dkb</option>
-                                <option VALUE="pxa1928dkb">pxa1928dkb</option>
-                                <option VALUE="pxa1936dkb">pxa1936dkb</option>
-                            </select>
-                        </li>
-                        <li>
-                            <select NAME="Branch">
-                                <option VALUE="kk4.4_master">kk4.4_master</option>
-                                <option VALUE="kk4.4_beta2">kk4.4_beta2</option>
-                                <option VALUE="lp5.0_master">lp5.0_master</option>
-                            </select>
-                        </li>
-                        <li>
-                            <div style="background-color:#FFFFFF">
-                                <div class="controls">
-                                    <div class="input-append" onload="showLeftTime()" >
-                                        <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
-                                        <span class="add-on"><i class="icon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-wuxia">
-                        </li>
-                        </fieldset>
-                    </ul>
-                <% end %>
+                </article>
+                <article class="span2">
+                        <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-wuxia"/>
+                </article>
             </div>
         <!--Grid row-->
             <div  class="row">
-                <h4>Select Ondemand</h4>
                 <article class="span12" id="task">
                     <%= render :template => "/ondemand/_task_info" %>
                 </article>
@@ -76,7 +57,19 @@
 <!--top-->
 </div>
 <!--mian-->
+<div style="display: block;" class="floor_left_box">
+    <a id="top" title="Back To Top"></a>
+    <a id="bottom" title="Back To Top"></a>
+</div>
 <script>
+$(function() {
+$("#top").click(function(){
+        $("html,body").animate({scrollTop: 0}, 500);
+    });
+$("#bottom").click(function(){
+        $('html, body').animate({scrollTop: $("#daily").offset().top}, 500);
+    });
+})
 $(document).ready(function() {
     $('.datepicker').datepicker('setValue', new Date());
 });

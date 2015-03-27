@@ -1,8 +1,9 @@
 class LogController < ApplicationController
+    skip_before_filter :verify_authenticity_token
     def in
         session[:return_to] ||= request.referer
         if request.post?
-            username = params[:user][:name]
+            username = params[:username]
             password = params[:pwd]
             @result = varify_user_login(username, password)
             if @result == "OK"

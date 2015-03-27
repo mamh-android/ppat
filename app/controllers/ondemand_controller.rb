@@ -7,8 +7,9 @@ class OndemandController < ApplicationController
     end
 
     def get_task_detail
-    	@task_id = params[:task_id]
-    	render :layout=>"empty"
+            @task_id = params[:task_id]
+            @purpose = TaskInfo.where(task_id: @task_id).last.purpose
+            render :layout=>"empty"
     end
 
     def get_dc

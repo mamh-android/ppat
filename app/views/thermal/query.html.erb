@@ -1,0 +1,161 @@
+<article class="span7">
+	<pre class="html ui-resizable" id="<%= @thermal_record.id %>" ondblclick="remove(<%= @thermal_record.id %>)">
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.image_date %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.device %>,<%= @thermal_record.branch %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.name %></h5>
+		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><a href="<%= @thermal_record.log_link %>" target="_blank">LINK</a></h5>
+		<div id="chart_container_thermal_temp_<%= @thermal_record.id %>"></div>
+		<div id="chart_container_thermal_freq_<%= @thermal_record.id %>"></div>
+	</pre>
+</article>
+
+<script language="JavaScript">
+$(function () {
+	//battery chart
+	chart = new Highcharts.Chart({
+	            chart: {
+	                	renderTo: 'chart_container_thermal_temp_<%= @thermal_record.id %>',
+            			type: 'spline'
+	            },
+	            title: {
+	                text: 'Temperature'
+	            },
+	            subtitle: {
+	                text: null
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Temperature'
+	                },
+	                labels: {
+	                    formatter: function() {
+	                        return this.value + '°C'
+	                    }
+	                }
+	            },
+	            tooltip: {
+	                shared: true,
+	                crosshairs: true,
+	            },
+	            plotOptions: {
+		            spline: {
+		                lineWidth: 2,
+		                states: {
+		                    hover: {
+		                        lineWidth: 5
+		                    }
+		                },
+		                marker: {
+		                    enabled: false
+		                }
+		            },
+	                series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function() {
+	                            	show_temp_detail(this.series.name, Highcharts.dateFormat('%Y-%m-%d', this.x), this.y);
+	                            }
+	                        }
+	                    },
+	                    marker: {
+	                        lineWidth: 1
+	                    }
+	                }
+	            },
+	            series: [
+	            <% @temp.each do |record| %>
+		            {
+		            name: '<%= record.y_axis_name %>',
+		            data:
+		            <%= record.y_axis_val %>
+		        },
+
+	            <% end %>
+	            ]//end series
+	    });
+
+
+	chart = new Highcharts.Chart({
+	            chart: {
+	                	renderTo: 'chart_container_thermal_freq_<%= @thermal_record.id %>',
+            type: 'spline'
+	            },
+	            title: {
+	                text: 'Component Info'
+	            },
+	            subtitle: {
+	                text: null
+	            },
+	            yAxis: [{ // Primary yAxis
+	            labels: {
+	                format: '{value}MHz',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            },
+	            title: {
+	                text: 'Frequency',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            }
+	        }, { // Secondary yAxis
+	            title: {
+	                text: 'Core Num',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
+	            },
+	            labels: {
+	                format: '{value}',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
+	            },
+	            opposite: true
+	        }],
+	            tooltip: {
+	                shared: true,
+	                crosshairs: true,
+	            },
+	            plotOptions: {
+		            spline: {
+		                lineWidth: 2,
+		                states: {
+		                    hover: {
+		                        lineWidth: 5
+		                    }
+		                },
+		                marker: {
+		                    enabled: false
+		                }
+		            },
+	                series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function() {
+	                            	show_temp_detail(this.series.name, Highcharts.dateFormat('%Y-%m-%d', this.x), this.y);
+	                            }
+	                        }
+	                    },
+	                    marker: {
+	                        lineWidth: 1
+	                    }
+	                }
+	            },
+	            series: [
+	            <% @freq.each do |record| %>
+		            {
+		            name: '<%= record.y_axis_name %>',
+            		            yAxis: <%= record.y_axis_idx %>,
+		            data:
+		            <%= record.y_axis_val %>
+		        },
+
+	            <% end %>
+	            ]//end series
+	    });
+})
+</script>
