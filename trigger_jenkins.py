@@ -28,8 +28,10 @@ def main():
 
     printcolor("options:\n%s" % options)
 
-    osversion="lp5.0"
-    if "lp5.0" in imagepath:
+    osversion="lp5.1"
+    if "lp5.1" in imagepath:
+        osversion="lp5.1"
+    elif "lp5.0" in imagepath:
         osversion="lp5.0"
     elif "kk4.4" in imagepath:
         osversion="kk4.4"
