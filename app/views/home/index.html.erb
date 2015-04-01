@@ -47,7 +47,7 @@
                     <span>
                         Platform
                         <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
-                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1088','pxa988','pxa1908','pxa1908FF',]%>
+                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1920','pxa988','pxa1908','pxa1908FF',]%>
                             <%snplatform_list.each do |snplatform_list|%>
                                 <option value="<%=snplatform_list %>"><%=snplatform_list.upcase %></option>
                             <% end %>
@@ -75,6 +75,7 @@
     </div>
 </div>
 </div>
+<div id ="build_image" style="display:none;"></div>
 <script>
     $(document).ready(function() {
         getBranch();
@@ -110,7 +111,6 @@
                 update_calendar();
                 show_smoketest_calendar();
                 update_scenario_code();
-
     });
 </script>
 <script language="JavaScript" type="text/javascript">
@@ -118,11 +118,9 @@ function update_scenario_by_task(image_date){
             var imgid = new Image();
             imgid.src ="../images/icons/loading_blue.gif";
             $("#task_scenario").html(imgid);
-                branch=$("#Branch").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
+                branch=$("#Branch").val().toLowerCase();
+                platform=$("#Platform").val().toLowerCase();
+                device = $("#Device").val().toLowerCase();
                 branch = branch.replace(/(^\s*)|(\s*$)/g,"");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
@@ -166,12 +164,11 @@ function update_calendar(){
                 branch=$("#Branch").val();
                 platform=$("#Platform").val();
                 device = $("#Device").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
                 show_smoketest = $("#show_smoketest").text();
                 branch = branch.replace(/(^\s*)|(\s*$)/g,"");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
+
     $.ajax({
         type: "GET",
         url: 'update_calendar?platform='+platform+'&branch='+branch+'&device='+device+'&show_smoketest='+show_smoketest,
@@ -185,13 +182,14 @@ function show_issue_detail(image_date){
             var imgid = new Image();
             imgid.src ="../images/icons/loading_blue.gif";
             $("#smoketest_result").html(imgid);
-                branch=$("#Branch").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
+                branch=$("#Branch").val().toUpperCase();
+                platform=$("#Platform").val().toUpperCase();
+                device = $("#Device").val().toUpperCase();
                 branch = branch.replace(/[\ |\_|\.]/g,"");
-                branch = branch.replace("master","");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/[\ |\_|\.]/g,"");
+                branch = branch.replace("MASTER","");
+                platform= platform.replace("FF","");
     $.ajax({
         type: "POST",
         url:'http://10.38.116.60/smoketest/php/searchstateresult.php',
@@ -204,16 +202,16 @@ function show_issue_detail(image_date){
 }
 
 function show_smoketest_calendar(){
-                branch=$("#Branch").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
-                branch = branch.replace(/[\ |\_|\.]/g,"");
-                branch = branch.replace("master","");
-                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+            var branch=$("#Branch").val().toUpperCase();
+            var platform=$("#Platform").val().toUpperCase();
+            var  device = $("#Device").val().toUpperCase();
+            branch = branch.replace(/[\ |\_|\.]/g,"");
+            platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+            branch = branch.replace("MASTER","");
+            platform= platform.replace("FF","");
     $.ajax({
-        type: "POST",
-        url:'http://10.38.116.60/smoketest/php/searchstateresult.php',
-        data:{platform:platform, branch:branch,mode:2},
+        type: "GET",
+        url:"http://10.38.116.60/smoketest/php/searchstateresult.php?platform="+platform+"&branch="+branch+"&prodoct="+device+"&mode=2",
         success: function(data){
             $("#show_smoketest").html("");
             $("#show_smoketest").html(data);//data就是请求页面的内容....
@@ -223,14 +221,15 @@ function show_smoketest_calendar(){
 
 }
 function submit_smoke(image_date){
-                branch=$("#Branch").val();
-                platform=$("#Platform").val();
-                device = $("#Device").val();
+                branch=$("#Branch").val().toUpperCase();
+                platform=$("#Platform").val().toUpperCase();
+                device = $("#Device").val().toUpperCase();
                 var image_date = $("#sub_date").text();
                 branch = branch.replace(/[\ |\_|\.]/g,"");
-                branch = branch.replace("master","");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/[\ |\_|\.]/g,"");
+                branch = branch.replace("MASTER","");
+                platform= platform.replace("FF","");
     $.ajax({
         type: "GET",
         url: "http://10.38.116.60/smoketest/php/searchstateresult.php?reportdate="+image_date+"&platform="+platform+"&branch="+branch+"&prodoct="+device,
@@ -276,16 +275,33 @@ function submit_smoke(image_date){
             sltDevice[i]=new Option(PlatformDevice[i],PlatformDevice[i]);
             }
         }
-    </script>
-    <script type="text/javascript">
         function openstr() {
             var branch=$("#Branch").val();
             var platform=$("#Platform").val();
             var device = $("#Device").val();
             var image_date= $("#sub_date").text();
+            var build_much=0;
+            var buid_images = new Array ();
+            var buid_iamge_list = $("#build_image").text().replace(/&quot;|\[|\]/g,"");
+            buid_images = buid_iamge_list.split(",");
             branch=branch.replace(/(^\s*)|(\s*$)/g,"");
-            branch = branch.replace("_master","");
             platform = platform.replace(/(^\s*)|(\s*$)/g,"");
-            window.open("http://10.38.116.40/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+            branch = branch.replace("_MASTER","");
+            platform = platform.replace("FF","");
+            platform = platform.replace("ff","");
+            if(platform=="pxa1908"&&branch=="LP5.0"){
+                platform="pxa1936";
+            }
+            var url="http://10.38.116.40/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch;
+            for(var i=0;i<buid_images.length;i++){
+                if(image_date==buid_images[i].replace(/(^\s*)|(\s*$)/g,"")){
+                    build_much=build_much+1;
+                }
+            }
+                if(build_much>0){
+                    window.open(url,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+                }else{
+                    window.open("http://10.38.116.40/autobuild/android/"+platform,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+                }
         }
-        </script>
+    </script>

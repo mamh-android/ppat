@@ -1,5 +1,5 @@
-update_scenario_by_task("");
-show_smoketest_calendar();
+
+<%ffff=[]%>
 $('.full-calendar').html("");
 var date = new Date();
 var d = date.getDate();
@@ -71,8 +71,7 @@ $('.full-calendar').fullCalendar({
     businessHours: true, // display business hours
     editable: false,
     eventClick: function(calEvent) {
-        var startdate = calEvent.start;    <%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
-
+        var startdate = calEvent.start;
          var today_event ="";
         today_event+=startdate.getFullYear()+"-";
         if((startdate.getMonth()+1)<10){
@@ -93,10 +92,10 @@ $('.full-calendar').fullCalendar({
         $("#sub_date").append(today_event);
     },
     events: [
-    <%@scenariosplatform = get_all_data(@platform,@branch,@device) %>
+    <%@scenariosplatform = get_all_data(@branch,@device) %>
     <% @scenariosplatform.each do |scenariosp| %>
         {
-            title: 'power',
+            title: 'Power',
             overlap: false,
             start:"<%=scenariosp.image_date%>",
             end:"<%=scenariosp.image_date%>",
@@ -106,16 +105,44 @@ $('.full-calendar').fullCalendar({
    <% i = 0 %>
    <%  while i<300 do  %>
         {
-                title: 'smoke',
+                title: 'Smoke',
                 start:smoke_date[<%=i%>],
                 end:smoke_date[<%=i%>],
                 color:'green'
         },
     <% i = i+1 %>
     <% end %>
+    <%platforms=@platform%>
+    <%platforms.gsub!(/FF/,'')%>
+    <%platforms.gsub!(/ff/,'')%>
+    <%branchs=@branch%>
+    <%branchs.downcase!%>
+    <%branchs.gsub!(/_master/,'')%>
+    <%require 'net/ftp' %>
+    <% Net::FTP.open('10.38.32.174') do |ftp| %>
+        <% ftp.login %>
+        <%@files = ftp.chdir('autobuild/android/')%>
+        <%@files = ftp.list(platforms)%>
+        <%@files.uniq.each do |f|%>
+            <%if f.split('-').last.gsub(/\s+/,'') == @branch%>
+                <%ffff<<f[55,11].gsub(/\s+/,'')%>
+            <%end%>
+        <%end%>
+    <%end%>
+        <%ffff.uniq.each do |date_file|%>
+            <%if date_file=='LAST_BUILD' || date_file=='test_bin_p'%>
+                <%break%>
+            <%else%>
+            {
+                title: 'DailyBuild',
+                start:"<%=date_file%>",
+                end:"<%=date_file%>",
+                color:'#EAAEEA'
+            },
+          <%end%>
+        <%end%>
        {
        }
     ]
 });
-update_scenario_by_task(todays_smoketest);
-update_scenario_code();
+$("#build_image").text("<%=ffff%>");

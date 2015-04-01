@@ -4,16 +4,16 @@ module HomeHelper
     PowerRecord.where(['task_id = ?', task_id]).select("distinct power_scenario_id")
     end
 
-    def get_scenario_name(scenario_id)
+    def get_scenario_nameget_scenario_error_rate(scenario_id)
     PowerScenario.where(id: scenario_id).order("id").last
     end
 
-    def home_get_all_scenarios_info(image_date,platform,branch,device)
-        PowerRecord.where(['image_date = ? and platform = ? and branch = ? and device = ?', image_date, platform,branch,device])
+    def home_get_all_scenarios_info(image_date,branch,device)
+        PowerRecord.where(['image_date = ? and branch = ? and device = ?', image_date,branch,device])
     end
 
-    def home_get_latest_image_date(image_date, platform, branch,device)
-            PowerRecord.where(['image_date < ?  and platform = ? and branch = ?  and device = ?', image_date, platform,branch,device]).order("image_date").last
+    def home_get_latest_image_date(image_date, branch,device)
+            PowerRecord.where(['image_date < ? and branch = ?  and device = ?', image_date,branch,device]).order("image_date").last
     end
 
     def home_get_scenario_info_by_id(scenario_id,image_date,platform,branch,device)
@@ -34,9 +34,9 @@ module HomeHelper
     PowerRecord.where(['platform = ?', platform]).select("distinct device")
     end
 
-    def get_all_data(platform,branch,device)
+    def get_all_data(branch,device)
         #PowerRecord.where(['platform = ? and branch = ? and device =? ', platform,branch,device],:select => "distinct image_date")
-    PowerRecord.where(['platform = ? and branch = ? and device =? ', platform,branch,device]).select("distinct image_date")
+    PowerRecord.where(['branch = ? and device =? ',branch,device]).select("distinct image_date")
     end
 
     def get_all_code_drop(platform)

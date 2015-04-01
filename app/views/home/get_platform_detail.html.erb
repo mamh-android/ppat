@@ -1,4 +1,4 @@
-<% @scenarios = home_get_all_scenarios_info(@image_date,@platform,@branch,@device) %>
+<% @scenarios = home_get_all_scenarios_info(@image_date,@branch,@device) %>
             <% if @scenarios.size==0%>
             <% else %>
                 <table class="table table-wuxia">
@@ -11,7 +11,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <% if home_get_latest_image_date(@image_date,@platform,@branch,@device).nil? %>
+                    <% if home_get_latest_image_date(@image_date,@branch,@device).nil? %>
                     <% @scenarios.each do |scenario| %>
                         <tr>
                             <td><%= get_scenario_name(scenario.power_scenario_id) %></td>
@@ -21,8 +21,8 @@
                         </tr>
                         <% end %>
                     <% else%>
-            <% @latest_image_date = home_get_latest_image_date(@image_date,@platform,@branch,@device).image_date %>
-                     <% @scenarios_lastest = home_get_all_scenarios_info(@latest_image_date,@platform,@branch,@device) %>
+            <% @latest_image_date = home_get_latest_image_date(@image_date,@branch,@device).image_date %>
+                     <% @scenarios_lastest = home_get_all_scenarios_info(@latest_image_date,@branch,@device) %>
                         <% @scenarios.each do |scenario| %>
                                 <% @scenarios_lastest.each do |scenarios_lastest| %>
                                         <% scenario_name_latest = get_scenario_name(scenarios_lastest.power_scenario_id) %>
