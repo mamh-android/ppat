@@ -1,0 +1,396 @@
+<% @scenario_id_list = get_memory_display_scenarios_id(@device, @branch, @platform, @start, @end, @ddrsize) %>
+<% @memory_records   = get_memory_display_records(@device, @branch, @platform, @start, @end, @ddrsize) %>
+<% if @last_image.nil? %>
+<% @last_image       = get_memory_last_image_date(@device, @branch, @platform, @scenario_id_list, @start, @end, @ddrsize) %>
+<% end %>
+<% @last_link        = get_memory_last_link(@device, @branch, @platform, @scenario_id_list, @start, @end, @ddrsize) %>
+<% @scenarios = get_memory_display_scenarios(@scenario_id_list) %>
+<% @latest_image_last = get_last_latest_memory_records(@device, @branch,@platform, @start, @last_image,@ddrsize) %>
+<% @os = @memory_records.last %>
+<% if !@latest_image_last.nil? %>
+<%    @latest_image=@latest_image_last.image_date %>
+<% end %>
+<% if @device == "pxa1936ff_tz"
+            @resolution = "1080p"
+        else
+            @resolution = "720p"
+        end
+%>
+<% @lcd = 0 %>
+<% @lcd_infos = "" %>
+
+<!--start table-->
+<% if @category == "All" %>
+    <div id="chart_container_All" style="min-width: 70%; height: 600px; margin: 0 auto">
+    </div>
+    <table class="table table-wuxia">
+            <thead>
+                <tr>
+                    <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
+                        <% @scenarios.each do |scenario| %>
+                            <% if scenario.name.index('(').nil? %>
+                                <th> <%= scenario.name %></th>
+                            <% else %>
+                                <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
+                            <% end %>
+                        <% end %>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="5">Memory</td>
+                    <td >Today</td>
+                    <% @scenarios.each do |scenario| %>
+                        <td>
+                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                                <%= get_sub_memory(consumption.memory) %>
+                            <% end %>
+                        </td>
+                    <% end %>
+                </tr>
+                <tr>
+                    <td>&Delta; <%= @latest_image %></td>
+                    <% @scenarios.each do |scenario| %>
+                        <td>
+                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
+                                <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
+                                <% if last_memory.nil? %>
+                                    <font color="#000000"></font>
+                                <% else %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
+                                        <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
+                                        <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
+                                        <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% end %>
+                                <% end %>
+                            <% end %>
+                        </td>
+                </tr>
+
+            </tbody>
+    </table>
+<!--if @category == "All" All end-->
+<% else %>
+    <div id="chart_container_<%= @category %>" style="min-width: 70%; height: 400px; margin: 0 auto">
+    </div>
+    <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
+            <thead>
+                <tr>
+                    <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
+                        <% @scenarios.each do |scenario| %>
+                            <% if scenario.category == @category %>
+                                <th> <%= scenario.name %></th>
+                            <% end %>
+                        <% end %>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="5">memory</td>
+                    <td >Today</td>
+                    <% @scenarios.each do |scenario| %>
+                        <% if scenario.category == @category %>
+                            <td>
+                                <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                                    <%= get_sub_memory(consumption.memory) %>
+                                    <br/>
+                                <% end %>
+                            </td>
+                        <% end %>
+                <% end %>
+                </tr>
+                <tr>
+                    <td>&Delta; <%= @latest_image %></td>
+                    <% @scenarios.each do |scenario| %>
+                        <% if scenario.category == @category %>
+                        <td>
+                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
+                                <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
+                                <% if last_memory.nil? %>
+                                    <font color="#000000"></font>
+                                <% else %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
+                                        <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
+                                        <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
+                                        <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                    <% end %>
+                                    <% end %>
+                                <% end %>
+                            <% end %>
+                        </td>
+                        <% end %>
+                </tr>
+
+            </tbody>
+        </table>
+<% end %>
+<!--end table-->
+
+<!--start chart javascript code-->
+<script type="text/javascript">
+$(function () {
+<% if @category == "All" %>
+    var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart_container_<%= @category %>',
+                type: 'spline'
+            },
+            title: {
+                text: '<%= @os.branch %> <%= @device %> Branch Memory'
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: "datetime",
+                tickInterval: 24*3600*1000, // one day
+                tickColor:"#ff0000",
+                dateTimeLabelFormats:{
+                    day: '%m/%e'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'memory'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +'KB'
+                    }
+                }
+            },
+            tooltip: {
+                useHTML: true,
+                formatter: function() {
+                    var hour=Highcharts.dateFormat('%H', this.x);
+                    hour /= 10;
+                    return '<b>'+ this.series.name +
+                            '</b><br/>'+
+                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+                            ' _ ('+hour + ')'+
+                            '<br/><b>'+
+                            this.y +'KB' +
+                            '</b>'+
+                            '<br/>' +
+                            '<font color=\"#ff0000\">'+
+                            getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
+                            '</font>';
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                var editcheckbox = $("#editcheckboxId");
+                                var name=this.series.name;
+                                var memory=this.y;
+                                var comments = $.trim(getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString());
+                                var verify = getVerify(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString();
+                                $("#imagedate").html(Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                $("#casename").html(name);
+                                $("#memory").html(memory);
+                                $("#comment").html(comments);
+                                if(verify.indexOf("F") != -1){
+                                    $('input[name=verify]').get(1).checked=true;
+                                }else if(verify.indexOf("P") != -1){
+                                    $('input[name=verify]').get(0).checked=true;
+                                }
+                                //edit mode or show dutycycle mode
+                                if(editcheckbox.attr("checked")){
+                                    dialog.dialog( "open" );
+                                }else{
+                                    show_dc(name,memory,Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                }
+
+                            }
+                        }
+                    },
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [
+            <% @scenarios.each do |scenario| %>
+                {
+                    <% @imagedatehour=0 %>
+                    <% @imagedate=0 %>
+                    name: '<%= scenario.name %>',
+                    data:[<% @memory_records.each do |image| %>
+                            <% if scenario.id == image.memory_scenario_id %>
+                                {
+                                    //如果日期相等
+                                    <% if @imagedate == image.image_date %>
+                                        <% @imagedatehour += 10 %>
+                                        //判断是否超过24小时
+                                        <% if @imagedatehour>=24 %>
+                                            <% @imagedatehour=23 %>
+                                        <% end %>
+                                    <% else %>
+                                        <% @imagedatehour = 0 %>
+                                    <% end %>
+                                    <% @imagedate = image.image_date %>
+
+                                    x: Date.UTC("<%= get_year(image.image_date) %>",
+                                               "<%= get_month(image.image_date) %>",
+                                               "<%= get_day(image.image_date) %>",
+                                               "<%= @imagedatehour %>" ),
+                                    y: <%= get_memory(image.memory) %>,
+                                    marker: {
+                                        <% if image.verified == "P" %>
+                                            fillColor: '#6dc22c'
+                                        <% else if image.verified == "F" %>
+                                            fillColor: '#ff0000'
+                                            <% end %>
+                                        <% end %>
+                                    }
+                                },
+                            <% end %>
+                        <% end %>
+                    ]//end data
+                },
+            <% end %>
+            ]//end series
+        });
+<% else %>
+    var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart_container_<%= @category %>',
+                type: 'spline'
+            },
+            title: {
+                text: '<%= @os.branch %> <%= @device %> Branch Memory'
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: "datetime",
+                tickInterval: 24*3600*1000, // one day
+                tickColor:"#ff0000",
+                dateTimeLabelFormats:{
+                    day: '%m/%e'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Memory'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +'KB'
+                    }
+                }
+            },
+            tooltip: {
+                useHTML: true,
+                formatter: function() {
+                    var hour=Highcharts.dateFormat('%H', this.x);
+                    hour /= 10;
+                    return '<b>'+ this.series.name +
+                            '</b><br/>'+
+                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+                            ' _ ('+hour + ')'+
+                            '<br/><b>'+
+                            this.y +'KB' +
+                            '</b>'+
+                            '<br/>' +
+                            '<font color=\"#ff0000\">'+
+                            getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
+                            '</font>';
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                var editcheckbox = $("#editcheckboxId");
+                                var name=this.series.name;
+                                var memory=this.y;
+                                var comments = $.trim(getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString());
+                                var verify = getVerify(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString();
+                                $("#imagedate").html(Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                $("#casename").html(name);
+                                $("#memory").html(memory);
+                                $("#comment").html(comments);
+                                if(verify.indexOf("F") != -1){
+                                    $('input[name=verify]').get(1).checked=true;
+                                }else if(verify.indexOf("P") != -1){
+                                    $('input[name=verify]').get(0).checked=true;
+                                }
+                                //edit mode or show dutycycle mode
+                                if(editcheckbox.attr("checked")){
+                                    dialog.dialog( "open" );
+                                }else{
+                                    show_dc(name,memory,Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                }
+
+                            }
+                        }
+                    },
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [
+            <% @scenarios.each do |scenario| %>
+                <% if scenario.category == @category %>
+                {
+                    <% @imagedatehour=0 %>
+                    <% @imagedate=0 %>
+                    name: '<%= scenario.name %>',
+                    data:[<% @memory_records.each do |image| %>
+                            <% if scenario.id == image.memory_scenario_id %>
+                                {
+                                    //如果日期相等
+                                    <% if @imagedate == image.image_date %>
+                                        <% @imagedatehour += 10 %>
+                                        //判断是否超过24小时
+                                        <% if @imagedatehour>=24 %>
+                                            <% @imagedatehour=23 %>
+                                        <% end %>
+                                    <% else %>
+                                        <% @imagedatehour = 0 %>
+                                    <% end %>
+                                    <% @imagedate = image.image_date %>
+
+                                    x: Date.UTC("<%= get_year(image.image_date) %>",
+                                               "<%= get_month(image.image_date) %>",
+                                               "<%= get_day(image.image_date) %>",
+                                               "<%= @imagedatehour %>" ),
+                                    y: <%= get_memory(image.memory) %>,
+                                    marker: {
+                                        <% if image.verified == "P" %>
+                                            fillColor: '#6dc22c'
+                                        <% else if image.verified == "F" %>
+                                            fillColor: '#ff0000'
+                                            <% end %>
+                                        <% end %>
+                                    }
+                                },
+                            <% end %>
+                        <% end %>
+                    ]//end data
+                },
+            <% end %>
+            <% end %>
+            ]//end series
+        });
+<% end %>
+});
+</script>
+<!--end chart javascript code-->

@@ -1,0 +1,377 @@
+<%= stylesheet_link_tag    "jquery-ui"%>
+<%= stylesheet_link_tag    "ppat"%>
+<!--top-->
+<div id="top">
+    <!-- Grid row-->
+    <div class="row topcenter">
+            <article class="span4">
+                <input id="editcheckboxId" type="checkbox">Edit Comments
+            </article>
+            <article class="span3">
+                <div class="input-append">
+                    <input id="datepicker" style="width: 80px;" type="text"> <span class="add-on"><i class="icon-calendar"></i></span>
+                </div>
+            </article>
+            <article class="span4">
+                <span class="badge" onclick="update_chart_table(this)">10</span>
+                <span class="badge badge-success" onclick="update_chart_table(this)">20</span>
+                <span class="badge badge-warning" onclick="update_chart_table(this)">30</span>
+                <span class="badge badge-important" onclick="update_chart_table(this)">60</span>
+                <span class="badge badge-info" onclick="update_chart_table(this)">90</span>
+            </article>
+    </div>
+    <!--Grid row-->
+</div>
+<!--top-->
+
+<div class="container" role="main">
+    <div style="text-align: center; background-color:#FFFFFFF;">
+            <ul class="nav nav-tabs" id="scenario_category">
+                <% @categorys.each do |category| %>
+                    <li><a href="#<%= category %>"><%= category %></a></li>
+                <% end %>
+            </ul>
+            <div class="tab-content" id="memory_record">
+                <% @categorys.each do |category| %>
+                    <div class="tab-pane" id="<%= category %>">
+                    </div>
+                <% end %>
+                        <%= render :partial => 'index' %>
+            </div>
+    </div>
+</div>
+
+<div  id="dialog-form"  title="Add Comments">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <fieldset>
+            <label id="soc" class="label-none-block"><%= @device %> </label>,
+            <label id="os" class="label-none-block"><%= @branch %></label></br>
+
+            <label id="imagedate"  class="label-none-block"></label>,
+            <label id="casename" class="label-none-block"></label>,
+            <label id="power" class="label-none-block"></label>mA</br>
+
+            <label for="comment" class="label-none-block">Comments</label></br>
+            <textarea name="comment" id="comment" rows="3" cols="50" class="text ui-widget-content ui-corner-all"></textarea></br>
+
+            <label for="email" class="label-none-block">Email</label></br>
+            <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></br>
+
+            <label for="verify" class="label-none-block">Verify</label></br>
+            <input type="radio" name="verify" id="passverify" value="P" class="text ui-widget-content ui-corner-all">Pass
+            <input type="radio" name="verify" id="failverify" value="F" class="text ui-widget-content ui-corner-all">Fail
+
+            </br>
+        </fieldset>
+    </form>
+</div>
+<ul class="timeline">
+
+<% if @device == "pxa1L88dkb" %>
+     <li>
+         <div class="time"></div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: pxa1920_DKB_v20_847, DRO744, Profile 6, 720p panel, RF/SKYLARK_V13A, Camera LSI3H7, G-Sensor
+             </pre>
+         </div>
+     </li>
+<% end %>
+<% if @device == "pxa1928dkb_tz" %>
+     <li>
+         <div class="time"></div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: DRO357, profile 11, 720p panel
+             </pre>
+         </div>
+     </li>
+<% end %>
+<% if @device == "pxa1908dkb_tz" %>
+     <li>
+         <div class="time">2015-01-24</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, change to 720p panel
+             </pre>
+         </div>
+     </li>
+     <li>
+         <div class="time">2014-11-05</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9, change to WVGA panel
+             </pre>
+         </div>
+     </li>
+<% end %>
+
+<% if @device == "pxa1936dkb_tz" %>
+     <li>
+         <div class="time">2015-04-10</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p.<br/>Insert 2 4G SIM cards, use V13 RF Card<br/>Camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p.
+             </pre>
+         </div>
+     </li>
+     <li>
+         <div class="time">2015-01-30</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p.<br/>Camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p
+             </pre>
+         </div>
+     </li>
+     <li>
+         <div class="time">2015-01-13</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: PXA1936_DKB_V10_117, LVTDRO = 519, SVTDRO = 360, Profile = 11, LCD 720p
+             </pre>
+         </div>
+     </li>
+<% end %>
+</ul>
+<div class="modal fade hide" id="dcInfoModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Duty Cycle</h3>
+    </div>
+    <div class="modal-body" id="dc_info">
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-wuxia btn-primary" data-dismiss="modal">Close</a>
+    </div>
+</div>
+
+<footer>
+    <a class="btn btn-wuxia btn-primary" data-toggle="modal" href="#dcInfoModal" style="bottom:0;left:0;right:0;position: fixed;">Click to Show Duty Cycle Info</a>
+
+</footer>
+<!-- Scripts -->
+<SCRIPT LANGUAGE="JavaScript">
+
+var dialog,form;
+$(function () {
+        // Popovers
+        $('.Popover').popover();
+        $('#scenario_category a:first').tab('show');
+        $('#scenario_category a').click(function (e){
+            e.preventDefault();
+          $(this).tab('show');
+
+          var category = $(this).text();
+              $.ajax({
+                    type: "GET",
+                    url: "/memory/show_chart_by_tab?category=" + category + "&device=<%= @device %>&branch=<%= @branch %>&platform=<%= @platform %>&ddrsize=<%= @ddrsize %>",
+                    success: function(msg){
+                    }
+                });
+        })
+})
+
+
+
+var chart;
+
+$(function () {
+   // show_all();
+    var comment = $( "#comment" ),
+    email = $( "#email" ),
+    passverify = $( "#passverify" ),
+    failverify = $( "#failverify" ),
+    imagedate=$("#imagedate"),
+    casename=$("#casename"),
+    power=$("#power"),
+    soc=$("#soc"),
+    os=$("#os"),
+    allFields = $( [] ).add( comment ).add( email ).add( passverify ).add(failverify),
+    tips = $( ".validateTips" );
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 350,
+      width: 500,
+      modal: true,
+      buttons: {
+        "Add comments": function() {
+            var v = "TBD";
+            if(passverify.attr('checked')){
+                v = "P";
+            }else if(failverify.attr('checked')){
+                v = "F";
+            }
+            updateComment(imagedate.html(), casename.html(), power.html(), comment.val(), email.val(),v, soc.html(), os.html());
+
+            allFields.removeClass( "ui-state-error" );
+            $( this ).dialog( "close" );
+        },
+        Cancel: function() {
+            $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+          form[0].reset();
+          allFields.removeClass("ui-state-error");
+      }
+    });
+
+    form = dialog.find("form").on("submit", function(event){
+        event.preeventDefault();
+    });
+
+});
+function updateComment(imagedate, casename, power, comment, email,verify, device, branch){
+    var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&verified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        success: function(msg){
+            $("#container").location.reload();
+        }
+    });
+}
+
+/* show footer Duty Cycle */
+function show_dc(caseName, power,image_date){
+    var task_url = "show_dc?scenario=" + caseName + "&battery=" + power + "&image_date=" + image_date;
+    $.ajax({
+        type: "GET",
+        url: task_url,
+        success: function(msg){
+            $("footer").css("display","block");
+            $("#dc_info").append(msg);
+        }
+    });
+}
+
+function showLCDInfo(soc,resolution){
+    alert("test");
+}
+function getComment(image_date, battery){
+    var comments = "";
+    var strURL = "get_comment?image_date=" + image_date + "&battery=" + battery;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+            comments=msg;
+        }
+    });
+    return comments;
+}
+function getVerify(image_date, battery){
+    var v = "";
+    var strURL = "get_verify?image_date=" + image_date + "&battery=" + battery;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+            v=msg;
+        }
+    });
+    return v;
+}
+function showChart_vcc(caseName, vcc){
+    var strURL = "show_detail?case_name=" + caseName + "&vcc_main=" + vcc;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        success: function(msg){
+            $("#detailedChart").append(msg);
+            $("#empty").html("");
+                $("#empty").html("<button id=\"emptys\">Empty</button>");
+        }
+    });
+
+    document.getElementById("empty").onclick=function(){
+        $("#detailedChart").html(" ");
+    }
+}
+function update_chart_table(th){
+    image_date = $("#datepicker").val();
+    if(image_date == ""){
+      image_date = "<%= @datesEnable.last.image_date %>";
+    }
+    record_num = $(th).html();
+    var strURL = "query?image_date=" + image_date + "&record_num=" + record_num + "&device=<%= @device %>&branch=<%= @branch %>&scenario_id_list=<%= @scenario_id_list %>";
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+        }
+    });
+}
+
+var chart;
+$(function(){
+    $("#sortable").sortable();
+    $("#sortable").enableSelection();
+    $("#container_vcc_main").css("display","none");
+});
+
+$(function(){
+    $("#start").datepicker({
+        dateFormat:'yy-mm-dd',changeMonth: true, changeYear: true
+    });
+    $("#end").datepicker({
+        dateFormat:'yy-mm-dd',changeMonth: true,changeYear: true
+    });
+});
+
+function Hide(id){
+    $("#" + id).remove();
+}
+
+function show(chart_type){
+    if(chart_type == "battery"){
+        $("#chart_container_All").css("display", "block");
+        $("#chart_container_vcc_main_All").css("display", "none");
+        <% @categorys.each do |category| %>
+            $("#chart_container_<%= category %>").css("display", "block");
+        <% end %>
+    }else{
+        $("#chart_container_All").css("display", "none");
+        $("#chart_container_vcc_main_All").css("display", "block");
+        <% @categorys.each do |category| %>
+            $("#chart_container_<%= category %>").css("display", "none");
+        <% end %>
+    }
+}
+
+
+function getParent(o, tag) {
+    if (o.parentNode.tagName.toLowerCase() == tag.toLowerCase()) {
+        return(o.parentNode);
+    } else {
+        return(null);
+    }
+}
+
+</SCRIPT>
+<script LANGUAGE="JavaScript">
+    $(document).ready(function() {
+       $('#datepicker').datepicker({
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            datesDisabled: [
+            <% @datesEnable.each do |image| %>
+                    '<%= image.image_date %>',
+            <% end %>
+            ]
+            });
+    });
+</script>
