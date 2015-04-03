@@ -172,6 +172,11 @@
 		<Type>pxa1908dkb_tz:pxa1908dkb</Type>
 		<HW>
 			<Name>ULC1_1: Daily use</Name>
+		</HW>
+	</Board>
+	<Board>
+		<Type>pxa1908dkb_dsds:pxa1908dkb</Type>
+		<HW>
 			<Name>ULC1_2: Camera OV13850</Name>
 		</HW>
 	</Board>

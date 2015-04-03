@@ -39,15 +39,16 @@ $(function () {
 	            },
 	            plotOptions: {
 		            spline: {
-		                lineWidth: 2,
-		                states: {
-		                    hover: {
-		                        lineWidth: 5
-		                    }
-		                },
-		                marker: {
-		                    enabled: false
-		                }
+	                		turboThreshold: 5000,
+		                	lineWidth: 2,
+		                	states: {
+		                    		hover: {
+		                        		lineWidth: 5
+		                    	}
+		              },
+		             marker: {
+		             	enabled: false
+		              }
 		            },
 	                series: {
 	                    cursor: 'pointer',
@@ -121,7 +122,8 @@ $(function () {
 	            },
 	            plotOptions: {
 		            spline: {
-		                lineWidth: 2,
+	                		turboThreshold: 5000,
+		                	lineWidth: 2,
 		                states: {
 		                    hover: {
 		                        lineWidth: 5

@@ -109,9 +109,9 @@ var chart = new Highcharts.Chart({
                                                "<%= @imagedatehour %>" ),
                                     y: <%= get_power(image.battery) %>,
                                     marker: {
-                                        <% if image.varified == "P" %>
+                                        <% if image.verified == "P" %>
                                             fillColor: '#6dc22c'
-                                        <% else if image.varified == "F" %>
+                                        <% else if image.verified == "F" %>
                                             fillColor: '#ff0000'
                                             <% end %>
                                         <% end %>
@@ -235,9 +235,9 @@ var chart = new Highcharts.Chart({
                                                "<%= @imagedatehour %>" ),
                                     y: <%= get_power(image.vcc_main) %>,
                                     marker: {
-                                        <% if image.varified == "P" %>
+                                        <% if image.verified == "P" %>
                                             fillColor: '#6dc22c'
-                                        <% else if image.varified == "F" %>
+                                        <% else if image.verified == "F" %>
                                             fillColor: '#ff0000'
                                             <% end %>
                                         <% end %>
@@ -361,9 +361,9 @@ var chart = new Highcharts.Chart({
                                                "<%= @imagedatehour %>" ),
                                     y: <%= get_power(image.battery) %>,
                                     marker: {
-                                        <% if image.varified == "P" %>
+                                        <% if image.verified == "P" %>
                                             fillColor: '#6dc22c'
-                                        <% else if image.varified == "F" %>
+                                        <% else if image.verified == "F" %>
                                             fillColor: '#ff0000'
                                             <% end %>
                                         <% end %>
@@ -489,9 +489,9 @@ var chart = new Highcharts.Chart({
                                                "<%= @imagedatehour %>" ),
                                     y: <%= get_power(image.vcc_main) %>,
                                     marker: {
-                                        <% if image.varified == "P" %>
+                                        <% if image.verified == "P" %>
                                             fillColor: '#6dc22c'
-                                        <% else if image.varified == "F" %>
+                                        <% else if image.verified == "F" %>
                                             fillColor: '#ff0000'
                                             <% end %>
                                         <% end %>

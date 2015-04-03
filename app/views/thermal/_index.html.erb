@@ -74,31 +74,32 @@ function show_battery(){
 	            },
 	            series: [
 	            <% @thermal_scenarios.each do |scenario| %>
+		<% @imagedatehour=0 %>
+		<% @imagedate=0 %>
 		{
 			name: '<%= scenario.name %>',
 		            	data: [
 	            		<% @thermal.each do |record| %>
-	            		<% if record.name == scenario.name %>
-		              	<% @imagedatehour=0 %>
-		                	<% @imagedate=0 %>
-		            		{
-					//如果日期相等
-                                            		<% if @imagedate == record.image_date %>
-                                                			<% @imagedatehour += 10 %>
-                                                			//判断是否超过24小时
-                                                			<% if @imagedatehour>=24 %>
-                                                    				<% @imagedatehour=23 %>
-                                                			<% end %>
-                                            		<% else %>
-                                                			<% @imagedatehour = 0 %>
-                                            		<% end %>
-		            			x: Date.UTC("<%= get_year(record.image_date) %>",
-                                                       			"<%= get_month(record.image_date) %>",
-                                                       			"<%= get_day(record.image_date) %>",
-                                                       			"<%= @imagedatehour %>" ),
-                                            		y: <%= record.battery %>,
-		            		},
-		            	<% end %>
+		            		<% if record.name == scenario.name %>
+			            		{
+						//如果日期相等
+	                                            		<% if @imagedate == record.image_date %>
+	                                                			<% @imagedatehour += 10 %>
+	                                                			//判断是否超过24小时
+	                                                			<% if @imagedatehour>=24 %>
+	                                                    			<% @imagedatehour=23 %>
+	                                                			<% end %>
+	                                            		<% else %>
+	                                                			<% @imagedatehour = 0 %>
+	                                            		<% end %>
+	                                    			<% @imagedate = record.image_date %>
+			            			x: Date.UTC("<%= get_year(record.image_date) %>",
+	                                                       			"<%= get_month(record.image_date) %>",
+	                                                       			"<%= get_day(record.image_date) %>",
+	                                                       			"<%= @imagedatehour %>" ),
+	                                            		y: <%= record.battery %>,
+			            		},
+			            	<% end %>
 	            		<% end %>]
 		        },
 	            <% end %>
@@ -167,29 +168,30 @@ function show_thermal(){
 	            },
 	            series: [
 	            <% @thermal_scenarios.each do |scenario| %>
+              	<% @imagedatehour=0 %>
+                	<% @imagedate=0 %>
 		{
 			name: '<%= scenario.name %>',
 		            	data: [
 	            		<% @thermal.each do |record| %>
-	            		<% if record.name == scenario.name %>
-		              	<% @imagedatehour=0 %>
-		                	<% @imagedate=0 %>
-		            		{
-                                            		<% if @imagedate == record.image_date %>
-                                                			<% @imagedatehour += 10 %>
-                                                			<% if @imagedatehour>=24 %>
-                                                    				<% @imagedatehour=23 %>
-                                                			<% end %>
-                                            		<% else %>
-                                                			<% @imagedatehour = 0 %>
-                                            		<% end %>
-		            			x: Date.UTC("<%= get_year(record.image_date) %>",
-                                                       			"<%= get_month(record.image_date) %>",
-                                                       			"<%= get_day(record.image_date) %>",
-                                                       			"<%= @imagedatehour %>" ),
-                                            		y: <%= record.max_temp %>,
-		            		},
-		            	<% end %>
+		            		<% if record.name == scenario.name %>
+			            		{
+	                                            		<% if @imagedate == record.image_date %>
+	                                                			<% @imagedatehour += 10 %>
+	                                                			<% if @imagedatehour>=24 %>
+	                                                    			<% @imagedatehour=23 %>
+	                                                			<% end %>
+	                                            		<% else %>
+	                                                			<% @imagedatehour = 0 %>
+	                                            		<% end %>
+	                                    			<% @imagedate = record.image_date %>
+			            			x: Date.UTC("<%= get_year(record.image_date) %>",
+	                                                       			"<%= get_month(record.image_date) %>",
+	                                                       			"<%= get_day(record.image_date) %>",
+	                                                       			"<%= @imagedatehour %>" ),
+	                                            		y: <%= record.max_temp %>,
+			            		},
+			            	<% end %>
 	            		<% end %>]
 		        },
 	            <% end %>

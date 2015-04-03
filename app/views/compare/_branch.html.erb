@@ -1,0 +1,5 @@
+<% if !@branches.nil? %>
+	<% @branches.each do |branch| %>
+		<option value="<%= branch.branch %>"><%= branch.branch %></option>
+	<% end %>
+<% end %>

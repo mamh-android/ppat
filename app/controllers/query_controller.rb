@@ -16,9 +16,9 @@ class QueryController < ApplicationController
   	status = Resque::Plugins::Status::Hash.get(uuid)
   	Resque::Plugins::Status::Hash.remove(uuid)
   	platform = status.options['platform']
-  	if platform == 'pxa1936'
+  	if platform == 'helan3'
   		TriggerHelan3Job.create(status.options)
-  	elsif platform == 'pxa1908'
+  	elsif platform == 'ulc1'
   		TriggerULC1Job.create(status.options)
   	else
   		TriggerEdenJob.create(status.options)

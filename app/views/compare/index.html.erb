@@ -1,6 +1,8 @@
 <%= stylesheet_link_tag    "compare"%>
 <div class="container" role="main" id="cart">
+<% if @cart.record_list.size > 0 %>
         <%= render :partial => 'cart' %>
+<% end %>
 </div>
 <!-- page-container -->
 <div class="page-container tab-content"  >
@@ -14,25 +16,22 @@
                 </article>
 
                 <article class="span2">
-                    <select NAME="Platform" onChange="getBranch()" class="form-control">
-                        <option VALUE="pxa1908">pxa1908</option>
-                        <option VALUE="pxa1928">pxa1928</option>
-                        <option VALUE="pxa1936">pxa1936</option>
-                        <option VALUE="pxa1U88">pxa1U88</option>
+                    <select NAME="Platform" onChange="update_device()" class="form-control">
+                    <% if !@platformes.nil? %>
+                        <% @platformes.each do |platform| %>
+                            <option value="<%= platform %>"><%= platform %></option>
+                        <% end %>
+                    <% end %>
                     </select>
                 </article>
                 <article class="span2">
-                    <select NAME="Device" class="form-control">
-                        <option VALUE="pxa1908dkb">pxa1908dkb</option>
-                        <option VALUE="pxa1928dkb">pxa1928dkb</option>
-                        <option VALUE="pxa1936dkb">pxa1936dkb</option>
+                    <select NAME="Device"  onChange="update_branch()" class="form-control" id="device">
+                        <%= render :partial => 'device' %>
                     </select>
                 </article>
                 <article class="span2">
-                    <select NAME="Branch" class="form-control">
-                        <option VALUE="kk4.4_master">kk4.4_master</option>
-                        <option VALUE="kk4.4_beta2">kk4.4_beta2</option>
-                        <option VALUE="lp5.0_master">lp5.0_master</option>
+                    <select NAME="Branch" class="form-control" id="branch" onChange="update_datepicker()">
+                        <%= render :partial => 'branch' %>
                     </select>
                 </article>
                 <article class="span2">
@@ -62,7 +61,60 @@
     <a id="bottom" title="Back To Top"></a>
 </div>
 <script>
+function update_datepicker(){
+    var branch = $("select[name='Branch']").val();
+    var device = $("select[name='Device']").val();
+    $.ajax({
+        type: "GET",
+        data: {branch:branch, device: device},
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: "update_datepicker",
+        success: function(msg){
+        }
+    });
+}
+
+function update_device(){
+    var platform = $("select[name='Platform']").val();
+    var device = $("select[name='Device']").val();
+    $.ajax({
+        type: "GET",
+        data: {platform:platform, device: device},
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: "get_device",
+        success: function(msg){
+        }
+    });
+}
+function update_branch(){
+    var platform = $("select[name='Platform']").val();
+    var device = $("select[name='Device']").val();
+    $.ajax({
+        type: "GET",
+        data: {platform:platform, device: device},
+        headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+          },
+        url: "get_branch",
+        success: function(msg){
+        }
+    });
+}
+
 $(function() {
+    $('.datepicker').datepicker({
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            datesDisabled: [
+            <% @datesEnable.each do |image| %>
+                    '<%= image.image_date %>',
+            <% end %>
+            ]
+ });
 $("#top").click(function(){
         $("html,body").animate({scrollTop: 0}, 500);
     });
@@ -70,9 +122,6 @@ $("#bottom").click(function(){
         $('html, body').animate({scrollTop: $("#daily").offset().top}, 500);
     });
 })
-$(document).ready(function() {
-    $('.datepicker').datepicker('setValue', new Date());
-});
 
 function add_daily_scenarios_to_cart(){
     var update_cart_url = "/compare/add_daily_compare";

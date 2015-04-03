@@ -1,0 +1,9 @@
+$('.datepicker').datepicker({
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            datesDisabled: [
+            <% @datesEnable.each do |image| %>
+            		'<%= image.image_date %>',
+            <% end %>
+            ]
+ });

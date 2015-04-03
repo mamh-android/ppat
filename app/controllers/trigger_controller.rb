@@ -32,6 +32,8 @@ class TriggerController < ApplicationController
 
     if device == "pxa1908dkb_tz:pxa1908dkb"
         TriggerULC1Job.create({:platform => "ulc1", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+    elsif device == "pxa1908dkb_dsds:pxa1908dkb"
+        TriggerULC1Job.create({:platform => "ulc1", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1928dkb_tz:pxa1928dkb"
         TriggerEdenJob.create({:platform => "eden", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1936dkb_tz:pxa1936dkb"
@@ -77,7 +79,8 @@ class TriggerController < ApplicationController
     file = params[:file]
     directory = params[:dir]
     ftp = Net::FTP.new('10.38.32.98')
-    ftp.login(user = "buildfarm", passwd = "123456")
+    ftp.login(user = "anonymous", passwd = "")
+    ftp.chdir("upload")
     begin
         ftp.mkdir(directory)
     rescue Net::FTPPermError

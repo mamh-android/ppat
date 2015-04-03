@@ -202,7 +202,6 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                            <hr/>
                                     purpose
                                     </td>
                                     <%purpose_list.each do |purpose_list_b|%>
@@ -212,7 +211,6 @@
                                             </td>
                                     <%end%>
                                     <td>
-                                            <hr/>
                                         Diff
                                     </td>
                                         <%purpose_list.each do |purpose_list_vcc|%>
@@ -222,7 +220,6 @@
                                             </td>
                                         <%end%>
                                         <td>
-                                            <hr/>
                                         Diff
                                     </td>
                                         <%purpose_list.each do |purpose_list_fps|%>
@@ -232,14 +229,21 @@
                                             </td>
                                         <%end%>
                                         <td>
-                                            <hr/>
                                         Diff
                                     </td>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <% task_id_list.uniq.each do |taskid|%>
-                                        <td><span class="icon-remove"></span></td>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
+                                        <% end %>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
+                                        <% end %>
+                                        <td></td>
+                                        <% task_id_list.uniq.each do |taskid|%>
+                                        <td onclick="remove_by_taskid('<%= taskid %>')"><span class="icon-remove"></span></td>
                                         <% end %>
                                     </tr>
                                     <tr>
@@ -543,7 +547,7 @@ function cmp_battery(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -576,10 +580,10 @@ function cmp_battery(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -617,7 +621,7 @@ function cmp_vcc_main(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -650,10 +654,10 @@ function cmp_vcc_main(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -692,7 +696,7 @@ function cmp_fps(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -724,10 +728,10 @@ function cmp_fps(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 }
@@ -771,7 +775,7 @@ function cmp_battery_<%=category%>(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -803,10 +807,10 @@ function cmp_battery_<%=category%>(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-       gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+       gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -844,7 +848,7 @@ function cmp_vcc_main_<%=category%>(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -876,10 +880,10 @@ function cmp_vcc_main_<%=category%>(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -917,7 +921,7 @@ function cmp_fps_<%=category%>(){
                     }
                 }
             });
-            for(var j=2;j<gettd.rows.length;j++){
+            for(var j=6;j<gettd.rows.length;j++){
             var battery_col= gettd.rows[j].cells[i+1].innerText;
             battery_list.push(battery_col);
              var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
@@ -949,10 +953,10 @@ function cmp_fps_<%=category%>(){
          com_fps.push(fps_list[i]-fps_list[fps_list.length/2+i]);
     }
     if(checked_counts==2){
-        for(var j=2;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-2]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-2]).toFixed(5);
+        for(var j=6;j<gettd.rows.length;j++){
+        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 

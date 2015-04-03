@@ -4,9 +4,6 @@ module HomeHelper
     PowerRecord.where(['task_id = ?', task_id]).select("distinct power_scenario_id")
     end
 
-    def get_scenario_nameget_scenario_error_rate(scenario_id)
-    PowerScenario.where(id: scenario_id).order("id").last
-    end
 
     def home_get_all_scenarios_info(image_date,branch,device)
         PowerRecord.where(['image_date = ? and branch = ? and device = ?', image_date,branch,device])

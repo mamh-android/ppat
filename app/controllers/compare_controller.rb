@@ -2,6 +2,18 @@ class CompareController < ApplicationController
     skip_before_filter :verify_authenticity_token
     def index
         @cart = get_cart
+        @platformes = ["hln3", "hln3ff","ulc1","ulc1ff","eden","edenff"]
+        @devices = PowerRecord.where(platform: @platformes[0], run_type: "daily").select("distinct device")
+        devices = []
+        @devices.each do |device|
+            devices << device.device
+        end
+        @branches = PowerRecord.where(platform: @platformes[0], device: devices[0], run_type: "daily").select("distinct branch")
+        branches = []
+        @branches.each do |branch|
+            branches << branch.branch
+        end
+        @datesEnable = PowerRecord.where(branch: branches[0], device: devices[0], run_type: "daily").select("distinct image_date")
         render :layout=>"ppat"
     end
 
@@ -68,5 +80,49 @@ class CompareController < ApplicationController
             @battery = params[:battery]
                 @record = PowerRecord.where(battery: @battery).first
             render :layout=>"empty"
+    end
+
+    def get_device
+        platform = params[:platform]
+        #get all  devices
+        @devices = PowerRecord.where(platform: platform, run_type: "daily").select("distinct device")
+        devices = []
+        @devices.each do |device|
+            devices << device.device
+        end
+        @branches = PowerRecord.where(platform: platform, device: devices[0], run_type: "daily").select("distinct branch")
+        branches = []
+        @branches.each do |branch|
+            branches << branch.branch
+        end
+        @datesEnable = PowerRecord.where(branch: branches[0], device: devices[0], run_type: "daily").select("distinct image_date")
+        respond_to do |format|
+            format.js
+        end
+    end
+
+    def get_branch
+        platform = params[:platform]
+        device = params[:device]
+
+        #get all branches
+        @branches = PowerRecord.where(platform: platform, device: device, run_type: "daily").select("distinct branch")
+        branches = []
+        @branches.each do |branch|
+            branches << branch.branch
+        end
+        @datesEnable = PowerRecord.where(branch: branches[0], device: device, run_type: "daily").select("distinct image_date")
+        respond_to do |format|
+            format.js
+        end
+    end
+
+    def update_datepicker
+        device = params[:device]
+        branch = params[:branch]
+        @datesEnable = PowerRecord.where(branch: branch, device: device, run_type: "daily").select("distinct image_date")
+        respond_to do |format|
+            format.js
+        end
     end
 end

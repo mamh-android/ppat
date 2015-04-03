@@ -106,6 +106,10 @@ $(document).ready(function() {
 	$("#task_list tbody").delegate("tr td:not(:last)", "click", function() {
 		var id = $(this).parent().find("td:nth-child(2)").text();
 		update_scenario_by_task(id);
+		$(this).parent().css("background", "#AFDCF8");
+		$(this).parent().siblings().each(function(){
+			$(this).css("background", "#fff");
+		});
 	});
 	$("#task_list tbody").delegate("tr td:last-child", "click", function() {
 		var id = $(this).parent().find("td:nth-child(2)").text();

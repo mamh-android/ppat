@@ -1,0 +1,11 @@
+$("#device").html("<%= escape_javascript(render :partial => 'device', :object => @devices) %>");
+$("#branch").html("<%= escape_javascript(render :partial => 'branch', :object => @branches) %>");
+$('.datepicker').datepicker({
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            datesDisabled: [
+            <% @datesEnable.each do |image| %>
+            		'<%= image.image_date %>',
+            <% end %>
+            ]
+ });

@@ -1,0 +1,5 @@
+<% if !@devices.nil? %>
+	<% @devices.each do |device| %>
+		<option value="<%= device.device %>"><%= device.device %></option>
+	<% end %>
+<% end %>

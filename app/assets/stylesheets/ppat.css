@@ -81,5 +81,50 @@ table .power{
     margin-top: 3px;
 }
 
-.dropdown-menu li {
+ul.timeline {
+    list-style-type: none;
+    background: url("version_line.png") repeat-y scroll 120px 0 transparent;
+    margin: 20px 0;
+    padding: 0;
 }
+ul.timeline li {
+     position: relative;
+     margin-bottom: 20px;
+ }
+ ul.timeline li .time {
+     position: absolute;
+     width: 290px;
+     text-align: right;
+     left: -195px;
+     font-size: 18px;
+     line-height: 50px;
+     color: #3594cb;
+     overflow: hidden;
+ }
+ ul.timeline li .number {
+     position: absolute;
+     background: url("version_dot.png") no-repeat scroll 0 0 transparent;
+     width: 56px;
+     height: 56px;
+     left: 97px;
+     line-height: 56px;
+     text-align: center;
+     color: #fff;
+     font-size: 18px;
+ }
+ ul.timeline li.alt .number {
+    background-image: url("version_dot_alt.png");
+ }
+ ul.timeline li .contents {
+    margin-left: 180px;
+ }
+ ul.timeline li .contents pre {
+     background-color: #3594cb;
+     padding: 10px;
+     color: #fff;
+     font-size: 13px;
+     line-height: 20px;
+ }
+ ul.timeline li.alt .contents pre {
+    background-color: #43B1F1;
+ }
