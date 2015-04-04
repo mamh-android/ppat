@@ -15,4 +15,37 @@ class ThermalController < ApplicationController
 		@freq = ThermalFreqInfo.joins(:thermal_record).where(thermal_record_id: @thermal_record.id)
   		render :layout=>"empty"
 	end
+
+	def get_comment
+		image_date = params[:image_date]
+      		temp = params[:temp]
+      		@record = ThermalRecord.where(:image_date => image_date, :max_temp=> temp).last
+     		 render :layout=>"empty"
+	end
+
+	def get_verify
+		image_date = params[:image_date]
+      		temp = params[:temp]
+      		@record = ThermalRecord.where(:image_date => image_date, :max_temp=> temp).last
+      		render :layout=>"empty"
+	end
+
+	def update_comments
+		@image_date = params[:imagedate]
+              	@temp = params[:temp]
+              	@device = params[:device]
+              	@branch = params[:branch]
+              	@scenario = params[:casename]
+
+              	@case = ThermalRecord.joins(:thermal_scenario).where(thermal_scenarios: {name: @scenario}, image_date: @image_date, max_temp: @temp).last
+
+              	if params[:verified] != ""
+                  		@case.verified=params[:verified]
+              	end
+
+              	if params[:comments] != ""
+                  		@case.comments=params[:comments]
+              	end
+              	@case.save
+	end
 end

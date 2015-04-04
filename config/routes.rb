@@ -52,6 +52,9 @@ get "tools/oldppat"
 get "tools/smoketest"
 get "thermal/index"
 get "thermal/query"
+get "thermal/get_comment"
+get "thermal/get_verify"
+get "thermal/update_comments"
 
 
 

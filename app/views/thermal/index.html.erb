@@ -17,6 +17,33 @@
 <div class="container" role="main" id="thermal_record">
     <%= render :partial => 'index' %>
 </div>
+
+<div  id="dialog-form"  title="Add Comments">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <fieldset>
+            <label id="soc" class="label-none-block"><%= @device %> </label>,
+            <label id="os" class="label-none-block"><%= @branch %></label></br>
+
+            <label id="imagedate"  class="label-none-block"></label>,
+            <label id="casename" class="label-none-block"></label>,
+            <label id="power" class="label-none-block"></label>°C</br>
+
+            <label for="comment" class="label-none-block">Comments</label></br>
+            <textarea name="comment" id="comment" rows="3" cols="50" class="text ui-widget-content ui-corner-all"></textarea></br>
+
+            <label for="email" class="label-none-block">Email</label></br>
+            <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></br>
+
+            <label for="verify" class="label-none-block">Verify</label></br>
+            <input type="radio" name="verify" id="passverify" value="P" class="text ui-widget-content ui-corner-all">Pass
+            <input type="radio" name="verify" id="failverify" value="F" class="text ui-widget-content ui-corner-all">Fail
+
+            </br>
+        </fieldset>
+    </form>
+</div>
+
 <div class="modal fade hide" id="dcInfoModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -59,5 +86,42 @@ function show(chart_type){
         $("#chart_container_battery").css("display", "none");
         $("#chart_container_thermal").css("display", "block");
     }
+}
+function getComment(image_date, temp){
+    var comments = "";
+    var strURL = "get_comment?image_date=" + image_date + "&temp=" + temp;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+            comments=msg;
+        }
+    });
+    return comments;
+}
+function getVerify(image_date, temp){
+    var v = "";
+    var strURL = "get_verify?image_date=" + image_date + "&temp=" + temp;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        async: false,
+        success: function(msg){
+            v=msg;
+        }
+    });
+    return v;
+}
+
+function updateComment(imagedate, casename, temp, comment, email,verify, device, branch){
+    var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&temp=" + encodeURIComponent(temp) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&verified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
+    $.ajax({
+        type: "GET",
+        url: strURL,
+        success: function(msg){
+            $("#container").location.reload();
+        }
+    });
 }
 </script>

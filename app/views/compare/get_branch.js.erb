@@ -1,1 +1,12 @@
 $("#branch").html("<%= escape_javascript(render :partial => 'branch', :object => @branches) %>");
+$("#datepicker").html("");
+$("#datepicker").html("<input name=\"ImageDate\" class=\"datepicker\" style=\"width: 80px;\" type=\"text\"/>");
+$('.datepicker').datepicker({
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            datesDisabled: [
+            <% @datesEnable.each do |image| %>
+            		'<%= image.image_date %>',
+            <% end %>
+            ]
+ });

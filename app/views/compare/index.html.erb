@@ -10,12 +10,8 @@
     <div class="tab-pane active">
         <!-- Grid row-->
             <div class="row" id="daily">
-
-                <article class="span2">
                     <span style="font-size:14px;font-weight:bold;line-height:34px;">Select Daily</span>
-                </article>
-
-                <article class="span2">
+                    <span>Platform</span>
                     <select NAME="Platform" onChange="update_device()" class="form-control">
                     <% if !@platformes.nil? %>
                         <% @platformes.each do |platform| %>
@@ -23,25 +19,18 @@
                         <% end %>
                     <% end %>
                     </select>
-                </article>
-                <article class="span2">
+                    <span>Device</span>
                     <select NAME="Device"  onChange="update_branch()" class="form-control" id="device">
                         <%= render :partial => 'device' %>
                     </select>
-                </article>
-                <article class="span2">
+                    <span>Branch</span>
                     <select NAME="Branch" class="form-control" id="branch" onChange="update_datepicker()">
                         <%= render :partial => 'branch' %>
                     </select>
-                </article>
-                <article class="span2">
-                    <div style="background-color:#FFFFFF;display:inline;" onload="showLeftTime()" >
+                    <div style="background-color:#FFFFFF;display:inline;" id="datepicker" >
                         <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
                     </div>
-                </article>
-                <article class="span2">
-                        <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-wuxia"/>
-                </article>
+                    <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-flat"/>
             </div>
         <!--Grid row-->
             <div  class="row">
@@ -104,9 +93,8 @@ function update_branch(){
         }
     });
 }
-
-$(function() {
-    $('.datepicker').datepicker({
+$(document).ready(function() {
+       $('.datepicker').datepicker({
             todayHighlight: true,
             format: "yyyy-mm-dd",
             datesDisabled: [
@@ -114,7 +102,10 @@ $(function() {
                     '<%= image.image_date %>',
             <% end %>
             ]
- });
+            });
+    });
+$(function() {
+
 $("#top").click(function(){
         $("html,body").animate({scrollTop: 0}, 500);
     });
