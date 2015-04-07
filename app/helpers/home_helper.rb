@@ -6,15 +6,19 @@ module HomeHelper
 
 
     def home_get_all_scenarios_info(image_date,branch,device)
-        PowerRecord.where(['image_date = ? and branch = ? and device = ?', image_date,branch,device])
+        PowerRecord.where(['image_date = ? and branch = ? and device = ? and run_type = ?', image_date,branch,device, "daily"])
+    end
+
+    def home_get_scenario_info(image_date,branch,device, scenario_id)
+        PowerRecord.where(['image_date = ? and branch = ? and device = ? and run_type = ? and power_scenario_id = ?', image_date,branch,device, "daily", scenario_id])
     end
 
     def home_get_latest_image_date(image_date, branch,device)
-            PowerRecord.where(['image_date < ? and branch = ?  and device = ?', image_date,branch,device]).order("image_date").last
+            PowerRecord.where(['image_date < ? and branch = ?  and device = ? and run_type = ?', image_date,branch,device, "daily"]).order("image_date").last
     end
 
-    def home_get_scenario_info_by_id(scenario_id,image_date,platform,branch,device)
-        PowerRecord.where(['image_date = ? and platform = ? and branch = ? and power_scenario_id = ?  and device = ?', image_date, platform,branch, scenario_id,device])
+    def home_get_scenario_info_by_id(scenario_id,image_date,branch,device)
+        PowerRecord.where(['image_date = ? and branch = ? and power_scenario_id = ?  and device = ? and run_type = ?', image_date, branch, scenario_id,device, "daily"]).last
     end
 
     def get_all_platform()
@@ -22,18 +26,44 @@ module HomeHelper
     end
 
     def get_all_branch(platform)
+        if platform == "pxa1928"
+            platform = "eden"
+        elsif platform == "pxa1928ff"
+            platform = "edeff"
+        elsif platform == "pxa1936"
+            platform = "hln3"
+        elsif platform = "pxa1936ff"
+            platform = "hln3ff"
+        elsif platform = "pxa1908"
+            platform = "ulc1"
+        elsif platform = "pxa1908ff"
+            platform = "ulc1ff"
+        end
         #PowerRecord.where(['platform = ?',platform], :select => "distinct branch")
-    PowerRecord.where(['platform = ?',platform]).select("distinct branch")
+    PowerRecord.where(platform: platform, run_type: "daily").select("distinct branch")
     end
 
     def get_all_device(platform)
+        if platform == "pxa1928"
+            platform = "eden"
+        elsif platform == "pxa1928ff"
+            platform = "edeff"
+        elsif platform == "pxa1936"
+            platform = "hln3"
+        elsif platform = "pxa1936ff"
+            platform = "hln3ff"
+        elsif platform = "pxa1908"
+            platform = "ulc1"
+        elsif platform = "pxa1908ff"
+            platform = "ulc1ff"
+        end
         #PowerRecord.where(['platform = ?', platform], :select => "distinct device")
-    PowerRecord.where(['platform = ?', platform]).select("distinct device")
+    PowerRecord.where(platform: platform, run_type: "daily").select("distinct device")
     end
 
     def get_all_data(branch,device)
         #PowerRecord.where(['platform = ? and branch = ? and device =? ', platform,branch,device],:select => "distinct image_date")
-    PowerRecord.where(['branch = ? and device =? ',branch,device]).select("distinct image_date")
+    PowerRecord.where(['branch = ? and device =?  and run_type = ?',branch,device, "daily"]).select("distinct image_date")
     end
 
     def get_all_code_drop(platform)

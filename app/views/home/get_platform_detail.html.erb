@@ -21,16 +21,14 @@
                         </tr>
                         <% end %>
                     <% else%>
-            <% @latest_image_date = home_get_latest_image_date(@image_date,@branch,@device).image_date %>
-                     <% @scenarios_lastest = home_get_all_scenarios_info(@latest_image_date,@branch,@device) %>
+                    <% @latest_image_date = home_get_latest_image_date(@image_date,@branch,@device).image_date %>
                         <% @scenarios.each do |scenario| %>
-                                <% @scenarios_lastest.each do |scenarios_lastest| %>
-                                        <% scenario_name_latest = get_scenario_name(scenarios_lastest.power_scenario_id) %>
+                                <% scenarios_lastest = home_get_scenario_info_by_id(scenario.power_scenario_id,@latest_image_date,@branch,@device) %>
                                         <% scenario_name = get_scenario_name(scenario.power_scenario_id) %>
                                         <% scenario_error_rate = get_scenario_error_rate(scenario.power_scenario_id) %>
-                                        <% if scenario_name==scenario_name_latest %>
+                                        <% if !scenarios_lastest.nil? %>
                                             <tr>
-                                                    <td><%= scenario_name_latest %></td>
+                                                    <td><%= scenario_name %></td>
                                                     <% if scenario_error_rate.include?"%" %>
                                                         <% scenario_error_rate = scenario_error_rate.chop %>
                                                         <% diff =  ((((scenario.battery.to_f)-(scenarios_lastest.battery.to_f))/(scenarios_lastest.battery.to_f))*100).round(2) %>
@@ -75,10 +73,9 @@
                                                     <% end %>
                                                     <% end %>
                                             </tr>
-                                        <% end %>
+                                            <% end %>
                                     <% end %>
                         <% end %>
-                <% end %>
 <% end %>
                 </tbody>
                 </table>

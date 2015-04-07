@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     @platform = params[:platform]
     @branch = params[:branch]
     @device = params[:device]
-    @scenarios = PowerRecord.where(['platform = ? and image_date = ? and branch = ? and device = ?', @platform, @image_date, @branch,@device])
+    @scenarios = PowerRecord.where(['platform = ? and image_date = ? and branch = ? and device = ? and run_type = ? ', @platform, @image_date, @branch,@device, "daily"])
     render :layout=>"empty"
   end
 end

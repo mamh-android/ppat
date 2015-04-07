@@ -1,6 +1,8 @@
 class ThermalController < ApplicationController
 	def index
 		@thermal_scenarios = ThermalScenario.all
+		@device = "pxa1936ff_tz"
+		@branch = "lp5.1_master"
 		@thermal = ThermalRecord.joins(:thermal_scenario).select("thermal_records.*, name")
   		render :layout=>"no_cart"
 	end

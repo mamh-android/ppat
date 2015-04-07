@@ -47,7 +47,7 @@
                     <span>
                         Platform
                         <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
-                            <%snplatform_list=['pxa1928','pxa1928ff','pxa1936','pxa1920','pxa988','pxa1908','pxa1908FF',]%>
+                            <%snplatform_list=['pxa1936','pxa1928','pxa1928ff','pxa1920','pxa988','pxa1908','pxa1908FF',]%>
                             <%snplatform_list.each do |snplatform_list|%>
                                 <option value="<%=snplatform_list %>"><%=snplatform_list.upcase %></option>
                             <% end %>

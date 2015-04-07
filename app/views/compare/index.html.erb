@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag    "jquery-ui"%>
 <%= stylesheet_link_tag    "compare"%>
 <div class="container" role="main" id="cart">
 <% if @cart.record_list.size > 0 %>
@@ -30,7 +31,8 @@
                     <div style="background-color:#FFFFFF;display:inline;" id="datepicker" >
                         <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
                     </div>
-                    <input  onclick="add_daily_scenarios_to_cart()" name="submit" value="Add to Compare" class="btn btn-info btn-flat"/>
+
+                    <button class="btn-align" onclick="add_daily_scenarios_to_cart()">Add to Compare</button>
             </div>
         <!--Grid row-->
             <div  class="row">

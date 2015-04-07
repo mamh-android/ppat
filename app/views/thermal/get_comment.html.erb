@@ -1,5 +1,7 @@
 <% if @record.nil? %>
 
 <% else %>
-<%= @record.comments %>
+	<% if @record.comments != "\"\"" %>
+		<%= @record.comments %>
+	<% end %>
 <% end %>
