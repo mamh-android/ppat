@@ -8,7 +8,7 @@ var y = date.getFullYear();
 var h = date.getHours();
 var show_smoketest = $("#show_smoketest").text().replace(/\s/g,"");
 var smoke_date =  new Array();
-smoke_date = show_smoketest.split(",");
+smoke_date = show_smoketest.split(", ");
 var todays_smoketest = "";
 todays_smoketest+=date.getFullYear()+"-";
 if((date.getMonth()+1)<10){
