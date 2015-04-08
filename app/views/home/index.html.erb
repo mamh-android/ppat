@@ -124,7 +124,7 @@ function update_scenario_by_task(image_date){
                 branch = branch.replace(/(^\s*)|(\s*$)/g,"");
                 platform = platform.replace(/(^\s*)|(\s*$)/g,"");
                 device = device.replace(/(^\s*)|(\s*$)/g,"");
-                var task_url = "get_platform_detail?image_date="+image_date+"&platform="+platform+"&branch="+branch+"&device="+device;
+                var task_url = "/home/get_platform_detail?image_date="+image_date+"&platform="+platform+"&branch="+branch+"&device="+device;
     $.ajax({
         type: "GET",
         url: task_url,
@@ -151,7 +151,7 @@ function update_scenario_code(){
         $(this).text().remove();
     });
     platform = "pxa1936";
-    var task_url = "get_code_drop?platform="+platform;
+    var task_url = "/home/get_code_drop?platform="+platform;
     $.ajax({
         type: "GET",
         url: task_url,
@@ -171,7 +171,7 @@ function update_calendar(){
 
     $.ajax({
         type: "GET",
-        url: 'update_calendar?platform='+platform+'&branch='+branch+'&device='+device+'&show_smoketest='+show_smoketest,
+        url: '/home/update_calendar?platform='+platform+'&branch='+branch+'&device='+device+'&show_smoketest='+show_smoketest,
         success: function(msg){
 
         }
