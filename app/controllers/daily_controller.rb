@@ -1,7 +1,12 @@
 class DailyController < ApplicationController
   def index
-    @categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
-
+    categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
+    @categorys = []
+    categorys.each do |category|
+      @categorys << category.category
+    end
+    @categorys << "All"
+    @category = @categorys[0]
       @device=params[:device]
       @branch= params[:branch]
 
@@ -71,6 +76,7 @@ class DailyController < ApplicationController
     end
 
         def  show_chart_by_tab
+              @categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
               @scenario_id_list =params[:scenario_id_list]
               @device=params[:device]
               @branch= params[:branch]
@@ -84,6 +90,7 @@ class DailyController < ApplicationController
               @latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", 11.weeks.ago, get_last_date(@last_image), @device, @branch).order("image_date asc").last
               @os = @image_dates.last
               @lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
+            @lcd_infos = LcdPower.where("device = ? and resolution = ?", @device, @resolution)
                if !@latest_image_last.nil?
               @latest_image=@latest_image_last.image_date
             end

@@ -1,3 +1,4 @@
+$("#power_record").html("<%= escape_javascript(render :partial => 'index', :object => @category) %>");
 $(function () {
 <% if @category == "All" %>
 var chart = new Highcharts.Chart({

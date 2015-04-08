@@ -27,8 +27,21 @@
 </div>
 <!--top-->
 
-<div class="container" role="main" id="power_record">
-    <%= render :partial => 'index' %>
+<div class="container" role="main">
+    <div style="text-align: center; background-color:#FFFFFFF;">
+            <ul class="nav nav-tabs" id="scenario_category">
+                <% @categorys.each do |category| %>
+                    <li><a href="#<%= category %>"><%= category %></a></li>
+                <% end %>
+            </ul>
+            <div class="tab-content" id="power_record">
+                <% @categorys.each do |category| %>
+                    <div class="tab-pane" id="<%= category %>">
+                    </div>
+                <% end %>
+                        <%= render :partial => 'index' %>
+            </div>
+    </div>
 </div>
 
 <div  id="dialog-form"  title="Add Comments">
@@ -134,6 +147,347 @@
 </footer>
 <!-- Scripts -->
 <SCRIPT LANGUAGE="JavaScript">
+
+    var dialog,form;
+$(function () {
+        // Popovers
+        $('.Popover').popover();
+        $('#scenario_category a:first').tab('show');
+        $('#scenario_category a').click(function (e){
+            e.preventDefault();
+          $(this).tab('show');
+
+          var category = $(this).text();
+              $.ajax({
+                    type: "GET",
+                    url: "/daily/show_chart_by_tab?category=" + category + "&device=<%= @device %>&branch=<%= @branch %>&scenario_id_list=<%= @scenario_id_list %>",
+                    success: function(msg){
+                    }
+                });
+        })
+})
+
+function show_all(){
+    //battery chart
+    // all category
+    chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart_container_<%= @categorys[0] %>',
+                type: 'spline'
+            },
+            title: {
+                text: '<%= @device %>_<%= @os.branch %> Branch Power Battery'
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: "datetime",
+                tickInterval: 24*3600*1000, // one day
+                tickColor:"#ff0000",
+                dateTimeLabelFormats:{
+                    day: '%m/%e'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Power'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +'mA'
+                    }
+                }
+            },
+            tooltip: {
+                useHTML: true,
+                formatter: function() {
+                    var hour=Highcharts.dateFormat('%H', this.x);
+                    hour /= 10;
+                    return '<b>'+ this.series.name +
+                            '</b><br/>'+
+                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+                            ' _ ('+hour + ')'+
+                            '<br/><b>'+
+                            this.y +'mA' +
+                            '</b>'+
+                            '<br/>' +
+                            '<font color=\"#ff0000\">'+
+                            getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
+                            '</font>';
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                var editcheckbox = $("#editcheckboxId");
+                                var name=this.series.name;
+                                var power=this.y;
+                                var comments = $.trim(getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString());
+                                var verify = getVerify(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString();
+                                $("#imagedate").html(Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                $("#casename").html(name);
+                                $("#power").html(power);
+                                $("#comment").html(comments);
+                                if(verify.indexOf("F") != -1){
+                                    $('input[name=verify]').get(1).checked=true;
+                                }else if(verify.indexOf("P") != -1){
+                                    $('input[name=verify]').get(0).checked=true;
+                                }
+                                //edit mode or show dutycycle mode
+                                if(editcheckbox.attr("checked")){
+                                    dialog.dialog( "open" );
+                                }else{
+                                    show_dc(name,power,Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                }
+
+                            }
+                        }
+                    },
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [
+            <% @scenarios.each do |scenario| %>
+            <% if scenario.category == @categorys[0] %>
+            {
+                <% @imagedatehour=0 %>
+                <% @imagedate=0 %>
+                name: '<%= scenario.name %>',
+                data:[<% @image_dates.each do |image| %>
+                        <% if scenario.id == image.power_scenario_id %>
+                            {
+                                            //如果日期相等
+                                            <% if @imagedate == image.image_date %>
+                                                <% @imagedatehour += 10 %>
+                                                //判断是否超过24小时
+                                                <% if @imagedatehour>=24 %>
+                                                    <% @imagedatehour=23 %>
+                                                <% end %>
+                                            <% else %>
+                                                <% @imagedatehour = 0 %>
+                                            <% end %>
+                                            <% @imagedate = image.image_date %>
+
+                                            x: Date.UTC("<%= get_year(image.image_date) %>",
+                                                       "<%= get_month(image.image_date) %>",
+                                                       "<%= get_day(image.image_date) %>",
+                                                       "<%= @imagedatehour %>" ),
+                                            y: <%= get_power(image.battery) %>,
+                                            marker: {
+                                            <% if image.verified == "P" %>
+                                                fillColor: '#6dc22c'
+                                            <% else if image.verified == "F" %>
+                                                fillColor: '#ff0000'
+                                            <% end %>
+                        <% end %>
+                                            }
+                            },
+                        <% end %>
+                                <% end %>
+                ]//end data
+            },
+            <% end %>
+            <% end %>
+            ]//end series
+    });
+
+
+    //vcc_main chart
+    // all category
+    chart_vcc = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart_container_vcc_main_<%= @categorys[0] %>',
+                type: 'spline'
+            },
+            title: {
+                text: '<%= @device %>_<%= @os.branch %> Branch Power Vcc_Main'
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                type: "datetime",
+                tickInterval: 24*3600*1000, // one day
+                tickColor:"#ff0000",
+                dateTimeLabelFormats:{
+                    day: '%m/%e'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Vcc_Main'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +'mA'
+                    }
+                }
+            },
+            tooltip: {
+                useHTML: true,
+                formatter: function() {
+                    var hour=Highcharts.dateFormat('%H', this.x);
+                    hour /= 10;
+                    return '<b>'+ this.series.name +
+                            '</b><br/>'+
+                            Highcharts.dateFormat('%Y-%m-%d', this.x) +
+                            ' _ ('+hour + ')'+
+                            '<br/><b>'+
+                            this.y +'mA' +
+                            '</b>'+
+                            '<br/>' +
+                            '<font color=\"#ff0000\">'+
+                            getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y) +
+                            '</font>';
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                var editcheckbox = $("#editcheckboxId");
+                                var name=this.series.name;
+                                var power=this.y;
+                                var comments = $.trim(getComment(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString());
+                                var verify = getVerify(Highcharts.dateFormat('%Y-%m-%d', this.x), this.y).toString();
+                                $("#imagedate").html(Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                $("#casename").html(name);
+                                $("#power").html(power);
+                                $("#comment").html(comments);
+                                if(verify.indexOf("F") != -1){
+                                    $('input[name=verify]').get(1).checked=true;
+                                }else if(verify.indexOf("P") != -1){
+                                    $('input[name=verify]').get(0).checked=true;
+                                }
+                                //edit mode or show dutycycle mode
+                                if(editcheckbox.attr("checked")){
+                                    dialog.dialog( "open" );
+                                }else{
+                                    show_dc(name,power,Highcharts.dateFormat('%Y-%m-%d', this.x));
+                                }
+
+                            }
+                        }
+                    },
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [
+            <% @scenarios.each do |scenario| %>
+            <% if scenario.category ==  @categorys[0] %>
+            {
+                <% @imagedatehour=0 %>
+                <% @imagedate=0 %>
+                name: '<%= scenario.name %>',
+                data:[<% @image_dates.each do |image| %>
+                        <% if scenario.id == image.power_scenario_id %>
+                            {
+                                            //如果日期相等
+                                            <% if @imagedate == image.image_date %>
+                                                <% @imagedatehour += 10 %>
+                                                //判断是否超过24小时
+                                                <% if @imagedatehour>=24 %>
+                                                    <% @imagedatehour=23 %>
+                                                <% end %>
+                                            <% else %>
+                                                <% @imagedatehour = 0 %>
+                                            <% end %>
+                                            <% @imagedate = image.image_date %>
+
+                                            x: Date.UTC("<%= get_year(image.image_date) %>",
+                                                       "<%= get_month(image.image_date) %>",
+                                                       "<%= get_day(image.image_date) %>",
+                                                       "<%= @imagedatehour %>" ),
+                                            y: <%= get_power(image.vcc_main) %>,
+                                            marker: {
+                                            <% if image.verified == "P" %>
+                                                fillColor: '#6dc22c'
+                                            <% else if image.verified == "F" %>
+                                                fillColor: '#ff0000'
+                                            <% end %>
+                        <% end %>
+                                            }
+                            },
+                        <% end %>
+                                <% end %>
+                ]//end data
+            },
+            <% end %>
+            <% end %>
+            ]//end series
+    });
+
+// category
+}
+
+var chart;
+var chart_vcc;
+
+$(function () {
+    show_all();
+    var comment = $( "#comment" ),
+    email = $( "#email" ),
+    passverify = $( "#passverify" ),
+    failverify = $( "#failverify" ),
+    imagedate=$("#imagedate"),
+    casename=$("#casename"),
+    power=$("#power"),
+    soc=$("#soc"),
+    os=$("#os"),
+    allFields = $( [] ).add( comment ).add( email ).add( passverify ).add(failverify),
+    tips = $( ".validateTips" );
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 350,
+      width: 500,
+      modal: true,
+      buttons: {
+        "Add comments": function() {
+            var v = "TBD";
+            if(passverify.attr('checked')){
+                v = "P";
+            }else if(failverify.attr('checked')){
+                v = "F";
+            }
+            updateComment(imagedate.html(), casename.html(), power.html(), comment.val(), email.val(),v, soc.html(), os.html());
+
+            allFields.removeClass( "ui-state-error" );
+            $( this ).dialog( "close" );
+        },
+        Cancel: function() {
+            $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+          form[0].reset();
+          allFields.removeClass("ui-state-error");
+      }
+    });
+
+    form = dialog.find("form").on("submit", function(event){
+        event.preeventDefault();
+    });
+
+});
 function updateComment(imagedate, casename, power, comment, email,verify, device, branch){
     var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&verified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
     $.ajax({
@@ -242,15 +596,15 @@ function show(chart_type){
         $("#chart_container_All").css("display", "block");
         $("#chart_container_vcc_main_All").css("display", "none");
         <% @categorys.each do |category| %>
-            $("#chart_container_<%= category.category %>").css("display", "block");
-            $("#chart_container_vcc_main_<%= category.category %>").css("display", "none");
+            $("#chart_container_<%= category %>").css("display", "block");
+            $("#chart_container_vcc_main_<%= category %>").css("display", "none");
         <% end %>
     }else{
         $("#chart_container_All").css("display", "none");
         $("#chart_container_vcc_main_All").css("display", "block");
         <% @categorys.each do |category| %>
-            $("#chart_container_<%= category.category %>").css("display", "none");
-            $("#chart_container_vcc_main_<%= category.category %>").css("display", "block");
+            $("#chart_container_<%= category %>").css("display", "none");
+            $("#chart_container_vcc_main_<%= category %>").css("display", "block");
         <% end %>
     }
 }
