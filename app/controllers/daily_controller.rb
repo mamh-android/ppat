@@ -75,29 +75,30 @@ class DailyController < ApplicationController
       render :layout=>"empty"
     end
 
-        def  show_chart_by_tab
-              @categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
-              @scenario_id_list =params[:scenario_id_list]
-              @device=params[:device]
-              @branch= params[:branch]
-              @category = params[:category]
+      def  show_chart_by_tab
+            @categorys = PowerScenario.where("category not in ('baremetal', 'CMCC', 'DoU', 'sensor','thermal')").select("distinct category")
+            @scenario_id_list =params[:scenario_id_list]
+            @device=params[:device]
+            @branch= params[:branch]
+            @category = params[:category]
+            @resolution = "720p"
 
-                @images = PowerRecord.where("device = ? AND branch = ? and run_type =  ?", @device, @branch, "daily").select("distinct image_date").order("image_date desc").limit(15)
-              @image_dates = PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ? and is_show = ?",
-                        @images.last.image_date, @images.first.image_date, @device, @branch, "daily", "1").select("distinct image_date,branch,battery,vcc_main,power_scenario_id,verified,fps,comments,vcc_main_power").order("image_date asc")
-              @last_image= PowerRecord.where("run_type = ? and branch = ? and device = ? AND power_scenario_id in (" + @scenario_id_list + ")", "daily", @branch, @device).order("image_date asc").last.image_date
-              @scenarios = PowerScenario.where("id in (" + @scenario_id_list + ")")
-              @latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", 11.weeks.ago, get_last_date(@last_image), @device, @branch).order("image_date asc").last
-              @os = @image_dates.last
-              @lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
-            @lcd_infos = LcdPower.where("device = ? and resolution = ?", @device, @resolution)
-               if !@latest_image_last.nil?
-              @latest_image=@latest_image_last.image_date
+              @images = PowerRecord.where("device = ? AND branch = ? and run_type =  ?", @device, @branch, "daily").select("distinct image_date").order("image_date desc").limit(15)
+            @image_dates = PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ? and is_show = ?",
+                      @images.last.image_date, @images.first.image_date, @device, @branch, "daily", "1").select("distinct image_date,branch,battery,vcc_main,power_scenario_id,verified,fps,comments,vcc_main_power").order("image_date asc")
+            @last_image= PowerRecord.where("run_type = ? and branch = ? and device = ? AND power_scenario_id in (" + @scenario_id_list + ")", "daily", @branch, @device).order("image_date asc").last.image_date
+            @scenarios = PowerScenario.where("id in (" + @scenario_id_list + ")")
+            @latest_image_last = PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + @scenario_id_list + ")", "daily", 11.weeks.ago, get_last_date(@last_image), @device, @branch).order("image_date asc").last
+            @os = @image_dates.last
+            @lcd = LcdPower.where("device = ? and resolution = ? and item = ?", @device, @resolution, "LCD").select("battery").last
+          @lcd_infos = LcdPower.where("device = ? and resolution = ?", @device, @resolution)
+             if !@latest_image_last.nil?
+            @latest_image=@latest_image_last.image_date
+          end
+            respond_to do |format|
+                format.js
             end
-              respond_to do |format|
-                  format.js
-              end
-        end
+      end
 
       def update_comments
               @image_date = params[:imagedate]
