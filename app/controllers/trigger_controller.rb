@@ -14,7 +14,7 @@ class TriggerController < ApplicationController
     @performance_cases = get_distinct_category_node(@tc_conf, "Performance")
 
     @devices = get_device_node(@tc_conf)
-    file_adv = File.new('/PPAT_test/testcase/config.xml')
+    file_adv = File.new(Rails.root.to_s + '/app/controllers/config.xml')
     @advanced_conf = REXML::Document::new file_adv
     @cp_cases = get_distinct_advanced_category_node(@advanced_conf, "pxa1908dkb_tz:pxa1908dkb")
 
@@ -54,7 +54,7 @@ class TriggerController < ApplicationController
     ubt_f = File.new(Rails.root.to_s + '/app/controllers/uboot_config.xml')
     @uboot_conf = REXML::Document::new ubt_f
 
-    file_adv = File.new('/PPAT_test/testcase/config.xml')
+    file_adv = File.new(Rails.root.to_s + '/app/controllers/config.xml')
     @advanced_conf = REXML::Document::new file_adv
 
     if @testtype == "Round PP Tuning"
