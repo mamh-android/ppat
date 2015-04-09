@@ -168,6 +168,24 @@
 		</TestCase>
 		<BLF>PXA1908_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</BLF>
 	</Device>
+	<Device>
+		<Name>ULC1FF</Name>
+		<TestCase>
+			<CaseName Category="Audio">FM</CaseName>
+			<CaseName Category="wifi/bt">WiFi_On</CaseName>
+			<CaseName Category="wifi/bt">WiFi_Conn</CaseName>
+			<CaseName Category="wifi/bt">BT_On</CaseName>
+			<CaseName Category="wifi/bt">BT_Conn</CaseName>
+			<CaseName Category="Game">Fishing</CaseName>
+			<CaseName Category="Game">Temple_Run</CaseName>
+			<CaseName Category="Game">Castle_Master</CaseName>
+			<CaseName Category="Camera">Preview(OV13850)</CaseName>
+			<CaseName Category="Camera">Take_pictures(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_720p(OV13850)</CaseName>
+			<CaseName Category="Camera">Record_1080p(OV13850)</CaseName>
+		</TestCase>
+		<BLF>PXA1908FF_Trusted_Samsung_lpddr3_1g_discrete_KMQ7X000SAB315_533Mhz.blf</BLF>
+	</Device>
 	<Board>
 		<Type>pxa1908dkb_tz:pxa1908dkb</Type>
 		<HW>
@@ -178,6 +196,12 @@
 		<Type>pxa1908dkb_dsds:pxa1908dkb</Type>
 		<HW>
 			<Name>ULC1_2: Camera OV13850</Name>
+		</HW>
+	</Board>
+	<Board>
+		<Type>pxa1908FF_cmcc:pxa1908FF</Type>
+		<HW>
+			<Name>ULC1FF</Name>
 		</HW>
 	</Board>
 	<Board>

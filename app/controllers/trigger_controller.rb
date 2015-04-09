@@ -32,6 +32,8 @@ class TriggerController < ApplicationController
 
     if device == "pxa1908dkb_tz:pxa1908dkb"
         TriggerULC1Job.create({:platform => "ulc1", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+    elsif device == "pxa1908FF_cmcc:pxa1908FF"
+        TriggerULC1Job.create({:platform => "ulc1ff", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1908dkb_dsds:pxa1908dkb"
         TriggerULC1Job.create({:platform => "ulc1", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1928dkb_tz:pxa1928dkb"

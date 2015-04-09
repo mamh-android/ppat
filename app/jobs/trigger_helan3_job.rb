@@ -11,10 +11,26 @@ class TriggerHelan3Job < Resque::JobWithStatus
 		client = JenkinsApi::Client.new(:server_ip => '10.38.120.30', :username => 'ppat', :password => '79fa7f655d56115da6fe7d707f63fd12')
 		build_que = JenkinsApi::Client::BuildQueue.new(client)
 		device = options['device'].split(":")[0]
+		image_path = options['image_path']
+		android_ver = /-[\w]+\.\d+/.match(image_path)[0]
+		rls_ver = image_path[10, image_path.length]
+		puts image_path.chomp
+		os_version = android_ver[1, android_ver.length]
+		idx = image_path.index(/-[\w]+\.\d+/) + 1 + android_ver.length
+		if idx < image_path.length
+			rls_ver = image_path[idx, image_path.length]
+			if rls_ver.include? "/"
+				rls =  rls_ver.chop
+			end
+		else
+			rls_ver = "master"
+		end
 		job_params = {
-		    'IMAGEPATH' => options['image_path'],
+		    'IMAGEPATH' => image_path,
 		    'PURPOSE' => options['purpose'],
 		    'BLF' => options['blf'],
+		    'OS' => os_version,
+		    'RLS_VERSION' => rls_ver,
 		    'DEVICE' => device,
 		    'TESTCASE' => options['testcase'],
 		    'ASSIGNER' => options['assigner']

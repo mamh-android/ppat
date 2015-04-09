@@ -18,7 +18,7 @@ class QueryController < ApplicationController
   	platform = status.options['platform']
   	if platform == 'helan3'
   		TriggerHelan3Job.create(status.options)
-  	elsif platform == 'ulc1'
+  	elsif platform == 'ulc1' || platform == 'ulc1ff'
   		TriggerULC1Job.create(status.options)
   	else
   		TriggerEdenJob.create(status.options)

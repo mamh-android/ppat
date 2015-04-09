@@ -239,60 +239,6 @@
                 </tr>
             </thead>
             <tbody>
-                <% @scenarios.each do |scenario| %>
-                    <% if scenario.category == @category %>
-                        <tr>
-                            <td rowspan="5">Battery</td>
-                            <td >Today</td>
-                            <td>
-                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                    <%= get_sub_power(consumption.battery) %>
-                                    <br/>
-                                <% end %>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                            <% if @lcd.nil? %>
-                                <% @lcdbacklight = 0 %>
-                            <% else %>
-                                <% @lcdbacklight = 100 - @lcd.battery.to_f %>
-                            <% end %>
-                            LCD=100mA,
-                            <a href="#" class="btn btn-flat btn-danger Popover" title="<%= @device %> LCD power" data-content="
-                                <table class='table table-bordered table-striped'>
-                                    <tr>
-                                        <th><%= @device %></th>
-                                        <th>Battery(mA)</th>
-                                        <th>Vcc_main(mA)</th>
-                                    </tr>
-                                    <% @lcd_infos.each do |item| %>
-                                    <tr>
-                                            <td><%= item.item %></td>
-                                            <td><%= item.battery %></td>
-                                            <td><%= item.vcc_main %></td>
-                                    </tr>
-                                    <% end %>
-                                </table>">
-                                <% if @lcdbacklight >= 0 %>
-                                    +<%= @lcdbacklight%>
-                                <% else %>
-                                    <%= @lcdbacklight%>
-                                <% end %>
-                                </a>
-                            </td>
-                            <td>
-                            <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
-                            <% end %>
-                            </td>
-                        </tr>
-                    <% end %>
-                <% end %>
-
-
-
                 <tr>
                     <td rowspan="5">Battery</td>
                     <td >Today</td>
