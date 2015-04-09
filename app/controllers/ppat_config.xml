@@ -21,10 +21,6 @@
 		<Category>LPM</Category>
 	</Power>
 	<Power>
-		<CaseName>KKR</CaseName>
-		<Category>Game</Category>
-	</Power>
-	<Power>
 		<CaseName>AngryBirds</CaseName>
 		<Category>Game</Category>
 	</Power>
@@ -65,10 +61,6 @@
 		<Category>Game</Category>
 	</Power>
 	<Power>
-		<CaseName>Temple_Run2</CaseName>
-		<Category>Game</Category>
-	</Power>
-	<Power>
 		<CaseName>Castle_Master</CaseName>
 		<Category>Game</Category>
 	</Power>
@@ -82,7 +74,7 @@
 			<CaseName Category="wifi/bt">BT_Conn</CaseName>
 			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
 		</TestCase>
-		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>HELAN3_2: Camera OV13850</Name>
