@@ -7,6 +7,38 @@ module DailyHelper
         PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ? and is_show = ?', image_date, scenario_id, device, branch, "1").last
     end
 
+    def get_display_image_dates(device, branch)
+        PowerRecord.where("device = ? AND branch = ? and run_type =  ?", device, branch, "daily").select("distinct image_date").order("image_date desc").limit(15)
+    end
+
+    def get_display_scenarios_id(device, branch, image_start, image_end)
+        PowerRecord.where("branch = ? and device = ? and is_show = 1 and image_date BETWEEN ? AND ? ", branch, device, image_start, image_end).select("group_concat(distinct power_scenario_id) as list").last.list
+    end
+
+    def get_display_records(image_start, image_end, branch, device)
+        PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ? and is_show = ?",
+       image_start, image_end, device, branch, "daily", "1").select("distinct image_date,branch,battery,vcc_main,power_scenario_id,verified,fps,comments,vcc_main_power").order("image_date asc")
+    end
+
+    def get_display_scenarios(scenario_id_list)
+        PowerScenario.where("id in (" + scenario_id_list + ")")
+    end
+
+    def get_last_latest_power_records(device, branch, image_start, image_end, scenario_id_list)
+        PowerRecord.where("run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + scenario_id_list + ")", "daily", image_start, get_last_date(image_end), device, branch).order("image_date asc").last
+    end
+
+    def get_last_image_date(device,branch, scenario_id_list, image_start, image_end)
+        PowerRecord.where("image_date between ? and ? and run_type = ? and branch = ? and device = ? AND power_scenario_id in (" + scenario_id_list + ")", image_start, image_end, "daily", branch, device).order("image_date asc").last.image_date
+    end
+
+    def get_lcd_infos(device, resolution)
+        LcdPower.where("device = ? and resolution = ?", device, resolution)
+    end
+
+    def get_lcd_power(device,resolution)
+        LcdPower.where("device = ? and resolution = ? and item = ?", device, resolution, "LCD").select("battery").last
+    end
     def get_target(scenario_id, device, resolution)
         PowerTarget.where(power_scenario_id: scenario_id, device: device, resolution: resolution).last
     end
