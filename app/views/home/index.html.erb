@@ -11,7 +11,7 @@
                 <div id="accordion1" class="accordion">
                     <div class="accordion-group">
                         <div class="accordion-heading">
-                            <a class="accordion-toggle" href="#collapseOne"
+                            <a class="accordion-toggle"
                                 data-parent="#accordion1" data-toggle="collapse">
                                 <div style="height:15px;">
                                     <span style="width:90%;float:left;" id="title_smoketest"></span>
@@ -20,7 +20,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div id="collapseOne" style="height: auto;">
+                        <div style="height: auto;">
                             <div>
                                 <div id="smoketest_result"></div>
                                <div class="modal fade hide" id="demoModal" style="display: none;">
@@ -292,16 +292,16 @@ function submit_smoke(image_date){
             if(platform=="pxa1908"&&branch=="LP5.0"){
                 platform="pxa1936";
             }
-            var url="http://10.38.116.40/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch;
+            var url="ftp://10.38.32.174/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch;
             for(var i=0;i<buid_images.length;i++){
                 if(image_date==buid_images[i].replace(/(^\s*)|(\s*$)/g,"")){
                     build_much=build_much+1;
                 }
             }
                 if(build_much>0){
-                    window.open(url,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+                    window.open(url,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes,scrollbars =yes");
                 }else{
-                    window.open("http://10.38.116.40/autobuild/android/"+platform,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes");
+                    window.open("ftp://10.38.32.174/autobuild/android/"+platform,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes,scrollbars =yes");
                 }
         }
     </script>
