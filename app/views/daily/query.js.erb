@@ -1,1 +1,1 @@
-$("#power_record").html("<%= escape_javascript(render  :partial => 'index') %>");
+$("#power_record").html("<%= escape_javascript(render  :partial => 'index', :locals => {:last_image => @last_image}) %>");
