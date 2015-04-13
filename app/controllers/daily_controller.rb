@@ -14,11 +14,6 @@ class DailyController < ApplicationController
 	  	@device=params[:device]
 	  	@branch= params[:branch]
 
-	  	if @device == "pxa1936ff_tz"
-	  		@resolution = "1080p"
-	  	else
-	  		@resolution = "720p"
-	  	end
 	  	image_dates = PowerRecord.where("device = ? AND branch = ? and run_type =  ?", @device, @branch, "daily").select("distinct image_date").order("image_date desc").limit(15)
 	  	@start = image_dates.last.image_date
 	  	@end = image_dates.first.image_date
@@ -34,7 +29,7 @@ class DailyController < ApplicationController
 		record_num = params[:record_num].to_i
 		@device = params[:device]
 		@branch = params[:branch]
-
+		@last_image = image_date
 		@category = @@category
 		record_num_after = record_num / 2
 		record_after = PowerRecord.where("image_date >= ? and device = ? and branch = ?", image_date, @device, @branch).select("distinct image_date").order("image_date asc").limit(record_num_after)
