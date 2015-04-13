@@ -305,6 +305,9 @@ function showChart_vcc(caseName, vcc){
 }
 function update_chart_table(th){
     image_date = $("#datepicker").val();
+    if(image_date == ""){
+      image_date = "<%= @datesEnable.last.image_date %>";
+    }
     record_num = $(th).html();
     var strURL = "query?image_date=" + image_date + "&record_num=" + record_num + "&device=<%= @device %>&branch=<%= @branch %>&scenario_id_list=<%= @scenario_id_list %>";
     $.ajax({
