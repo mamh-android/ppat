@@ -1,10 +1,10 @@
 module DailyHelper
     def get_daily_power(image_date, scenario_id, device, branch)
-        PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ? and is_show = ?', image_date, scenario_id, device, branch, "1")
+        PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ? and is_show = ? and run_type = ?', image_date, scenario_id, device, branch, "1", "daily")
     end
     def get_last_power(image_date, scenario_id, device, branch)
         #Helnconsumption.find(:all, :conditions => ['image_date = ? and scenario_id = ? and verify = ?', image_date, scenario_id, "P"]).last
-        PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ? and is_show = ?', image_date, scenario_id, device, branch, "1").last
+        PowerRecord.where('image_date = ? and power_scenario_id = ? and device = ? and branch = ? and is_show = ? and run_type = ?', image_date, scenario_id, device, branch, "1", "daily").last
     end
 
     def get_display_image_dates(device, branch)
