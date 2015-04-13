@@ -7,6 +7,12 @@
 <% if !@latest_image_last.nil? %>
 <%    @latest_image=@latest_image_last.image_date %>
 <% end %>
+<% if @device == "pxa1936ff_tz"
+            @resolution = "1080p"
+        else
+            @resolution = "720p"
+        end
+%>
 <% @lcd = get_lcd_power(@device,@resolution) %>
 <% @lcd_infos = get_lcd_infos(@device, @resolution) %>
 
