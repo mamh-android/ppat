@@ -24,8 +24,8 @@ module DailyHelper
         PowerScenario.where("id in (" + scenario_id_list + ")")
     end
 
-    def get_last_latest_power_records(device, branch, image_start, image_end, scenario_id_list)
-        PowerRecord.where("is_show = ? and run_type = ? AND image_date between ? and ? and device = ? and branch = ? and power_scenario_id in (" + scenario_id_list + ")", "1", "daily", image_start, get_last_date(image_end), device, branch).order("image_date asc").last
+    def get_last_latest_power_records(device, branch, image_start, image_end)
+        PowerRecord.where("is_show = ? and run_type = ? AND image_date between ? and ? and device = ? and branch = ?", "1", "daily", image_start, get_last_date(image_end), device, branch).order("image_date asc").last
     end
 
     def get_last_image_date(device,branch, scenario_id_list, image_start, image_end)
@@ -64,10 +64,8 @@ module DailyHelper
     end
 
     def get_last_date(image_date)
-        year= get_year(image_date).to_s
-        month = get_month_d(image_date).to_s
-        day = get_one_day_before(image_date).to_s
-        Date.parse(year + "-" + month + "-" + day).to_s
+         date = Date.parse(image_date.to_s)
+         Date.parse((date - 1).to_s)
     end
 
     def get_power(float)

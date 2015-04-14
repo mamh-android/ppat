@@ -4,7 +4,7 @@
 <% @last_image = get_last_image_date(@device,@branch, @scenario_id_list, @start, @end) %>
 <% end %>
 <% @scenarios = get_display_scenarios(@scenario_id_list) %>
-<% @latest_image_last = get_last_latest_power_records(@device, @branch, @start, @last_image, @scenario_id_list) %>
+<% @latest_image_last = get_last_latest_power_records(@device, @branch, @start, @last_image) %>
 <% @os = @power_records.last %>
 <% if !@latest_image_last.nil? %>
 <%    @latest_image=@latest_image_last.image_date %>
