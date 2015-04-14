@@ -82,8 +82,11 @@
                     <% @scenarios.each do |scenario| %>
                         <td>
                             <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                <% if scenario.need_aligned == "1" %>
                                     <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
+                                <% end %>
                             <% end %>
+
                         </td>
                     <% end %>
                 </tr>
@@ -307,9 +310,11 @@
                     <% @scenarios.each do |scenario| %>
                             <% if scenario.category == @category %>
                                 <td>
-                                <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
-                                    <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
-                                <% end %>
+                                    <% get_daily_power(@last_image, scenario.id, @device, @branch).each do |consumption| %>
+                                        <% if scenario.need_aligned == "1" %>
+                                            <%= get_sub_power((get_sub_power(consumption.battery).to_f + @lcdbacklight).to_s) %>
+                                        <% end %>
+                                    <% end %>
                                 </td>
                             <% end %>
                     <% end %>
