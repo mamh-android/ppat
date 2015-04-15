@@ -8,6 +8,11 @@ class LogController < ApplicationController
             @result = varify_user_login(username, password)
             if @result == "OK"
                 session[:username] = username
+                email_addr = username + "@marvell.com"
+                if User.where(email_addr: email_addr).last.nil?
+                    user = User.new(:email_addr => email_addr, name: username, role: "developer")
+                    user.save
+                end
                 redirect_to session.delete(:return_to)
             end
         end
