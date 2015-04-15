@@ -81,13 +81,10 @@ module DailyHelper
         end
     end
     def get_sub_power(float)
-        if float.nil?
-         0
-        else
+        float = float.to_s
+        if !float.nil?
             index = float.index('.')
-            if index.nil? or float.nil?
-                0
-            else
+            if !index.nil? and !float.nil?
                 float[0, index + 3]
             end
         end

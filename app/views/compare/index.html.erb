@@ -32,7 +32,7 @@
                         <input name="ImageDate" class="datepicker" style="width: 80px;" type="text"/>
                     </div>
 
-                    <button class="btn-align" onclick="add_daily_scenarios_to_cart()">Add to Compare</button>
+                    <button class="btn-align" onclick="add_daily_scenarios_to_cart(this)">Add to Compare</button>
             </div>
         <!--Grid row-->
             <div  class="row">
@@ -116,12 +116,13 @@ $("#bottom").click(function(){
     });
 })
 
-function add_daily_scenarios_to_cart(){
+function add_daily_scenarios_to_cart(th){
     var update_cart_url = "/compare/add_daily_compare";
     var ImageDate = $("input[name='ImageDate']").val();
     var Device = $("select[name='Device']").val();
     var Platform = $("select[name='Platform']").val();
     var Branch = $("select[name='Branch']").val();
+    $(th).attr('disabled','disabled')
     $.ajax({
         type: "POST",
         data: {ImageDate:ImageDate, Device: Device, Platform:Platform, Branch:Branch},
@@ -130,6 +131,7 @@ function add_daily_scenarios_to_cart(){
           },
         url: update_cart_url,
         success: function(msg){
+            $(th).removeAttr('disabled');
             $("#extruderRight").setMbExtruderContent({
                         url:"/carts"
             });

@@ -57,9 +57,9 @@ function show_dc(id){
 					<% get_scenario_info(scenario.power_scenario_id,@last_task.task_id).each do |scenario_info| %>
 						<tr>
 							<td><%= scenario_info.image_date %></td>
-							<td><%= scenario_info.battery %></td>
-							<td><%= scenario_info.vcc_main %></td>
-							<td><%= scenario_info.fps %></td>
+							<td><%= get_sub_power(scenario_info.battery) %></td>
+							<td><%= get_sub_power(scenario_info.vcc_main) %></td>
+							<td><%= get_sub_power(scenario_info.fps) %></td>
 							<td onclick="add_to_cart(this, '<%= scenario_info.id %>')"><span class="icon-refresh"></span></td>
 							<td><button class="btn btn-flat btn-info" onclick="show_dc('<%= scenario_info.id %>')">DutyCycle</button></td>
 						</tr>

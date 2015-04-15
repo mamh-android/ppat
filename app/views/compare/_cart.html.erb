@@ -162,19 +162,19 @@
                                                             <%end%>
                                                         <% end %>
                                                     <%end%>
-                                                    <%= battery_a[tk_purpose.task_id] %>
+                                                    <%= get_sub_power(battery_a[tk_purpose.task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= vcc_main_a[task_id] %>
+                                                    <%= get_sub_power(vcc_main_a[task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= fps_a[task_id] %>
+                                                    <%= get_sub_power(fps_a[task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
@@ -311,19 +311,19 @@
                                                         <%end%>
                                                     <% end %>
                                                     <%end%>
-                                                    <%= battery_a[tk_purpose.task_id] %>
+                                                    <%= get_sub_power(battery_a[tk_purpose.task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= vcc_main_a[task_id] %>
+                                                    <%= get_sub_power(vcc_main_a[task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= fps_a[task_id] %>
+                                                    <%= get_sub_power(fps_a[task_id]) %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
