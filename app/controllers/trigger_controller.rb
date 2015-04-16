@@ -39,7 +39,11 @@ class TriggerController < ApplicationController
     elsif device == "pxa1928dkb_tz:pxa1928dkb"
         TriggerEdenJob.create({:platform => "eden", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
     elsif device == "pxa1936dkb_tz:pxa1936dkb"
-        TriggerHelan3Job.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        if hw == 'HELAN3_1: Daily use'
+            TriggerHelan3Job.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        elsif hw == 'HELAN3_2: Camera'
+            TriggerHelan3CameraJob.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        end
     end
     redirect_to "/query/index"
   end

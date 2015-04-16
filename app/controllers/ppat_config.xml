@@ -77,18 +77,17 @@
 		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
 	</Device>
 	<Device>
-		<Name>HELAN3_2: Camera OV13850</Name>
+		<Name>HELAN3_2: Camera</Name>
 		<TestCase>
-			<CaseName Category="Camera">Preview(OV13850)</CaseName>
-			<CaseName Category="Camera">Take_pictures(OV13850)</CaseName>
-			<CaseName Category="Camera">Record_720p(OV13850)</CaseName>
-			<CaseName Category="Camera">Record_1080p(OV13850)</CaseName>
-			<CaseName Category="Camera">Preview(OV13850)_2D</CaseName>
-			<CaseName Category="Camera">Take_pictures(OV13850)_2D</CaseName>
-			<CaseName Category="Camera">Record_720p(OV13850)_2D</CaseName>
-			<CaseName Category="Camera">Record_1080p(OV13850)_2D</CaseName>
+			<CaseName Category="Camera">Preview(S3K3L2)</CaseName>
+			<CaseName Category="Camera">Take_pictures(S3K3L2)</CaseName>
+			<CaseName Category="Camera">Record_720p(S3K3L2)</CaseName>
+			<CaseName Category="Camera">Record_1080p(S3K3L2)</CaseName>
+			<CaseName Category="Camera">Preview(S3K3L2)_2D</CaseName>
+			<CaseName Category="Camera">Take_pictures(S3K3L2)_2D</CaseName>
+			<CaseName Category="Camera">Record_720p(S3K3L2)_2D</CaseName>
+			<CaseName Category="Camera">Record_1080p(S3K3L2)_2D</CaseName>
 			<CaseName Category="Game">Fishing</CaseName>
-			<CaseName Category="Game">Temple_Run</CaseName>
 			<CaseName Category="Game">Castle_Master</CaseName>
 		</TestCase>
 		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
@@ -207,7 +206,7 @@
 		<Type>pxa1936dkb_tz:pxa1936dkb</Type>
 		<HW>
 			<Name>HELAN3_1: Daily use</Name>
-			<Name>HELAN3_2: Camera OV13850</Name>
+			<Name>HELAN3_2: Camera</Name>
 		</HW>
 	</Board>
 

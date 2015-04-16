@@ -7,13 +7,15 @@ class QueryController < ApplicationController
 
   def delete_job
   	uuid = params[:uuid]
-  	Resque::Plugins::Status::Hash.remove(uuid)
+      Resque::Plugins::Status::Hash.remove(uuid)
+      Resque::Job.destroy('ulc1', 'TriggerULC1Job')
   	redirect_to "/query/index"
   end
 
   def update_queue
   	uuid = params[:uuid]
   	status = Resque::Plugins::Status::Hash.get(uuid)
+        Resque::Plugins::Status::Hash.kill(uuid)
   	Resque::Plugins::Status::Hash.remove(uuid)
   	platform = status.options['platform']
   	if platform == 'helan3'
