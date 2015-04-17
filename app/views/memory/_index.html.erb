@@ -24,114 +24,170 @@
     <div id="chart_container_All" style="min-width: 70%; height: 600px; margin: 0 auto">
     </div>
     <table class="table table-wuxia">
-            <thead>
-                <tr>
-                    <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
-                        <% @scenarios.each do |scenario| %>
-                            <% if scenario.name.index('(').nil? %>
-                                <th> <%= scenario.name %></th>
-                            <% else %>
-                                <th> <%= get_sub_name_first(scenario.name) %><br/><%= get_sub_name_last(scenario.name) %></th>
-                            <% end %>
-                        <% end %>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="5">Memory</td>
-                    <td >Today</td>
+        <thead>
+            <tr>
+                <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
                     <% @scenarios.each do |scenario| %>
-                        <td>
-                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
-                                <%= get_sub_memory(consumption.memory) %>
-                            <% end %>
-                        </td>
+                        <th> <%= scenario.name %></th>
                     <% end %>
-                </tr>
-                <tr>
-                    <td>&Delta; <%= @latest_image %></td>
-                    <% @scenarios.each do |scenario| %>
-                        <td>
-                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
-                                <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
-                                <% if last_memory.nil? %>
-                                    <font color="#000000"></font>
-                                <% else %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
-                                        <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
-                                        <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
-                                        <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="5">Memory</td>
+                <td >Today</td>
+                <% @scenarios.each do |scenario| %>
+                    <td>
+                        <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                            <%= get_sub_memory(consumption.memory) %>
+                        <% end %>
+                    </td>
+                <% end %>
+            </tr>
+            <tr>
+                <td>&Delta; <%= @latest_image %></td>
+                <% @scenarios.each do |scenario| %>
+                    <td>
+                        <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
+                            <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
+                            <% if last_memory.nil? %>
+                                <font color="#000000"></font>
+                            <% else %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
+                                    <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
+                                    <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
+                                    <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
                                 <% end %>
                             <% end %>
+                        <% end %>
+                    </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
+        <thead>
+            <tr>
+                <th colspan="2" rowspan="2">Image Date</th>
+                    <% @scenarios.each do |scenario| %>
+                            <th> <%= scenario.id%></th>
+                    <% end %>
+            </tr>
+            <tr>
+                    <% @scenarios.each do |scenario| %>
+                            <th> <%= scenario.name %></th>
+                    <% end %>
+            </tr>
+        </thead>
+        <tbody>
+        <% get_memory_display_image_dates(@device, @branch, @platform, @ddrsize).each do |memoryrecord| %>
+            <tr>
+                <th colspan="2"><%= memoryrecord.image_date %></th>
+                <% @scenarios.each do |scenario| %>
+                        <td>
+                            <% get_daily_memory(memoryrecord.image_date, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                            <a href="<%= consumption.link %>">
+                                <%= get_sub_memory(consumption.memory) %>
+                            </a>
+                            <% end %>
                         </td>
-                </tr>
-
-            </tbody>
+                <% end %>
+            </tr>
+        <% end %>
+        </tbody>
     </table>
 <!--if @category == "All" All end-->
 <% else %>
     <div id="chart_container_<%= @category %>" style="min-width: 70%; height: 400px; margin: 0 auto">
     </div>
     <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
-            <thead>
-                <tr>
-                    <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
-                        <% @scenarios.each do |scenario| %>
-                            <% if scenario.category == @category %>
-                                <th> <%= scenario.name %></th>
-                            <% end %>
-                        <% end %>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="5">memory</td>
-                    <td >Today</td>
+        <thead>
+            <tr>
+                <th colspan="2"><a href="<%= @last_link  %>"><font color="white"><%= @last_image %></font></a></th>
                     <% @scenarios.each do |scenario| %>
                         <% if scenario.category == @category %>
-                            <td>
-                                <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
-                                    <%= get_sub_memory(consumption.memory) %>
-                                    <br/>
-                                <% end %>
-                            </td>
+                            <th> <%= scenario.name %></th>
                         <% end %>
-                <% end %>
-                </tr>
-                <tr>
-                    <td>&Delta; <%= @latest_image %></td>
-                    <% @scenarios.each do |scenario| %>
-                        <% if scenario.category == @category %>
+                    <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="2">Memory</td>
+                <td >Today</td>
+                <% @scenarios.each do |scenario| %>
+                    <% if scenario.category == @category %>
                         <td>
-                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
-                                <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
-                                <% if last_memory.nil? %>
-                                    <font color="#000000"></font>
-                                <% else %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
-                                        <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
-                                        <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
-                                        <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
-                                    <% end %>
-                                    <% end %>
-                                <% end %>
+                            <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                                <%= get_sub_memory(consumption.memory) %>
+                                <br/>
                             <% end %>
                         </td>
+                    <% end %>
+            <% end %>
+            </tr>
+            <tr>
+                <td>&Delta; <%= @latest_image %></td>
+                <% @scenarios.each do |scenario| %>
+                    <% if scenario.category == @category %>
+                    <td>
+                        <% get_daily_memory(@last_image, scenario.id, @device, @branch, @platform, @ddrsize).each do |record| %>
+                            <% last_memory = get_last_memory(@latest_image, scenario.id, @device, @branch, @platform, @ddrsize) %>
+                            <% if last_memory.nil? %>
+                                <font color="#000000"></font>
+                            <% else %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) < 0 %>
+                                    <font color=green><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) == 0 %>
+                                    <font color="#000000"><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
+                                <% if (record.memory.to_f - last_memory.memory.to_f) > 0 %>
+                                    <font color=FF0000><%= get_sub_memory((record.memory.to_f - last_memory.memory.to_f).to_s) %></font>
+                                <% end %>
+                                <% end %>
+                            <% end %>
                         <% end %>
-                </tr>
+                    </td>
+                    <% end %>
+            </tr>
+        </tbody>
+    </table>
 
-            </tbody>
-        </table>
+    <table class="table table-wuxia" border='0' align="center" cellspacing="1" cellpadding="0" bgcolor="#000000">
+        <thead>
+            <tr>
+                <th colspan="2"></th>
+                    <% @scenarios.each do |scenario| %>
+                        <% if scenario.category == @category %>
+                            <th> <%= scenario.name %></th>
+                        <% end %>
+                    <% end %>
+            </tr>
+        </thead>
+        <tbody>
+        <% get_memory_display_image_dates(@device, @branch, @platform, @ddrsize).each do |memoryrecord| %>
+            <tr>
+                <th colspan="2"><%= memoryrecord.image_date %></th>
+                <% @scenarios.each do |scenario| %>
+                    <% if scenario.category == @category %>
+                        <td>
+                            <% get_daily_memory(memoryrecord.image_date, scenario.id, @device, @branch, @platform, @ddrsize).each do |consumption| %>
+                            <a href="<%= consumption.link %>">
+                                <%= get_sub_memory(consumption.memory) %>
+                            </a>
+                            <% end %>
+                        </td>
+                    <% end %>
+            <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
 <% end %>
 <!--end table-->
 
@@ -210,7 +266,7 @@ $(function () {
                                 if(editcheckbox.attr("checked")){
                                     dialog.dialog( "open" );
                                 }else{
-                                    show_dc(name,memory,Highcharts.dateFormat('%Y-%m-%d', this.x));
+
                                 }
 
                             }
@@ -335,7 +391,7 @@ $(function () {
                                 if(editcheckbox.attr("checked")){
                                     dialog.dialog( "open" );
                                 }else{
-                                    show_dc(name,memory,Highcharts.dateFormat('%Y-%m-%d', this.x));
+
                                 }
 
                             }

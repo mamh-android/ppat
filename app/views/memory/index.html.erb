@@ -50,7 +50,7 @@
 
             <label id="imagedate"  class="label-none-block"></label>,
             <label id="casename" class="label-none-block"></label>,
-            <label id="power" class="label-none-block"></label>mA</br>
+            <label id="memory" class="label-none-block"></label>mA</br>
 
             <label for="comment" class="label-none-block">Comments</label></br>
             <textarea name="comment" id="comment" rows="3" cols="50" class="text ui-widget-content ui-corner-all"></textarea></br>
@@ -184,7 +184,7 @@ $(function () {
     failverify = $( "#failverify" ),
     imagedate=$("#imagedate"),
     casename=$("#casename"),
-    power=$("#power"),
+    memory=$("#memory"),
     soc=$("#soc"),
     os=$("#os"),
     allFields = $( [] ).add( comment ).add( email ).add( passverify ).add(failverify),
@@ -211,7 +211,7 @@ $(function () {
             }else if(failverify.attr('checked')){
                 v = "F";
             }
-            updateComment(imagedate.html(), casename.html(), power.html(), comment.val(), email.val(),v, soc.html(), os.html());
+            updateComment(imagedate.html(), casename.html(), memory.html(), comment.val(), email.val(),v, soc.html(), os.html());
 
             allFields.removeClass( "ui-state-error" );
             $( this ).dialog( "close" );
@@ -231,8 +231,8 @@ $(function () {
     });
 
 });
-function updateComment(imagedate, casename, power, comment, email,verify, device, branch){
-    var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&power=" + encodeURIComponent(power) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&verified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
+function updateComment(imagedate, casename, memory, comment, email,verify, device, branch){
+    var strURL = "update_comments?casename=" +encodeURIComponent(casename) + "&memory=" + encodeURIComponent(memory) + "&comments=" + encodeURIComponent(comment + "\n" + email) + "&verified=" +verify + "&imagedate=" + encodeURIComponent(imagedate) + "&device=" + device + "&branch=" + branch;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -243,8 +243,8 @@ function updateComment(imagedate, casename, power, comment, email,verify, device
 }
 
 /* show footer Duty Cycle */
-function show_dc(caseName, power,image_date){
-    var task_url = "show_dc?scenario=" + caseName + "&battery=" + power + "&image_date=" + image_date;
+function show_dc(caseName, memory,image_date){
+    var task_url = "show_dc?scenario=" + caseName + "&memory=" + memory + "&image_date=" + image_date;
     $.ajax({
         type: "GET",
         url: task_url,
@@ -258,9 +258,9 @@ function show_dc(caseName, power,image_date){
 function showLCDInfo(soc,resolution){
     alert("test");
 }
-function getComment(image_date, battery){
+function getComment(image_date, memory){
     var comments = "";
-    var strURL = "get_comment?image_date=" + image_date + "&battery=" + battery;
+    var strURL = "get_comment?image_date=" + image_date + "&memory=" + memory;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -271,9 +271,9 @@ function getComment(image_date, battery){
     });
     return comments;
 }
-function getVerify(image_date, battery){
+function getVerify(image_date, memory){
     var v = "";
-    var strURL = "get_verify?image_date=" + image_date + "&battery=" + battery;
+    var strURL = "get_verify?image_date=" + image_date + "&memory=" + memory;
     $.ajax({
         type: "GET",
         url: strURL,
@@ -337,15 +337,13 @@ function Hide(id){
 }
 
 function show(chart_type){
-    if(chart_type == "battery"){
+    if(chart_type == "memory"){
         $("#chart_container_All").css("display", "block");
-        $("#chart_container_vcc_main_All").css("display", "none");
         <% @categorys.each do |category| %>
             $("#chart_container_<%= category %>").css("display", "block");
         <% end %>
     }else{
         $("#chart_container_All").css("display", "none");
-        $("#chart_container_vcc_main_All").css("display", "block");
         <% @categorys.each do |category| %>
             $("#chart_container_<%= category %>").css("display", "none");
         <% end %>

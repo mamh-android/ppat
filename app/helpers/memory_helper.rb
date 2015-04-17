@@ -3,6 +3,7 @@ module MemoryHelper
         MemoryRecord.where('image_date = ? and memory_scenario_id = ? and device = ? and branch = ? and platform = ? and is_show = ? and ddr_size = ?',
                            image_date, scenario_id, device, branch, platform, "1", ddrsize)
     end
+
     def get_last_memory(image_date, scenario_id, device, branch, platform, ddrsize)
         MemoryRecord.where('image_date = ? and memory_scenario_id = ? and device = ? and branch = ? and platform = ? and is_show = ? and ddr_size = ?',
                            image_date, scenario_id, device, branch, platform, "1", ddrsize).last
@@ -38,6 +39,7 @@ module MemoryHelper
         MemoryRecord.where("is_show = ? and image_date between ? and ? and platform = ? and branch = ? and device = ? AND memory_scenario_id in (" +
                            scenario_id_list + ")", "1",  image_start, image_end, platform, branch, device).order("image_date asc").last.image_date
     end
+
     def get_memory_last_link(device, branch, platform, scenario_id_list, image_start, image_end, ddrsize)
         MemoryRecord.where("is_show = ? and image_date between ? and ? and platform = ? and branch = ? and device = ? AND memory_scenario_id in (" +
                            scenario_id_list + ")", "1",  image_start, image_end, platform, branch, device).order("image_date asc").last.link
