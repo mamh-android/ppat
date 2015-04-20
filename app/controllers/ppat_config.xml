@@ -29,10 +29,6 @@
 		<Category>UI</Category>
 	</Power>
 	<Power>
-		<CaseName>Menu_Navigation</CaseName>
-		<Category>UI</Category>
-	</Power>
-	<Power>
 		<CaseName>Menu_List_Menu</CaseName>
 		<Category>UI</Category>
 	</Power>
@@ -57,7 +53,7 @@
 		<Category>Audio</Category>
 	</Power>
 	<Power>
-		<CaseName>Temple_Run</CaseName>
+		<CaseName>Temple_Run2</CaseName>
 		<Category>Game</Category>
 	</Power>
 	<Power>
@@ -74,7 +70,7 @@
 			<CaseName Category="wifi/bt">BT_Conn</CaseName>
 			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
 		</TestCase>
-		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>HELAN3_2: Camera</Name>
@@ -90,7 +86,7 @@
 			<CaseName Category="Game">Fishing</CaseName>
 			<CaseName Category="Game">Castle_Master</CaseName>
 		</TestCase>
-		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_533Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>EDEN_1: Daily use</Name>
