@@ -1,12 +1,15 @@
-<article class="span7">
-	<pre class="html ui-resizable ui-widget-content" id="<%= @thermal_record.id %>" ondblclick="remove(<%= @thermal_record.id %>)">
-		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.image_date %>,<a href="<%= @thermal_record.log_link %>" target="_blank">LINK</a></h5>
-		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.device %>,<%= @thermal_record.branch %></h5>
-		<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.name %></h5>
-		<div id="chart_container_thermal_temp_<%= @thermal_record.id %>"></div>
-		<div id="chart_container_thermal_freq_<%= @thermal_record.id %>"></div>
-	</pre>
-</article>
+<div style="width:640px; padding:0.5em;float: left; margin-right: 10px;"  class="html ui-resizable  ui-widget-content" id="<%= @thermal_record.id %>" ondblclick="remove(<%= @thermal_record.id %>)">
+	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.image_date %>,<a href="<%= @thermal_record.log_link %>" target="_blank">LINK</a></h5>
+	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.device %>,<%= @thermal_record.branch %></h5>
+	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @thermal_record.name %></h5>
+	<div id="chart_container_thermal_temp_<%= @thermal_record.id %>"></div>
+	<div id="chart_container_thermal_freq_<%= @thermal_record.id %>"></div>
+	<script language="JavaScript">
+	$(function () {
+		$( "#<%= @thermal_record.id %>" ).resizable();
+	})
+	</script>
+</div>
 
 <script language="JavaScript">
 function show_chart(){

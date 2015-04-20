@@ -274,7 +274,9 @@ function trigger_ppat(){
         var cmd_info = new Object();
         cmd_info.description = $(this).prev("input").val();
         cmd_info.commands = $(this).val().replace(/[\n]/ig,'&amps;').replace(/\s+/g,'&nbsp;');
-        round_cmd_infos.push(cmd_info);
+        if(!cmd_info.commands == ""){
+            round_cmd_infos.push(cmd_info);
+        }
     });
 
     var testcase = new Object();
