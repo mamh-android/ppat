@@ -1,7 +1,8 @@
 <% if !@record.nil? %>
-<div style="width:640px; padding:0.5em;float: left; margin-right: 10px;"  class="html ui-resizable  ui-widget-content" id="<%= @record.id %>" ondblclick="remove(<%= @record.id %>)">
+<div style="width:600px; padding:0.5em;float: left; margin-right: 10px;"  class="ui-widget-content" id="<%= @record.id %>" ondblclick="remove(<%= @record.id %>)">
 	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @record.image_date %></h5>
 	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @record.platform %></h5>
+	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= @record.purpose %></h5>
 	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= get_scenario_name(@record.power_scenario_id) %></h5>
 	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;">Battery:<%= @record.battery %>mA, Vcc_main:<%= @record.vcc_main %>mA</h5>
 	<h5 style="text-align: center; margin: 0 0 0 0;font-weight: bold;border-bottom:1px solid #333;"><%= get_user_name_by_id(@record.submitter) %></h5>

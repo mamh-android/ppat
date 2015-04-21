@@ -28,7 +28,9 @@ function show_dc(id){
 		success: function(msg){
 			$("footer").css("display","block");
 			$("#dc_info").append(msg);
-			$("#" + id).resizable();
+            $("#dc_info div").each(function(){
+                $(this).resizable();
+            })
 		}
 	});
 }
