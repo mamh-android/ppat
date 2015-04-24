@@ -21,6 +21,7 @@ private
       [
         task_info.id,
         task_info.task_id,
+        task_info.finished_at.to_s,
         task_info.platform,
         task_info.device,
         task_info.branch,
