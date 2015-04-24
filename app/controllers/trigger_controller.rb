@@ -24,7 +24,7 @@ class TriggerController < ApplicationController
   def trigger
     device = params[:device]
     blf = params[:blf]
-    image_path = params[:image_path]
+    image_path = params[:image_path].strip
     hw = params[:hw]
     testcase = params[:testcase]
     purpose = params[:purpose]
@@ -43,6 +43,8 @@ class TriggerController < ApplicationController
             TriggerHelan3Job.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
         elsif hw == 'HELAN3_2: Camera'
             TriggerHelan3CameraJob.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
+        elsif hw == 'HELAN3_3: WiFi_Browsing'
+            TriggerHelan3WifiBrowsingJob.create({:platform => "helan3", :purpose => purpose, :assigner => assigner, :device => device.split(":")[0], :blf => blf, :image_path => image_path, :hw => hw, :testcase => testcase})
         end
     end
     redirect_to "/query/index"

@@ -41,7 +41,7 @@ private
     if params[:search]["value"] != ""
       search_str = params[:search]["value"].split(/[\s]/)
       search_str.each do |val|
-        task_infos = task_infos.where("branch like :search or device like :search or task_id like :search or platform like :search or purpose like :search", search: "%#{val}%")
+        task_infos = task_infos.where("id like :search or branch like :search or device like :search or task_id like :search or platform like :search or purpose like :search", search: "%#{val}%")
       end
     end
     task_infos
