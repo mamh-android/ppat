@@ -8,7 +8,7 @@ class QueryController < ApplicationController
   def delete_job
   	uuid = params[:uuid]
       Resque::Plugins::Status::Hash.remove(uuid)
-      Resque::Job.destroy('ulc1', 'TriggerULC1Job')
+      #Resque::Job.destroy('ulc1', 'TriggerULC1Job')
   	redirect_to "/query/index"
   end
 
