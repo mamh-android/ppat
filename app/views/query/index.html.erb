@@ -8,7 +8,7 @@
 				<% if info.status == 'working' %>
 					<div class="alert alert-info">
 						<button class="close" data-dismiss="alert" type="button" onclick="kill_job(this, '<%= info.uuid %>')">×</button>
-						<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
+						<%= info.options["assigner"] %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
 							<div class="bar" style="width: 1%">1%</div>
 						</div>
@@ -21,7 +21,7 @@
 				<% if info.status == 'queued' %>
 					<div class="alert alert-info" id="<%= info.uuid %>">
 						<button class="close" data-dismiss="alert" type="button" onclick="kill_job(this, '<%= info.uuid %>')">×</button>
-						<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
+						<%= info.options["assigner"] %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
 						<div class="progress progress-inverse progress-striped active" style="margin-bottom: 9px;">
 							<div class="bar" style="width: 0%">0%</div>
 						</div>
@@ -33,7 +33,7 @@
 		<% @queues[queue].each do |info| %>
 			<% if info.status == 'completed' %>
 				<div class="alert alert-info">
-					<%= info.uuid %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
+					<%= info.options["assigner"] %>: <%= info.options["purpose"] %> : <%= info.options["testcase"] %>: <%= info.options["submitter"] %>
 					</br>
 					<a href="<%= Resque::Plugins::Status::Hash.get(info.uuid)['log'] %>">Log</a>
 				</div>
@@ -53,19 +53,19 @@ $(function() {
 
  });
 	<% @queues.keys.each do |queue| %>
-    	$( "#sortable_<%= queue %>" ).sortable({
-    		stop: function(event, ui) {
-    			$(this).children().each(function(){
-    				update_url = "update_queue?uuid=" + $(this).attr("id");
-    				$.ajax({
-				        type: "GET",
-				        url: update_url,
-				        success: function(msg){
-				        }
-				    });
-    			});
-    		}
-    	});
+//    	$( "#sortable_<%= queue %>" ).sortable({
+//    		stop: function(event, ui) {
+//    			$(this).children().each(function(){
+//    				update_url = "update_queue?uuid=" + $(this).attr("id");
+//    				$.ajax({
+//				        type: "GET",
+//				        url: update_url,
+//				        success: function(msg){
+//				        }
+//				    });
+//   			});
+//    		}
+//    	});
 	<% end %>
 });
 

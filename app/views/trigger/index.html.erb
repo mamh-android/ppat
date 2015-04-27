@@ -273,7 +273,7 @@ function trigger_ppat(){
     $("#roundcmd").find("textarea").each(function(){
         var cmd_info = new Object();
         cmd_info.description = $(this).prev("input").val();
-        cmd_info.commands = $(this).val().replace(/[\n]/ig,';');
+        cmd_info.commands = $(this).val().replace(/[\n]/ig,';').replace(/\"/ig, '&quot;');
         if(!cmd_info.commands == ""){
             round_cmd_infos.push(cmd_info);
         }
