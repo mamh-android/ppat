@@ -17,7 +17,7 @@ module DailyHelper
 
     def get_display_records(image_start, image_end, branch, device)
         PowerRecord.where("image_date BETWEEN ? AND ? AND device = ? AND branch = ? and run_type =  ? and is_show = ?",
-       image_start, image_end, device, branch, "daily", "1").select("distinct image_date,branch,battery,vcc_main,power_scenario_id,verified,fps,comments,vcc_main_power").order("created_at asc")
+       image_start, image_end, device, branch, "daily", "1").select("distinct image_date,branch,battery,vcc_main,power_scenario_id,verified,fps,comments,vcc_main_power").order("image_date asc, created_at asc")
     end
 
     def get_display_scenarios(scenario_id_list)

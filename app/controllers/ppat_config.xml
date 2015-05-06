@@ -68,6 +68,7 @@
 			<CaseName Category="wifi/bt">WiFi_Browsing</CaseName>
 		</TestCase>
 		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_lpddr3_2g_discrete_667Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>HELAN3_2: Camera</Name>
@@ -84,6 +85,7 @@
 			<CaseName Category="Game">Castle_Master</CaseName>
 		</TestCase>
 		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_lpddr3_2g_discrete_667Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>HELAN3_3: WiFi_Browsing</Name>
@@ -94,6 +96,7 @@
             <CaseName Category="wifi/bt">WiFi_browsing_local</CaseName>
 		</TestCase>
 		<BLF>PXA1936_Trusted_Samsung_lpddr3_2g_discrete_KMR310001M_667Mhz.blf</BLF>
+		<BLF>PXA1936_Trusted_lpddr3_2g_discrete_667Mhz.blf</BLF>
 	</Device>
 	<Device>
 		<Name>EDEN_1: Daily use</Name>
