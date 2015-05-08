@@ -11,6 +11,8 @@
 <% end %>
 <% if @device == "pxa1936ff_tz"
             @resolution = "1080p"
+        elsif @device == "pxa1908FF_tz" || @device == "pxa1908FF_cmcc"
+            @resolution = "VGA"
         else
             @resolution = "720p"
         end
