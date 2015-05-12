@@ -23,6 +23,22 @@ class DailyController < ApplicationController
 		render :layout=>"ppat"
 	end
 
+    def query_record
+        device = params[:device]
+        branch = params[:branch]
+        if device == 'pxa1936ff_tz'
+            @resolution = "1080p"
+        elsif device == 'pxa1908FF_tz' || device == 'pxa1908FF_cmcc'
+            @resolution = "VGA"
+        else
+            @resolution = "720p"
+        end
+        @record = PowerRecord.joins(:power_scenario).where(branch: branch, device: device, run_type: "daily", verified: "P").group("name").select("distinct name, battery")
+	  	render :json=>{
+            :resolution => @resolution, :record => @record.as_json(:only => [:name, :battery])
+        }
+    end
+
 	def query
 		@scenario_id_list =params[:scenario_id_list]
 		image_date = params[:image_date]
