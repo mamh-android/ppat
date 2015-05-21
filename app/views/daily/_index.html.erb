@@ -13,6 +13,8 @@
             @resolution = "1080p"
         elsif @device == "pxa1908FF_tz" || @device == "pxa1908FF_cmcc"
             @resolution = "VGA"
+        elsif @device == "pxa1936dkb_tz" && @branch == "lp5.1_k314_beta1"
+            @resolution = "1080p"
         else
             @resolution = "720p"
         end

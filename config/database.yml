@@ -24,10 +24,10 @@ test:
   password: 
   host: localhost
 
-production:
-  adapter: mysql2
-  encoding: utf8
-  database: ppat
-  username: root
-  password: marvell
-  host: 10.38.116.40
+#production:
+#  adapter: mysql2
+#  encoding: utf8
+#  database: ppat
+#  username: root
+#  password: marvell
+#  host: 10.38.116.40

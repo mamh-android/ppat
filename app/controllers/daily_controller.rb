@@ -26,17 +26,39 @@ class DailyController < ApplicationController
     def query_record
         device = params[:device]
         branch = params[:branch]
-        if device == 'pxa1936ff_tz'
-            @resolution = "1080p"
-        elsif device == 'pxa1908FF_tz' || device == 'pxa1908FF_cmcc'
-            @resolution = "VGA"
-        else
-            @resolution = "720p"
-        end
         @record = PowerRecord.joins(:power_scenario).where(branch: branch, device: device, run_type: "daily", verified: "P").group("name").select("distinct name, battery")
-	  	render :json=>{
-            :resolution => @resolution, :record => @record.as_json(:only => [:name, :battery])
-        }
+        if device == 'pxa1936ff_tz'
+            render :json => [{
+                :resolution => "1080p",
+                :record => @record.to_json(:except => id)
+            },{
+                :user => true
+            }].to_json
+        elsif device == 'pxa1908FF_tz' || device == 'pxa1908FF_cmcc'
+            @hash["WVGA"] = @record
+        else
+            @record_1080p = PowerRecord.joins(:power_scenario).where(branch: "lp5.1_k314_alpha1", device: device, run_type: "ondemand", purpose: "1080p LCD").group("name").select("distinct name, battery")
+            @record_WVGA = PowerRecord.joins(:power_scenario).where(branch: "lp5.1_k314_alpha1", device: device, run_type: "ondemand", purpose: "2015-05-05_pxa1936-lp5.1_k314_alpha1 WVGA").group("name").select("distinct name, battery")
+            if device == 'pxa1936dkb_tz'
+                render :json => [{
+                    :resolution => "720p",
+                    :record => @record
+                },{
+                    :resolution => "1080p",
+                    :record => @record_1080p
+                }].to_json
+            else
+                render :json => [{
+                    :resolution => "720p",
+                    :record => @record
+                },{
+                    :resolution => "WVGA",
+                    :record => @record_WVGA
+                }]
+            end
+         end
+        #render :json=> hash
+		#render :layout=>"empty"
     end
 
 	def query

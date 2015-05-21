@@ -110,6 +110,24 @@
 <% end %>
 
 <% if @device == "pxa1936dkb_tz" %>
+    <% if @branch == "lp5.1_k314_beta1" %>
+     <li>
+         <div class="time">2015-05-19</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: PXA1936_DKB_V20_217, LVTDRO = 521, SVTDRO = 359, Profile = 11, LCD 1080p.
+             </pre>
+         </div>
+     </li>
+     <li>
+         <div class="time">2015-04-10</div>
+         <div class="number"></div>
+         <div class="contents">
+             <pre>Board: PXA1936_DKB_V20_215, LVTDRO = 517, SVTDRO = 354, Profile = 11, LCD 720p.<br/>Insert 2 4G SIM cards, use V13 RF Card<br/>Camera case run on Board: PXA1936_DKB_V20_296, LVTDRO = 520, SVTDRO = 357, Profile = 11, LCD 720p.
+             </pre>
+         </div>
+     </li>
+    <% else %>
      <li>
          <div class="time">2015-04-10</div>
          <div class="number"></div>
@@ -133,7 +151,9 @@
              <pre>Board: PXA1936_DKB_V10_117, LVTDRO = 519, SVTDRO = 360, Profile = 11, LCD 720p
              </pre>
          </div>
-     </li>
+    </li>
+<% end %>
+
 <% end %>
 </ul>
 <div class="modal fade hide" id="dcInfoModal">

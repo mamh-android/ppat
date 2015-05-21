@@ -357,7 +357,10 @@ $(function () {
                 <% scenario_name_list.uniq.each do |record| %>
                     '<%= get_scenario_name(record) %>',
                 <% end %>
-            ]
+                ],
+                labels:{
+                    rotation: -45
+                }
         },
         yAxis: {
             min: 5,
