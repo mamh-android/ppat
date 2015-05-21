@@ -162,19 +162,19 @@
                                                             <%end%>
                                                         <% end %>
                                                     <%end%>
-                                                    <%= get_sub_power(battery_a[tk_purpose.task_id]) %>
+                                                    <%= battery_a[tk_purpose.task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= get_sub_power(vcc_main_a[task_id]) %>
+                                                    <%= vcc_main_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= get_sub_power(fps_a[task_id]) %>
+                                                    <%= fps_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
@@ -311,19 +311,19 @@
                                                         <%end%>
                                                     <% end %>
                                                     <%end%>
-                                                    <%= get_sub_power(battery_a[tk_purpose.task_id]) %>
+                                                    <%= battery_a[tk_purpose.task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= get_sub_power(vcc_main_a[task_id]) %>
+                                                    <%= vcc_main_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
                                             <%task_id_list.uniq.each do |task_id|%>
                                                 <td>
-                                                    <%= get_sub_power(fps_a[task_id]) %>
+                                                    <%= fps_a[task_id] %>
                                                 </td>
                                                 <%end%>
                                             <td></td>
@@ -389,9 +389,7 @@ $(function () {
                                 success: function(msg){
                                     $("footer").css("display","block");
                                     $("#dc_info").append(msg);
-                                    $("#dc_info div").each(function(){
-                                        $(this).resizable();
-                                    })
+                                    $("#" + battery).resizable();
                                 }
                             });
                         }
@@ -471,9 +469,7 @@ $(function () {
                                 success: function(msg){
                                     $("footer").css("display","block");
                                     $("#dc_info").append(msg);
-                                    $("#dc_info div").each(function(){
-                                        $(this).resizable();
-                                    })
+                                    $("#" + battery).resizable();
                                 }
                             });
                         }
@@ -555,11 +551,11 @@ function cmp_battery(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -588,9 +584,9 @@ function cmp_battery(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -629,11 +625,11 @@ function cmp_vcc_main(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -662,9 +658,9 @@ function cmp_vcc_main(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -704,11 +700,11 @@ function cmp_fps(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -736,9 +732,9 @@ function cmp_fps(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 }
@@ -783,11 +779,11 @@ function cmp_battery_<%=category%>(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -815,9 +811,9 @@ function cmp_battery_<%=category%>(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-       gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+       gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -856,11 +852,11 @@ function cmp_vcc_main_<%=category%>(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -888,9 +884,9 @@ function cmp_vcc_main_<%=category%>(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 
@@ -929,11 +925,11 @@ function cmp_fps_<%=category%>(){
                 }
             });
             for(var j=6;j<gettd.rows.length;j++){
-            var battery_col= gettd.rows[j].cells[i+1].innerText;
+            var battery_col= gettd.rows[j].cells[i+1].innerHTML;
             battery_list.push(battery_col);
-             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerText;
+             var vcc_main_col=gettd.rows[j].cells[i+tab_count+2].innerHTML;
             vcc_main_list.push(vcc_main_col);
-            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerText;
+            var fps_col=gettd.rows[j].cells[i+(tab_count+1)*2+1].innerHTML;
             fps_list.push(fps_col);
         }
             checked_counts++;
@@ -961,9 +957,9 @@ function cmp_fps_<%=category%>(){
     }
     if(checked_counts==2){
         for(var j=6;j<gettd.rows.length;j++){
-        gettd.rows[j].cells[inputs.length+1].innerText= parseFloat(com_battery[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count+2].innerText=parseFloat(com_vcc_main[j-6]).toFixed(5);
-        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerText=parseFloat(com_fps[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+1].innerHTML= parseFloat(com_battery[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count+2].innerHTML=parseFloat(com_vcc_main[j-6]).toFixed(5);
+        gettd.rows[j].cells[inputs.length+tab_count*2+3].innerHTML=parseFloat(com_fps[j-6]).toFixed(5);
     }
     }
 

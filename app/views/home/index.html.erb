@@ -1,11 +1,43 @@
 
 <%snplatform_list=[]%>
+<%if !get_cur_user.nil?%>
+    <%chars=get_cur_user+rand(9999999).to_s%>
+<%end%>
+<<div id="charsss" style="display:none;"></div>
 <div class="page-container tab-content">
     <div class="tab-pane active" id="basic">
         <div class="row">
             <article class="span6">
-                <div class='full-calendar '></div>
-                 <h3>
+                <div class="full-calendar"></div>
+                <h3>
+                    <span class="icon-hand-right"></span>&nbsp;Daily Power
+                </h3>
+                <div id="task_scenario"></div>
+            </article>
+            <article class="span6">
+                <form method=post action="" name="form1" class="span6">
+                    <span>
+                        Platform
+                        <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
+                            <%snplatform_list=['pxa1936','pxa1928','pxa1928ff','pxa1920','pxa988','pxa1908','pxa1908FF',]%>
+                            <%snplatform_list.each do |snplatform_list|%>
+                                <option value="<%=snplatform_list %>"><%=snplatform_list.upcase %></option>
+                            <% end %>
+                        </select>
+                    </span>
+                    <span style="margin-left:2%;">
+                        Branch
+                        <select style="width:20%;" name="Branch" id="Branch" onchange="show_smoketest_calendar();update_calendar();update_scenario_by_task()"  class="form-control">
+                        </select>
+                    </span>
+                    <span style="margin-left:2%;">
+                        Device
+                        <select style="width:20%;" name="Device" id="Device" onchange="show_smoketest_calendar();update_calendar();update_scenario_by_task();show_comments()"  class="form-control">
+                        </select>
+                    </span>
+                </form>
+                <span class="span6" style="margin-top:-2%;">
+                    <h3>
                     <span class="icon-hand-right"></span>&nbsp;Smoke Test Detail
                 </h3>
                 <div id="accordion1" class="accordion">
@@ -41,34 +73,14 @@
                 </div>
                 <div id ="sub_date" style="display:none;"></div>
                 <div id ="show_smoketest" style="display:none;"></div>
-            </article>
-            <article class="span6">
-                <form method=post action="" name="form1" class="span6">
-                    <span>
-                        Platform
-                        <select style="width:20%;" name="Platform" onChange="getBranch();show_smoketest_calendar();update_calendar();update_scenario_by_task()" id="Platform" class="form-control">
-                            <%snplatform_list=['pxa1936','pxa1928','pxa1928ff','pxa1920','pxa988','pxa1908','pxa1908FF',]%>
-                            <%snplatform_list.each do |snplatform_list|%>
-                                <option value="<%=snplatform_list %>"><%=snplatform_list.upcase %></option>
-                            <% end %>
-                        </select>
-                    </span>
-                    <span style="margin-left:2%;">
-                        Branch
-                        <select style="width:20%;" name="Branch" id="Branch" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()" class="form-control">
-                        </select>
-                    </span>
-                    <span style="margin-left:2%;">
-                        Device
-                        <select style="width:20%;" name="Device" id="Device" onclick="update_calendar();update_scenario_by_task()" onchange="show_smoketest_calendar()" class="form-control">
-                        </select>
-                    </span>
-                </form>
-                <span class="span6" style="margin-top:-2%;">
-                <h3>
-                    <span class="icon-hand-right"></span>&nbsp;Daily Power
-                </h3>
-                <div id="task_scenario"></div>
+                <div onclick="log_user()" >
+                    <h3>
+                        <span class="icon-hand-right"></span>&nbsp;Comments
+                    </h3>
+                    <div style="background-color: #F8F9F5;">
+                    <%= render 'form' %></div>
+                        <div id ="comments"></div>
+                </div>
                 </span>
             </article>
         </div>
@@ -79,6 +91,9 @@
 <script>
     $(document).ready(function() {
         getBranch();
+        if ($("#charsss").text()==""){
+            $("#charsss").text("<%=chars%>")
+        }
         var show_smoketest = $("#show_smoketest").text();
         var smoke_date =  new Array();
         smoke_date = show_smoketest.split(",");
@@ -95,7 +110,7 @@
                     todays_smoketest+=(date.getMonth()+1)+"-";
                 }
                 if(date.getDate()<10){
-                    todays_smoketest+="0"+date.getDate();
+                    todays_smoketest+="0"+date.gMergeetDate();
                 }else{
                     todays_smoketest+=date.getDate();
                 }
@@ -111,9 +126,16 @@
                 update_calendar();
                 show_smoketest_calendar();
                 update_scenario_code();
+                show_comments(todays_smoketest);
     });
 </script>
 <script language="JavaScript" type="text/javascript">
+function log_user(){
+     if("<%= get_cur_user %>" == ""){
+        alert("Please log in with your windows account!");
+            window.location = "/log/in";
+        }
+}
 function update_scenario_by_task(image_date){
             var imgid = new Image();
             imgid.src ="../images/icons/loading_blue.gif";
@@ -135,6 +157,29 @@ function update_scenario_by_task(image_date){
     });
 }
 
+function upfile(){
+    $("#file_but").hide();
+    $("#uploadfiles").show();
+    var image_date = $("#sub_date").text();
+    branch=$("#Branch").val();
+    platform=$("#Platform").val();
+    device = $("#Device").val();
+    branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+    platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+    device = device.replace(/(^\s*)|(\s*$)/g,"");
+    branch = branch.replace("_MASTER","");
+    platform= platform.replace("ff","");
+    platform= platform.replace("FF","");
+    var task_url = "/home/upload?image_date="+image_date+"&username="+$("#charsss").text().replace(/(^\s*)|(\s*$)/g,"")+"&platform="+platform+"&branch="+branch+"&device="+device;
+    $.ajax({
+        type: "GET",
+        url: task_url,
+        success: function(msg){
+            $("#uploadfiles").html("");
+            $("#uploadfiles").html(msg);
+        }
+    });
+}
 function update_scenario_code(){
     var platform;
     $('#myTab a').click(function (e) {
@@ -174,6 +219,35 @@ function update_calendar(){
         url: '/home/update_calendar?platform='+platform+'&branch='+branch+'&device='+device+'&show_smoketest='+show_smoketest,
         success: function(msg){
 
+        }
+    });
+}
+
+function show_comments(image_date){
+            image_date = image_date.replace("smoke_date","");
+            var imgid = new Image();
+            imgid.src ="../images/icons/loading_blue.gif";
+            $("#comments").html(imgid);
+                branch=$("#Branch").val();
+                platform=$("#Platform").val();
+                device = $("#Device").val();
+                branch = branch.replace(/(^\s*)|(\s*$)/g,"");
+                platform = platform.replace(/(^\s*)|(\s*$)/g,"");
+                device = device.replace(/(^\s*)|(\s*$)/g,"");
+                branch = branch.replace("_MASTER","");
+                platform= platform.replace("ff","");
+                platform= platform.replace("FF","");
+                $("#platform_f").val(platform);
+                $("#branch_f").val(branch);
+                $("#device_f").val(device);
+                $("#uploadtime").val(image_date);
+                $("#username").text($("#charsss").text().replace(/(^\s*)|(\s*$)/g,""));
+    $.ajax({
+        type: "GET",
+        url:'/home/comments?image_date='+image_date+'&platform='+platform+'&branch='+branch+'&device='+device,
+        success: function(data){
+            $("#comments").html("");
+            $("#comments").html(data);//data就是请求页面的内容....
         }
     });
 }
@@ -220,6 +294,7 @@ function show_smoketest_calendar(){
     });
 
 }
+
 function submit_smoke(image_date){
                 branch=$("#Branch").val().toUpperCase();
                 platform=$("#Platform").val().toUpperCase();
@@ -292,7 +367,7 @@ function submit_smoke(image_date){
             if(platform=="pxa1908"&&branch=="LP5.0"){
                 platform="pxa1936";
             }
-            var url="ftp://10.38.32.174/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch;
+            var url="ftp://10.38.120.30/autobuild/android/"+platform+"/"+image_date+"_"+platform+"-"+branch;
             for(var i=0;i<buid_images.length;i++){
                 if(image_date==buid_images[i].replace(/(^\s*)|(\s*$)/g,"")){
                     build_much=build_much+1;
@@ -301,7 +376,7 @@ function submit_smoke(image_date){
                 if(build_much>0){
                     window.open(url,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes,scrollbars =yes");
                 }else{
-                    window.open("ftp://10.38.32.174/autobuild/android/"+platform,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes,scrollbars =yes");
+                    window.open("ftp://10.38.120.30/autobuild/android/"+platform,"image:","modal=yes,width=900,height=600,top=200,left=100,directories=no,toolbar=yes,location=no,titlebar=yes,scrollbars =yes");
                 }
         }
     </script>

@@ -1,0 +1,133 @@
+<%user_id_username=[]%>
+<%= form_for(@home) do |f| %>
+  <% if @home.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@home.errors.count, "error") %> prohibited this home from being saved:</h2>
+      <ul>
+      <% @home.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field" style="display:none;">
+  <%if !get_cur_user.nil?%>
+    <%@get_username_id=get_username(get_cur_user+"@marvell.com")%>
+    <%@get_username_id.each do |name|%>
+      <%user_id_username<<name.id%>
+    <%end%>
+  <%end%>
+    <%= f.text_field :user_id,value:user_id_username%>
+  </div>
+  <div class="field" style="border:1px solid #eeeeee;width:98%;">
+  <div id ="textlength" style="float:right;jk"></div>
+    <%= f.text_area :text ,size: "50x3",id:"text_f",onkeyup:"SwapTxt()", style:"margin: 0px 0px 9px; width: 99%;resize:none"%>
+    <div id ="uploadfiles"></div>
+  </div>
+  <div class="field" style="display:none;">
+    <%= f.label :image_path %><br>
+    <%= f.text_field :image_path,id:"image_path"%>
+  </div>
+  <div class="field" id="filepath" style="display:none;">
+    <%= f.text_field :file_path,id:"file_path"%>
+  </div>
+  <div class="field" style="display:none;">
+    <%= f.label :platform %><br>
+    <%= f.text_field :platform,id:"platform_f"%>
+  </div>
+  <div class="field" style="display:none;">
+    <%= f.label :branch %><br>
+    <%= f.text_field :branch,id:"branch_f" %>
+  </div>
+  <div class="field" style="display:none;">
+    <%= f.label :device %><br>
+    <%= f.text_field :device,id:"device_f"%>
+  </div>
+  <div class="field" style="display:none;">
+    <%= f.label :uploadtime %><br>
+    <%= f.datetime_field :uploadtime,id:"uploadtime" %>
+  </div>
+  <table style="width:90%;margin-top:-1%">
+    <tr>
+      <td style="width:20%;">
+         <span class="icon-caret-up btn" onclick="upfile()" id="file_but" style="font-size: 10px;">Add files</span>
+      </td>
+      <td style="width:40%;"></td>
+      <td style="width:10%;">
+        <div class="actions">
+          <button id ="release" onclick="btn()" class="btn btn-success" style="margin-left:75%;">Release</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+<% end %>
+<div id ="username" style="display:none;"></div>
+<iframe id="id_iframe1" name="id_iframe1" style="display:none;"></iframe>
+<script>
+     function SwapTxt(){
+      var text_c = $("#text_f").val();
+      var text_cs = 250-text_c.length;
+      var text_css = text_c.length-250;
+      var text_f = text_c.length%70==0;
+      if((/[\u4e00-\u9fa5]+/).test(text_c)){
+        alert("no chinese!");
+        $("#text_f").val("");
+      }
+      if(text_f){
+        $("#text_f").val($("#text_f").val()+"\n");
+      }
+      if(text_c.length>250){
+        $("#release").attr("disabled","disabled");
+        $("#textlength").html("<span style='font-size:15px;color:red'>It is more than<span style='font-size:25px;color:red;'>  "+text_css+"  </span>characters</span>");
+      }else if(text_c.length<=0){
+        $("#textlength").text("");
+        $("#release").removeAttr("disabled");
+      }else{
+        $("#textlength").html("<span style='font-size:10px;'>You can also enter the<span style='font-size:20px;color:green;'>  "+text_cs+"  </span>characters</span>");
+        $("#release").removeAttr("disabled");
+      }
+    }
+    $("#new_comment_record").attr("target","id_iframe1");
+    $("#new_comment_record").attr("onsubmit","saveReport1()");
+    function btn(){
+      var number = Math.round(Math.random()*1000000);
+      var charss = "";
+      <%if !get_cur_user.nil?%>
+        var charss = "<%=get_cur_user%>"+number;
+      <%end%>
+      $("#charsss").text(charss);
+      var filesf="comments/"+$("#uploadtime").val()+"-"+$("#platform_f").val()+"-"+$("#branch_f").val()+"-"+$("#device_f").val()+"-"+$("#username").text();
+      filesf.replace(/(^\s*)|(\s*$)/g,"");
+      var filepathsize=$("#file").val();
+        if(filepathsize===undefined){
+          $("#file_path").val("");
+        }else{
+          if(filepathsize.length>1){
+            $("#saveReportForm").submit();
+            $("#file_path").val(filesf);
+          }
+      }
+      alert("Released!");
+    }
+    function saveReport1(){
+      $.ajax({
+        type: "GET",
+        url:'/home/index',
+        success: function(data){
+        $("#file_path").text("");
+        show_comments($("#uploadtime").val());
+        $("#file1").val("");
+        $("#file").val("");
+        if (navigator.userAgent.indexOf('Firefox') >= 0){
+          setTimeout("$('#file_path').val('')",1000);
+          setTimeout("$('#text_f').val('')",100);
+          setTimeout("$('#textlength').text('')",100);
+        }else{
+          $("#file_path").val("");
+          $("#text_f").val("");
+          $("#textlength").text("");
+        }
+        }
+      });
+    }
+</script>

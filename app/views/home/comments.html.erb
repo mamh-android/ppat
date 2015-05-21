@@ -1,0 +1,57 @@
+ <%commentdir=''%>
+ <%commentname=''%>
+ <%@comment_records_list.each do |comment|%>
+    <%if comment.uploadtime.to_s==@image_date && comment.platform==@platform &&comment.branch==@branch&&comment.device==@device%>
+        <div id ="<%=comment.id%>" style="background-color: #F8F9F5;padding:1%;margin-top:2%;">
+            <%@get_username_id=get_username_id(comment.user_id)%>
+            <%@get_username_id.each do |user|%>
+                <h5>
+                    <%=user.name%>
+                    <a href="mailto:<%=user.email_addr%>?subject=[PPAT WEB COMMENTS]"><span class="icon-envelope-alt" title="<%=user.email_addr%>"></span></a>
+                    <span style="float:right;"><%=comment.created_at%></span>
+                </h5>
+                <%end%>
+                <span style="padding-left:2%;"><%=comment.text%></span>
+                <span>
+                    <%if comment.file_path.length>0%>
+                        <h5>File list</h5>
+                        <%require 'net/ftp' %>
+                        <% Net::FTP.open('10.38.32.98') do |ftp| %>
+                            <% ftp.login(user = "anonymous", passwd = "") %>
+                            <%@files = ftp.chdir('comments')%>
+                            <%comment.file_path.gsub!("comments/",'')%>
+                            <%@files = ftp.list(comment.file_path)%>
+                            <%@files.uniq.each do |f|%>
+                            <%f=f.split(' ').last.gsub(/\s+/,'')%>
+                            <ul style="list-style:none;">
+                                    <li>
+                                        <%path="ftp://10.38.32.98/comments/#{comment.file_path}/#{f}"%>
+                                        <%@f_icon =f.split(".").last.downcase%>
+                                        <%if @f_icon=="jpg"||@f_icon=="png"||@f_icon=="gif"||@f_icon=="bmp"||@f_icon=="jpeg"%>
+                                            <img src="<%=path%>" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%elsif @f_icon=="pdf"%>
+                                            <img src="../images/icons/pdf.png" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%elsif @f_icon=="ppt"||@f_icon=="pptx"%>
+                                            <img src="../images/icons/powerpoint.png" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%elsif @f_icon=="txt"%>
+                                            <img src="../images/icons/text.gif" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%elsif @f_icon=="xls"||@f_icon=="xlsx"%>
+                                            <img src="../images/icons/excel.png" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%elsif @f_icon=="doc"||@f_icon=="docx"%>
+                                            <img src="../images/icons/word.png" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%else%>
+                                            <img src="../images/icons/office.png" style="width:5%;height:5%;"/>../<%=f%>
+                                        <%end%>
+                                        <%commentdir='comments/'%>
+                                        <%commentname=f%>
+                                        <a target="_Blank" href="<%=path%>" title="download" download="<%=f%>"><span class="icon-download-alt"></span></a>
+                                    </li>
+                            </ul>
+                            <%end%>
+                        <%end%>
+                    <%end%>
+                </span>
+                <frame src="<%=comment.file_path%>"></frame>
+        </div>
+    <%end%>
+ <%end%>

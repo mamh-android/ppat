@@ -8,7 +8,7 @@ var y = date.getFullYear();
 var h = date.getHours();
 var show_smoketest = $("#show_smoketest").text().replace(/\s/g,"");
 var smoke_date =  new Array();
-smoke_date = show_smoketest.split(", ");
+smoke_date = show_smoketest.split(",");
 var todays_smoketest = "";
 todays_smoketest+=date.getFullYear()+"-";
 if((date.getMonth()+1)<10){
@@ -29,6 +29,7 @@ platform = platform.replace(/(^\s*)|(\s*$)/g,"");
 device = device.replace(/(^\s*)|(\s*$)/g,"");
 $("#title_smoketest").text(todays_smoketest+"_"+platform+"_"+branch+"_"+device);
 $("#sub_date").text(todays_smoketest);
+$('#calendar').fullCalendar( 'gotoDate', "2015-04-17");
 $('.full-calendar').fullCalendar({
     header: {
         left: 'prev,next today',
@@ -52,6 +53,7 @@ $('.full-calendar').fullCalendar({
         }else{
             today+=start.getDate();
         }
+        show_comments(today);
         update_scenario_by_task(today);
         show_issue_detail(today);
         var branch=$("#Branch").val();
@@ -84,6 +86,7 @@ $('.full-calendar').fullCalendar({
         }else{
             today_event+=startdate.getDate();
         }
+        show_comments(today_event);
         update_scenario_by_task(today_event);
         show_issue_detail(today_event);
          $("#title_smoketest").html("");
@@ -119,7 +122,7 @@ $('.full-calendar').fullCalendar({
     <%branchs.downcase!%>
     <%branchs.gsub!(/_master/,'')%>
     <%require 'net/ftp' %>
-    <% Net::FTP.open('10.38.32.174') do |ftp| %>
+    <% Net::FTP.open('10.38.120.30') do |ftp| %>
         <% ftp.login %>
         <%@files = ftp.chdir('autobuild/android/')%>
         <%@files = ftp.list(platforms)%>
@@ -140,6 +143,15 @@ $('.full-calendar').fullCalendar({
                 color:'#EAAEEA'
             },
           <%end%>
+        <%end%>
+        <%@comment_date=comment_date(@platform,@branch,@device)%>
+        <%@comment_date.each do |comdate|%>
+            {
+                title: 'Comment',
+                start:"<%=comdate.uploadtime%>",
+                end:"<%=comdate.uploadtime%>",
+                color:'#EA00EA'
+            },
         <%end%>
        {
        }

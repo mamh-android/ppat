@@ -77,4 +77,16 @@ module HomeHelper
     def get_all_platformbranch()
        PlatformBranch.order("platform desc").select("distinct platform")
     end
+    def get_username_id(id)
+        User.where(id:id)
+    end
+
+    def get_username(email_addr)
+        User.where(email_addr: email_addr)
+    end
+
+    def comment_date(platform,branch,device);
+        CommentRecord.where('platform = ? and branch = ? and device = ?',platform,branch,device).select("distinct uploadtime")
+    end
+
 end
