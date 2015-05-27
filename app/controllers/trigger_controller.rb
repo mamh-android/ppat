@@ -21,6 +21,10 @@ class TriggerController < ApplicationController
     render :layout=>"ppat"
   end
 
+  def get_platform_list
+    @platform_l = params[:android_l]
+  end
+
   def trigger
     device = params[:device]
     blf = params[:blf]
@@ -69,16 +73,16 @@ class TriggerController < ApplicationController
         basic_power_cases = get_distinct_category_node(@tc_conf, "Power")
         @power_cases = update_category_node_by_device(@tc_conf,"Power", hwmodule, basic_power_cases)
         @performance_cases = get_distinct_category_node(@tc_conf, "Performance")
-    	@pp_infos = get_device_components_pp(@tc_conf, device)
+        @pp_infos = get_device_components_pp(@tc_conf, device)
     elsif @testtype == "Baremetal Power"
-    	@bare_infos = get_device_uboot_tcs(@uboot_conf, device)
+        @bare_infos = get_device_uboot_tcs(@uboot_conf, device)
     else
         basic_power_cases = get_distinct_category_node(@tc_conf, "Power")
         @power_cases = update_category_node_by_device(@tc_conf,"Power", hwmodule, basic_power_cases)
         @performance_cases = get_distinct_category_node(@tc_conf, "Performance")
-    	@cp_cases = get_distinct_advanced_category_node(@advanced_conf, device)
+        @cp_cases = get_distinct_advanced_category_node(@advanced_conf, device)
     end
-	respond_to do |format|
+    respond_to do |format|
         format.js
     end
   end
@@ -210,22 +214,22 @@ class TriggerController < ApplicationController
     end
 
     def get_device_components_pp(document, device)
-    	@result = ""
-    	document.elements.each("PPATConfig/Tune/Device") { |dev|
-    		if device == dev.attributes["name"] then
-    			@result = dev
-    		end
-    	}
-    	@result
+        @result = ""
+        document.elements.each("PPATConfig/Tune/Device") { |dev|
+            if device == dev.attributes["name"] then
+                @result = dev
+            end
+        }
+        @result
     end
 
     def get_device_uboot_tcs(document, device)
-    	@result = ""
-    	document.elements.each("Uboot/Device") { |dev|
-    		if device == dev.attributes["name"] then
-    			@result = dev
-    		end
-    	}
-    	@result
+        @result = ""
+        document.elements.each("Uboot/Device") { |dev|
+            if device == dev.attributes["name"] then
+                @result = dev
+            end
+        }
+        @result
     end
 end

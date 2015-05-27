@@ -1,0 +1,50 @@
+<%platform_list=[]%>
+<%android_list=[]%>
+<%require 'net/ftp' %>
+<% Net::FTP.open('10.38.120.30') do |ftp| %>
+    <% ftp.login %>
+    <%chardirs =""%>
+    <%if chardirs = "autobuild/android/"%>
+      <%@files = ftp.chdir(chardirs)%>
+      <%@files = ftp.list(@platform_l.gsub!(/,/,''))%>
+      <%@files.uniq.each do |f|%>
+        <%platform_list<<f[55,100].gsub(/\s+/,'')%>
+      <%end%>
+    <%else%>
+      <%@files_android = ftp.chdir('autobuild/')%>
+      <%@files_android = ftp.list("android")%>
+      <%@files_android.uniq.each do |fs|%>
+        <%android_list<<fs[55,50].gsub(/\s+/,'')%>
+      <%end%>
+    <%end%>
+<%end%>
+  var image_path_val = $("#image_path").val();
+  var image_path_leng = $("#image_path").val().split("/").length;
+  var platform_l = "";
+  var Li_Indexof_text ="";
+  var Charlid_Indexof_text_list = new Array();
+  var Main_Indexof_text_list = new Array();
+  var Value_Indexof_text_list = new Array();
+  Charlid_Indexof_text_list = image_path_val.split("/");
+  $("#on_change").html("<%platform_list.uniq.each do |platform_list|%><li value='<%=platform_list%>/'><%=platform_list%>/</li><%end%>");
+  Main_Indexof_text_list = $("#on_change li").text().split("/");
+  if(image_path_leng>=5){
+    for(var i=0; i<Main_Indexof_text_list.length;i++){
+      if(Main_Indexof_text_list[i].indexOf(Charlid_Indexof_text_list[4])>-1){
+        Value_Indexof_text_list .push(Main_Indexof_text_list[i]);
+      }
+    }
+    for(var j=0;j<Value_Indexof_text_list.length;j++){
+      Li_Indexof_text+="<li>"+Value_Indexof_text_list[j]+"</li>";
+    }
+    if(Value_Indexof_text_list.length==1){
+      $("#image_path").val(image_path_val.replace(Charlid_Indexof_text_list[4],"")+Value_Indexof_text_list);
+    }
+    $("#on_change").html(Li_Indexof_text);
+    $("li").click(function(){
+      platform_l=$(this).text().replace("/","");
+      $("#image_path").val(image_path_val.replace(Charlid_Indexof_text_list[4],"")+platform_l);
+      $("#on_change").hide();
+      $("#on_change").html("<%android_list.uniq.each do |android_list|%><li value='<%=android_list%>/'' id='1'><%=android_list%>/</li><%end%>");
+    });
+  }

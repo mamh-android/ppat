@@ -29,6 +29,27 @@ form .control-group, .form-horizontal .control-group {
     padding: 10px;
     margin: 0;
 }
+.control-group .on_change{
+    height:20%;
+    position:absolute; top:40px; 
+    list-style:none; 
+    background:#FFF; 
+    border:1px solid #73B8EE; 
+    display:none; padding:0px;
+    overflow:auto;
+}
+.control-group .on_change li{
+    margin:4px;
+    padding:4px;
+}
+ .on_change li:active{ 
+    background:#CEE7FF;
+}
+.on_change li:hover{ 
+    background:#CEE7FF;
+    cursor:pointer;
+}
+
 select {
     border: 1px solid #BBB;
 }

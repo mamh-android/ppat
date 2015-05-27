@@ -7,7 +7,23 @@
             <div class="row">
                     <div class="control-group">
                         <label class="inline" for="input" style="width:100px;">Image Path:&nbsp;&nbsp;</label>
-                        <input id="image_path" class="input-xlarge inline" type="text" />
+                        <input id="image_path" class="input-xlarge inline" type="text"  onkeyup= "Image_Path_IndexOf()"/>
+                        <!-- get ftp service-->
+                        <%android_list=[]%>
+                        <%require 'net/ftp' %>
+                        <% Net::FTP.open('10.38.120.30') do |ftp| %>
+                            <% ftp.login %>
+                            <%@files = ftp.chdir('autobuild/')%>
+                            <%@files = ftp.list("android")%>
+                            <%@files.uniq.each do |fs|%>
+                                <%android_list<<fs[55,50].gsub(/\s+/,'')%>
+                            <%end%>
+                        <%end%>
+                        <ul class="on_change" id="on_change">
+                        <%android_list.uniq.each do |android_list|%>
+                            <li value="<%=android_list%>/" id="1"><%=android_list%>/</li>
+                        <%end%>
+                        </ul>
                         <p class="help-inline">Image Path should be /autobuild/android/pxa1936/2015-03-31_pxa1936-lp5.1</p>
                     </div>
 
@@ -84,7 +100,7 @@
                         <label for="input">Please click "<code>Add cmds for PPAT test</code>" if you need input commmands</label></br>
                         <button class="btn btn-primary btn-wuxia" onclick="add_cmd(this)">Add cmds for PPAT test</button>
                     </div>
-		    <br/>
+            <br/>
             </div>
     </div>
 <!--top-->
@@ -92,7 +108,6 @@
 <footer>
     <a class="btn btn-wuxia btn-primary" onclick="trigger_ppat()">Trigger PPAT</a>
 </footer>
-
 <script>
 
 /*
@@ -459,4 +474,60 @@ function update_all_state_after_category(category,state){
         node_all.prop("checked", false);
     }
 }
+ function Image_Path_IndexOf(){
+    var obj = $("#image_path");//get text by id.
+    var right = obj.width(); //get  text's width.
+    var image_path_s = $("#image_path").val().split("/").length;//get text's length by spllit "/".
+    var android_l ="";//When in the "android" directory get  li click date.
+    var plarform_l ="";//When in the "platform" directory get  li click date.
+    var list ="";// When is indexof the list  in li show.
+    var li_list =new Array();//Get li date by split "/".
+    var li_lists = new Array();//The input child characters corresponding to the main characters.
+    var text_v = obj.val().replace("/autobuild/android/","");//The input child characters.
+    $("#on_change").html("<%android_list.uniq.each do |android_list|%><li value='<%=android_list%>/'' id='1'><%=android_list%>/</li><%end%>");
+    li_list = $("#on_change li").text().split("/");
+   /* get child characters corresponding to the main characters to li_lists */
+    for(var i=0; i<li_list.length;i++){
+        if(li_list[i].indexOf(text_v)>-1){
+            li_lists .push(li_list[i]+"/");
+        }
+    }
+    /*the  indexof the list  in li show by list*/
+    for(var j=0;j<li_lists.length;j++){
+        list+="<li>"+li_lists[j]+"</li>";
+    }
+    if(li_lists.length==1){
+        $("#image_path").val("/autobuild/android/"+li_lists);
+    }
+    $("#on_change").html(list);
+    $("#on_change").css({'margin-left':"104px",'margin-top':'98px','width':right });
+    /*if input text's length <4 the input text's value change to "/autobuild/android/"*/
+    if(image_path_s<4){
+        $("#image_path").val("/autobuild/android/");
+    }
+    /*if input text's length =5 Send home directory for subdirectories*/
+    if(image_path_s==5){
+        var t_list = new Array();
+        t_list = $("#image_path").val().split("/");
+        $.ajax({
+            type: "GET",
+            url: 'get_platform_list?android_l='+t_list[3]+",",
+            success: function(msg){
+            }
+        });
+    }
+    if($("#image_path").val()=="/autobuild/android/"||image_path_s>=4){
+        $("#on_change").show();
+        $("li").click(function(){
+            android_l=$(this).text();
+            $("#image_path").val("/autobuild/android/"+android_l);
+                $.ajax({
+                    type: "GET",
+                    url: 'get_platform_list?android_l='+android_l.split("/"),
+                    success: function(msg){
+                    }
+                });
+            });
+    }
+ }
 </script>
