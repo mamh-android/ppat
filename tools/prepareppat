@@ -1,0 +1,82 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# sudo cp prepareppat /etc/init.d/
+# sudo chmod 755 prepareppat
+# sudo update-rc.d prepareppat defaults 95
+#
+#   prepare ppat test.
+# 1.driver wtptp.ko
+# 2.adb devices
+# 3.rcc_utils
+# 4.mount autobuild,PPAT_test,
+# 5.cp resolv.conf
+### END INIT INFO
+
+case $1 in
+    start)
+        #install swdl driver
+        /sbin/insmod /home/buildfarm/driver/wtptp.ko
+        sleep 3
+
+        #start adb.adb devices
+        /usr/local/bin/adb kill-server
+        sleep 1
+        /usr/local/bin/adb devices
+        sleep 3
+
+        #start rcc_utils server.
+        CURRENTPWD=`pwd`
+        cd /home/buildfarm/ltk_cloud_client/
+        ./rcc_utils 1>/dev/null 2>/dev/null
+        cd $CURRENTPWD
+        sleep 3
+
+        #mount
+        IP=`hostname -I`
+        IP=${IP:0:-1}
+        FTP_PPAT_RESULT_PATH="/srv/ftp/ftpshare/ppat/result/"
+        if [ ! -d $FTP_PPAT_RESULT_PATH ]
+        then
+            mkdir -p $FTP_PPAT_RESULT_PATH
+        fi
+        echo "[prepareppat]//sh1sbak004/APSE/PPAT/$IP --> $FTP_PPAT_RESULT_PATH"
+        /sbin/mount.cifs "//sh1sbak004/APSE/PPAT/$IP" $FTP_PPAT_RESULT_PATH -o user=mamh,pass=,gid=1000,uid=1000
+
+        sleep 3
+
+        AUTOBUILD_PATH="/autobuild/"
+        if [ ! -d $AUTOBUILD_PATH ]
+        then
+            mkdir $AUTOBUILD_PATH
+        fi
+        echo "[prepareppat]//10.38.116.40/autobuild --> $AUTOBUILD_PATH"
+        /sbin/mount.cifs "//10.38.116.40/autobuild" $AUTOBUILD_PATH -o user=pat,pass=powerpat,domain=MARVEL,gid=1000,uid=1000
+        sleep 3
+
+        PPAT_TEST_PATH="/PPAT_test/"
+        if [ ! -d $PPAT_TEST_PATH ]
+        then
+            mkdir $PPAT_TEST_PATH
+        fi
+        echo "[prepareppat]//10.38.116.40/PPAT_test --> $PPAT_TEST_PATH"
+        /sbin/mount.cifs "//10.38.116.40/PPAT_test" $PPAT_TEST_PATH -o user=pat,pass=powerpat,domain=MARVEL,gid=1000,uid=1000
+        echo "[prepareppat]mount done:$?"
+
+
+        if [ -f "/etc/resolv.conf.bak" ];then
+            echo "[prepareppat]copy resolv.conf file"
+            cp -rfv /etc/resolv.conf.bak /etc/resolv.conf
+        fi
+
+        ;;
+    stop)
+        echo "Usage: /etc/init.d/prepareppat {start|stop}"
+        ;;
+    *)
+        echo "Usage: /etc/init.d/prepareppat {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0
