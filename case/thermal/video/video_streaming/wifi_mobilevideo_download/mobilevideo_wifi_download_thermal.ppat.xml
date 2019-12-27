@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="${case_name}_thermal" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+
+        <echo message="turn on wifi ..."/>
+        <AdbCmd cmd="adb shell am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <echo message="connect with AP ..."/>
+        <AdbCmd cmd="adb shell am instrument -e ssid TP-LINK_PocketAP_E5767A -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell am start -n com.cmcc.mobilevideo/.StartActivity"/>
+        <sleep seconds="20"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/start_download.evt"/>
+        <sleep seconds="10"/>
+    </target>
+
+    <target name="run" depends="prepare">
+        <echo message="start tc08 cap..."/>
+        <RemoteHostCmd server="${power_server}" sleep="false" sample_t="350" file="usb_tc08.log" cmd="usb_tc08.exe usb_tc08.log 500 1 3 AZ810/370 1700"/>
+        <echo message="start Soc temp cap..."/>
+        <HostCmd cmd="./resource/bin/mobilevido_wifi_download.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+    </target>
+
+    <target name="result" depends="run">
+        <echo message="back up thermal file"/>
+        <HostCmd cmd="mv temperature.log ${subcase_root}" workingDirectory="${basedir}"/>
+        <copy file="${PT4_SERVER}/usb_tc08.log" todir="${subcase_root}" failonerror="false"/>
+        <SyncThermalToDB/>
+        <AdbCmd cmd="adb shell am force-stop com.cmcc.mobilevideo"/>
+        <AdbCmd cmd="adb shell am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOffWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <AdbCmd cmd="adb uninstall com.cmcc.mobilevideo"/>
+        <AdbCmd cmd="adb shell sync"/>
+    </target>
+
+</project>

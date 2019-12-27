@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<project name="power_take_picture" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="su"/>
+        <SerialPortCmd cmd="logcat -c"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <SerialPortCmd cmd="setprop service.camera.auto.frameRate 0"/>
+        <sleep seconds="60"/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n com.android.camera/.Camera"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="fix_focus"/>
+        <sleep seconds="10"/>
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <MeasurePower server="${power_server}" sample_t="32" voltage="4" save_f="Preview(OV13850)_2D_${power_port}" port="${power_port}"/>
+    </target>
+    <target name="result" depends="power">
+        <echo message="start collecing data..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <ParseFPS cmd="adb logcat -d | grep 'preview fps'"/>
+        <sleep seconds="30"/>
+
+        <PowerResult file_n="Preview(OV13850)_2D_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/Preview(OV13850)_2D_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="10"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="busybox killall com.android.camera"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power_video_720p" basedir="." default="run">
+  <include file="${user.dir}/config/command.xml"/>
+  <target name="musthave">
+	<SetProperty name="power_res_root" value="/${storage}"/>
+	<SetProperty name="Stream" value="big_buck_bunny_720p_1_3mbps_h265_24fps_aac441_2ch.mp4"/>
+	<SetProperty name="Duration" value="580"/>
+  </target>
+  <target name="run" if="${with_precondition}" depends="musthave">
+    <AdbCmd cmd="adb push resource/video/${Stream} ${power_res_root}/"/>
+  </target>
+</project>

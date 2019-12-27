@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<project name="power_sims_drx_sim1_gsm" basedir="." default="cleanup">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+    <target name="prepare" depends="reboot">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+        <echo message="turn on screen ..."/>
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="fullon" ValueType="string"/>
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="su" />
+        <echo message="set network mode to GSM..."/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/switch_network.sh 0 | serial_client -1"/>
+        <sleep seconds="${networkSwitch_sleep_time}"/>
+        <SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+        <sleep seconds="5"/>
+    </target>
+
+    <target name="run" depends="prepare">
+        <echo message="go to home screen ..."/>
+        <SerialPortCmd cmd="su"/>
+        <SerialPortCmd cmd="input keyevent 3"/>
+        <sleep seconds="5"/>
+        <echo message="enable duty cycle ..."/>
+        <StatDutycycle state="1"/>
+        <SerialPortCmd cmd="date"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="onKey to turn off screen ..."/>
+        <LTKCmd cmd="onkey" />
+        <sleep seconds="30"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="${powerCapture_time}" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <sleep seconds="5"/>
+    </target>
+
+    <target name="result" depends="power">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="date"/>
+
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+
+        <echo message="start collecting data..."/>
+        <sleep seconds="5"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <LTKCmd cmd="onkey" />
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="fullon" ValueType="string"/>
+        <sleep seconds="5"/>
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="normal" ValueType="string"/>
+        <sleep seconds="5"/>
+        <echo message="set network mode to default mode..."/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/switch_network.sh ${default_mode} | serial_client -1" />
+        <sleep seconds="${networkSwitch_sleep_time}"/>
+    </target>
+</project>

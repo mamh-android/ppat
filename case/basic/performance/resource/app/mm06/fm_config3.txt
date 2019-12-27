@@ -1,0 +1,35 @@
+-data=/sdcard/mm06/3dmm_demo.fms
+-fullscreen=1
+-results=/sdcard/mm06/results.txt
+-no_menu=1
+-run_game_test        0
+-run_game_test        1
+-run_game_test        2
+-run_fillrate         1  10     4
+-run_fillrate         2   5     4
+-run_triangle_count   0   3 10000
+-run_triangle_count   1   3 10000
+-run_batch_count      0  28     0
+-run_batch_count      1  28     0
+-run_cpu              7   0     0
+-run_image_quality   80   0     1
+-run_image_quality   80   0     2
+-run_image_quality   80   0     3
+-run_image_quality   80   0     4
+-run_image_quality   80   0     5
+-run_image_quality   80   0     6
+-run_image_quality   80   0     7
+-run_image_quality   80   0    11
+-run_image_quality   80   0    12
+-run_image_quality   80   0    13
+-run_image_quality   80   0    14
+-run_image_quality   80   0    15
+-run_image_quality   80   0    16
+-run_image_quality   80   0    17
+-exit
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<project name="power_${case_name}" basedir="." default="result">
+  	<include file="${user.dir}/config/command.xml"/>
+    
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE false"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="start gl bench ..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n tunein.player/tunein.ui.actvities.TuneInHomeActivity" />
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="sendevent /${storage}/play_bbc.evt"/>
+        <sleep seconds="15"/>
+        <echo message="suspend device ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <sleep seconds="15"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="am force-stop tunein.player"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE true"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

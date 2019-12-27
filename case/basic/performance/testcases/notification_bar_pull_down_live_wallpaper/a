@@ -1,0 +1,3 @@
+===========gallery flick portrait start===========
+start logcat -d to ../../log/2014-09-26-14-11-16_notification_bar_pull_down_live_wallpaper.log
+===========parse log begin===========

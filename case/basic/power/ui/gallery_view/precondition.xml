@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb push resource/event/${resolution}/to_end.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/to_start.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/click_first.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/flick_left.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/flick_up.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/enter_img_folder.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

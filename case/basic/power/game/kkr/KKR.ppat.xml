@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="power_game_KKR" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="logcat -c" />
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="launch game KKR ..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN  -c android.intent.category.LAUNCHER -n com.polarbit.krazyracers/.krazyracers" />
+        <sleep seconds="20"/>
+        <!-- gui tool run here-->
+        <echo message="start playing KKR..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/play_kkr.evt &amp;" />
+        <sleep seconds="30"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 50"/>
+        <SerialPortCmd cmd="logcat -s GC > /${storage}/gc.fps &amp;"/>
+        <echo message="start stat dc..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="KKR_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collect data..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="10"/>
+        <ReadThermal flag="thermal_end"/>
+        <ParseFPS cmd="adb shell cat /${storage}/gc.fps"/>
+        <SerialPortCmd cmd="busybox killall logcat"/>
+        <SerialPortCmd cmd="mv /${storage}/gc.fps /${storage}/gc.fps.bak"/>
+        <PowerResult file_n="KKR_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/KKR_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+        <echo message="start collecting data ..."/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <PowerCtrlUSB flag="off"/>
+        <SerialPortCmd cmd="busybox killall com.polarbit.krazyracers" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

@@ -1,0 +1,56 @@
+#######################################################
+# Ipp Coda7542 Encoder Config File
+#######################################################
+
+#######################################################
+# Level1: must set
+# Level2: special config for different encoder
+# Level3: reserved, don't need set
+#######################################################
+
+#######################################################
+# Level1: necessary
+#######################################################
+iInputYUVFmt      = 0
+eOutputStrmFmt    = 5          
+iWidth            = 1280
+iHeight           = 720
+iFrameRateNum     = 30
+iFrameRateDen     = 1    
+iGopSize          = 30         
+iInitQP           = 1
+bRCEnable         = 1
+iRCType           = 2         
+iRCBitRate        = 30000000
+iRCMaxBitRate     = 32000000
+iDelayLimit       = 1000 
+
+bPollingMode       = 0
+bDynamicClock      = 1
+iMultiInstanceSync = 1   
+bSecAxiDisable     = 0
+  
+#######################################################
+# Level2
+#######################################################
+# H.264 
+#######################################################
+bDeblocking    = 1
+#######################################################
+# H.263 
+#######################################################
+bDeblockFilter        = 0		
+bSliceStructure       = 0
+bModifiedQuant        = 0
+#######################################################
+# MPEG4
+#######################################################
+bDataPartition    = 1		  
+bReverseVLC       = 1		  
+iIntraDcVlcThr    = 0		  
+bHecEnable        = 0		  
+iVolVerID         = 1	
+#######################################################
+# JPEG/MJPEG
+#######################################################	 
+iQualityFactor    = 50

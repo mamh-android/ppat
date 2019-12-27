@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<project name="power_${case_name}" basedir="." default="result">
+  	<include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="20"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid SE1_LT_1 -e pw ${VPN_WIFI_PWD} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="20"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="start facebook ..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n com.facebook.katana/.LoginActivity" />
+        <sleep seconds="5"/>
+        <echo message="click status..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/click_status.evt"/>
+        <sleep seconds="15"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="25" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+        <echo message="start press WWWWWW..."/>
+        <SerialPortCmd cmd="press_w.sh &amp;" />
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="sendevent /${storage}/post.evt"/>
+        <sleep seconds="5"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="am force-stop com.facebook.katana"/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOffWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

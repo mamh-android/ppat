@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<project name="app_launch_contact" basedir="." default="teardown">
+<include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <HostCmd cmd="./prepare.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+        <PowerCtrlUSB flag="off"/>
+	    <StatDutycycle state="1"/>
+    </target>
+    <target name="run" depends="prepare">
+    	<SerialPortCmd cmd="logcat -c"/>
+        <MeasurePower server="${power_server}" sample_t="10" voltage="4" save_f="app_launch_contact_${power_port}" port="${power_port}" sleep="false"/>
+        <SerialPortCmd cmd="uiautomator runtest UIAT2.jar -c com.uiat.TouchContact"/>
+        <sleep seconds="5"/>
+    </target>
+    <target name="teardown" depends="run">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <HostCmd cmd="./cleanup.sh ${subcase_root}/temp.log ${adb_device_id}" workingDirectory="${basedir}"/>
+       	<PerformanceResult server="${power_server}" file_n="app_launch_contact_${power_port}" />
+        <AdbCmd cmd="adb shell am force-stop com.android.contacts"/>
+        <sleep seconds="10"/>
+
+    </target>
+
+</project>

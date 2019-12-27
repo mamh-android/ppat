@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	
+	<xsl:template match="/TestReport">
+		<html>			
+					
+			<style type="text/css">
+				caption{text-align:left;font-weight:bold;font-size:
+				20px;font-color:red}
+				a:hover{cursor:hand;text-decoration:"none";}
+				a:hover
+				span{color:#FFE66F;}
+				a:link{color:#81C0C0;text-decoration:underline;}
+				a:visited
+				span{color:#FF9797;}
+
+				.frame_table td{border:1px solid black;}
+				.frame_table{font-size:
+				14px;border:2px solid black;border-collapse: collapse;}
+				.Embedded_table{font-size: 14px;border:1px solid
+				black;border-collapse: collapse;text-align:left;}
+				.insertTable{width:100%;font-size: 14px;border:1px solid
+				black;border-collapse:collapse;width:100%;border-top-style:none;border-right-style:none;border-left-style:none;border-bottom-style:none;}
+				.insertTable td{text-align:left;}
+				.left td{text-align:left;}
+				.testCaseTh{font-size:
+				14px;font-family: calibri;text-align: center;background-color:
+				#FFB5B5;font-weight:bold;}
+				.strip td{font-size:
+				14px;font-family:calibri;text-align:
+				center;background-color:
+				#C5EAFE;font-weight:bold;}
+				.pass { background-color:#32CD32; font-weight:bold;color:blue;width:60px;}
+				.fail { background-color:#FF0000; font-weight:bold;color:blue;width:60px;}
+				.block { background-color:#FFD700; font-weight:bold;color:blue;width:60px;}
+				.follow { background-color:#51E6E2; font-weight:bold;color:blue;width:60px;}
+				
+				.showHand{ cursor:pointer; background:#BBFFBB;}
+</style>
+			<body>
+				
+				<table class="frame_table" border="1">
+					<caption>Environment  </caption>
+					<xsl:for-each select="TestEnvList/TestEnv">
+						<tr>
+							<td>
+								<xsl:value-of select="@key"></xsl:value-of>
+							</td>
+							<td>
+								<xsl:value-of select="."></xsl:value-of>
+							</td>
+						</tr>
+					</xsl:for-each>
+				</table>
+				<br />
+				
+					<caption>Details</caption>
+				<table class="frame_table" border='1' cellspacing="1" cellpadding="0" bgcolor="#000000">

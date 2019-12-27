@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <Print message="push event script..."/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/switch_playback.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/bin/${resolution}/topicture.${os_version} /system/bin/topicture"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/topicture"/>
+        <UpdateEvent name="synaptics_dsx_i2c"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>				
+    </target>
+</project>

@@ -1,0 +1,57 @@
+add device 1: /dev/input/event6
+  name:     "map asoc Headset"
+add device 2: /dev/input/event5
+  name:     "map asoc Hook"
+add device 3: /dev/input/event0
+  name:     "pxa27x-keypad"
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 4: /dev/input/event7
+  name:     "synaptics_dsx_i2c"
+add device 5: /dev/input/event1
+  name:     "88pm80x_on"
+add device 6: /dev/input/event4
+  name:     "APDS_proximity_sensor"
+add device 7: /dev/input/event3
+  name:     "APDS_light_sensor"
+add device 8: /dev/input/event2
+  name:     "LPS_pressure_sensor"
+could not get driver version for /dev/input/mice, Not a typewriter
+   56564-682092: /dev/input/event7: 0003 0039 0000005c
+   56564-682092: /dev/input/event7: 0001 014a 00000001
+   56564-682092: /dev/input/event7: 0003 0035 00000123
+   56564-682092: /dev/input/event7: 0003 0036 00000206
+   56564-682092: /dev/input/event7: 0003 003a 00000036
+   56564-682092: /dev/input/event7: 0003 0030 00000004
+   56564-682092: /dev/input/event7: 0003 0000 00000123
+   56564-682092: /dev/input/event7: 0003 0001 00000206
+   56564-682092: /dev/input/event7: 0003 0018 00000036
+   56564-682092: /dev/input/event7: 0000 0000 00000000
+   56564-694002: /dev/input/event7: 0003 0035 00000128
+   56564-694002: /dev/input/event7: 0003 0036 00000203
+   56564-694002: /dev/input/event7: 0003 003a 0000003b
+   56564-694002: /dev/input/event7: 0003 0030 00000003
+   56564-694002: /dev/input/event7: 0003 0000 00000128
+   56564-694002: /dev/input/event7: 0003 0001 00000203
+   56564-694002: /dev/input/event7: 0003 0018 0000003b
+   56564-694002: /dev/input/event7: 0000 0000 00000000
+   56564-706771: /dev/input/event7: 0003 003a 0000003d
+   56564-706771: /dev/input/event7: 0003 0030 00000004
+   56564-706771: /dev/input/event7: 0003 0018 0000003d
+   56564-706771: /dev/input/event7: 0000 0000 00000000
+   56564-732353: /dev/input/event7: 0003 0036 00000202
+   56564-732353: /dev/input/event7: 0003 0001 00000202
+   56564-732353: /dev/input/event7: 0000 0000 00000000
+   56564-745074: /dev/input/event7: 0003 003a 0000003c
+   56564-745074: /dev/input/event7: 0003 0018 0000003c
+   56564-745074: /dev/input/event7: 0000 0000 00000000
+   56564-757822: /dev/input/event7: 0003 003a 0000003b
+   56564-757822: /dev/input/event7: 0003 0030 00000003
+   56564-757822: /dev/input/event7: 0003 0018 0000003b
+   56564-757822: /dev/input/event7: 0000 0000 00000000
+   56564-770580: /dev/input/event7: 0003 003a 00000032
+   56564-770580: /dev/input/event7: 0003 0018 00000032
+   56564-770580: /dev/input/event7: 0000 0000 00000000
+   56564-782728: /dev/input/event7: 0003 0039 ffffffff
+   56564-782728: /dev/input/event7: 0001 014a 00000000
+   56564-782728: /dev/input/event7: 0003 0018 00000000
+   56564-782728: /dev/input/event7: 0000 0000 00000000

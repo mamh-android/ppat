@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<project name="Castle_master" basedir="." default="result">
+<include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <echo message="prepare ..."/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <ReadThermal flag="thermal_start"/>
+        <AdbCmd cmd="adb shell am start -n com.alphacloud.castlemaster/com.unity3d.player.UnityPlayerActivity"/>
+        <sleep seconds="30"/>
+
+    </target>
+
+    <target name="run" depends="prepare">
+        <echo message="run ..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/castle_master_prepare.evt &amp;"/>
+        <sleep seconds="20"/>
+        <PowerCtrlUSB flag="off"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 50"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <SerialPortCmd cmd="logcat -s GC > /${storage}/gc.fps &amp;"/>
+        <StatDutycycle state="1"/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="Castle_master_${power_port}" port="${power_port}" sleep="false"/>
+        <sleep seconds="45"/>
+        <SerialPortCmd cmd="sendevent /${storage}/castle_master.evt &amp;"/>
+        <sleep seconds="15"/>
+        <echo message="start play castle master..."/>
+
+    </target>
+
+    <target name="result" depends="run">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell setprop marvell.graphics.print_fps 0"/>
+        <ParseFPS cmd="adb shell cat /${storage}/gc.fps"/>
+        <ReadThermal flag="thermal_end"/>
+        <SerialPortCmd cmd="busybox killall logcat"/>
+        <SerialPortCmd cmd="mv /${storage}/gc.fps /${storage}/gc.fps.bak"/>
+        <sleep seconds="10"/>
+        <PowerResult file_n="Castle_master_${power_port}" server="${power_server}" />
+        <copy file="${PT4_SERVER}/Castle_master_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="am force-stop com.alphacloud.castlemaster"/>
+        <AdbCmd cmd="adb shell rm -r /data/data/com.alphacloud.castlemaster"/>
+    </target>
+
+</project>

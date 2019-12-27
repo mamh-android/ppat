@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<project name="lpm" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="prepare">
+        <EnterUboot/>
+        <PowerCtrlUSB flag="off"/>
+    </target>
+
+    <target name="run" depends="prepare">
+        <for trim="true" list="${VL}" param="volt"><!-- available available voltage -->
+            <sequential>
+                <for trim="true" list="${CPU_FREQ}" param="cpu"><!-- available cpu frequencies -->
+                    <sequential>
+                        <for trim="true" list="${DDR_FREQ}" param="ddr"><!-- available ddr frequencies -->
+                            <sequential>
+                                <for trim="true" list="${AXI_FREQ}" param="axi"><!-- available axi frequencies -->
+                                    <sequential>
+										<!-- set property for save to database-->
+                                        <SystemProperty key="ddr" value="@{ddr}"/>
+                                        <SystemProperty key="cpu" value="@{cpu}"/>
+                                        <SystemProperty key="axi" value="@{axi}"/>
+                                        <SystemProperty key="description" value="@{volt}, sleep 5ms"/>
+										<!-- end of set property -->
+										
+										<!-- property for email report -->
+                                        <PropertyMap key="volt" value="@{volt}"/>
+                                        <PropertyMap key="lpm" value="d1"/>
+                                        <PropertyMap key="cpu" value="@{cpu}"/>
+                                        <PropertyMap key="ddr" value="@{ddr}"/>
+                                        <PropertyMap key="axi" value="@{axi}"/>
+										<!-- end of property for email report -->
+										
+                                        <echo message="set prepare command"/>
+                                        <SerialPortCmd cmd="cp_d2" />
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="amp 1" />
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="amp 2" />
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="amp 3" />
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="setvolt 1400" />
+                                        <sleep seconds="5"/>
+										
+                                        <echo message="set cpu: @{cpu}"/>
+                                        <SerialPortCmd cmd="setcpurate @{cpu}"/>
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="setddrrate @{ddr}"/>
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="setaxirate @{axi}"/>
+                                        <sleep seconds="5"/>
+                                        <sleep seconds="5"/>
+                                        <echo message="setvolt @{volt}"/>
+                                        <SerialPortCmd cmd="setvolt @{volt}" />
+                                        <sleep seconds="5"/>
+										
+                                        <echo message="set 3 core c22"/>
+                                        <SerialPortCmd cmd="lpm c22 10000"/>
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="lpm c22 10000"/>
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="lpm c22 10000"/>
+                                        <sleep seconds="5"/>
+                                        <sleep seconds="5"/>
+                                        <SerialPortCmd cmd="mdcp 0x1000000 0x2048 10 5 @{cpu}"/>
+                                        <sleep seconds="5"/>
+										
+										<!-- measure power -->
+                                        <antcall target="power"/>
+                                    </sequential>
+                                </for>
+                            </sequential>
+                        </for>
+                    </sequential>
+                </for>
+            </sequential>
+        </for>       
+    </target>
+	<target name="power">
+        <sleep seconds="20"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="mdcp_${power_port}" port="${power_port}"/>
+        <sleep seconds="5"/>
+		<echo message="get power"/>
+        <PowerResult file_n="mdcp_${power_port}" server="${power_server}" stat_d="false"/>
+        <copy file="${PT4_SERVER}/mdcp_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/mdcp_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="5"/>
+        <echo message="reboot device to enter uboot again..."/>
+        <EnterUboot/>
+    </target>
+    <target name="result" depends="run">
+    </target>
+
+</project>

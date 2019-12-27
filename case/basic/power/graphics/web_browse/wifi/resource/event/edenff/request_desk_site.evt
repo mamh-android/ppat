@@ -1,0 +1,46 @@
+add device 1: /dev/input/event4
+  name:     "gpio_keys-14"
+add device 2: /dev/input/event3
+  name:     "map asoc Headset"
+add device 3: /dev/input/event2
+  name:     "map asoc Hook"
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 4: /dev/input/event5
+  name:     "synaptics_dsx_i2c"
+add device 5: /dev/input/event0
+  name:     "88pm80x_on"
+add device 6: /dev/input/event1
+  name:     "LPS_pressure_sensor"
+could not get driver version for /dev/input/mice, Not a typewriter
+   91508-071792: /dev/input/event5: 0001 008b 00000001
+   91508-071792: /dev/input/event5: 0000 0000 00000000
+   91508-179258: /dev/input/event5: 0001 008b 00000000
+   91508-179258: /dev/input/event5: 0000 0000 00000000
+   91509-766459: /dev/input/event5: 0003 002f 00000000
+   91509-766459: /dev/input/event5: 0003 0039 0000001f
+   91509-766459: /dev/input/event5: 0001 014a 00000001
+   91509-766459: /dev/input/event5: 0003 0035 000002ae
+   91509-766459: /dev/input/event5: 0003 0036 000006a4
+   91509-766459: /dev/input/event5: 0003 003a 0000004d
+   91509-766459: /dev/input/event5: 0003 0030 00000005
+   91509-766459: /dev/input/event5: 0003 0000 000002ae
+   91509-766459: /dev/input/event5: 0003 0001 000006a4
+   91509-766459: /dev/input/event5: 0003 0018 0000004d
+   91509-766459: /dev/input/event5: 0000 0000 00000000
+   91509-777879: /dev/input/event5: 0003 003a 0000004b
+   91509-777879: /dev/input/event5: 0003 0018 0000004b
+   91509-777879: /dev/input/event5: 0000 0000 00000000
+   91509-791710: /dev/input/event5: 0003 003a 00000047
+   91509-791710: /dev/input/event5: 0003 0018 00000047
+   91509-791710: /dev/input/event5: 0000 0000 00000000
+   91509-805083: /dev/input/event5: 0003 003a 00000040
+   91509-805083: /dev/input/event5: 0003 0030 00000004
+   91509-805083: /dev/input/event5: 0003 0018 00000040
+   91509-805083: /dev/input/event5: 0000 0000 00000000
+   91509-819077: /dev/input/event5: 0003 003a 00000035
+   91509-819077: /dev/input/event5: 0003 0018 00000035
+   91509-819077: /dev/input/event5: 0000 0000 00000000
+   91509-831936: /dev/input/event5: 0003 0039 ffffffff
+   91509-831936: /dev/input/event5: 0001 014a 00000000
+   91509-831936: /dev/input/event5: 0003 0018 00000000
+   91509-831936: /dev/input/event5: 0000 0000 00000000

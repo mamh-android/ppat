@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="commanddef" basedir=".">
+	<!-- driver defined tasks -->
+    <taskdef name="AutoBurnSwd" classname="com.marvell.ppat.driver.AutoBurnSwd"/>
+    <taskdef name="ParseCommonConfig" classname="com.marvell.ppat.driver.ParseCommonConfig"/>
+    <taskdef name="ParseCommonConfig" classname="com.marvell.ppat.driver.ParseCommonConfig"/>
+    <taskdef name="ParsePlatformConfig" classname="com.marvell.ppat.driver.ParsePlatformConfig"/>
+    <taskdef name="ListAllCases" classname="com.marvell.ppat.driver.ListAllCases"/>
+    <taskdef name="InitRunCaseList" classname="com.marvell.ppat.driver.InitRunCaseList"/>
+    <taskdef name="RunCaseWithPrecondition" classname="com.marvell.ppat.driver.RunCaseWithPrecondition"/>
+    <taskdef name="RunPrecondition" classname="com.marvell.ppat.driver.RunPrecondition"/>
+    <taskdef name="UpdateCasePrecondition" classname="com.marvell.ppat.driver.UpdateCasePrecondition"/>
+
+    <!--user used task-->
+    <taskdef name="AdbCmd" classname="com.marvell.ppat.taskdef.AdbCmd"/>
+    <taskdef name="CommonResult" classname="com.marvell.ppat.taskdef.CommonResult"/>
+    <taskdef name="EnterUboot" classname="com.marvell.ppat.taskdef.EnterUboot"/>
+    <taskdef name="For" classname="com.marvell.ppat.taskdef.For"/>
+    <taskdef name="HostCmd" classname="com.marvell.ppat.taskdef.HostCmd"/>
+    <taskdef name="RemoteHostCmd" classname="com.marvell.ppat.taskdef.RemoteHostCmd"/>
+    <taskdef name="LTKCmd" classname="com.marvell.ppat.taskdef.LTKCmd"/>
+    <taskdef name="MemoryResult" classname="com.marvell.ppat.taskdef.MemoryResult"/>
+    <taskdef name="ParseConsole" classname="com.marvell.ppat.taskdef.ParseConsole"/>
+    <taskdef name="ParseLogcat" classname="com.marvell.ppat.taskdef.ParseLogcat"/>
+    <taskdef name="ParseFPS" classname="com.marvell.ppat.taskdef.ParseFPS"/>
+    <taskdef name="ParseInfo" classname="com.marvell.ppat.taskdef.ParseInfo"/>
+    <taskdef name="PowerCtrlUSB" classname="com.marvell.ppat.taskdef.PowerCtrlUSB"/>
+    <taskdef name="PrepareBoard" classname="com.marvell.ppat.taskdef.PrepareBoard"/>
+    <taskdef name="Print" classname="com.marvell.ppat.taskdef.Print"/>
+    <taskdef name="echo" classname="com.marvell.ppat.taskdef.Print"/>
+    <taskdef name="PropertyMap" classname="com.marvell.ppat.taskdef.PropertyMap"/>
+    <taskdef name="ReadThermal" classname="com.marvell.ppat.taskdef.ReadThermal"/>
+    <taskdef name="Reboot" classname="com.marvell.ppat.taskdef.Reboot"/>
+    <taskdef name="ResultReport" classname="com.marvell.ppat.taskdef.ResultReport"/>
+    <taskdef name="RoundCmdSet" classname="com.marvell.ppat.taskdef.RoundCmdSet"/>
+    <taskdef name="RoundPP" classname="com.marvell.ppat.taskdef.RoundPP"/>
+    <taskdef name="SetVol" classname="com.marvell.ppat.taskdef.SetVol"/>
+    <taskdef name="ScreenOn" classname="com.marvell.ppat.taskdef.ScreenOn"/>
+    <taskdef name="ScreenUnlock" classname="com.marvell.ppat.taskdef.ScreenUnlock"/>
+    <taskdef name="SerialPortCmd" classname="com.marvell.ppat.taskdef.SerialPortCmd"/>
+    <taskdef name="SetProperty" classname="com.marvell.ppat.taskdef.SetProperty"/>
+    <taskdef name="StatDutyCycle" classname="com.marvell.ppat.taskdef.StatDutyCycle"/>
+    <taskdef name="StatDutycycle" classname="com.marvell.ppat.taskdef.StatDutyCycle"/>
+    <taskdef name="StayAwake" classname="com.marvell.ppat.taskdef.StayAwake"/>
+    <taskdef name="SystemProperty" classname="com.marvell.ppat.taskdef.SystemProperty"/>
+    <taskdef name="SystemSetting" classname="com.marvell.ppat.taskdef.SystemSetting"/>
+    <taskdef name="SystemExit" classname="com.marvell.ppat.taskdef.SystemExit"/>
+    <taskdef name="SyncThermalToDB" classname="com.marvell.ppat.taskdef.SyncThermalToDB"/>
+    <taskdef name="UpdateEvent" classname="com.marvell.ppat.taskdef.UpdateEvent"/>
+
+    <!-- power related task -->
+    <taskdef name="MeasurePower" classname="com.marvell.ppat.taskdef.power.MeasurePower"/>
+    <taskdef name="MeasureThermal" classname="com.marvell.ppat.taskdef.power.MeasurePower"/>
+    <taskdef name="PerformanceResult"  classname="com.marvell.ppat.taskdef.power.PerformanceResult"/>
+    <taskdef name="PowerResult"  classname="com.marvell.ppat.taskdef.power.PowerResult"/>
+</project>

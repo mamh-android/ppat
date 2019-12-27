@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<project name="PPAT" basedir="." default="remotebackup">
+    <include file="config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <!--if ${atf_exception} is set, we should stop execution -->
+    <!-- check the test environment -->
+    <target name="init">
+        <ParseCommonConfig/>
+        <mkdir dir="${result_root}"/>
+        <symlink action="delete" link="result/LAST_${adb_device_id}.build"/>
+        <symlink link="result/LAST_${adb_device_id}.build" resource="${result_root}"/>
+        <ParsePlatformConfig/>
+        <if>
+            <and>
+                <equals arg1="${os_version}" arg2="lp5.1"/>
+                <or>
+                    <equals arg1="${platform}" arg2="ulc1"/>
+                    <equals arg1="${platform}" arg2="ulc1ff"/>
+                </or>
+            </and>
+            <then>
+                <if>
+                    <or>
+                        <equals arg1="${release_version}" arg2="k314_alpha1"/>
+                        <equals arg1="${release_version}" arg2="k314_beta1"/>
+                        <equals arg1="${release_version}" arg2="master"/>
+                    </or>
+                    <then>
+                        <SetProperty name="last_build_infix" value="pxa1936"/>
+                        <SetProperty name="image_date_infix" value="pxa1936"/>
+                        <SetProperty name="image_path_prefix" value="/autobuild/android/pxa1936"/>
+                    </then>
+                </if>
+            </then>
+        </if>
+
+        <ListAllCases/>
+        <InitRunCaseList/>
+
+    </target>
+    <target name="listall">
+        <ParseCommonConfig/>
+        <ListAllCases/>
+    </target>
+
+    <target name="prepare">
+        <ParseCommonConfig/>
+        <ParsePlatformConfig/>
+        <ListAllCases/>
+        <InitRunCaseList/>
+        <UpdateCasePrecondition/>
+        <RunPrecondition/>
+    </target>
+    <target name="autoburncheck" depends="init" >
+        <condition property="need_autoburn">
+            <equals arg1="${autoburn}" arg2="true" casesensitive="true" trim="true" />
+        </condition>
+    </target>
+    <target name="autoburn" if="need_autoburn" depends="autoburncheck">
+        <AutoBurnSwd/>
+    </target>
+    <target name="prepareexe" depends="autoburn">
+        <UpdateCasePrecondition/>
+    </target>
+
+    <!-- target used to append dynamic runcase task -->
+    <target name="exe" depends="prepareexe">
+        <PrepareBoard/>
+        <echo message="Start execution ..." />
+        <RunCaseWithPrecondition/>
+    </target>
+
+    <target name="remotebackup" depends="exe">
+        <copy todir="${backup_remote}/result/${run_time}">
+            <fileset dir="result/${run_time}/"/>
+        </copy>
+    </target>
+</project>
+
+
+

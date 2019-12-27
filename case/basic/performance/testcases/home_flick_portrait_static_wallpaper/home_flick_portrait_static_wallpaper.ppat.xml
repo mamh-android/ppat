@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<project name="home_flick_portrait_static_wallpaper" basedir="." default="teardown">
+<include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <HostCmd cmd="./prepare.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+    </target>
+    <target name="run" depends="prepare">
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="home_flick_portrait_static_wallpaper_${power_port}" port="${power_port}" sleep="false"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <SerialPortCmd cmd="uiautomator runtest UIAT2.jar -c com.uiat.FlickLeftRight"/>
+        <sleep seconds="30"/>
+    </target>
+    <target name="teardown" depends="run">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <HostCmd cmd="./cleanup.sh ${subcase_root}/temp.log ${adb_device_id}" workingDirectory="${basedir}"/>
+        <PerformanceResult server="${power_server}" file_n="home_flick_portrait_static_wallpaper_${power_port}" />
+    </target>
+
+</project>

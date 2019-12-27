@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<project name="power_dec" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="musthave">
+        <SetProperty name="cmd" value="appCoda7542Enc &quot;-p:/data/Coda7542EncConfig_720p.par -lessinfo:1 -preload:30 -fps:30 -i:/data/Transformers_2007_720p_30f.nv12 -n:3000 -iInputYUVFmt:1&quot;"/>
+        <SetProperty name="IS_RUNNING_CPUEATER" value="N"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <AdbCmd cmd="adb push resource/Coda7542EncConfig_720p.par /data/"/>
+        <AdbCmd cmd="adb push resource/Transformers_2007_720p_30f.nv12 /data/"/>
+        <AdbCmd cmd="adb push resource/Transformers_2007_720p_30f.yuv /data/"/>
+    </target>
+</project>

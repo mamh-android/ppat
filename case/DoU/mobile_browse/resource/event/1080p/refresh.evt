@@ -1,0 +1,94 @@
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 1: /dev/input/event1
+  name:     "vnc-ts"
+add device 2: /dev/input/event5
+  name:     "map asoc Hook"
+add device 3: /dev/input/event6
+  name:     "map asoc Headset"
+add device 4: /dev/input/event0
+  name:     "pxa27x-keypad"
+add device 5: /dev/input/event2
+  name:     "88pm80x_on"
+could not get driver version for /dev/input/mouse1, Not a typewriter
+add device 6: /dev/input/event7
+  name:     "synaptics_dsx_i2c"
+add device 7: /dev/input/event4
+  name:     "ecompass_data"
+add device 8: /dev/input/event3
+  name:     "ptacc_data"
+could not get driver version for /dev/input/mice, Not a typewriter
+     305-235904: /dev/input/event7: 0003 0039 00000050
+     305-235904: /dev/input/event7: 0001 014a 00000001
+     305-235904: /dev/input/event7: 0003 0035 00000382
+     305-235904: /dev/input/event7: 0003 0036 000007ea
+     305-235904: /dev/input/event7: 0003 003a 00000031
+     305-235904: /dev/input/event7: 0003 0030 00000006
+     305-235904: /dev/input/event7: 0003 0000 00000382
+     305-235904: /dev/input/event7: 0003 0001 000007ea
+     305-235904: /dev/input/event7: 0003 0018 00000031
+     305-235904: /dev/input/event7: 0000 0000 00000000
+     305-254235: /dev/input/event7: 0003 0036 000007e9
+     305-254235: /dev/input/event7: 0003 003a 00000032
+     305-254235: /dev/input/event7: 0003 0030 00000007
+     305-254235: /dev/input/event7: 0003 0001 000007e9
+     305-254235: /dev/input/event7: 0003 0018 00000032
+     305-254235: /dev/input/event7: 0000 0000 00000000
+     305-268358: /dev/input/event7: 0003 003a 00000031
+     305-268358: /dev/input/event7: 0003 0018 00000031
+     305-268358: /dev/input/event7: 0000 0000 00000000
+     305-280749: /dev/input/event7: 0003 003a 0000002f
+     305-280749: /dev/input/event7: 0003 0030 00000008
+     305-280749: /dev/input/event7: 0003 0018 0000002f
+     305-280749: /dev/input/event7: 0000 0000 00000000
+     305-295250: /dev/input/event7: 0003 003a 00000028
+     305-295250: /dev/input/event7: 0003 0018 00000028
+     305-295250: /dev/input/event7: 0000 0000 00000000
+     305-298244: /dev/input/event7: 0003 0039 ffffffff
+     305-298244: /dev/input/event7: 0001 014a 00000000
+     305-298244: /dev/input/event7: 0003 0018 00000000
+     305-298244: /dev/input/event7: 0000 0000 00000000
+     306-470268: /dev/input/event7: 0003 0039 00000051
+     306-470268: /dev/input/event7: 0001 014a 00000001
+     306-470268: /dev/input/event7: 0003 0035 000001d4
+     306-470268: /dev/input/event7: 0003 0036 000002aa
+     306-470268: /dev/input/event7: 0003 003a 0000003d
+     306-470268: /dev/input/event7: 0003 0030 00000005
+     306-470268: /dev/input/event7: 0003 0000 000001d4
+     306-470268: /dev/input/event7: 0003 0001 000002aa
+     306-470268: /dev/input/event7: 0003 0018 0000003d
+     306-470268: /dev/input/event7: 0000 0000 00000000
+     306-480915: /dev/input/event7: 0003 0035 000001d2
+     306-480915: /dev/input/event7: 0003 0036 000002a8
+     306-480915: /dev/input/event7: 0003 003a 00000046
+     306-480915: /dev/input/event7: 0003 0000 000001d2
+     306-480915: /dev/input/event7: 0003 0001 000002a8
+     306-480915: /dev/input/event7: 0003 0018 00000046
+     306-480915: /dev/input/event7: 0000 0000 00000000
+     306-495485: /dev/input/event7: 0003 0035 000001d0
+     306-495485: /dev/input/event7: 0003 0036 000002a6
+     306-495485: /dev/input/event7: 0003 003a 00000049
+     306-495485: /dev/input/event7: 0003 0030 00000006
+     306-495485: /dev/input/event7: 0003 0000 000001d0
+     306-495485: /dev/input/event7: 0003 0001 000002a6
+     306-495485: /dev/input/event7: 0003 0018 00000049
+     306-495485: /dev/input/event7: 0000 0000 00000000
+     306-508540: /dev/input/event7: 0003 0035 000001ce
+     306-508540: /dev/input/event7: 0003 0036 000002a5
+     306-508540: /dev/input/event7: 0003 0000 000001ce
+     306-508540: /dev/input/event7: 0003 0001 000002a5
+     306-508540: /dev/input/event7: 0000 0000 00000000
+     306-521057: /dev/input/event7: 0003 0035 000001cd
+     306-521057: /dev/input/event7: 0003 003a 00000047
+     306-521057: /dev/input/event7: 0003 0030 00000005
+     306-521057: /dev/input/event7: 0003 0000 000001cd
+     306-521057: /dev/input/event7: 0003 0018 00000047
+     306-521057: /dev/input/event7: 0000 0000 00000000
+     306-536424: /dev/input/event7: 0003 0035 000001cc
+     306-536424: /dev/input/event7: 0003 003a 00000038
+     306-536424: /dev/input/event7: 0003 0000 000001cc
+     306-536424: /dev/input/event7: 0003 0018 00000038
+     306-536424: /dev/input/event7: 0000 0000 00000000
+     306-546646: /dev/input/event7: 0003 0039 ffffffff
+     306-546646: /dev/input/event7: 0001 014a 00000000
+     306-546646: /dev/input/event7: 0003 0018 00000000
+     306-546646: /dev/input/event7: 0000 0000 00000000

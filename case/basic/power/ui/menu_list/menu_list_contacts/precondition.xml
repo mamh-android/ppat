@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="power_local_browing" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb push resource/event/${resolution}/slide.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb push resource/contact.vcf /${storage}/"/>
+        <AdbCmd cmd="adb shell am start -n com.android.contacts/.activities.PeopleActivity"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 66"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 66"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 20"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 66"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell input keyevent 4"/>
+        <sleep seconds="10"/>
+        <AdbCmd cmd="adb shell am force-stop com.android.contacts"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

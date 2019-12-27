@@ -1,0 +1,44 @@
+<PlatformConfig>
+    <PropertyConfig>
+        <!-- platform info -->
+        <Property name="platform">HLN2</Property>
+        <Property name="soc">pxa988</Property>
+        <Property name="board">pxa1U88dkb</Property>
+
+        <!-- specify board serial number-->
+        <Property name="multi_device">true</Property>
+        <Property name="device_info">PXA1U88_DKB_V10_053, DRO568, profile 11</Property>
+
+        <Property name="case_searchpath">case</Property>
+        <Property name="run_time"/>
+
+        <!-- backup result for public visit-->
+        <Property name="backup_remote">/srv/ftp/ftpshare/ppat/</Property>
+        <Property name="log_path">ftp://10.38.32.98/ftpshare/ppat/</Property>
+
+        <Property name="LPM">true</Property>
+    </PropertyConfig>
+    <ResourceConfig>
+        <Resource name="serialport" port="/dev/ttyUSB0" rate="115200"/>
+        <Resource name="adb"/>
+        <Resource name="ltk"/>
+        <Resource name="relay" port="/dev/ttyS0" rate="9600" user="reset:3;back:4;" />
+    </ResourceConfig>
+
+    <AutoBurnConfig>
+        <!-- for generate LAT_BUILD.pxa1928-kk4.4 in autobuild server -->
+        <Property name="last_build_infix">pxa988</Property>
+
+        <!-- full image path: /autobuild/android/pxa1928/2014-09-03_pxa1928-kk4.4/pxa1928dkb_tz -->
+        <!-- image path, need mount to /autobuild-->
+        <Property name="image_path_prefix">/autobuild/android/pxa1U88</Property>
+
+        <!-- image date infix-->
+        <Property name="image_date_infix">pxa988</Property>
+
+        <!-- image path suffix -->
+        <Property name="image_path_suffix">pxa1U88dkb_def</Property>
+        <Property name="burn_cmd">sudo ./swdl_linux -D ./HLN2_DKB/HELAN2_Non-Trusted_Hynix_lpddr3_2g_pop_H9CKNNNBJTMPLR_533Mhz.blf -S</Property>
+    </AutoBurnConfig>
+</PlatformConfig>
+

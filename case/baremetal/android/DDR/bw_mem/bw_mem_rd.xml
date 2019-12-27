@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<project name="bw_mem" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="run">
+        <echo message="go to screen ..."/>
+
+        <sleep seconds="10"/>
+        <echo message="run memory copy..."/>
+        <SerialPortCmd cmd="bw_mem_10 -N 5000 40m rd &amp;" />
+        <SystemProperty key="description" value="rd 10, ${VL}"/>
+        <PropertyMap key="case" value="rd,sleep 10ms"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="bw_mem_10_${cpu}_${ddr}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="bw_mem_10_${cpu}_${ddr}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/bw_mem_10_${cpu}_${ddr}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/bw_mem_10_${cpu}_${ddr}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="kill.sh bw_mem_10"/>
+
+
+        <sleep seconds="10"/>
+        <echo message="run memory copy..."/>
+        <SerialPortCmd cmd="bw_mem_20 -N 5000 40m rd &amp;" />
+        <SystemProperty key="description" value="rd 20, ${VL}"/>
+        <PropertyMap key="case" value="rd,sleep 20ms"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="bw_mem_20_${cpu}_${ddr}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="bw_mem_20_${cpu}_${ddr}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/bw_mem_20_${cpu}_${ddr}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/bw_mem_20_${cpu}_${ddr}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="kill.sh bw_mem_20"/>
+
+
+        <sleep seconds="10"/>
+        <echo message="run memory copy..."/>
+        <SerialPortCmd cmd="bw_mem_40 -N 5000 40m rd &amp;" />
+        <SystemProperty key="description" value="rd 40, ${VL}"/>
+        <PropertyMap key="case" value="rd,sleep 40ms"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="bw_mem_40_${cpu}_${ddr}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="bw_mem_40_${cpu}_${ddr}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/bw_mem_40_${cpu}_${ddr}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/bw_mem_40_${cpu}_${ddr}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="kill.sh bw_mem_40"/>
+
+        <sleep seconds="10"/>
+        <echo message="run memory copy..."/>
+        <SerialPortCmd cmd="bw_mem -N 5000 40m rd &amp;" />
+        <SystemProperty key="description" value="rd full, ${VL}"/>
+        <PropertyMap key="case" value="rd,full on"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="bw_mem_${cpu}_${ddr}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="bw_mem_${cpu}_${ddr}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/bw_mem_${cpu}_${ddr}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/bw_mem_${cpu}_${ddr}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="kill.sh bw_mem"/>
+    </target>
+
+    <target name="result" depends="run">
+    </target>
+
+</project>

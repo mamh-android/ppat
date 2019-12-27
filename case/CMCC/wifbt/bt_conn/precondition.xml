@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<project name="bt_conn" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb install -r resource/apk/BluetoothTest.apk"/>
+    </target>
+
+</project>

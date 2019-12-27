@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="Castle_master" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	<target name="run">
+		<echo message="prepare ..."/>
+		<PowerCtrlUSB flag="on"/>
+		<sleep seconds="5"/>
+        <AdbCmd cmd="adb install -r resource/apk/CastleMaster.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/castle_master.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/castle_master_prepare.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+
+	</target>
+</project>

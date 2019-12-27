@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="power_game_angrybirds" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <AdbCmd cmd="adb install -r resource/apk/Clash_of_Clans.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/play_clash_of_clans.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/prepare_clash_of_clans.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+
+</project>

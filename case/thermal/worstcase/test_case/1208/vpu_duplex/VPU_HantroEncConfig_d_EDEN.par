@@ -1,0 +1,67 @@
+#######################################################
+# Ipp Hantro Encoder Config File
+#######################################################
+
+#######################################################
+# Level1: must set
+# Level2: special config for different encoder
+# Level3: reserved, don't need set
+#######################################################
+
+#######################################################
+# Level1: necessary
+#######################################################
+iInputYUVFmt      = 0
+eOutputStrmFmt    = 5
+
+# width/height used to load picture from input file
+iWidth            = 1920
+iHeight           = 1088
+# width/height of the region to be encoded, set 0 will use input width/height by default
+iEncodeWidth      = 0
+iEncodeHeight     = 0
+# picture buffer stride, set 0 will use 16 aligned value of encode width/height by default
+iXStride          = 0
+iYStride          = 0
+iXOffset          = 0
+iYOffset          = 0
+
+iFrameRateNum     = 30
+iFrameRateDen     = 1
+iRCMode           = 1
+iGopSize          = 30
+iInitQP           = -1
+iRCBitRate        = 10000000
+
+iSliceSize        = 0
+iCirInterval      = 0
+
+iROIQPDelta       = 0
+iROIX             = 0
+iROIY             = 0
+iROIWidth         = 0
+iROIHeight        = 0
+
+iRotateAngle       = 0
+bDynamicClock      = 1
+
+#######################################################
+# Level2
+#######################################################
+# H.264 
+#######################################################
+bH264DeblockDisable = 0
+bH264CABACEnable    = 0
+bH264MVC            = 0
+
+#######################################################
+# VP8
+#######################################################
+bVP8ivf             = 1
+iVP8DCTPartition    = 0
+
+#######################################################
+# JPEG/MJPEG
+#######################################################
+iJpegQuantLevel     = 9
+bJpegSlicedMode     = 0

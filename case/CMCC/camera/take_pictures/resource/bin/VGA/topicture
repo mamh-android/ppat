@@ -1,0 +1,5 @@
+input tap 158   618
+sleep 2
+input tap 102  795
+sleep 2
+input tap 109  816

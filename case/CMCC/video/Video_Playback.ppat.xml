@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<project name="power_video_high_resolution" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <SerialPortCmd cmd="logcat -c"/>
+        <SetProperty name="case_name" value="Start_Player_CMCC"/>
+        <ReadThermal flag="thermal_start"/>
+        <PowerCtrlUSB flag="off"/>
+
+        <echo message="start play video...."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.VIEW  -n com.android.gallery3d/.app.Gallery"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <sleep seconds="1"/>
+        <echo message="start stat dc ..."/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="10"/>
+        <ReadThermal flag="thermal_end"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <SetProperty name="case_name" value="Pause_Video_Playback_CMCC"/>
+        <echo message="set prop to get fps..."/>
+        <SerialPortCmd cmd="setprop debug.performance.tunning 1"/>
+        <SerialPortCmd cmd="setprop debug.media.ippvpuPerfdbglevel 1"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 200"/>
+        <ReadThermal flag="thermal_start"/>
+        <PowerCtrlUSB flag="off"/>
+
+        <echo message="start play video...."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.VIEW  -n com.android.gallery3d/com.android.gallery3d.app.MovieActivity  -d ${power_res_root}/${Stream}"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input rotationevent 1"/>
+        <echo message="rotate screen for video playback..."/>
+        <sleep seconds="5"/>
+        <echo message="pause video playback..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/pause.evt"/>
+        <sleep seconds="5"/>
+        <echo message="start stat dc ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <echo message="suspend device ..."/>
+        <StatDutyCycle state="1"/>
+        <sleep seconds="5"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ScreenOn/>
+        <sleep seconds="1"/>
+        <AdbCmd cmd="adb shell input keyevent 82"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell input rotationevent 1"/>
+        <ReadThermal flag="thermal_end"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+
+
+        <SetProperty name="case_name" value="Video_Playback_CMCC"/>
+        <echo message="pause video playback..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/play.evt"/>
+        <sleep seconds="1"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="start stat dc ..."/>
+        <StatDutyCycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="${Duration}" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+    </target>
+    <target name="result" depends="power">        
+        <SetProperty name="case_name" value="Video_Playback_End_CMCC"/>
+        <echo message="suspend device ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="60"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}" stat_d="false"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am force-stop com.android.gallery3d"/>
+        <sleep seconds="10"/>
+    </target>
+</project>

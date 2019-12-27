@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<project name="power_audio_play" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="logcat -c"/>
+    </target>
+
+   <target name="run"  depends="prepare">
+        <echo message="play audio ..."/>
+        <sleep seconds="60"/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n com.android.music/com.android.music.MediaPlaybackActivity -d ${power_res_root}/${power_audio1} &amp;"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent 3"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent 26"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="2"/>
+        <echo message="mount ..."/>
+        <SerialPortCmd cmd="fkcmd"/>
+        <StatDutyCycle state="1"/>
+        <sleep seconds="5"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work..."/>
+        <MeasurePower server="${power_server}" sample_t="${Duration}" voltage="4" save_f="mp3_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="5"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="5"/>
+
+        <PowerResult file_n="mp3_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/mp3_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <echo message="start collecting data..."/>
+    </target>
+
+    <target name="cleanup" depends="power">
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="busybox killall com.android.music"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

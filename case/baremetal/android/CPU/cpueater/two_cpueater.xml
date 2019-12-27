@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<project name="cpueater" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/hotplug/lock"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu1/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu2/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu3/online"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="run cpueater..."/>
+        <SerialPortCmd cmd="fkcmd" />
+        <SerialPortCmd cmd="cpueater 0" />
+        <SerialPortCmd cmd="cpueater 1" />
+        <SystemProperty key="description" value="cpueater 2, ${VL}"/>
+        <PropertyMap key="coreNum" value="2"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="cpueater_${cpu}_${ddr}_${coreNum}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="cpueater_${cpu}_${ddr}_${coreNum}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/cpueater_${cpu}_${ddr}_${coreNum}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <!--end of cpueater 1-->
+
+    </target>
+
+    <target name="result" depends="run">
+        <SerialPortCmd cmd="busybox killall cpueater" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

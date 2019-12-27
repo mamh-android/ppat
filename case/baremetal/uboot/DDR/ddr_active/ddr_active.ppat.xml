@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<project name="lpm" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    
+    <target name="run">
+        <ant antfile="${platform}/mdcp_nosleep.xml"/>
+        <ant antfile="${platform}/mdcp_5ms.xml"/>
+        <ant antfile="${platform}/mdcp_10ms.xml"/>
+        <ant antfile="${platform}/mdcp_20ms.xml"/>
+        <ant antfile="${platform}/mdcp_40ms.xml"/>
+        <ant antfile="${platform}/mdcp_60ms.xml"/>
+    </target>
+    <target name="result" depends="run">
+        <PowerCtrlUSB flag="on"/>
+        <Reboot/>
+    </target>
+
+</project>

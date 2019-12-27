@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="power_radio_streaming" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <AdbCmd cmd="adb install resource/apk/tunein.player_v12.9.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/login_tunein_goto_profile.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/play_bbc.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE false"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="am start -n tunein.player/tunein.ui.actvities.TuneInHomeActivity" />
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="sendevent /${storage}/login_tunein_goto_profile.evt"/>
+        <sleep seconds="35"/>
+        <SerialPortCmd cmd="am force-stop tunein.player" />
+    </target>
+</project>

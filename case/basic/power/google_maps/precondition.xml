@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <AdbCmd cmd="adb install resource/apk/google_map_v9.1.0.apk"/>
+        <AdbCmd cmd="adb install resource/apk/WifiTest.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/prepare_google_maps.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/search_hawaii.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <AdbCmd cmd="adb shell am start -n com.google.android.apps.maps/com.google.android.maps.MapsActivity"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/prepare_google_maps.evt"/>
+        <sleep seconds="15"/>
+        <AdbCmd cmd="adb shell am force-stop com.google.android.apps.maps"/>
+    </target>
+</project>

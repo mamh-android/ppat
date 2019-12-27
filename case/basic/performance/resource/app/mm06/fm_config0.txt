@@ -1,0 +1,15 @@
+-data=/sdcard/mm06/3dmm_demo.fms
+-fullscreen=1
+-max_texture_size=256
+-results=/sdcard/mm06/results.txt
+-no_menu=1
+-run_game_test        0
+-exit
+
+
+
+
+
+
+
+

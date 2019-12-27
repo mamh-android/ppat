@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb install resource/apk/weixin_v6.0.2.58.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/start_weixin.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/send_msg.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/choose_myself_chart.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

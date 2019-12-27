@@ -1,0 +1,48 @@
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 1: /dev/input/event1
+  name:     "vnc-ts"
+add device 2: /dev/input/event5
+  name:     "map asoc Hook"
+add device 3: /dev/input/event6
+  name:     "map asoc Headset"
+add device 4: /dev/input/event0
+  name:     "pxa27x-keypad"
+add device 5: /dev/input/event2
+  name:     "88pm88x_on"
+could not get driver version for /dev/input/mouse1, Not a typewriter
+add device 6: /dev/input/event7
+  name:     "synaptics_dsx_i2c"
+add device 7: /dev/input/event4
+  name:     "ecompass_data"
+add device 8: /dev/input/event3
+  name:     "ptacc_data"
+could not get driver version for /dev/input/mice, Not a typewriter
+    1205-259601: /dev/input/event7: 0003 0039 00000077
+    1205-259601: /dev/input/event7: 0001 014a 00000001
+    1205-259601: /dev/input/event7: 0003 0035 000002b2
+    1205-259601: /dev/input/event7: 0003 0036 00000059
+    1205-259601: /dev/input/event7: 0003 003a 00000045
+    1205-259601: /dev/input/event7: 0003 0030 00000004
+    1205-259601: /dev/input/event7: 0003 0000 000002b2
+    1205-259601: /dev/input/event7: 0003 0001 00000059
+    1205-259601: /dev/input/event7: 0003 0018 00000045
+    1205-259601: /dev/input/event7: 0000 0000 00000000
+    1205-267763: /dev/input/event7: 0003 0035 000002b3
+    1205-267763: /dev/input/event7: 0003 003a 00000046
+    1205-267763: /dev/input/event7: 0003 0000 000002b3
+    1205-267763: /dev/input/event7: 0003 0018 00000046
+    1205-267763: /dev/input/event7: 0000 0000 00000000
+    1205-296466: /dev/input/event7: 0003 003a 00000045
+    1205-296466: /dev/input/event7: 0003 0018 00000045
+    1205-296466: /dev/input/event7: 0000 0000 00000000
+    1205-308947: /dev/input/event7: 0003 003a 00000042
+    1205-308947: /dev/input/event7: 0003 0018 00000042
+    1205-308947: /dev/input/event7: 0000 0000 00000000
+    1205-321458: /dev/input/event7: 0003 003a 00000037
+    1205-321458: /dev/input/event7: 0003 0030 00000003
+    1205-321458: /dev/input/event7: 0003 0018 00000037
+    1205-321458: /dev/input/event7: 0000 0000 00000000
+    1205-331591: /dev/input/event7: 0003 0039 ffffffff
+    1205-331591: /dev/input/event7: 0001 014a 00000000
+    1205-331591: /dev/input/event7: 0003 0018 00000000
+    1205-331591: /dev/input/event7: 0000 0000 00000000

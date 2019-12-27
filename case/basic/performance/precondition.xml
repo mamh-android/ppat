@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="musthave">
+    	<SerialPortCmd cmd="su"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <Print message="prepare UIAT now..."/>
+    	<SerialPortCmd cmd="su"/>
+        <HostCmd cmd="./prepare_for_test.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+        <Reboot/>
+    </target>
+</project>

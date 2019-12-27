@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<project name="power_game_angrybirds" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="logcat -c" />
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="launch angry birds ..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN  -c android.intent.category.LAUNCHER -n com.rovio.angrybirds/com.rovio.fusion.App" />
+        <sleep seconds="30"/>
+        <!-- prepare to play angrybirds-->
+
+        <SerialPortCmd cmd="sendevent /${storage}/prepare_angrybirds.evt &amp;" />
+        <echo message="start play angry birds..."/>
+        <sleep seconds="30"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 50"/>
+        <SerialPortCmd cmd="logcat -s GC > /${storage}/gc.fps &amp;"/>
+        <echo message="start stat dc..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="angrybirds_${power_port}" port="${power_port}" sleep="false"/>
+        <sleep seconds="8"/>
+        <!--start to play angrybirds-->
+        <SerialPortCmd cmd="sendevent /${storage}/play_angrybirds.evt" />
+        <sleep seconds="25"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="15"/>
+
+
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 0"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="15"/>
+        <ParseFPS cmd="adb shell cat /${storage}/gc.fps"/>
+        <SerialPortCmd cmd="busybox killall logcat"/>
+        <SerialPortCmd cmd="mv /${storage}/gc.fps /${storage}/gc.fps.bak"/>
+        <PowerResult file_n="angrybirds_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/angrybirds_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <echo message="start collecing data..."/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="busybox killall com.rovio.angrybirds" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

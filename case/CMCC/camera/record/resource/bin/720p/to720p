@@ -1,0 +1,17 @@
+input tap 88   1073
+sleep 2
+input tap 154  1211
+sleep 2
+input tap 154  1070
+sleep 2
+input tap 566  1201
+sleep 2
+input tap 400  957
+sleep 2
+input tap 328  604
+sleep 2
+input tap 331  651
+sleep 2
+input keyevent 4
+
+

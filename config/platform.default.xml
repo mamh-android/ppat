@@ -1,0 +1,20 @@
+<PlatformConfig>
+    <PropertyConfig>
+        <!-- specify board serial number-->
+        <Property name="multi_device">true</Property>
+        <Property name="device_info">PXA1928_FF_V10_0075</Property>
+
+        <Property name="case_searchpath">case</Property>
+        <Property name="run_time"/>
+
+        <!-- backup result for public visit-->
+        <Property name="backup_remote">/srv/ftp/ftpshare/ppat/</Property>
+        <Property name="log_path">ftp://10.38.32.94/ftpshare/ppat/</Property>
+
+        <Property name="SyncToDB">true</Property>
+    </PropertyConfig>
+    <ResourceConfig>
+        <Resource name="adb"/>
+    </ResourceConfig>
+</PlatformConfig>
+

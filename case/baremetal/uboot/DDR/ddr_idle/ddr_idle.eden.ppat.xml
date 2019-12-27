@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<project name="lpm" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    
+    <target name="run">
+        <ant antfile="${platform}/d0cglcd.xml"/>
+        <ant antfile="${platform}/d1.xml"/>
+    </target>
+    <target name="result" depends="run">
+        <PowerCtrlUSB flag="on"/>
+        <Reboot/>
+    </target>
+
+</project>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<project name="power_sensor" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+        <AdbCmd cmd="adb install -r resource/apk/SensorPower.apk"/>
+		<SetProperty name="non_batch_type" value="1,5,8,17,18,19"/>
+		<SetProperty name="low_power_type" value="17,18,19"/>
+		<SetProperty name="batch_type" value="1"/>
+		<SetProperty name="sensor_delay" value="0,1,2,3"/>
+		<SetProperty name="sensor_type_1" value="ACCELEROMETE"/>
+		<SetProperty name="sensor_type_2" value="GEOMAGNETIC_FIEL"/>
+		<SetProperty name="sensor_type_3" value="ORIENTATIO"/>
+		<SetProperty name="sensor_type_4" value="GYROSCOP"/>
+		<SetProperty name="sensor_type_5" value="LIGH"/>
+		<SetProperty name="sensor_type_6" value="PRESSUR"/>
+		<SetProperty name="sensor_type_7" value="TEMPERATUR"/>
+		<SetProperty name="sensor_type_8" value="PROXIMIT"/>
+		<SetProperty name="sensor_type_9" value="GRAVIT"/>
+		<SetProperty name="sensor_type_10" value="LINEAR_ACCELERATIO"/>
+		<SetProperty name="sensor_type_11" value="ROTATION_VECTO"/>
+		<SetProperty name="sensor_type_13" value="AMBIENT_TEMPERATUR"/>
+		<SetProperty name="sensor_type_14" value="MAGNETIC_FIELD_UNCALIBRATE"/>
+		<SetProperty name="sensor_type_15" value="GAME_ROTATION_VECTO"/>
+		<SetProperty name="sensor_type_16" value="GYROSCOPE_UNCALIBRATE"/>
+		<SetProperty name="sensor_type_17" value="SIGNIFICANT_MOTIO"/>
+		<SetProperty name="sensor_type_18" value="STEP_DETECTO"/>
+		<SetProperty name="sensor_type_19" value="STEP_COUNTE"/>
+		<SetProperty name="sensor_type_20" value="GEOMAGNETIC_ROTATION_VECTO"/>
+		<SetProperty name="sensor_delay_0" value="SENSOR_DELAY_FASTEST(200Hz)"/>
+		<SetProperty name="sensor_delay_1" value="SENSOR_DELAY_GAME(50Hz)"/>
+		<SetProperty name="sensor_delay_2" value="SENSOR_DELAY_UI(14Hz)"/>
+		<SetProperty name="sensor_delay_3" value="SENSOR_DELAY_NORMAL(5Hz)"/>
+    </target>
+
+</project>

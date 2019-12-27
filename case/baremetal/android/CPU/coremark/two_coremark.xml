@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<project name="coremark" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/hotplug/lock"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu1/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu2/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu3/online"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="run coremark..."/>
+        <SerialPortCmd cmd="coremark.sh 0 90 &amp;" />
+        <SerialPortCmd cmd="coremark.sh 1 90 &amp;" />
+        <SystemProperty key="description" value="coremark 2, ${VL}"/>
+        <PropertyMap key="coreNum" value="2"/>
+        <sleep seconds="20"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="coremark_${cpu}_${ddr}_${coreNum}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="coremark_${cpu}_${ddr}_${coreNum}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/coremark_${cpu}_${ddr}_${coreNum}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/coremark_${cpu}_${ddr}_${coreNum}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="kill.sh coremark" />
+
+    </target>
+
+    <target name="result" depends="run">
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="busybox killall coremark" />
+    </target>
+
+</project>

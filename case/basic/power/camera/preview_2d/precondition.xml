@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<project name="power_take_picture" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <AdbCmd cmd="adb install -r resource/apk/LegacyCamera.apk"/>
+    </target>
+
+</project>

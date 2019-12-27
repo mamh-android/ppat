@@ -1,0 +1,37 @@
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 1: /dev/input/event1
+  name:     "vnc-ts"
+add device 2: /dev/input/event3
+  name:     "map asoc Hook"
+add device 3: /dev/input/event4
+  name:     "map asoc Headset"
+add device 4: /dev/input/event0
+  name:     "pxa27x-keypad"
+add device 5: /dev/input/event2
+  name:     "88pm80x_on"
+could not get driver version for /dev/input/mouse1, Not a typewriter
+add device 6: /dev/input/event5
+  name:     "synaptics_dsx_i2c"
+could not get driver version for /dev/input/mice, Not a typewriter
+    3657-320427: /dev/input/event5: 0003 0039 00000096
+    3657-320427: /dev/input/event5: 0001 014a 00000001
+    3657-320427: /dev/input/event5: 0003 0035 00000255
+    3657-320427: /dev/input/event5: 0003 0036 0000060a
+    3657-320427: /dev/input/event5: 0003 003a 00000041
+    3657-320427: /dev/input/event5: 0003 0030 00000005
+    3657-320427: /dev/input/event5: 0003 0000 00000255
+    3657-320427: /dev/input/event5: 0003 0001 0000060a
+    3657-320427: /dev/input/event5: 0003 0018 00000041
+    3657-320427: /dev/input/event5: 0000 0000 00000000
+    3657-333260: /dev/input/event5: 0003 0035 00000256
+    3657-333260: /dev/input/event5: 0003 0036 00000609
+    3657-333260: /dev/input/event5: 0003 0000 00000256
+    3657-333260: /dev/input/event5: 0003 0001 00000609
+    3657-333260: /dev/input/event5: 0000 0000 00000000
+    3657-372005: /dev/input/event5: 0003 003a 0000003c
+    3657-372005: /dev/input/event5: 0003 0018 0000003c
+    3657-372005: /dev/input/event5: 0000 0000 00000000
+    3657-384610: /dev/input/event5: 0003 0039 ffffffff
+    3657-384610: /dev/input/event5: 0001 014a 00000000
+    3657-384610: /dev/input/event5: 0003 0018 00000000
+    3657-384610: /dev/input/event5: 0000 0000 00000000

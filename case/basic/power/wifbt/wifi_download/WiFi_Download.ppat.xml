@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<project name="power_wifi_download" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>    
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE true" />
+        <sleep seconds="20"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid SE1_LT_1 -e pw ${VPN_WIFI_PWD} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="50"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE true"/>
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE true" />
+        <sleep seconds="30"/>
+        <ReadThermal flag="thermal_start"/>      
+        <echo message="start browsing ..."/>
+        <!--  gen 20M files dd if=/dev/zero of=download bs=20M count=1 -->
+        <SerialPortCmd cmd="am start -n com.android.browser/.BrowserActivity -a android.intent.action.VIEW -d http://192.168.1.181/download" />
+        <sleep seconds="15"/>
+        <SerialPortCmd cmd="input keyevent 26"/>    
+        <sleep seconds="15"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="5"/>
+
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am force-stop com.android.browser"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE false" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

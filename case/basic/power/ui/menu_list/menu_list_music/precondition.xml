@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="power_local_browing" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <AdbCmd cmd="adb push resource/Music_50 /${storage}/Music_50"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/slide.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/go_to_music_list.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

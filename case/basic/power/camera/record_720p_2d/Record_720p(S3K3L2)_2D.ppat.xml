@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<project name="power_camcorder_record" basedir="." default="cleanup">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <sleep seconds="60"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <SerialPortCmd cmd="setprop debug.media.ippvpuPerfdbglevel 1"/>
+
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="open camecord..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -a android.media.action.VIDEO_CAMERA -n com.android.camera/.VideoCamera"/>
+        <sleep seconds="15"/>
+        <SerialPortCmd cmd="to720p_2D"/>
+        <sleep seconds="60"/>
+        <SerialPortCmd cmd="fix_focus_3L2"/>
+        <sleep seconds="15"/>
+
+        <echo message="camcorder record ..."/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 2"/>
+
+        <echo message="mount ..."/>
+        <StatDutycycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <StatDutycycle state="0"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 0"/>
+        <sleep seconds="12"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="2"/>
+        <ParseFPS cmd="adb logcat -d | grep 'Video fps'"/>
+        <ParseFPS cmd="adb logcat -d -s Mrvl_IPP | grep 'codec level'"/>
+        <ParseFPS cmd="adb logcat -d -s Mrvl_MM | grep 'codec level'"/>
+
+        <sleep seconds="30"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <echo message="stop record..."/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <echo message="start collecting data...."/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="busybox killall com.android.camera"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <Print message="setup device now..."/>
+        <SystemProperty key="LPM" value="true"/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb install -r resource/apk/BluetoothTest.apk"/>
+        <AdbCmd cmd="adb install -r resource/apk/WifiTest.apk"/>
+        <if>
+            <contains string="${platform}" substring="hln3"/>
+            <then>
+                <AdbCmd cmd="adb shell mv /system/bin/tel_launch.sh.bak /system/bin/tel_launch.sh"/>
+                <AdbCmd cmd="adb shell ls /system/bin/tel_launch.sh"/>
+                <AdbCmd cmd="adb shell sync"/>
+                <PowerCtrlUSB flag="off"/>
+                <echo message="enter uboot..."/>
+                <EnterUboot/>
+                <sleep seconds="15"/>
+                <SerialPortCmd cmd="setenv bootargs ${bootargs} vl_cpufreq=0"/>
+                <sleep seconds="1"/>
+                <SerialPortCmd cmd="boot"/>
+                <sleep seconds="20"/>
+                <PowerCtrlUSB flag="on"/>
+                <sleep seconds="40"/>
+            </then>
+            <else>
+                <echo message="reboot..."/>
+                <Reboot/>
+            </else>
+        </if>
+        <PrepareBoard/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_DISPLAY_TIMEOUT -e TIMEOUT 1800"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SCREEN_STATE -e STATE fullon"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_GPS_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SYNC_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_RINGER_MODE -e MODE normal"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE false"/>
+        <sleep seconds="2"/>
+				
+    </target>
+</project>

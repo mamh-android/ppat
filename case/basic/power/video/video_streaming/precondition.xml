@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <AdbCmd cmd="adb install resource/apk/youku_v4.4.apk"/>
+        <AdbCmd cmd="adb install resource/apk/WifiTest.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/click_ok.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/login.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/select_HD.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/select_HQ.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/select_NQ.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/select_samsung_stream.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="20"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid SE1_LT_1 -e pw ${VPN_WIFI_PWD} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="am start -n com.youku.phone/com.youku.ui.activity.HomePageActivity"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/click_ok.evt"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/login.evt"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell am force-stop com.youku.phone"/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOffWifi com.marvell.test.wifi/.WifiTestRunner" />
+    </target>
+</project>

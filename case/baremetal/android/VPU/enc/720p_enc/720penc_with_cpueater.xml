@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<project name="coda_enc" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <AdbCmd cmd="adb push resource/cpueater /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/cpueater"/>
+        <PowerCtrlUSB flag="off"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="run cpueater..."/>
+        <SerialPortCmd cmd="cpueater 0" />
+        <echo message="run 720p enc..."/>
+        <SystemProperty key="description" value="720p encode, ${VL}"/>
+        <PropertyMap key="case" value="720p encode, ${VL}"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+        <StatDutyCycle state="1" sleep="20"/>
+        <StatDutyCycle state="0" sleep="90"/>
+        <SerialPortCmd cmd="${cmd}"/>
+        <echo message="Power monitor start to work ..."/>
+        <sleep seconds="20"/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_cpu_${cpu}_ddr_${ddr}_vpu1_${vpu1}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="${case_name}_cpu_${cpu}_ddr_${ddr}_vpu1_${vpu1}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_cpu_${cpu}_ddr_${ddr}_vpu1_${vpu1}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+    </target>
+
+    <target name="result" depends="run">
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="busybox killall cpueater"/>
+    </target>
+
+</project>

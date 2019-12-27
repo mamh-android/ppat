@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<project name="power_camcorder_record" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <if>
+            <or>
+                <equals arg1="${platform}" arg2="edenff"/>
+                <equals arg1="${platform}" arg2="hln3ff"/>
+            </or>
+            <then>
+                <AdbCmd cmd="adb push resource/bin/${resolution}/${platform}/to720p.${os_version} /system/bin/to720p"/>
+            </then>
+            <else>
+                <AdbCmd cmd="adb push resource/bin/${resolution}/to720p.${os_version} /system/bin/to720p"/>
+            </else>
+        </if>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/to720p"/>
+    </target>
+
+</project>

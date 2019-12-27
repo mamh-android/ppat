@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="power_gl_bench" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <Print message="install glbench apk..."/>
+        <AdbCmd cmd="adb install -r resource/apk/GFXBench_3_0_GL_Android_Binary_Corporate.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/select_battery.evt /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

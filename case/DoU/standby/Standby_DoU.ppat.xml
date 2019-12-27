@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<project name="power_wifi_browing" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <ReadThermal flag="thermal_start"/>
+        <echo message="start fetion ..."/>
+        <SerialPortCmd cmd="am start -n com.tencent.mm/.ui.LauncherUI" />
+        <sleep seconds="15"/>
+        <echo message="enter fetion ..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/start_weixin.evt" />
+        <sleep seconds="55"/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="3600" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}" stat_d="false"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am force-stop com.tencent.mm" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

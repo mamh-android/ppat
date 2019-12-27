@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<project name="start_cpueater" basedir="." default="run"> 
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <AdbCmd cmd="adb push resource/cpueater /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/cpueater"/>
+    </target>
+</project>

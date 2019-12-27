@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power_video_1080p" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+	    <SetProperty name="power_res_root" value="/${storage}"/>
+	    <SetProperty name="Stream" value="2_hd_other_samsung_colorful_variety_h264_1080p_HP_10M.mp4"/>
+	    <SetProperty name="Duration" value="300"/>
+        <AdbCmd cmd="adb push resource/video/${Stream} /${storage}/"/>
+    </target>
+</project>

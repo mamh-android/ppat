@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="power_camcorder_record" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb install resource/apk/mail_163_v3.5.6.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/login_mail.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/sendemail.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+
+</project>

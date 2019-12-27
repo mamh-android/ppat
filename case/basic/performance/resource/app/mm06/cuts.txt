@@ -1,0 +1,42 @@
+title 3DMarkMobile06·Developers'·Edition·v1.2
+
+gametest Intro 1 0.9 0.25
+
+cut fmintro_320x240.lws 1Camera_0 0 180 1.0
+
+gametest Game·Test·1:·Samurai 1 0.9 0.25
+
+cut scene_new.lws Camera_000    0  55 1.0
+rem scene_new.lws Camera_056   56  79 1.0
+cut scene_new.lws Camera_080   80 183 1.0
+cut scene_new.lws Camera_184  184 321 1.0
+cut scene_new.lws Camera_322  322 428 1.0
+cut scene_new.lws Camera_429  429 570 1.0
+cut scene_new.lws Camera_571  571 700 1.0
+cut scene_new.lws CameraB_000   0  99 1.0
+cut scene_new.lws CameraB_100 120 182 1.0
+cut scene_new.lws CameraB_183 183 340 1.0
+cut scene_new.lws CameraB_341 341 548 1.0
+cut scene_new.lws CameraB_549 549 700 1.0
+cut scene_new.lws CameraC_000   0  84 1.5
+rem scene_new.lws CameraC_085  85 166 1.0
+cut scene_new.lws CameraC_167 167 337 0.3
+cut scene_new.lws CameraC_338 338 427 1.0
+cut scene_new.lws CameraC_428 428 462 1.0
+cut scene_new.lws CameraC_463 463 502 1.0
+cut scene_new.lws CameraC_503 503 517 1.0
+cut scene_new.lws CameraC_518 502 569 0.3
+cut scene_new.lws CameraC_570 570 700 1.0
+
+gametest Game·Test·2:·Proxycon 0 1 0
+
+cut 01.lws Cam_334      334  389 1.0
+cut 02.lws Camera_294   294  530 1.0
+cut 03.lws Cam_472      472  528 1.0
+cut 04.lws Cam_481      481  521 1.0
+cut 05.lws Cam_467      467  556 1.0
+cut 06.lws Cam_553      560  591 1.0
+cut 07.lws Cam_528      528  600 1.0
+cut 08.lws Camera_935   935 1195 1.0
+cut 09.lws Cam_1220    1236 1318 1.0
+cut 10.lws Camera_1623 1623 1780 1.0

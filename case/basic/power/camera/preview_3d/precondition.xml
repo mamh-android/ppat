@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<project name="power_preview" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+
+    <target name="run">
+        <AdbCmd cmd="adb push resource/bin/${resolution}/topicture.${os_version} /system/bin/topicture"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/topicture"/>
+    </target>
+
+</project>

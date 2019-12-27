@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project name="power_video_high_resolution" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+    </target>
+
+    <target name="check" depends="reboot">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+
+        <AdbCmd cmd="adb shell ls ${power_res_root}/${Stream}"/>
+        <ParseConsole CheckString="${Stream}.*No such file or directory" TempResultProperty="CheckResource"/>
+        <condition property="judgement">
+            <equals arg1="${CheckResource}" arg2="PASS"/>
+        </condition>
+    </target>
+
+    <target name="noNeedPrepare" if="${judgement}"  depends="check">
+        <echo message="push stream to board"/>
+        <AdbCmd cmd="adb push /PPAT_test/video/${Stream} ${power_res_root}/"/>
+    </target>
+    <target name="prepare" unless="${judgement}" depends="noNeedPrepare">
+        <echo message="Not need to prepare video" />
+    </target>
+    <target name="run" depends="prepare">
+        <SerialPortCmd cmd="logcat -c"/>
+        <echo message="set prop to get fps..."/>
+        <SerialPortCmd cmd="setprop debug.performance.tunning 1"/>
+        <SerialPortCmd cmd="setprop debug.media.ippvpuPerfdbglevel 1"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 200"/>
+        <ReadThermal flag="thermal_start"/>
+        <PowerCtrlUSB flag="off"/>
+
+        <echo message="start play video...."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.VIEW  -n com.android.gallery3d/com.android.gallery3d.app.MovieActivity  -d ${power_res_root}/${Stream}"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="input rotationevent 1"/>
+        <echo message="rotate screen for video playback..."/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input rotationevent 1"/>
+        <sleep seconds="1"/>
+        <echo message="start stat dc ..."/>
+        <StatDutyCycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="${Duration}" voltage="4" save_f="720p_h265_${power_port}" port="${power_port}"/>
+        </target>
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 0"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <ParseFPS cmd="adb logcat -d -s AwesomePlayer"/>
+        <sleep seconds="3"/>
+        <ParseFPS cmd="adb logcat -d -s ACodec | grep NuPlayer"/>
+        <ParseFPS cmd="adb logcat -d -s Mrvl_IPP | grep 'codec level'"/>
+        <ParseFPS cmd="adb logcat -d -s Mrvl_MM | grep 'codec level'"/>
+        <sleep seconds="3"/>
+        <ParseFPS cmd="adb logcat -d -s GC"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="720p_h265_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/720p_h265_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="busybox killall com.android.gallery3d"/>
+        <sleep seconds="10"/>
+    </target>
+</project>
