@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<project name="power_game_fishing" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+        <AdbCmd cmd="adb install -r resource/apk/FishGame_V1.8.4.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/prepare_fishing.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/play_fishing.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+
+</project>

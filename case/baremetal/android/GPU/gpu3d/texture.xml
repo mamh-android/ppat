@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<project name="bw_mem" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+
+    <target name="prepare">
+        <PowerCtrlUSB flag="off"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="run texttures..."/>
+        <SerialPortCmd cmd="test-opengl-textures &amp;" />
+        <SystemProperty key="description" value="textures, ${VL}"/>
+        <PropertyMap key="case" value="textures ${VL}"/>
+        <sleep seconds="35"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+
+
+        <echo message="mount ..."/>
+        <StatDutyCycle state="1"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="40" voltage="4" save_f="texttures_${cpu}_${ddr}_${gpu0}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="texttures_${cpu}_${ddr}_${gpu0}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/textures_${cpu}_${ddr}_${gpu0}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <!--end of bw_mem 1-->
+
+    </target>
+
+    <target name="result" depends="run">
+        <SerialPortCmd cmd="busybox killall test-opengl-textures" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

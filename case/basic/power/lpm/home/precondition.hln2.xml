@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project basedir="." default="run">
+	<include file="${user.dir}/config/command.xml"/>
+	<target name="run">
+	</target>
+</project>

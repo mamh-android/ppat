@@ -1,0 +1,9 @@
+input tap 108 1385 
+sleep 2
+input tap 210 1385 
+sleep 2
+input tap 562 907 
+sleep 2
+input tap 1008 1385 
+sleep 2
+

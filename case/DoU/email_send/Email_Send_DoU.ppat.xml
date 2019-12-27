@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<project name="power_email_send" basedir="." default="cleanup">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <echo message="start 163 email ..."/>
+        <SerialPortCmd cmd="am start -n com.netease.mail/com.netease.mobimail.activity.LaunchActivity"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="sendevent /${storage}/login_mail.evt"/>
+        <sleep seconds="20"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="10"/>
+        <echo message="mount ..."/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+        <For intStart="0" intEnd="5" step="1" param="cur">
+            <sequential>
+                <SerialPortCmd cmd="sendevent /${storage}/sendemail.evt"/>
+                <sleep seconds="10"/>
+            </sequential>
+        </For>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="2"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="50"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="adb uninstall com.netease.mail" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

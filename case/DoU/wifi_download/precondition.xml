@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power_video_1080p" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb install resource/apk/WifiTest.apk"/>
+    </target>
+</project>

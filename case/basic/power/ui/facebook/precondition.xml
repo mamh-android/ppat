@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<project name="power_facebook" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" if="${with_precondition}">
+        <AdbCmd cmd="adb install resource/apk/facebook_v22.0.0.15.13.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/login_fb.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/click_status.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/post.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/press_w.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/bin/press_w.sh /${storage}/"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="20"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid SE1_LT_1 -e pw ${VPN_WIFI_PWD} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="am start -n com.facebook.katana/.LoginActivity" />
+        <sleep seconds="60"/>
+        <SerialPortCmd cmd="sendevent /${storage}/login_fb.evt"/>
+        <sleep seconds="35"/>
+        <SerialPortCmd cmd="am force-stop com.facebook.katana" />
+    </target>
+</project>

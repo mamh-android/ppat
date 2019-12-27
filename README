@@ -1,0 +1,82 @@
+PAT is an auto test tool for power test
+
+1.PAT environment setup
+    1).change work dir to "PAT".
+    2).run ./install_ppat.sh, maybe this need sudo permission.
+
+2.Prepare for run PAT
+    1).setup board, install some test apk, events. Plug in usb, run prepare_ppat.sh 
+    2).after prepare_ppat.sh finished, plug out usb
+
+3.Run PAT
+    1). list all available test cases
+    run "python startppat.py listall"
+    then, get output:
+        [ListAllCases] caseID       caseName
+        [ListAllCases]  0       Audio_Record
+        [ListAllCases]  1       FM
+        [ListAllCases]  2       mp3
+        [ListAllCases]  3       standby
+        [ListAllCases]  4       home
+
+    2). run case, for example run home for eden
+    run "python startppat.py --platform=eden --ser-port=USB0 --tc-list=4"
+    
+    3).round pp table 
+    If you need round pp table, for example: 
+    Fix CPU: 1 core, 624MHz
+        DDR: 104MHz, 156MHz
+        GPU0: 208MHz
+        GPU1: 156MHz
+        VPU0: 416MHz
+        VPU1: 416MHz
+    then, if run those pp for eden video 1080p case, create case/basic/power/video/1080p/precondition.eden.xml, the content is:
+
+	<?xml version="1.0"?>
+	<project basedir="." default="run">
+    	<include file="${user.dir}/config/command.xml"/>
+		<target name="run">
+			<RoundPP>
+				<ddr>
+                 	<Frequency>104000,156000</Frequency>
+                </ddr>
+                <vpu>
+            	    <unit id="0">
+            	        <Frequency>416000</Frequency>
+                    </unit>
+                    <unit id="1">
+                        <Frequency>416000</Frequency>
+                    </unit>
+                </vpu>
+                <gpu>
+                    <unit id="0">
+            	        <Frequency>208000</Frequency>
+                    </unit>
+                    <unit id="1">
+            	        <Frequency>156000</Frequency>
+                    </unit>
+                </gpu>
+                <cpu>
+                    <CoreNum>1</CoreNum>
+                    <Frequency>624000</Frequency>
+                </cpu>
+			</RoundPP>
+		</target>
+	</project>    	
+
+     then, run "python startppat.py --platform=eden --ser-port=USB0 --tc-list=1080p"
+
+ NOTE:
+    Every time finish this test, precondition.eden.xml will be move the "resoult" folder.
+    If you need create or move this xml file to case/basic/power/video/1080p/ folder
+
+4.get result
+    after finished, in "result" folder will generate a folder named with PAT running time, in that folder "Power_Result.html" is the final result
+
+
+note(ubuntu linux): 
+serial port you need to addgroup to "dialout"
+1.run command: groups $USER
+    $ groups $USER
+    mamh : mamh adm tty dialout fax cdrom floppy tape sudo dip video plugdev fuse lpadmin admin nopasswdlogin sambashare vboxusers
+2.if your user not in group dialout, please run command(this need sudo permission): sudo adduser $USER dialout

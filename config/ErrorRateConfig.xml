@@ -1,0 +1,179 @@
+<ErrorRate>
+    <!--
+         How to config error rate of scenario:
+         <TestCase name="scenario name">
+            <Power>percentage | absolute mA value</Power>
+            <Performance>value of fps</Performance>
+         </TestCase>
+         For Power: within the given error range that is acceptable, mark PPAT chart green
+         For Performance: fps higher than given value that is acceptable, if not, mark PPAT chart red no metter Power pass or not
+    -->
+    <TestCase name="1080p">
+        <Power>1%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="720p_h265">
+        <Power>1%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="720p">
+        <Power>1%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="VGA">
+        <Power>1%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="home">
+        <Power>5</Power>
+    </TestCase>
+    <TestCase name="standby">
+        <Power>0.5</Power>
+    </TestCase>
+    <TestCase name="FM">
+        <Power>2</Power>
+    </TestCase>
+    <TestCase name="KKR">
+        <Power>5%</Power>
+        <Performance>21</Performance>
+    </TestCase>
+    <TestCase name="AngryBirds">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="mp3">
+        <Power>3</Power>
+    </TestCase>
+    <TestCase name="Audio_Record">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="SMS">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="Menu_Navigation">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="Menu_List_Menu">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="Menu_List_Contacts">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="Menu_List_Music">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="Gallery_View">
+        <Power>5%</Power>
+    </TestCase>
+    <TestCase name="WiFi_On">
+        <Power>1</Power>
+    </TestCase>
+    <TestCase name="WiFi_Conn">
+        <Power>2</Power>
+    </TestCase>
+    <TestCase name="BT_On">
+        <Power>1</Power>
+    </TestCase>
+    <TestCase name="BT_Conn">
+        <Power>2</Power>
+    </TestCase>
+    <TestCase name="Preview(IMX219)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Preview(IMX219)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Preview(OV13850)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Preview(OV13850)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_720p(IMX219)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_1080p(IMX219)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Take_pictures(IMX219)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_720p(OV13850)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_1080p(OV13850)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Take_pictures(OV13850)">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_720p(IMX219)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_1080p(IMX219)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Take_pictures(IMX219)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_720p(OV13850)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_1080p(OV13850)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Take_pictures(OV13850)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_720p(SR544)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Record_1080p(SR544)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Take_pictures(SR544)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Preview(SR544)_2D">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="WiFi_browsing">
+        <Power>10%</Power>
+    </TestCase>
+    <TestCase name="Temple_Run2">
+        <Power>5%</Power>
+        <Performance>29</Performance>
+    </TestCase>
+    <TestCase name="Temple_Run">
+        <Power>5%</Power>
+        <Performance>59</Performance>
+    </TestCase>
+    <TestCase name="Castle_Master">
+        <Power>5%</Power>
+        <Performance>30</Performance>
+    </TestCase>
+    <TestCase name="Fishing">
+        <Power>5%</Power>
+        <Performance>30</Performance>
+    </TestCase>
+</ErrorRate>

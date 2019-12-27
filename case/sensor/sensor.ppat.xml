@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<project name="lpm" basedir="." default="result">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="prepare">
+        <echo message="hold the wakeLock ..."/>
+		<SerialPortCmd cmd="echo 1 > sys/power/wake_lock"/>
+		<echo message="go to home screen..."/>
+        <SerialPortCmd cmd="input keyevent 3" />
+        <echo message="earily suspend device ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <sleep seconds="15"/>	
+        <PropertyMap key="run_type" value="base"/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="base_${power_port}" port="${power_port}"/>
+        <sleep seconds="5"/>
+        <PowerResult file_n="base_${power_port}" server="${power_server}" stat_d="false"/>
+    </target>
+
+ <target name="run_lower_power" depends="prepare">
+        <for list="${low_power_type}" param="type">
+            <sequential>
+                <PropertyMap key="type" value="${sensor_type_@{type}}"/>
+                <PropertyMap key="run_type" value="low_power"/>
+                <SystemProperty key="Purpose" value="${sensor_type_@{type}}"/>
+                  
+                <echo message="enable batch mode"/>
+                <SerialPortCmd cmd="am instrument -e sensor_type @{type} -e delay 3 -e class com.marvell.sensorpower.SensorPowerTest#enable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+
+                <echo message="release wake lock to enter suspend ..."/>
+                <SerialPortCmd cmd="echo 1 > sys/power/wake_unlock" />
+
+                <PowerCtrlUSB flag="off"/>
+                <sleep seconds="8"/>
+                <echo message="start measure power..."/>
+                <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="sensor_@{type}_${power_port}" port="${power_port}"/>
+
+                <echo message="start stat duty clcle..."/>
+                <sleep seconds="5"/>
+                <PowerCtrlUSB flag="on"/>
+                <sleep seconds="5"/>
+                <PowerResult file_n="sensor_@{type}_${power_port}" server="${power_server}" stat_d="false"/>
+                <copy file="${PT4_SERVER}/sensor_@{type}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+                <copy file="${PT4_SERVER}/sensor_@{type}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+                <echo message="exit the suspend"/>
+                <SerialPortCmd cmd="echo 1 > sys/power/wake_lock" />                        
+                <echo message="disable batch mode"/>
+                <SerialPortCmd cmd="am instrument -e sensor_type @{type} -e class com.marvell.sensorpower.SensorPowerTest#disable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+                <sleep seconds="10"/>
+            </sequential>
+        </for>    
+    </target>
+
+ <target name="run_batch" depends="run_lower_power">
+        <for list="${batch_type}" param="type">
+            <sequential>
+                <for list="${sensor_delay}" param="delay">
+                    <sequential>
+                        <PropertyMap key="delay" value="${sensor_delay_@{delay}}"/>
+                        <PropertyMap key="type" value="${sensor_type_@{type}}"/>
+                        <PropertyMap key="run_type" value="batch"/>
+                        <SystemProperty key="Purpose" value="${sensor_type_@{type}}, ${sensor_delay_@{delay}}"/>
+						  
+                        <echo message="enable batch mode"/>
+						<SerialPortCmd cmd="am instrument -e sensor_type @{type} -e delay @{delay} -e batchPeriod 5 -e class com.marvell.sensorpower.SensorPowerTest#enable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+
+                        <echo message="release wake lock to enter suspend ..."/>
+						<SerialPortCmd cmd="echo 1 > sys/power/wake_unlock" />
+
+                        <PowerCtrlUSB flag="off"/>
+                        <sleep seconds="8"/>
+                        <echo message="start measure power..."/>
+                        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="sensor_@{type}_@{delay}_${power_port}" port="${power_port}"/>
+
+                        <echo message="start stat duty clcle..."/>
+                        <sleep seconds="5"/>
+                        <PowerCtrlUSB flag="on"/>
+                        <sleep seconds="5"/>
+                        <PowerResult file_n="sensor_@{type}_@{delay}_${power_port}" server="${power_server}" stat_d="false"/>
+                        <copy file="${PT4_SERVER}/sensor_@{type}_@{delay}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+                        <copy file="${PT4_SERVER}/sensor_@{type}_@{delay}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+                        <echo message="exit the suspend"/>
+						<SerialPortCmd cmd="echo 1 > sys/power/wake_lock" />                        
+                        <echo message="disable batch mode"/>
+                        <SerialPortCmd cmd="am instrument -e sensor_type @{type} -e class com.marvell.sensorpower.SensorPowerTest#disable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+                        <sleep seconds="10"/>
+                    </sequential>
+                </for>
+            </sequential>
+        </for>    
+    </target>
+    <target name="run_non_batch" depends="run_batch">
+        <for list="${non_batch_type}" param="type">
+            <sequential>
+                <for list="${sensor_delay}" param="delay">
+                    <sequential>
+                        <PropertyMap key="delay" value="${sensor_delay_@{delay}}"/>
+                        <PropertyMap key="type" value="${sensor_type_@{type}}"/>
+                        <PropertyMap key="run_type" value="non-batch"/>
+                        <SystemProperty key="Purpose" value="${sensor_type_@{type}}, ${sensor_delay_@{delay}}"/>
+				 
+                        <echo message="enable non-batch mode"/>
+                        <SerialPortCmd cmd="am instrument -e sensor_type @{type} -e delay @{delay} -e class com.marvell.sensorpower.SensorPowerTest#enable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+                          
+                        <PowerCtrlUSB flag="off"/>
+                        <sleep seconds="5"/>
+                        <echo message="start measure power..."/>
+                        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="sensor_@{type}_@{delay}_${power_port}" port="${power_port}"/>
+
+                        <echo message="start stat duty clcle..."/>
+                        <sleep seconds="5"/>
+                        <PowerCtrlUSB flag="on"/>
+                        <sleep seconds="5"/>
+                        <PowerResult file_n="sensor_@{type}_@{delay}_${power_port}" server="${power_server}" stat_d="false"/>
+                        <copy file="${PT4_SERVER}/sensor_@{type}_@{delay}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+                        <copy file="${PT4_SERVER}/sensor_@{type}_@{delay}_${power_port}.cd4" todir="${subcase_root}" failonerror="false"/>
+
+                        <echo message="disable non-batch mode"/>
+                        <SerialPortCmd cmd="am instrument -e sensor_type @{type} -e class com.marvell.sensorpower.SensorPowerTest#disable -w com.marvell.sensorpower/.SensorPowerTestRunner &amp;" />
+                        <sleep seconds="10"/>
+                    </sequential>
+                </for>
+            </sequential>
+        </for>
+    </target>
+
+
+    <target name="result" depends="run_non_batch">
+    </target>
+
+</project>

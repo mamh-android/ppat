@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<project name="power_camcorder_record" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb install -r resource/apk/LegacyCamera.apk"/>
+        <AdbCmd cmd="adb push resource/bin/${resolution}/to1080p_2D /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/to1080p_2D"/>
+    </target>
+
+</project>

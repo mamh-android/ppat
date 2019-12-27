@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="case_thermal" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <Print message="install antutu..."/>
+        <AdbCmd cmd="adb install -r resource/apk/antutu.apk" exitValue="value"/>
+        <if>
+            <equals arg1="${value}" arg2="0"/>
+            <then>
+                <echo message="OK"/>
+            </then>
+            <else>
+                <echo message="Not OK"/>
+            </else>
+        </if>
+        <Print message="install test files..."/>
+        <AdbCmd cmd="adb push resource/bin/*.sh /sdcard/"/>
+        <sleep seconds="2"/>
+    </target>
+</project>

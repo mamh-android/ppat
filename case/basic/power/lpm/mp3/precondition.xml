@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<project name="power_audio_play" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="musthave">
+        <PowerCtrlUSB flag="on"/>
+        <SetProperty name="power_res_root" value="/${storage}/"/>
+	    <SetProperty name="power_audio1" value="sample123.mp3"/>
+	    <SetProperty name="Duration" value="160"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <AdbCmd cmd="adb push resource/audio/${power_audio1} ${power_res_root}"/>
+    </target>
+</project>

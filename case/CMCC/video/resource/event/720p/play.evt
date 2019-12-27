@@ -1,0 +1,35 @@
+add device 1: /dev/input/event6
+  name:     "gpio_keys-14"
+add device 2: /dev/input/event5
+  name:     "map asoc Headset"
+add device 3: /dev/input/event4
+  name:     "map asoc Hook"
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 4: /dev/input/event7
+  name:     "synaptics_dsx_i2c"
+add device 5: /dev/input/event0
+  name:     "88pm80x_on"
+add device 6: /dev/input/event3
+  name:     "APDS_proximity_sensor"
+add device 7: /dev/input/event2
+  name:     "APDS_light_sensor"
+add device 8: /dev/input/event1
+  name:     "LPS_pressure_sensor"
+could not get driver version for /dev/input/mice, Not a typewriter
+1415761977-186809: /dev/input/event7: 0003 0039 00000016
+1415761977-186809: /dev/input/event7: 0001 014a 00000001
+1415761977-186809: /dev/input/event7: 0003 0035 00000167
+1415761977-186809: /dev/input/event7: 0003 0036 000002a3
+1415761977-186809: /dev/input/event7: 0003 003a 00000045
+1415761977-186809: /dev/input/event7: 0003 0000 00000167
+1415761977-186809: /dev/input/event7: 0003 0001 000002a3
+1415761977-186809: /dev/input/event7: 0003 0018 00000045
+1415761977-186809: /dev/input/event7: 0000 0000 00000000
+1415761977-196979: /dev/input/event7: 0003 003a 0000003d
+1415761977-196979: /dev/input/event7: 0003 0030 00000003
+1415761977-196979: /dev/input/event7: 0003 0018 0000003d
+1415761977-196979: /dev/input/event7: 0000 0000 00000000
+1415761977-206123: /dev/input/event7: 0003 0039 ffffffff
+1415761977-206123: /dev/input/event7: 0001 014a 00000000
+1415761977-206123: /dev/input/event7: 0003 0018 00000000
+1415761977-206123: /dev/input/event7: 0000 0000 00000000

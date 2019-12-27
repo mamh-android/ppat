@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="coda_dec" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <PowerCtrlUSB flag="off"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="run libgcu..."/>
+        <SerialPortCmd cmd="cd /data" />
+        <SystemProperty key="description" value="gcubenchmark ${VL}"/>
+        <PropertyMap key="case" value="gcubenchmark ${VL}"/>
+        <sleep seconds="10"/>
+
+        <SerialPortCmd cmd="fkcmd" />
+        <StatDutyCycle state="1" sleep="10"/>
+        <StatDutyCycle state="0" sleep="70"/>
+        <SerialPortCmd cmd="sleep 85 &amp;&amp; busybox killall gcubenchmark_android &amp;"/>
+        <SerialPortCmd cmd="./gcubenchmark_android" />
+        <echo message="Power monitor start to work ..."/>
+        <sleep seconds="10"/>
+        <MeasurePower server="${power_server}" sample_t="55" voltage="4" save_f="gc2d_${cpu}_${ddr}_${gpu1}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting duty cycle info..."/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="gc2d_${cpu}_${ddr}_${gpu1}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/gc2d_${cpu}_${ddr}_${gpu1}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <!--end of bw_mem 1-->
+    </target>
+
+    <target name="result" depends="run">
+        <sleep seconds="10"/>
+    </target>
+
+</project>

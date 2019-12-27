@@ -1,0 +1,39 @@
+#!/system/bin/sh
+#press next button
+input tap 520 1770
+sleep 2
+
+#press next button
+input tap 520 1770
+sleep 2
+
+#let takepicture and record show
+input swipe 0 300 540 300 200 
+sleep 4 
+
+#press take record button
+input tap 130 950
+sleep 20 
+
+#press setting button
+input tap 72 117
+
+#wtich to record setting page
+input tap 210 117
+
+#press camera vides button
+input tap 500 320
+
+#press 720p/1080p button
+#1080p: input tap 500 470
+# 720p: input tap 500 585
+input tap 500 470
+
+#return
+#press next button
+input tap 520 1770
+sleep 2
+#press next button
+input tap 520 1770
+sleep 2
+

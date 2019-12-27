@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="AwGeolocationPermissions%http://www.google.co.uk/" value="true" />
+    <int name="lastVersionCodeUsed" value="399991" />
+    <boolean name="AwGeolocationPermissions%http://www.google.com/" value="true" />
+    <boolean name="AwGeolocationPermissions%https://www.google.com/" value="false" />
+</map>

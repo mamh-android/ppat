@@ -1,0 +1,140 @@
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 1: /dev/input/event1
+  name:     "vnc-ts"
+add device 2: /dev/input/event3
+  name:     "map asoc Hook"
+add device 3: /dev/input/event4
+  name:     "map asoc Headset"
+add device 4: /dev/input/event0
+  name:     "pxa27x-keypad"
+add device 5: /dev/input/event2
+  name:     "88pm80x_on"
+could not get driver version for /dev/input/mouse1, Not a typewriter
+add device 6: /dev/input/event5
+  name:     "synaptics_dsx_i2c"
+could not get driver version for /dev/input/mice, Not a typewriter
+    3786-882546: /dev/input/event5: 0003 0039 000000cb
+    3786-882546: /dev/input/event5: 0001 014a 00000001
+    3786-882546: /dev/input/event5: 0003 0035 00000278
+    3786-882546: /dev/input/event5: 0003 0036 000005da
+    3786-882546: /dev/input/event5: 0003 003a 00000044
+    3786-882546: /dev/input/event5: 0003 0030 00000004
+    3786-882546: /dev/input/event5: 0003 0000 00000278
+    3786-882546: /dev/input/event5: 0003 0001 000005da
+    3786-882546: /dev/input/event5: 0003 0018 00000044
+    3786-882546: /dev/input/event5: 0000 0000 00000000
+    3786-895516: /dev/input/event5: 0003 0035 00000279
+    3786-895516: /dev/input/event5: 0003 0000 00000279
+    3786-895516: /dev/input/event5: 0000 0000 00000000
+    3786-907971: /dev/input/event5: 0003 003a 00000040
+    3786-907971: /dev/input/event5: 0003 0018 00000040
+    3786-907971: /dev/input/event5: 0000 0000 00000000
+    3786-920581: /dev/input/event5: 0003 003a 0000002e
+    3786-920581: /dev/input/event5: 0003 0018 0000002e
+    3786-920581: /dev/input/event5: 0000 0000 00000000
+    3786-932731: /dev/input/event5: 0003 0039 ffffffff
+    3786-932731: /dev/input/event5: 0001 014a 00000000
+    3786-932731: /dev/input/event5: 0003 0018 00000000
+    3786-932731: /dev/input/event5: 0000 0000 00000000
+    3787-977774: /dev/input/event5: 0003 0039 000000cc
+    3787-977774: /dev/input/event5: 0001 014a 00000001
+    3787-977774: /dev/input/event5: 0003 0035 000003de
+    3787-977774: /dev/input/event5: 0003 0036 00000683
+    3787-977774: /dev/input/event5: 0003 003a 00000037
+    3787-977774: /dev/input/event5: 0003 0000 000003de
+    3787-977774: /dev/input/event5: 0003 0001 00000683
+    3787-977774: /dev/input/event5: 0003 0018 00000037
+    3787-977774: /dev/input/event5: 0000 0000 00000000
+    3787-991390: /dev/input/event5: 0003 0035 000003dc
+    3787-991390: /dev/input/event5: 0003 0036 0000067f
+    3787-991390: /dev/input/event5: 0003 0000 000003dc
+    3787-991390: /dev/input/event5: 0003 0001 0000067f
+    3787-991390: /dev/input/event5: 0000 0000 00000000
+    3788-003322: /dev/input/event5: 0003 003a 00000039
+    3788-003322: /dev/input/event5: 0003 0030 00000003
+    3788-003322: /dev/input/event5: 0003 0018 00000039
+    3788-003322: /dev/input/event5: 0000 0000 00000000
+    3788-016961: /dev/input/event5: 0003 003a 0000003b
+    3788-016961: /dev/input/event5: 0003 0030 00000004
+    3788-016961: /dev/input/event5: 0003 0018 0000003b
+    3788-016961: /dev/input/event5: 0000 0000 00000000
+    3788-029048: /dev/input/event5: 0003 003a 00000038
+    3788-029048: /dev/input/event5: 0003 0018 00000038
+    3788-029048: /dev/input/event5: 0000 0000 00000000
+    3788-041729: /dev/input/event5: 0003 0035 000003db
+    3788-041729: /dev/input/event5: 0003 0036 00000680
+    3788-041729: /dev/input/event5: 0003 003a 0000002f
+    3788-041729: /dev/input/event5: 0003 0030 00000002
+    3788-041729: /dev/input/event5: 0003 0000 000003db
+    3788-041729: /dev/input/event5: 0003 0001 00000680
+    3788-041729: /dev/input/event5: 0003 0018 0000002f
+    3788-041729: /dev/input/event5: 0000 0000 00000000
+    3788-053948: /dev/input/event5: 0003 0039 ffffffff
+    3788-053948: /dev/input/event5: 0001 014a 00000000
+    3788-053948: /dev/input/event5: 0003 0018 00000000
+    3788-053948: /dev/input/event5: 0000 0000 00000000
+    3788-890816: /dev/input/event5: 0003 0039 000000cd
+    3788-890816: /dev/input/event5: 0001 014a 00000001
+    3788-890816: /dev/input/event5: 0003 0035 00000361
+    3788-890816: /dev/input/event5: 0003 0036 000006a3
+    3788-890816: /dev/input/event5: 0003 003a 00000037
+    3788-890816: /dev/input/event5: 0003 0030 00000005
+    3788-890816: /dev/input/event5: 0003 0000 00000361
+    3788-890816: /dev/input/event5: 0003 0001 000006a3
+    3788-890816: /dev/input/event5: 0003 0018 00000037
+    3788-890816: /dev/input/event5: 0000 0000 00000000
+    3788-902422: /dev/input/event5: 0003 0035 0000035a
+    3788-902422: /dev/input/event5: 0003 0036 000006a0
+    3788-902422: /dev/input/event5: 0003 003a 0000003b
+    3788-902422: /dev/input/event5: 0003 0000 0000035a
+    3788-902422: /dev/input/event5: 0003 0001 000006a0
+    3788-902422: /dev/input/event5: 0003 0018 0000003b
+    3788-902422: /dev/input/event5: 0000 0000 00000000
+    3788-914826: /dev/input/event5: 0003 003a 0000003c
+    3788-914826: /dev/input/event5: 0003 0018 0000003c
+    3788-914826: /dev/input/event5: 0000 0000 00000000
+    3788-928518: /dev/input/event5: 0003 003a 0000003b
+    3788-928518: /dev/input/event5: 0003 0018 0000003b
+    3788-928518: /dev/input/event5: 0000 0000 00000000
+    3788-940882: /dev/input/event5: 0003 003a 0000003a
+    3788-940882: /dev/input/event5: 0003 0018 0000003a
+    3788-940882: /dev/input/event5: 0000 0000 00000000
+    3788-954106: /dev/input/event5: 0003 003a 00000032
+    3788-954106: /dev/input/event5: 0003 0018 00000032
+    3788-954106: /dev/input/event5: 0000 0000 00000000
+    3788-965256: /dev/input/event5: 0003 0039 ffffffff
+    3788-965256: /dev/input/event5: 0001 014a 00000000
+    3788-965256: /dev/input/event5: 0003 0018 00000000
+    3788-965256: /dev/input/event5: 0000 0000 00000000
+    3791-533219: /dev/input/event5: 0003 0039 000000ce
+    3791-533219: /dev/input/event5: 0001 014a 00000001
+    3791-533219: /dev/input/event5: 0003 0035 000000e0
+    3791-533219: /dev/input/event5: 0003 0036 00000067
+    3791-533219: /dev/input/event5: 0003 003a 00000036
+    3791-533219: /dev/input/event5: 0003 0030 00000004
+    3791-533219: /dev/input/event5: 0003 0000 000000e0
+    3791-533219: /dev/input/event5: 0003 0001 00000067
+    3791-533219: /dev/input/event5: 0003 0018 00000036
+    3791-533219: /dev/input/event5: 0000 0000 00000000
+    3791-545713: /dev/input/event5: 0003 0035 000000e1
+    3791-545713: /dev/input/event5: 0003 0036 00000064
+    3791-545713: /dev/input/event5: 0003 003a 0000003f
+    3791-545713: /dev/input/event5: 0003 0000 000000e1
+    3791-545713: /dev/input/event5: 0003 0001 00000064
+    3791-545713: /dev/input/event5: 0003 0018 0000003f
+    3791-545713: /dev/input/event5: 0000 0000 00000000
+    3791-558576: /dev/input/event5: 0003 0036 00000063
+    3791-558576: /dev/input/event5: 0003 0001 00000063
+    3791-558576: /dev/input/event5: 0000 0000 00000000
+    3791-571483: /dev/input/event5: 0003 003a 0000003e
+    3791-571483: /dev/input/event5: 0003 0018 0000003e
+    3791-571483: /dev/input/event5: 0000 0000 00000000
+    3791-583627: /dev/input/event5: 0003 0035 000000e0
+    3791-583627: /dev/input/event5: 0003 003a 00000033
+    3791-583627: /dev/input/event5: 0003 0000 000000e0
+    3791-583627: /dev/input/event5: 0003 0018 00000033
+    3791-583627: /dev/input/event5: 0000 0000 00000000
+    3791-595892: /dev/input/event5: 0003 0039 ffffffff
+    3791-595892: /dev/input/event5: 0001 014a 00000000
+    3791-595892: /dev/input/event5: 0003 0018 00000000
+    3791-595892: /dev/input/event5: 0000 0000 00000000

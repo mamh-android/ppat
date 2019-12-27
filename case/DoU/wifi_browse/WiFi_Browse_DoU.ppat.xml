@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<project name="power_wifi_browing" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>        
+        <echo message="turn on wifi ..."/>
+        <AdbCmd cmd="adb shell am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <echo message="connect with AP ..."/>
+        <AdbCmd cmd="adb shell am instrument -e ssid TP-LINK_PocketAP_E5767A -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner" />
+    </target>
+
+    <target name="run"  depends="prepare">
+        <ReadThermal flag="thermal_start"/>      
+        <echo message="start browsing ..."/>
+        <AdbCmd cmd="adb shell am start -n com.android.browser/.BrowserActivity -a android.intent.action.VIEW -d wap.baidu.com" />
+        <sleep seconds="15"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="900" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+        <For intStart="0" intEnd="810" step="90" param="cur">
+            <sequential>
+                <SerialPortCmd cmd="sendevent /${storage}/refresh.evt" />
+                <sleep seconds="10"/>
+            </sequential>
+        </For>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOffWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="am force-stop com.android.browser"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

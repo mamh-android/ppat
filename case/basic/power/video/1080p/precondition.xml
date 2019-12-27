@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power_video_1080p" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="musthave">
+	    <SetProperty name="power_res_root" value="/${storage}"/>
+	    <SetProperty name="Stream" value="2_hd_other_samsung_colorful_variety_h264_1080p_HP_10M.mp4"/>
+	    <SetProperty name="Duration" value="167"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <AdbCmd cmd="adb push resource/video/${Stream} ${power_res_root}/"/>
+    </target>
+</project>

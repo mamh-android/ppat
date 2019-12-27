@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<project name="power_sms_compose" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="start  mms list activity ..."/>
+        <SerialPortCmd cmd="am start -n com.android.mms/.ui.ConversationList"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="sendevent /${storage}/delete_msg.evt" />
+        <sleep seconds="10"/>
+        <echo message="start  mms activity..."/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n com.android.mms/.ui.ComposeMessageActivity"/>
+        <sleep seconds="10"/>
+        <echo message="start create msg to 10086..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/create_msg_to_10086.evt" />
+        <sleep seconds="30"/>
+        <echo message="start composing sms ..."/>
+        <echo message="mount ..."/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <MeasurePower server="${power_server}" sample_t="80" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+        <For intStart="0" intEnd="15" step="1" param="cur">
+            <sequential>
+                <SerialPortCmd cmd="sendevent /${storage}/press_yecx.evt" />
+                <sleep seconds="5"/>
+            </sequential>
+        </For>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="2"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="50"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="am force-stop com.android.mms" />
+        <sleep seconds="10"/>
+    </target>
+
+</project>

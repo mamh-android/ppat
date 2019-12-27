@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power_video_1080p" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="musthave">
+	    <SetProperty name="power_res_root" value="/${storage}"/>
+	    <SetProperty name="Stream" value="4_hd_other_samsung_colorful_variety_h264_720p_HP_3M.mp4"/>
+	    <SetProperty name="Duration" value="167"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/pause.evt /${storage}/"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/play.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <AdbCmd cmd="adb push /PPAT_test/video/${Stream} ${power_res_root}/"/>
+    </target>
+</project>

@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<project name="power_take_picture" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <sleep seconds="60"/>
+        <SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+        <SerialPortCmd cmd="logcat -c"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <ReadThermal flag="thermal_start"/>
+        <SetProperty name="case_name" value="Take_pictures_CMCC"/>
+        <SerialPortCmd cmd="am start -n com.android.gallery3d/com.android.camera.CameraLauncher"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="topicture"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="20"/>
+        <echo message="start stat dc ..."/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="start measure power ..."/>
+        <MeasurePower server="${power_server}" sample_t="7" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="1"/>
+        <echo message="start collecing data..."/>
+        <sleep seconds="10"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <ParseFPS cmd="adb logcat -d | grep 'preview fps'"/>
+        <sleep seconds="30"/>
+
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="10"/>
+
+
+        <SetProperty name="case_name" value="Camera_Preview_CMCC"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutyCycle state="1"/>
+        <echo message="start measure power ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecing data..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="10"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+
+        <SetProperty name="case_name" value="Camera_Playback_CMCC"/>
+        <echo message="switch to playback_..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/switch_playback.evt"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="start stat dc ..."/>
+        <StatDutyCycle state="1"/>
+        <echo message="start measure power ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecing data..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="10"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="10"/>
+    </target>
+    <target name="result" depends="power">
+        <SetProperty name="case_name" value="Take_pictures_End_CMCC"/>
+        <echo message="suspend device ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="60"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting data..."/>
+        <sleep seconds="15"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}" stat_d="false"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am force-stop com.android.camera2"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

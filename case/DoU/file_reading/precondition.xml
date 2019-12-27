@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <echo message="push txt file to ${storage}"/>
+        <AdbCmd cmd="adb push resource/test.txt /${storage}/"/>	
+        <echo message="push libUI"/>
+        <AdbCmd cmd="adb push resource/bin/libUI.so /system/lib/"/>
+        <AdbCmd cmd="adb push resource/bin/libUI_64.so /system/lib64/libUI.so"/>
+        <AdbCmd cmd="adb push resource/bin/scroll.jar /data/local/tmp/"/> 			
+    </target>
+</project>

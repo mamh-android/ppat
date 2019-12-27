@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <AdbCmd cmd="adb install resource/apk/tomcat_v2.5.apk"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/play_tomcat.evt /${storage}/"/>
+    </target>
+</project>

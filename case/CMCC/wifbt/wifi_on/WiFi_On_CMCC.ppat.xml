@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<project name="WiFi_on" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="su"/>
+        <SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOnWifi com.marvell.test.wifi/.WifiTestRunner" />
+        <sleep seconds="20"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="turn off screen..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <sleep seconds="30"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="WIFI_On_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="cleanup" depends="power">
+        <sleep seconds="15"/>
+        <echo message="start collect data ..."/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <PowerResult stat_d="false" file_n="WIFI_On_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/WIFI_On_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am instrument -w -e class com.marvell.test.wifi.WifiTest#turnOffWifi com.marvell.test.wifi/.WifiTestRunner" />
+    </target>
+
+</project>

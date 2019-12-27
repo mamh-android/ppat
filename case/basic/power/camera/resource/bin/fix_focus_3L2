@@ -1,0 +1,4 @@
+echo "w 0x33c6e 0x00 1" > /proc/driver/b52_reg
+echo "w 0x33dea 0x01 1" > /proc/driver/b52_reg
+echo "w 0x33deb 0x9F 1" > /proc/driver/b52_reg
+echo "w 0x33d41 0x01 1" > /proc/driver/b52_reg

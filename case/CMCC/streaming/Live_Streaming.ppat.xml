@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<project name="power_wifi_browing" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    
+    <target name="prepare">
+        <sleep seconds="30"/>
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>    
+    </target>
+
+    <target name="run"  depends="prepare">
+        <SetProperty name="case_name" value="Live_Streaming_CMCC"/>
+        <ReadThermal flag="thermal_start"/>      
+        <echo message="start browsing ..."/>
+        <SerialPortCmd cmd="am start -n com.android.browser/.BrowserActivity -a android.intent.action.VIEW -d 218.206.176.104:8080/portalone/test.jsp?pass=2009" />
+        <sleep seconds="15"/>  
+        <echo message="choose live stream ..."/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent DPAD_DOWN"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input keyevent 23"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="input rotationevent 1"/>
+        <sleep seconds="30"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="300" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="5"/>
+
+
+        <SetProperty name="case_name" value="Live_Streaming_End_CMCC"/>
+        <echo message="suspend device ..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="60"/>
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <echo message="start collecting data..."/>
+        <sleep seconds="15"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}" stat_d="false"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am force-stop com.android.browser"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

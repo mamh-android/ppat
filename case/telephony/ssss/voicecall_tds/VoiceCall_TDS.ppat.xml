@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<project name="power_voicecall_tds" basedir="." default="cleanup">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+        <echo message="turn on screen ..."/>
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="fullon" ValueType="string"/>
+        <sleep seconds="5"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE false"/>
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="su"/>
+        <SystemProperty key="default_mode" value="15"/>
+        <sleep seconds="1"/>
+        <!--get CP version-->
+        <SerialPortCmd cmd="getprop dev.cp.revision.id"/>
+        <sleep seconds="5"/>
+        <!--check calibration files were pushed or not-->
+        <SerialPortCmd cmd="ll /NVM/*"/>
+        <sleep seconds="5"/>
+        <echo message="set network mode to TDS..."/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/switch_network.sh 1 | serial_client" />
+        <sleep seconds="${networkSwitch_sleep_time}"/>
+        <SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="go to home screen ..."/>
+        <SerialPortCmd cmd="input keyevent 3"/>
+        <echo message="make a mo call"/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/mo-test.sh ${call_no} | serial_client" />
+        <sleep seconds="45" />
+
+        <echo message="enable duty cycle ..."/>
+        <SerialPortCmd cmd="su"/>
+        <StatDutycycle state="1"/>
+        <sleep seconds="2"/>
+        <SerialPortCmd cmd="date"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="onKey to turn off screen ..."/>
+        <LTKCmd cmd="onkey" />
+        <sleep seconds="30" />
+    </target>
+
+    <target name="power"  depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="${powerCapture_time}" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+        <sleep seconds="5" />
+
+        <PowerCtrlUSB flag="on"/>
+        <echo message="start collecting duty cycle info..."/>
+        <SerialPortCmd cmd="su"/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="2"/>
+        <echo message="hang up the call"/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/hangup_call.sh | serial_client" />
+        <PowerCtrlUSB flag="off"/>
+
+        <echo message="Power monitor start again to capture power after hangup ..."/>
+        <MeasurePower server="${power_server}" sample_t="${actOver_capTime}" voltage="4" save_f="${case_name}_actOver_${power_port}" port="${power_port}"/>
+        <sleep seconds="2" />
+    </target>
+
+    <target name="result" depends="power">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="2" />
+        <SerialPortCmd cmd="date"/>
+        <echo message="start collecting data..."/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <PowerResult file_n="${case_name}_actOver_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <copy file="${PT4_SERVER}/${case_name}_actOver_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <echo message="turn on screen ..."/>
+        <LTKCmd cmd="onkey" />
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="fullon" ValueType="string"/>
+        <sleep seconds="5"/>
+        <SystemSetting Method ="SET_SCREEN_STATE" ExtraKey="STATE" ExtraValue="normal" ValueType="string"/>
+        <sleep seconds="5"/>
+        <echo message="set network mode to default mode..."/>
+        <SerialPortCmd cmd="su"/>
+        <SerialPortCmd cmd="sh /${storage}/PowerTest_sh/switch_network.sh ${default_mode} | serial_client" />
+        <sleep seconds="${networkSwitch_sleep_time}"/>
+    </target>
+</project>

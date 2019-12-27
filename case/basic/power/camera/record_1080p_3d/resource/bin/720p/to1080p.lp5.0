@@ -1,0 +1,44 @@
+#!/system/bin/sh
+#press next button
+input tap 380 1200 
+sleep 2
+
+#press next button
+input tap 380 1200 
+sleep 2
+
+#let takepicture and record show
+input swipe 0 300 540 300 200 
+sleep 4 
+
+#press take record button
+input tap 73 623
+sleep 20 
+
+#let takepicture and record show
+input swipe 0 300 540 300 200 
+sleep 4 
+#press setting button
+input tap 650 1050
+sleep 2 
+
+#press resolution button
+input tap 350 170
+sleep 2 
+
+#press video resolution button
+input tap 350 500
+sleep 2 
+
+#press 1080p resolution button
+input tap 350 300 
+sleep 2 
+
+#return 1
+input keyevent 4
+sleep 2 
+
+#return 2
+input keyevent 4
+sleep 2 
+

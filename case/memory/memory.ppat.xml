@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="get_memory" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="check" depends="reboot">
+        <echo message="check..."/>
+    </target>
+
+    <target name="result" depends="check">
+        <echo message="start collecting memory info..."/>
+        <sleep seconds="600"/>
+        <echo message="get and parse the memory info..."/>
+        <MemoryResult cmd="./resource/getmeminfo -s ${adb_device_id} -r ${subcase_root}/meminfo.log -f power"/>
+        <echo message="done"/>
+    </target>
+
+
+</project>

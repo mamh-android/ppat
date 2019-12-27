@@ -1,0 +1,32 @@
+
+
+The below is the performance data on mmu surfaces.
+The below is the performance data with Dither Disabled.
+The below is the performance data of normal quality.
+BLT Situation, FPS
+ARGB8888=>RGB565(720P=>720P) fps, 65.83
+RGB565=>RGB565(720P=>720P) fps, 100.00
+ARGB8888=>ARGB8888(720P=>720P) fps, 46.53
+ARGB8888=>RGB565(720P) with 90 degree rotation fps, 62.46
+RGB565=>RGB565(720P) with 90 degree rotation fps, 94.52
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps, 45.48
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps, 28.71
+UYVY=>ARGB8888(1080P=>720P)with scaling and 90 degree rotation fps, 25.79
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps, 30.58
+
+
+The below is the performance data of high quality.
+BLT Situation, FPS
+ARGB8888=>RGB565(720P=>720P) fps, 63.61
+RGB565=>RGB565(720P=>720P) fps, 96.81
+ARGB8888=>ARGB8888(720P=>720P) fps, 44.94
+ARGB8888=>RGB565(720P) with 90 degree rotation fps, 62.15
+RGB565=>RGB565(720P) with 90 degree rotation fps, 93.81
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps, 44.62
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps, 28.46
+UYVY=>ARGB8888(1080P=>720P)with scaling and 90 degree rotation fps, 25.51
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps, 30.62
+The below is the performance data with Dither Enabled.
+
+
+GCU Error.

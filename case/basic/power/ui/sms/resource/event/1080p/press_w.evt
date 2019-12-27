@@ -1,0 +1,58 @@
+add device 1: /dev/input/event4
+  name:     "gpio_keys.14"
+add device 2: /dev/input/event3
+  name:     "map asoc Headset"
+add device 3: /dev/input/event2
+  name:     "map asoc Hook"
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 4: /dev/input/event5
+  name:     "synaptics_dsx_i2c"
+add device 5: /dev/input/event0
+  name:     "88pm80x_on"
+add device 6: /dev/input/event1
+  name:     "LPS_pressure_sensor"
+could not get driver version for /dev/input/mice, Not a typewriter
+  137123-687135: /dev/input/event5: 0003 0039 0000009b
+  137123-687135: /dev/input/event5: 0001 014a 00000001
+  137123-687135: /dev/input/event5: 0003 0035 0000008f
+  137123-687135: /dev/input/event5: 0003 0036 00000530
+  137123-687135: /dev/input/event5: 0003 003a 00000036
+  137123-687135: /dev/input/event5: 0003 0030 00000005
+  137123-687135: /dev/input/event5: 0003 0000 0000008f
+  137123-687135: /dev/input/event5: 0003 0001 00000530
+  137123-687135: /dev/input/event5: 0003 0018 00000036
+  137123-687135: /dev/input/event5: 0000 0000 00000000
+  137123-700254: /dev/input/event5: 0003 0035 00000093
+  137123-700254: /dev/input/event5: 0003 0036 00000532
+  137123-700254: /dev/input/event5: 0003 003a 00000040
+  137123-700254: /dev/input/event5: 0003 0000 00000093
+  137123-700254: /dev/input/event5: 0003 0001 00000532
+  137123-700254: /dev/input/event5: 0003 0018 00000040
+  137123-700254: /dev/input/event5: 0000 0000 00000000
+  137123-715159: /dev/input/event5: 0003 003a 00000044
+  137123-715159: /dev/input/event5: 0003 0018 00000044
+  137123-715159: /dev/input/event5: 0000 0000 00000000
+  137123-730115: /dev/input/event5: 0003 003a 00000047
+  137123-730115: /dev/input/event5: 0003 0018 00000047
+  137123-730115: /dev/input/event5: 0000 0000 00000000
+  137123-760594: /dev/input/event5: 0003 003a 00000048
+  137123-760594: /dev/input/event5: 0003 0018 00000048
+  137123-760594: /dev/input/event5: 0000 0000 00000000
+  137123-789877: /dev/input/event5: 0003 003a 00000047
+  137123-789877: /dev/input/event5: 0003 0018 00000047
+  137123-789877: /dev/input/event5: 0000 0000 00000000
+  137123-805213: /dev/input/event5: 0003 003a 00000045
+  137123-805213: /dev/input/event5: 0003 0018 00000045
+  137123-805213: /dev/input/event5: 0000 0000 00000000
+  137123-820090: /dev/input/event5: 0003 003a 00000042
+  137123-820090: /dev/input/event5: 0003 0018 00000042
+  137123-820090: /dev/input/event5: 0000 0000 00000000
+  137123-834199: /dev/input/event5: 0003 0035 00000092
+  137123-834199: /dev/input/event5: 0003 003a 0000003a
+  137123-834199: /dev/input/event5: 0003 0000 00000092
+  137123-834199: /dev/input/event5: 0003 0018 0000003a
+  137123-834199: /dev/input/event5: 0000 0000 00000000
+  137123-848352: /dev/input/event5: 0003 0039 ffffffff
+  137123-848352: /dev/input/event5: 0001 014a 00000000
+  137123-848352: /dev/input/event5: 0003 0018 00000000
+  137123-848352: /dev/input/event5: 0000 0000 00000000

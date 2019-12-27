@@ -1,0 +1,26 @@
+<PlatformConfig>
+    <PropertyConfig>
+        <Property name="os">android</Property>
+
+        <!-- capture adb log-->
+        <Property name="adblog_main">true</Property>
+        <Property name="adblog_radio">false</Property>
+        <Property name="adblog_events">false</Property>
+
+        <Property name="case_searchpath">case</Property>
+        <Property name="jobmonitor">tools/jobmonitor.bin</Property>
+
+        <!-- backup result for public visit-->
+        <Property name="backup_remote">/srv/ftp/ftpshare/ppat/</Property>
+
+        <Property name="LPM">true</Property>
+
+        <!-- power monitor config-->
+        <Property name="PT4_SERVER">/PPAT_test/pt4</Property>
+        <Property name="power_server">10.38.32.215</Property>
+        <Property name="VPN_WIFI_PWD">marvellapse2</Property>
+        <Property name="SyncToDB">true</Property>
+        <Property name="storage">sdcard</Property>
+    </PropertyConfig>
+</PlatformConfig>
+

@@ -1,0 +1,43 @@
+<PlatformConfig>
+    <PropertyConfig>
+        <!-- platform info -->
+        <Property name="platform">ULC1</Property>
+        <Property name="soc">pxa1908</Property>
+        <Property name="board">pxa1908dkb</Property>
+
+        <!-- specify board serial number-->
+        <Property name="multi_device">true</Property>
+        <Property name="device_info">pxa1908_DKB_v10_299, SEC chip,DRO528, profile 9</Property>
+
+        <Property name="case_searchpath">case</Property>
+        <Property name="run_time"/>
+
+        <!-- backup result for public visit-->
+        <Property name="backup_remote">/srv/ftp/ftpshare/ppat/</Property>
+        <Property name="log_path">ftp://10.38.32.98/ftpshare/ppat/</Property>
+
+
+        <Property name="LPM">true</Property>
+    </PropertyConfig>
+    <ResourceConfig>
+        <Resource name="serialport" port="/dev/ttyUSB0" rate="115200"/>
+        <Resource name="adb"/>
+        <Resource name="ltk"/>
+        <Resource name="relay" port="/dev/ttyS0" rate="9600" user="reset:3;back:4;" />
+    </ResourceConfig>
+
+    <AutoBurnConfig>
+        <!-- for generate LAT_BUILD.pxa1928-kk4.4 in autobuild server -->
+        <Property name="last_build_infix">pxa1908</Property>
+
+        <!-- full image path: /autobuild/android/pxa1928/2014-09-03_pxa1928-kk4.4/pxa1928dkb_tz -->
+        <!-- image path, need mount to /autobuild-->
+        <Property name="image_path_prefix">/autobuild/android/pxa1908</Property>
+
+        <!-- image date infix-->
+        <Property name="image_date_infix">pxa1908</Property>
+
+        <Property name="burn_cmd">sudo ./swdl_linux -D ./ULC1_DKB/PXA1908_Trusted_Hynix_lpddr3_1g_pop_H9CKNNNBJTMPLR_533Mhz.blf -S</Property>
+    </AutoBurnConfig>
+</PlatformConfig>
+

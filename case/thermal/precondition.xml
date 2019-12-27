@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+<project name="case_thermal" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <Print message="prepare................................."/>
+        <HostCmd cmd="./prepare.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+    </target>
+</project>
+-->
+<project name="case_thermal" basedir="." default="musthave">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="musthave">
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <AdbCmd cmd="adb shell setprop persist.sys.country US"/>
+        <AdbCmd cmd="adb shell setprop persist.sys.language en"/>
+        <AdbCmd cmd="adb shell mkdir /data/bin/"/>
+        <AdbCmd cmd="adb push resource/bin/busybox /system/bin/"/>
+        <AdbCmd cmd="adb push resource/bin/cap_temperature.sh /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/busybox"/>
+        <Print message="setup device now..."/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_DISPLAY_TIMEOUT -e TIMEOUT 1800"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SCREEN_STATE -e STATE fullon"/>
+        <AdbCmd cmd="adb shell mount -o rw,remount -t yaffs2 /dev/block/mtdblock0 /system"/>
+        <if>
+            <contains string="${os_version}" substring="kk"/>
+            <then>
+                <AdbCmd cmd="adb push resource/bin/toolbox /system/bin/t2"/>
+            </then>
+            <else>
+                <AdbCmd cmd="adb push resource/bin/toolbox.lp /system/bin/t2"/>
+            </else>
+        </if>
+        <AdbCmd cmd="adb shell chmod 755 /system/bin/t2"/>
+        <AdbCmd cmd="adb shell rm /system/bin/sendevent"/>
+        <AdbCmd cmd="adb shell ln -s /system/bin/t2 /system/bin/sendevent"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_GPS_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SYNC_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_RINGER_MODE -e MODE normal"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE true"/>
+        <AdbCmd cmd="adb push resource/event/bootup_prepare/${resolution}/press_ok.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/press_ok.evt"/>
+        <AdbCmd cmd="adb uninstall com.example.android.apis"/>
+        <AdbCmd cmd="adb shell input keyevent 3"/>
+        <echo message="reboot..."/>
+<!--    <Reboot/> -->
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <PrepareBoard/>
+<!--    <if>
+            <contains string="${purpose}" substring="run custom shell"/>
+            <then>
+                <echo message="push custom shell script to DKB..."/>
+                <AdbCmd cmd="adb root"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb remount"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb push /PPAT_test/custom.sh /system/bin/"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb shell chmod 755 /system/bin/custom.sh"/>
+                <sleep seconds="1"/>
+                <echo message="excute custom shell script..."/>
+                <AdbCmd cmd="adb shell custom.sh"/>
+                <sleep seconds="1"/>
+            </then>
+        </if>
+-->
+    </target>
+</project>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="bbp_group_state">{}</string>
+    <boolean name="enable_hardware_accel_skia" value="false" />
+    <string name="homepage">http://picasaweb.google.com/</string>
+    <long name="last_recovered" value="1422442426846" />
+    <boolean name="last_paused" value="true" />
+    <boolean name="debug_menu" value="false" />
+</map>

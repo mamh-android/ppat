@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<project name="browser_zoom_portrait" basedir="." default="teardown">
+<include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE true" />
+        <sleep seconds="10"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid ${AP} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="10"/>
+        <HostCmd cmd="./prepare.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+        <echo message="mount ..."/>
+        <SerialPortCmd cmd="mount -t debugfs none /sys/kernel/debug"/>
+        <SerialPortCmd cmd="echo 1 > /sys/kernel/debug/pxa/stat/cpu_dc_stat"/>
+        <SerialPortCmd cmd="echo 1 > /sys/kernel/debug/pxa/stat/ddr_dc_stat"/>
+        <SerialPortCmd cmd="echo 50 > /sys/class/devfreq/devfreq-ddr/polling_interval"/>
+        <SerialPortCmd cmd="echo 1 > /sys/class/devfreq/devfreq-ddr/device/ddr_profiling"/>
+        <SerialPortCmd cmd="echo 1 > /sys/kernel/debug/pxa/stat/gc2d_dc_stat"/>
+        <SerialPortCmd cmd="echo 1 > /sys/kernel/debug/pxa/stat/gc_dc_stat"/>
+        <SerialPortCmd cmd="echo 1 > /sys/kernel/debug/pxa/stat/vpu_dc_stat"/>
+        <PowerCtrlUSB flag="off"/>
+    </target>
+    <target name="run" depends="prepare">
+        <MeasurePower server="${power_server}" sample_t="20" voltage="4" save_f="browser_zoom_portrait_${power_port}" port="${power_port}" sleep="false"/>
+        <SerialPortCmd cmd="logcat -c"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+        <SerialPortCmd cmd="sendevent /${storage}/double_tap.evt"/>
+        <sleep seconds="3"/>
+    </target>
+    <target name="teardown" depends="run">
+        <echo message="start collecting duty cycle info..."/>
+        <SerialPortCmd cmd="echo 0 > /sys/kernel/debug/pxa/stat/cpu_dc_stat"/>
+        <SerialPortCmd cmd="echo 0 > /sys/kernel/debug/pxa/stat/ddr_dc_stat"/>
+        <SerialPortCmd cmd="echo 0 > /sys/class/devfreq/devfreq-ddr/device/ddr_profiling"/>
+        <SerialPortCmd cmd="echo 0 > /sys/kernel/debug/pxa/stat/gc2d_dc_stat"/>
+        <SerialPortCmd cmd="echo 0 > /sys/kernel/debug/pxa/stat/gc_dc_stat"/>
+        <SerialPortCmd cmd="echo 0 > /sys/kernel/debug/pxa/stat/vpu_dc_stat"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <HostCmd cmd="./cleanup.sh ${subcase_root}/temp.log ${adb_device_id}" workingDirectory="${basedir}"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE false" />
+        <sleep seconds="10"/>
+        <PerformanceResult server="${power_server}" file_n="browser_zoom_portrait_${power_port}" />
+    </target>
+
+</project>

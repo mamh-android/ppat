@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="power_sms_compose" basedir="." default="run">
+  	<include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+        <AdbCmd cmd="adb push resource/event/${resolution}/press_w.evt /${storage}/"/>
+        <sleep seconds="1"/>
+        <AdbCmd cmd="adb root"/>
+        <sleep seconds="1"/>
+        <AdbCmd cmd="adb remount"/>
+        <sleep seconds="1"/>
+        <AdbCmd cmd="adb push resource/bin/press_w.sh /system/bin/"/>
+        <sleep seconds="1"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/press_w.sh"/>
+
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+    </target>
+</project>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <SetProperty name="LPM" value="false"/>
+    </target>
+</project>

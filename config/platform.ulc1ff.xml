@@ -1,0 +1,43 @@
+<PlatformConfig>
+    <PropertyConfig>
+        <!-- platform info -->
+        <Property name="platform">ULC1</Property>
+        <Property name="soc">pxa1908FF</Property>
+        <Property name="board">pxa1908FF</Property>
+
+        <!-- specify board serial number-->
+        <Property name="multi_device">true</Property>
+        <Property name="device_info">PXA1U88_DKB_V10_053, DRO568, profile 11</Property>
+
+        <Property name="case_searchpath">case</Property>
+        <Property name="run_time"/>
+
+        <!-- backup result for public visit-->
+        <Property name="backup_remote">/srv/ftp/ftpshare/ppat/</Property>
+        <Property name="log_path">ftp://10.38.32.94/ftpshare/ppat/</Property>
+
+        <Property name="LPM">true</Property>
+        <Property name="storage">storage/external</Property>
+    </PropertyConfig>
+    <ResourceConfig>
+        <Resource name="serialport" port="/dev/ttyUSB0" rate="115200"/>
+        <Resource name="adb"/>
+        <Resource name="relay" port="/dev/ttyS0" rate="9600" user="reset:2;back:6;usb:6" />
+    </ResourceConfig>
+
+    <AutoBurnConfig>
+        <!-- for generate LAT_BUILD.pxa1928-kk4.4 in autobuild server -->
+        <Property name="last_build_infix">pxa1908</Property>
+
+        <!-- full image path: /autobuild/android/pxa1928/2014-09-03_pxa1928-kk4.4/pxa1928dkb_tz -->
+        <!-- image path, need mount to /autobuild-->
+        <Property name="image_path_prefix">/autobuild/android/pxa1908</Property>
+
+        <!-- image date infix-->
+        <Property name="image_date_infix">pxa1908</Property>
+
+        <!-- image path suffix -->
+        <Property name="burn_cmd">sudo ./swdl_linux -D ./ULC1FF_DKB/PXA1908_Trusted_Hynix_lpddr3_1g_pop_H9CKNNNBJTMPLR_533Mhz.blf -S</Property>
+    </AutoBurnConfig>
+</PlatformConfig>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<project name="power_take_picture" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="run">
+        <Print message="check whether temperature is below 40degC"/>
+        <HostCmd cmd="./../resource/bin/prepare_temp.sh ${adb_device_id}" workingDirectory="${basedir}" exitValue="value"/>
+        <echo message="return value : ${value}"/>
+        <if>
+            <equals arg1="${value}" arg2="0"/>
+            <then>
+                <echo message="OK"/>
+            </then>
+            <else>
+                <echo message="Warning: Temp is still higher than 40degC! Exit!"/>
+                <SystemExit exitCode="1"/>
+            </else>
+        </if>
+
+        <AdbCmd cmd="adb push resource/bin/fix_focus /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/fix_focus"/>
+    </target>
+
+</project>

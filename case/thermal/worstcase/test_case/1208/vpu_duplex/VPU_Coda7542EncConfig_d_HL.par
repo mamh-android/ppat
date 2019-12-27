@@ -1,0 +1,15 @@
+iInputYUVFmt = 0
+eOutputStrmFmt = 5
+iWidth = 1920
+iHeight = 1080
+iFrameRateNum = 30
+iFrameRateDen = 1
+iGopSize = 24
+iInitQP = 30
+bDeblocking = 1
+bRCEnable = 1
+iRCType = 0
+iRCBitRate = 30000000
+bSecAxiDisable = 0
+bPollingMode = 0
+bDynamicClock = 1

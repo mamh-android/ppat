@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run">
+        <Reboot/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <PrepareBoard/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_DISPLAY_TIMEOUT -e TIMEOUT 1800"/>
+    </target>
+</project>

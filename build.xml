@@ -1,0 +1,21 @@
+<project name="ATestClient" basedir="." default="build">
+    <property name="lib.dir" value="lib"/>
+    <path id="lib-classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <target name="compile" >
+        <mkdir dir="bin"/>
+        <javac
+            srcdir="src" destdir="bin"
+            target="1.5" source="1.5"
+            includeAntRuntime="on">
+            <classpath refid="lib-classpath"/>
+        </javac>
+    </target>
+    <target name="build" depends="compile">
+        <jar basedir="bin" update="true" destfile="lib/ppat.jar" />
+    </target>
+</project>
+

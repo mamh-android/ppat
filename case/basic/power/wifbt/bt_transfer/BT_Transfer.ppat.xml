@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<project name="bt_on" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="su"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_BT_STATE --ez STATE true" />
+        <sleep seconds="16"/>
+        <echo message="start transfer file ..."/>
+        <SerialPortCmd cmd="am instrument -e remoteDevice 00:50:43:8C:08:0D  -w -e class com.marvell.test.bluetooth.BluetoothOppTest#startTransfer com.marvell.test.bluetooth/.ParameterTestRunner" />
+        <sleep seconds="16"/>
+        <PowerCtrlUSB flag="off"/>
+        <echo message="turn off screen..."/>
+        <SerialPortCmd cmd="input keyevent 26" />
+        <sleep seconds="30"/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="cleanup" depends="power">
+        <echo message="start collect data ..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="15"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="15"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <ScreenOn/>
+        <ScreenUnlock/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_BT_STATE --ez STATE false" />
+    </target>
+
+</project>

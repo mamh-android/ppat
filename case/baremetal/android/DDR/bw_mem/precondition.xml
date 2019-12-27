@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<project name="start_bw_mem" basedir="." default="run"> 
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run" >
+        <PowerCtrlUSB flag="on"/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <AdbCmd cmd="adb push resource/bw_mem /system/bin/"/>
+        <AdbCmd cmd="adb push resource/bw_mem_10 /system/bin/"/>
+        <AdbCmd cmd="adb push resource/bw_mem_20 /system/bin/"/>
+        <AdbCmd cmd="adb push resource/bw_mem_40 /system/bin/"/>
+        <AdbCmd cmd="adb push resource/kill.sh /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/bw_mem_10"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/bw_mem_20"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/bw_mem_40"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/bw_mem"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/kill.sh"/>
+    </target>
+</project>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<project name="power_play_tomcat" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="logcat -c"/>    
+    </target>
+
+    <target name="run"  depends="prepare">
+        <ReadThermal flag="thermal_start"/>      
+        <echo message="start  tomcat ..."/>
+        <SerialPortCmd cmd="am start -n com.outfit7.talkingtom/.Main" />
+        <sleep seconds="15"/>  
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutycycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="Power monitor start to work ..."/>
+        <MeasurePower server="${power_server}" sample_t="300" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="300"/>
+        <For intStart="0" intEnd="300" step="60" param="cur">
+            <sequential>
+                <SerialPortCmd cmd="sendevent /${storage}/play_tomcat.evt" />
+                <sleep seconds="60"/>
+            </sequential>
+        </For>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <sleep seconds="10"/>
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+        <sleep seconds="3"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <sleep seconds="5"/>
+        <SerialPortCmd cmd="am force-stop com.outfit7.talkingtom"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

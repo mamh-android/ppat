@@ -1,0 +1,42 @@
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 1: /dev/input/event1
+  name:     "vnc-ts"
+add device 2: /dev/input/event3
+  name:     "map asoc Hook"
+add device 3: /dev/input/event4
+  name:     "map asoc Headset"
+add device 4: /dev/input/event0
+  name:     "pxa27x-keypad"
+add device 5: /dev/input/event2
+  name:     "88pm80x_on"
+could not get driver version for /dev/input/mouse1, Not a typewriter
+add device 6: /dev/input/event5
+  name:     "synaptics_dsx_i2c"
+could not get driver version for /dev/input/mice, Not a typewriter
+    2786-830438: /dev/input/event5: 0003 0039 0000007e
+    2786-830438: /dev/input/event5: 0001 014a 00000001
+    2786-830438: /dev/input/event5: 0003 0035 000002cb
+    2786-830438: /dev/input/event5: 0003 0036 000000a4
+    2786-830438: /dev/input/event5: 0003 003a 00000041
+    2786-830438: /dev/input/event5: 0003 0030 00000005
+    2786-830438: /dev/input/event5: 0003 0000 000002cb
+    2786-830438: /dev/input/event5: 0003 0001 000000a4
+    2786-830438: /dev/input/event5: 0003 0018 00000041
+    2786-830438: /dev/input/event5: 0000 0000 00000000
+    2786-839962: /dev/input/event5: 0003 0035 000002cc
+    2786-839962: /dev/input/event5: 0003 0036 000000a2
+    2786-839962: /dev/input/event5: 0003 003a 00000042
+    2786-839962: /dev/input/event5: 0003 0000 000002cc
+    2786-839962: /dev/input/event5: 0003 0001 000000a2
+    2786-839962: /dev/input/event5: 0003 0018 00000042
+    2786-839962: /dev/input/event5: 0000 0000 00000000
+    2786-864704: /dev/input/event5: 0003 003a 00000040
+    2786-864704: /dev/input/event5: 0003 0018 00000040
+    2786-864704: /dev/input/event5: 0000 0000 00000000
+    2786-878530: /dev/input/event5: 0003 003a 00000038
+    2786-878530: /dev/input/event5: 0003 0018 00000038
+    2786-878530: /dev/input/event5: 0000 0000 00000000
+    2786-891465: /dev/input/event5: 0003 0039 ffffffff
+    2786-891465: /dev/input/event5: 0001 014a 00000000
+    2786-891465: /dev/input/event5: 0003 0018 00000000
+    2786-891465: /dev/input/event5: 0000 0000 00000000

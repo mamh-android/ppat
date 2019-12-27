@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="power_dec" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="musthave">
+        <SetProperty name="cmd" value="appCoda7542Dec &quot;-fmt:5 -i:/data/720p_2400f.h264 -yuv:1 -fps:30 -len:/data/720p_2400f.len -maxfrm:3000&quot;"/>
+        <SetProperty name="IS_RUNNING_CPUEATER" value="N"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <AdbCmd cmd="adb push resource/720p_2400f.h264 /data/"/>
+        <AdbCmd cmd="adb push resource/720p_2400f.len /data/"/>
+    </target>
+</project>

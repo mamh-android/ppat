@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<project name="power_take_picture" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <sleep seconds="60"/>
+        <SerialPortCmd cmd="logcat -c"/>
+    </target>
+
+    <target name="run"  depends="prepare">
+        <SerialPortCmd cmd="setprop service.camera.auto.frameRate 0"/>
+        <ReadThermal flag="thermal_start"/>
+        <SerialPortCmd cmd="am start -n com.android.gallery3d/com.android.camera.CameraLauncher"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="topicture"/>
+        <PowerCtrlUSB flag="off"/>
+        <sleep seconds="20"/>
+        <SerialPortCmd cmd="fix_focus"/>
+        <echo message="start stat dc ..."/>
+        <StatDutyCycle state="1"/>
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="start measure power ..."/>
+        <MeasurePower server="${power_server}" sample_t="32" voltage="4" save_f="Take_pictures(IMX219)_${power_port}" port="${power_port}" sleep="false"/>
+        <sleep seconds="8"/>
+        <SerialPortCmd cmd="fix_focus"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="fix_focus"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="10"/>
+        <SerialPortCmd cmd="fix_focus"/>
+        <SerialPortCmd cmd="input keyevent 27"/>
+        <sleep seconds="5"/>
+    </target>
+    <target name="result" depends="power">
+        <echo message="start collecing data..."/>
+        <StatDutyCycle state="0"/>
+        <sleep seconds="10"/>
+
+        <PowerCtrlUSB flag="on"/>
+        <ReadThermal flag="thermal_end"/>
+
+        <ParseFPS cmd="adb logcat -d | grep 'preview fps'"/>
+        <sleep seconds="30"/>
+
+        <PowerResult file_n="Take_pictures(IMX219)_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/Take_pictures(IMX219)_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="10"/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="input keyevent 4"/>
+        <sleep seconds="1"/>
+        <SerialPortCmd cmd="busybox killall com.android.camera2"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

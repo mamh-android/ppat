@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <Print message="setup device now..."/>
+        <SystemProperty key="LPM" value="true"/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell mv /system/bin/tel_launch.sh.bak /system/bin/tel_launch.sh"/>
+        <AdbCmd cmd="adb push resource/bin/CSFB_V15_349/GsmCalData.nvm /NVM/"/>
+        <AdbCmd cmd="adb push resource/bin/CSFB_V15_349/TdCalData.nvm /NVM/"/>
+        <AdbCmd cmd="adb push resource/bin/CSFB_V15_349/LteCalData.nvm /NVM/"/>
+        <AdbCmd cmd="adb shell sync"/>
+        <echo message="reboot..."/>
+        <Reboot/>
+
+        <PrepareBoard/>
+        <Print message="setup device now..."/>
+        <SystemProperty key="LPM" value="true"/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <sleep seconds="2"/>
+        <StayAwake/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_DISPLAY_TIMEOUT -e TIMEOUT 1800"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SCREEN_STATE -e STATE fullon"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_GPS_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SYNC_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_RINGER_MODE -e MODE normal"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE false"/>
+        <sleep seconds="2"/>
+
+        <AdbCmd cmd="adb push resource/bin/busybox /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 775 /system/bin/busybox"/>
+
+        <AdbCmd cmd="adb shell mkdir /${storage}/DKB_power_data"/>
+        <AdbCmd cmd="adb shell mkdir /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/mo-test.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/hangup_call.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/switch_network.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/FTP_download.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/FTP_upload.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/Process_kill.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/uploadfile /${storage}/DKB_power_data"/>
+
+        <SetProperty name="networkSwitch_sleep_time" value="90"/>
+        <SetProperty name="powerCapture_time" value="300"/>
+        <SetProperty name="ftpPowerCap_time" value="300"/>
+        <SetProperty name="call_no" value="61091616"/>
+        <SetProperty name="default_mode" value="15"/>
+        <SetProperty name="logcat" value="true"/>
+        <SetProperty name="actOver_capTime" value="120"/>
+    </target>
+</project>

@@ -1,0 +1,155 @@
+libGCU_Test: Run case libGCU_Performance.
+*********************************
+Begin the libGCU_Performance Test!
+The below is the performance data of normal quality.
+libGCU_Performance_016:Begin ARGB8888=>RGB565(720P=>720P)  performance Test!
+ARGB8888=>RGB565(720P=>720P) fps is: 76.80
+libGCU_Performance_016: End ARGB8888=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin RGB565=>RGB565(720P=>720P) performance Test!
+RGB565=>RGB565(720P=>720P) fps is: 115.61
+libGCU_Performance_016: End RGB565=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin ARGB8888=>ARGB8888(720P=>720P) performance Test!
+ARGB8888=>ARGB8888(720P=>720P) fps is: 54.61
+libGCU_Performance_016: End ARGB8888=>ARGB8888(720P=>720P) performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+ARGB8888=>RGB565(720P) with 90 degree rotation fps is: 72.89
+libGCU_Performance_017: End ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+RGB565=>RGB565(720P) with 90 degree rotation fps is: 109.65
+libGCU_Performance_017: End RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>ARGB8888(720P)with 90 degree rotation  performance Test!
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps is: 55.13
+libGCU_Performance_017: End ARGB8888=>ARGB8888(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps is: 32.99
+libGCU_Performance_022: End UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation fps is: 30.41
+libGCU_Performance_022: End UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_042: Begin ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps is: 35.45
+libGCU_Performance_042: End ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+
+The below is the performance data of high quality.
+libGCU_Performance_016:Begin ARGB8888=>RGB565(720P=>720P)  performance Test!
+ARGB8888=>RGB565(720P=>720P) fps is: 77.28
+libGCU_Performance_016: End ARGB8888=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin RGB565=>RGB565(720P=>720P) performance Test!
+RGB565=>RGB565(720P=>720P) fps is: 116.28
+libGCU_Performance_016: End RGB565=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin ARGB8888=>ARGB8888(720P=>720P) performance Test!
+ARGB8888=>ARGB8888(720P=>720P) fps is: 54.50
+libGCU_Performance_016: End ARGB8888=>ARGB8888(720P=>720P) performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+ARGB8888=>RGB565(720P) with 90 degree rotation fps is: 72.94
+libGCU_Performance_017: End ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+RGB565=>RGB565(720P) with 90 degree rotation fps is: 109.77
+libGCU_Performance_017: End RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>ARGB8888(720P)with 90 degree rotation  performance Test!
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps is: 55.13
+libGCU_Performance_017: End ARGB8888=>ARGB8888(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps is: 33.06
+libGCU_Performance_022: End UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation fps is: 30.44
+libGCU_Performance_022: End UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_042: Begin ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps is: 35.47
+libGCU_Performance_042: End ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+
+The below is the performance data of normal quality.
+libGCU_Performance_016:Begin ARGB8888=>RGB565(720P=>720P)  performance Test!
+ARGB8888=>RGB565(720P=>720P) fps is: 65.83
+libGCU_Performance_016: End ARGB8888=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin RGB565=>RGB565(720P=>720P) performance Test!
+RGB565=>RGB565(720P=>720P) fps is: 100.00
+libGCU_Performance_016: End RGB565=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin ARGB8888=>ARGB8888(720P=>720P) performance Test!
+ARGB8888=>ARGB8888(720P=>720P) fps is: 46.53
+libGCU_Performance_016: End ARGB8888=>ARGB8888(720P=>720P) performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+ARGB8888=>RGB565(720P) with 90 degree rotation fps is: 62.46
+libGCU_Performance_017: End ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+RGB565=>RGB565(720P) with 90 degree rotation fps is: 94.52
+libGCU_Performance_017: End RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>ARGB8888(720P)with 90 degree rotation  performance Test!
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps is: 45.48
+libGCU_Performance_017: End ARGB8888=>ARGB8888(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps is: 28.71
+libGCU_Performance_022: End UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation fps is: 25.79
+libGCU_Performance_022: End UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_042: Begin ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps is: 30.58
+libGCU_Performance_042: End ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+
+The below is the performance data of high quality.
+libGCU_Performance_016:Begin ARGB8888=>RGB565(720P=>720P)  performance Test!
+ARGB8888=>RGB565(720P=>720P) fps is: 63.61
+libGCU_Performance_016: End ARGB8888=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin RGB565=>RGB565(720P=>720P) performance Test!
+RGB565=>RGB565(720P=>720P) fps is: 96.81
+libGCU_Performance_016: End RGB565=>RGB565(720P=>720P) performance Test!
+
+libGCU_Performance_016: Begin ARGB8888=>ARGB8888(720P=>720P) performance Test!
+ARGB8888=>ARGB8888(720P=>720P) fps is: 44.94
+libGCU_Performance_016: End ARGB8888=>ARGB8888(720P=>720P) performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+ARGB8888=>RGB565(720P) with 90 degree rotation fps is: 62.15
+libGCU_Performance_017: End ARGB8888=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+RGB565=>RGB565(720P) with 90 degree rotation fps is: 93.81
+libGCU_Performance_017: End RGB565=>RGB565(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_017: Begin ARGB8888=>ARGB8888(720P)with 90 degree rotation  performance Test!
+ARGB8888=>ARGB8888(720P) with 90 degree rotation fps is: 44.62
+libGCU_Performance_017: End ARGB8888=>ARGB8888(720P) with 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>RGB565(1080P=>720P)with scaling and 90 degree rotation fps is: 28.46
+libGCU_Performance_022: End UYVY=>RGB565(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_022: Begin UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation fps is: 25.51
+libGCU_Performance_022: End UYVY=>ARGB8888(1080P=>720P) with scaling and 90 degree rotation performance Test!
+
+libGCU_Performance_042: Begin ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+ARGB8888=>ARGB8888(720P) with gcuBlend(SRC_OVER) fps is: 30.62
+libGCU_Performance_042: End ARGB8888=>ARGB8888(720P) gcuBlend(SRC_OVER) performance Test!
+
+End the libGCU_Performance Test!
+*********************************
+
+

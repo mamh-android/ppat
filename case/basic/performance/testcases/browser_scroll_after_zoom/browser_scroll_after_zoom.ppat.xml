@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="browser_scroll_after_zoom" basedir="." default="teardown">
+<include file="${user.dir}/config/command.xml"/>
+    <target name="prepare">
+        <PowerCtrlUSB flag="on"/>
+        <echo message="turn on wifi ..."/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE true" />
+        <sleep seconds="10"/>
+        <echo message="connect with AP ..."/>
+        <SerialPortCmd cmd="am instrument -e ssid ${AP} -w -e class com.marvell.test.wifi.WifiTest#connectAp com.marvell.test.wifi/.WifiTestRunner &amp;" />
+        <sleep seconds="10"/>
+        <HostCmd cmd="./prepare.sh ${adb_device_id}" workingDirectory="${basedir}"/>
+        <PowerCtrlUSB flag="off"/>
+	<StatDutycycle state="1"/>
+    </target>
+    <target name="run" depends="prepare">
+    	<SerialPortCmd cmd="logcat -c"/>
+        <MeasurePower server="${power_server}" sample_t="30" voltage="4" save_f="browser_scroll_after_zoom_${power_port}" port="${power_port}" sleep="false"/>
+        <SerialPortCmd cmd="uiautomator runtest UIAT2.jar -c com.uiat.FlickUpDown"/>
+        <sleep seconds="30"/>
+    </target>
+    <target name="teardown" depends="run">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutycycle state="0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="5"/>
+        <HostCmd cmd="./cleanup.sh ${subcase_root}/temp.log ${adb_device_id}" workingDirectory="${basedir}"/>
+       	<PerformanceResult server="${power_server}" file_n="browser_scroll_after_zoom_${power_port}" />
+	<echo message="turn off wifi"/>
+        <SerialPortCmd cmd="am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_WIFI_STATE --ez STATE false" />
+	<AdbCmd cmd="adb shell am force-stop com.android.browser"/>
+        <sleep seconds="10"/>
+
+    </target>
+
+</project>

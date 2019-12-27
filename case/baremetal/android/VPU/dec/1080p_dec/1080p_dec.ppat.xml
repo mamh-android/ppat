@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="start_cpueater" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="run" >
+        <SerialPortCmd cmd="echo a > /sys/power/wake_lock"/>
+        <for trim="true" list="${CPU_FREQ}" param="cpu">
+            <sequential>
+                <echo message="set cpu: @{cpu}"/>
+                <SystemProperty key="cpu" value="@{cpu}"/>
+                <PropertyMap key="cpu" value="@{cpu}"/>
+                <SerialPortCmd cmd="echo @{cpu}000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"/>
+                <SerialPortCmd cmd="echo @{cpu}000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"/>
+                <SerialPortCmd cmd="echo @{cpu}000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"/>
+                <SerialPortCmd cmd="echo @{cpu}000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq"/>
+                <for trim="true" list="${DDR_FREQ}" param="ddr">
+                    <sequential>
+                        <echo message="set ddr: @{ddr}"/>
+                        <SystemProperty key="ddr" value="@{ddr}"/>
+                        <PropertyMap key="ddr" value="@{ddr}"/>
+                        <SerialPortCmd cmd="echo @{ddr}000 > /sys/class/devfreq/devfreq-ddr/min_freq"/>
+                        <SerialPortCmd cmd="echo @{ddr}000 > /sys/class/devfreq/devfreq-ddr/max_freq"/>
+                        <SerialPortCmd cmd="echo @{ddr}000 > /sys/class/devfreq/devfreq-ddr/min_freq"/>
+                        <SerialPortCmd cmd="echo @{ddr}000 > /sys/class/devfreq/devfreq-ddr/max_freq"/>
+                        <sleep seconds="3"/>
+                        <for trim="true" list="${VPU_FREQ}" param="vpu">
+                            <sequential>
+                                <echo message="set vpu: @{vpu}"/>
+                                <SerialPortCmd cmd="echo @{vpu}000 > /sys/class/devfreq/devfreq-vpu.0/min_freq"/>
+                                <SerialPortCmd cmd="echo @{vpu}000 > /sys/class/devfreq/devfreq-vpu.0/max_freq"/>
+                                <SerialPortCmd cmd="echo @{vpu}000 > /sys/class/devfreq/devfreq-vpu.0/min_freq"/>
+                                <SerialPortCmd cmd="echo @{vpu}000 > /sys/class/devfreq/devfreq-vpu.0/max_freq"/>
+                                <SystemProperty key="vpu0" value="@{vpu}"/>
+                                <PropertyMap key="vpu0" value="@{vpu}"/>
+                                <for trim="true" list="${VL}" param="vol">
+                                    <sequential>
+                                        <SetVol vol="@{vol}"/>
+                                        <if>
+                                            <equals arg1="${IS_RUNNING_CPUEATER}" arg2="Y"/>
+                                            <then>
+                                                <ant antfile="1080pdec_with_cpueater.xml"/>
+                                            </then>
+                                            <else>
+                                                <ant antfile="1080pdec.xml"/>
+                                            </else>
+                                        </if>
+                                    </sequential>
+                                </for>
+                            </sequential>
+                        </for>
+                    </sequential>
+                </for>
+            </sequential>
+        </for>
+        <SerialPortCmd cmd="echo a > /sys/power/wake_unlock"/>
+        <PowerCtrlUSB flag="on"/>
+    </target>
+</project>

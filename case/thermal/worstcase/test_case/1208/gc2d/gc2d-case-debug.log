@@ -1,0 +1,480 @@
+
+shell@pxa1908dkb:/data/worst_case # 
+shell@pxa1908dkb:/data/worst_case # ./ru
+run.sh       run.sh.bak   run.sh.ting  
+shell@pxa1908dkb:/data/worst_case # ./run.sh                                    1
+
+Set mode done!
+
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		**Marvell SVC helper script(p.sh) 2.1 imported! **
+		supported commands:
+		vcc  --- vcc_main by simple_dvfc.ko
+		vcc2 --- vcc_main get/set by PMIC I2C bus
+		cf   --- core
+		cg   --- core governor
+		cmax--- core max freq
+		cs   --- core duty cycle
+		hpl  --- hotplug lock
+		hpc1 --- core1 hotplug	
+		hpc2 --- core1 hotplug	
+		hpc3 --- core1 hotplug	
+		hpc  --- core1/2/3 hotplug
+		ci[  520.247191] c3 5918 (sh) devfreq-ddr c0100000.devfreq-ddr: [WARNING] ddr fc is already disabled
+   --- cpuinfo
+		df   --- ddr freq
+		dg   --- ddr governor
+		g2f  --- gc2d fclk
+		g2a  --- gc2d aclk
+		gf   --- gc fclk
+		ga   --- gc aclk
+		gsf  --- gc sclk
+		gsg  --- gc sclk governor 
+		rd   --- reg dump for PMU
+		dvfs --- show DVFS status
+		dro  --- show the DRO/profile info
+		chipid --- show mmp_chipid
+		temp --- show thermal temperature
+		help --- show this info
+		supported platforms:
+		PXA1088	- Helan
+		PXA1L88 - HelanLTE
+		PXA1U88 - Helan2
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		+created & maintained by chengwei@marvell.com                      +
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+
+Set mode done!
+insmod: init_module 'simple_dvfc_mod.ko' failed (File exists)
+disable kernel touch boost
+Disable all idle state
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+/data/worst_case
+current_core_freq:1248000
+available freq:312000 624000 832000 1057000 1248000 1526000 
+current ddr freq is: 528000
+156000 312000 416000 528000
+CUR=705000
+GC_FCLK:156000 312000 416000 624000 705000 
+CUR=624000
+GC2D_FCLK:156000 312000 416000 624000 
+CUR:705000
+GC_SCLK:156000 312000 416000 624000 705000 
+VPU_FREQ:528750
+Aviable:156000 208000 312000 416000 528750
+VCC_CORE: 1250000 uV
+########## Vmin Concurrency Test Start [583724] ###########
+VivantePort3Activity.apk is already installed.
+[  521.593235] c2 5982 (wcc.sh) [WARNING]vpufunc_clk stat is already started
+***********  GC2D test in loop 1 time 583725 *************
+Bind process 6163 to core 3 successfully!
+================== Thermal Temperature =================
+
+[583735] CPU_TEMP: 41000
+
+================== Thermal Temperature =================
+[583735] CPU Freq: 1248000
+[583735] DDR Freq:  528000
+[583735] GC3D_FCLK: 705000
+[583735] GC2D_FCLK: 624000
+[583735] VPU_FCLK: 528750
+[583735] VCC_CORE:  1250000 uV
+================== Thermal Temperature =================
+
+[583745] CPU_TEMP: 44000
+
+================== Thermal Temperature =================
+[583745] CPU Freq: 1248000
+[583745] DDR Freq:  528000
+[583745] GC3D_FCLK: 705000
+[583745] GC2D_FCLK: 624000
+[583745] VPU_FCLK: 528750
+[583745] VCC_CORE:  1250000 uV
+================== Thermal Temperature =================
+
+[583755] CPU_TEMP: 47000
+
+================== Thermal Temperature =================
+[583756] CPU Freq: 1248000
+[583756] DDR Freq:  528000
+[583756] GC3D_FCLK: 705000
+[583756] GC2D_FCLK: 624000
+[583756] VPU_FCLK: 528750
+[583756] VCC_CORE:  1250000 uV
+GC2D surface<phy-cont.dither_dis.high_016_01_001.bmp>  md5 check error
+expected  699e168e5502b2ab66020dce06212240, but got 66066b9f36333966f0906345494f0418
+GC2D surface<phy-cont.dither_dis.high_016_02_001.bmp>  md5 check error
+expected  e27aa5db2076031dff5c853958f10fba, but got 56069cc90dffe8847e51436be5e362f4
+GC2D surface<phy-cont.dither_dis.high_016_03_001.bmp>  md5 check error
+expected  d50b8a8774aff55c305101c7c75db399, but got 244f7cce6e38025d3b11c19a0dccfa22
+GC2D surface<phy-cont.dither_dis.high_017_01_001.bmp>  md5 check error
+expected  65519d5d920259617cca146463561828, but got ff27e6f8d254e30938e30b1bb2fbd87f
+GC2D surface<phy-cont.dither_dis.high_017_02_001.bmp>  md5 check error
+expected  31034af4748a61c94ed08e5119c14fe7, but got 0b7ffe19731344f6696ea26d64962b51
+GC2D surface<phy-cont.dither_dis.high_017_03_001.bmp>  md5 check error
+expected  48c954e032367cdd212c16c97edd9101, but got 3c02eb9d8f2077e66e2fddf7bff41e1d
+GC2D surface<phy-cont.dither_dis.high_022_01_001.bmp>  md5 check error
+expected  501a2127c04be557f41d580599b6eb9c, but got 29538c9b776fe51c1ad169d6721c4e44
+GC2D surface<phy-cont.dither_dis.high_022_02_001.bmp>  md5 check error
+expected  e9494b884d3e2a31750cf2347f836fc5, but got d0d35e27a4a31367e2866e2f6c7bce5b
+GC2D surface<phy-cont.dither_dis.high_028_01_001.bmp>  md5 check error
+expected  7bfffdc6ac9cf6c50fbb712dd0fabad4, but got c595ceb671c1faeb70ab46b272732d49
+GC2D surface<phy-cont.dither_dis.high_028_02_001.bmp>  md5 check error
+expected  778d054729283f29198b7c88d576edcb, but got 0de16ea10873d05440df0d08fdd71227
+GC2D surface<phy-cont.dither_dis.high_030_01_001.bmp>  md5 check error
+expected  384192dcb29e78d63fb740ecfa49be5d, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.high_031_01_001.bmp>  md5 check error
+expected  384192dcb29e78d63fb740ecfa49be5d, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.high_032_01_001.bmp>  md5 check error
+expected  cd68d4147f56311bea7a5aa63326d74b, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.high_042_01_001.bmp>  md5 check error
+expected  aa1823a74c3cfa65ea4c7a6df7730a93, but got 8e7c222b025bbca7c47cb5e0efc68af9
+GC2D surface<phy-cont.dither_dis.normal_016_01_001.bmp>  md5 check error
+expected  699e168e5502b2ab66020dce06212240, but got 66066b9f36333966f0906345494f0418
+GC2D surface<phy-cont.dither_dis.normal_016_02_001.bmp>  md5 check error
+expected  e27aa5db2076031dff5c853958f10fba, but got 56069cc90dffe8847e51436be5e362f4
+GC2D surface<phy-cont.dither_dis.normal_016_03_001.bmp>  md5 check error
+expected  d50b8a8774aff55c305101c7c75db399, but got 244f7cce6e38025d3b11c19a0dccfa22
+GC2D surface<phy-cont.dither_dis.normal_017_01_001.bmp>  md5 check error
+expected  65519d5d920259617cca146463561828, but got ff27e6f8d254e30938e30b1bb2fbd87f
+GC2D surface<phy-cont.dither_dis.normal_017_02_001.bmp>  md5 check error
+expected  31034af4748a61c94ed08e5119c14fe7, but got 0b7ffe19731344f6696ea26d64962b51
+GC2D surface<phy-cont.dither_dis.normal_017_03_001.bmp>  md5 check error
+expected  48c954e032367cdd212c16c97edd9101, but got 3c02eb9d8f2077e66e2fddf7bff41e1d
+GC2D surface<phy-cont.dither_dis.normal_022_01_001.bmp>  md5 check error
+expected  501a2127c04be557f41d580599b6eb9c, but got 599c37de2adc260063b1a878157f3260
+GC2D surface<phy-cont.dither_dis.normal_022_02_001.bmp>  md5 check error
+expected  e9494b884d3e2a31750cf2347f836fc5, but got 546456b73f4012287363ef40565eb195
+GC2D surface<phy-cont.dither_dis.normal_028_01_001.bmp>  md5 check error
+expected  7bfffdc6ac9cf6c50fbb712dd0fabad4, but got 13421bfff3a416c8734ac846d03ceca0
+GC2D surface<phy-cont.dither_dis.normal_028_02_001.bmp>  md5 check error
+expected  778d054729283f29198b7c88d576edcb, but got 0d793b1a45ef2b2c8ab8cbd8401f4e25
+GC2D surface<phy-cont.dither_dis.normal_030_01_001.bmp>  md5 check error
+expected  384192dcb29e78d63fb740ecfa49be5d, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.normal_031_01_001.bmp>  md5 check error
+expected  384192dcb29e78d63fb740ecfa49be5d, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.normal_032_01_001.bmp>  md5 check error
+expected  cd68d4147f56311bea7a5aa63326d74b, but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_dis.normal_042_01_001.bmp>  md5 check error
+expected  aa1823a74c3cfa65ea4c7a6df7730a93, but got 8e7c222b025bbca7c47cb5e0efc68af9
+GC2D surface<phy-cont.dither_en.high_016_01_001.bmp>  md5 check error
+expected  , but got 4cb7a02c541e8a146a08f3f988a53bf5
+GC2D surface<phy-cont.dither_en.high_016_02_001.bmp>  md5 check error
+expected  , but got 56069cc90dffe8847e51436be5e362f4
+GC2D surface<phy-cont.dither_en.high_016_03_001.bmp>  md5 check error
+expected  , but got 244f7cce6e38025d3b11c19a0dccfa22
+GC2D surface<phy-cont.dither_en.high_017_01_001.bmp>  md5 check error
+expected  , but got f98baf6f7cb8b75701eed8ba2e633ac1
+GC2D surface<phy-cont.dither_en.high_017_02_001.bmp>  md5 check error
+expected  , but got 0b7ffe19731344f6696ea26d64962b51
+GC2D surface<phy-cont.dither_en.high_017_03_001.bmp>  md5 check error
+expected  , but got 3c02eb9d8f2077e66e2fddf7bff41e1d
+GC2D surface<phy-cont.dither_en.high_022_01_001.bmp>  md5 check error
+expected  , but got 29538c9b776fe51c1ad169d6721c4e44
+GC2D surface<phy-cont.dither_en.high_022_02_001.bmp>  md5 check error
+expected  , but got d0d35e27a4a31367e2866e2f6c7bce5b
+GC2D surface<phy-cont.dither_en.high_028_01_001.bmp>  md5 check error
+expected  , but got c595ceb671c1faeb70ab46b272732d49
+GC2D surface<phy-cont.dither_en.high_028_02_001.bmp>  md5 check error
+expected  , but got 0de16ea10873d05440df0d08fdd71227
+GC2D surface<phy-cont.dither_en.high_030_01_001.bmp>  md5 check error
+expected  , but got 7be24c35d7a98835cb968217792651e5
+GC2D surface<phy-cont.dither_en.high_031_01_001.bmp>  md5 check error
+expected  , but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_en.high_032_01_001.bmp>  md5 check error
+expected  , but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_en.high_042_01_001.bmp>  md5 check error
+expected  , but got 8e7c222b025bbca7c47cb5e0efc68af9
+GC2D surface<phy-cont.dither_en.normal_016_01_001.bmp>  md5 check error
+expected  , but got 4cb7a02c541e8a146a08f3f988a53bf5
+GC2D surface<phy-cont.dither_en.normal_016_02_001.bmp>  md5 check error
+expected  , but got 56069cc90dffe8847e51436be5e362f4
+GC2D surface<phy-cont.dither_en.normal_016_03_001.bmp>  md5 check error
+expected  , but got 244f7cce6e38025d3b11c19a0dccfa22
+GC2D surface<phy-cont.dither_en.normal_017_01_001.bmp>  md5 check error
+expected  , but got f98baf6f7cb8b75701eed8ba2e633ac1
+GC2D surface<phy-cont.dither_en.normal_017_02_001.bmp>  md5 check error
+expected  , but got 0b7ffe19731344f6696ea26d64962b51
+GC2D surface<phy-cont.dither_en.normal_017_03_001.bmp>  md5 check error
+expected  , but got 3c02eb9d8f2077e66e2fddf7bff41e1d
+GC2D surface<phy-cont.dither_en.normal_022_01_001.bmp>  md5 check error
+expected  , but got 599c37de2adc260063b1a878157f3260
+GC2D surface<phy-cont.dither_en.normal_022_02_001.bmp>  md5 check error
+expected  , but got 546456b73f4012287363ef40565eb195
+GC2D surface<phy-cont.dither_en.normal_028_01_001.bmp>  md5 check error
+expected  , but got 13421bfff3a416c8734ac846d03ceca0
+GC2D surface<phy-cont.dither_en.normal_028_02_001.bmp>  md5 check error
+expected  , but got 0d793b1a45ef2b2c8ab8cbd8401f4e25
+GC2D surface<phy-cont.dither_en.normal_030_01_001.bmp>  md5 check error
+expected  , but got 7be24c35d7a98835cb968217792651e5
+GC2D surface<phy-cont.dither_en.normal_031_01_001.bmp>  md5 check error
+expected  , but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_en.normal_032_01_001.bmp>  md5 check error
+expected  , but got 305efd143e1483c051bd1a0c7c930154
+GC2D surface<phy-cont.dither_en.normal_042_01_001.bmp>  md5 check error
+expected  , but got 8e7c222b025bbca7c47cb5e0efc68af9
+***********  GC2D test in loop 2 time 583765 *************
+================== Thermal Temperature =================
+
+[583765] CPU_TEMP: 44000
+
+================== Thermal Temperature =================
+[583766] CPU Freq: 1248000
+[583766] DDR Freq:  528000
+[583766] GC3D_FCLK: 705000
+[583766] GC2D_FCLK: 624000
+[583766] VPU_FCLK: 528750
+[583766] VCC_CORE:  1250000 uV
+Bind process 6821 to core 3 successfully!
+================== Thermal Temperature =================
+
+[583775] CPU_TEMP: 45000
+
+================== Thermal Temperature =================
+[583776] CPU Freq: 1248000
+[583776] DDR Freq:  528000
+[583776] GC3D_FCLK: 705000
+[583776] GC2D_FCLK: 624000
+[583776] VPU_FCLK: 528750
+[583776] VCC_CORE:  1250000 uV
+================== Thermal Temperature =================
+
+[583785] CPU_TEMP: 46000
+
+================== Thermal Temperature =================
+[583786] CPU Freq: 1248000
+[583786] DDR Freq:  528000
+[583786] GC3D_FCLK: 705000
+[583786] GC2D_FCLK: 624000
+[583786] VPU_FCLK: 528750
+[583786] VCC_CORE:  1250000 uV
+[  582.261740] c2 1 (init) init: untracked pid 6821 exited
+All child processes are killed: 6921 6921 6821 6[  582.390669] c1 5982 (wcc.sh) [WARNING]vpufunc_clk stat is already stopped
+821 6081 6019 5982 
+START:583724, CUR:583786
+******************************************
+*						*
+*						*
+*		CPU Duty Cycle			*
+*						*
+*						*
+******************************************
+
+| CPU# |   run (ms) | rt ratio | MIPS (MHz) |
+| 0    |       2473 |    4.06% |      50.76 |
+| 1    |       2302 |    3.78% |      47.25 |
+| 2    |       3834 |    6.30% |      78.70 |
+| 3    |      24513 |   40.31% |     503.18 |
+
+Total stat for 60797ms, total MIPS: 679.90MHz. rt_total 54.47%
+
+| state      | ratio |   time(ms) |      count |
+| All active |    0% |         41 |        461 |
+| All idle   | 52. 2%|      31631 |       5670 |
+| M2         |   46% |      28309 |       3555 |
+| D1P        |    0% |          0 |          0 |
+| D1         |    0% |          0 |          0 |
+| D2         |    0% |          0 |          0 |
+
+| CPU# | OP# | rate (MHz) | run (ms) | idle (ms) | rt ratio | All idle r, c | C1 ratio, count | C2 ratio, count |
+| 0    | 0   |        312 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 1   |        624 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 2   |        832 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 3   |       1057 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 4   |       1248 |     2473 |     58324 |    4. 6% | 52%, 5670    |   5%, 1931      |  90%, 7109      |
+|      | 5   |       1526 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+| 1    | 0   |        312 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 1   |        624 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 2   |        832 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 3   |       1057 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 4   |       1248 |     2302 |     58495 |    3.78% | 52%, 5670    |   2%, 985       |  93%, 1840      |
+|      | 5   |       1526 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+| 2    | 0   |        312 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 1   |        624 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 2   |        832 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 3   |       1057 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 4   |       1248 |     3834 |     56962 |    6.30% | 52%, 5670    |   1%, 422       |  92%, 1134      |
+|      | 5   |       1526 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+| 3    | 0   |        312 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 1   |        624 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 2   |        832 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 3   |       1057 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+|      | 4   |       1248 |    24513 |     36283 |   40.31% | 52%, 5670    |   0%, 295       |  59%, 1420      |
+|      | 5   |       1526 |        0 |         0 |    0. 0% |  0%, 0       |   0%, 0         |   0%, 0         |
+
+| CPU0 idle |       time (us) |           count |
+|    <10 us |             453 |              87 |
+|    <50 us |            3551 |             157 |
+|   <100 us |           40740 |             540 |
+|   <250 us |          159309 |             959 |
+|   <500 us |          224978 |             615 |
+|   <750 us |          137291 |             223 |
+|     <1 ms |          207961 |             237 |
+|     <5 ms |         8253752 |            4375 |
+|    <25 ms |        12437344 |            1190 |
+|   <100 ms |        26842357 |             604 |
+|   >100 ms |        10016645 |              53 |
+|       SUM |        58324381 |            9040 |
+| CPU1 idle |       time (us) |           count |
+|    <10 us |              98 |             134 |
+|    <50 us |             469 |              15 |
+|   <100 us |            8591 |             111 |
+|   <250 us |           53658 |             414 |
+|   <500 us |           53144 |             137 |
+|   <750 us |           46915 |              78 |
+|     <1 ms |           44432 |              51 |
+|     <5 ms |         1616031 |             729 |
+|    <25 ms |         5341614 |             538 |
+|   <100 ms |        12849918 |             234 |
+|   >100 ms |        38480465 |             384 |
+|       SUM |        58495335 |            2825 |
+| CPU2 idle |       time (us) |           count |
+|    <10 us |              17 |              14 |
+|    <50 us |             883 |              26 |
+|   <100 us |            6549 |              87 |
+|   <250 us |           35376 |             238 |
+|   <500 us |           48044 |             127 |
+|   <750 us |           44874 |              73 |
+|     <1 ms |           47543 |              54 |
+|     <5 ms |          916088 |             381 |
+|    <25 ms |         4386826 |             455 |
+|   <100 ms |         2153519 |              36 |
+|   >100 ms |        49322792 |              65 |
+|       SUM |        56962511 |            1556 |
+| CPU3 idle |       time (us) |           count |
+|    <10 us |              21 |              11 |
+|    <50 us |             659 |              20 |
+|   <100 us |           14626 |             173 |
+|   <250 us |           21878 |             146 |
+|   <500 us |           45483 |             125 |
+|   <750 us |           74712 |             121 |
+|     <1 ms |           43393 |              50 |
+|     <5 ms |          823691 |             346 |
+|    <25 ms |         5733914 |             607 |
+|   <100 ms |         1123680 |              19 |
+|   >100 ms |        28401933 |              97 |
+|       SUM |        36283990 |            1715 |
+
+******************************************
+*						*
+*						*
+*		DDR Duty Cycle			*
+*						*
+*						*
+******************************************
+
+ddr clk: Totally 100. 0% busy in 60797ms.
+|OP#|  rate(HZ)|  run (ms)|     rt|     gl|glob(tick)|idle(tick)|busy(tick)|data(tick)|util(tick)|
+|  0| 156000000|         0|  0. 0%|  0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|
+|  1| 312000000|         0|  0. 0%|  0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|
+|  2| 416000000|         0|  0. 0%|  0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|     0. 0%|
+|  3| 528000000|     60797|100. 0%|100. 0%|   100. 0%|    18.61%|    81.39%|    33.97%|    41.73%|
+Totally ddr data access bandwidth is 1435 MB/s
+
+******************************************
+*						*
+*						*
+*		GC2D Duty Cycle			*
+*						*
+*						*
+******************************************
+
+gc2d_clk clk: Totally 51.79% busy in 60796ms.
+|OP#|  rate(HZ)|  run (ms)| idle (ms)|pwroff(ms)|     rt|   idle|pwr off|     gl|
+|  0| 156000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  1| 312000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  2| 416000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  3| 624000000|     31488|     23326|      5982| 51.79%| 38.36%|  9.83%|100. 0%|
+
+******************************************
+*						*
+*						*
+*		GC3D Duty Cycle			*
+*						*
+*						*
+******************************************
+
+gc3d_clk clk: Totally 0. 1% busy in 60796ms.
+|OP#|  rate(HZ)|  run (ms)| idle (ms)|pwroff(ms)|     rt|   idle|pwr off|     gl|
+|  0| 156000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  1| 312000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  2| 416000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  3| 624000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  4| 705000000|         9|       793|     59994|  0. 1%|  1.30%| 98.68%|100. 0%|
+
+******************************************
+*						*
+*						*
+*		GCSH Duty Cycle			*
+*						*
+*						*
+******************************************
+
+gcsh_clk clk: Totally 0. 1% busy in 60797ms.
+|OP#|  rate(HZ)|  run (ms)| idle (ms)|pwroff(ms)|     rt|   idle|pwr off|     gl|
+|  0| 156000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  1| 312000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  2| 416000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  3| 624000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  4| 705000000|        10|       793|     59994|  0. 1%|  1.30%| 98.67%|100. 0%|
+
+******************************************
+*						*
+*						*
+*		VPU Dec Duty Cycle		*
+*						*
+*						*
+******************************************
+
+vpufunc_clk clk: Totally 0. 0% busy in 60797ms.
+|OP#|  rate(HZ)|  run (ms)| idle (ms)|pwroff(ms)|     rt|   idle|pwr off|     gl|
+|  0| 156000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  1| 208000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  2| 312000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  3| 416000000|         0|         0|         0|  0. 0%|  0. 0%|  0. 0%|  0. 0%|
+|  4| 528750000|         0|         0|     60797|  0. 0%|  0. 0%|100. 0%|100. 0%|
+
+******************************************
+*						*
+*						*
+*		VPU Enc Duty Cycle		*
+*						*
+*						*
+******************************************
+No stat information! Help information :
+1. echo 1 to start duty cycle stat.
+2. echo 0 to stop duty cycle stat.
+3. cat to check duty cycle info during stat.
+
+/tmp/cpu_temp.dat: No such file or directory
+CPU_TEMP: 
+SUM : , num: 0
+awk: cmd. line:1: Unexpected token
+*****************************
+* Statical CPU Thermal Temp *
+*  -[AVG]          *
+*  -[MAX]          *
+*  -[MIN]          *
+*****************************
+########## Vmin Concurrency Test Stop  ############
+
+shell@pxa1908dkb:/data/worst_case # 
+shell@pxa1908dkb:/data/worst_case # 
+shell@pxa1908dkb:/data/worst_case # 
+shell@pxa1908dkb:/data/worst_case # 

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<project name="lpm" basedir="." default="result">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <target name="run">
+        <for trim="true" list="${LPM_CASE}" param="case"><!-- available available voltage -->
+            <sequential>
+                <echo message="running @{case}"/>
+                <ant antfile="${platform}/@{case}.xml"/>
+            </sequential>
+        </for>       
+    </target>
+    <target name="result" depends="run">
+        <PowerCtrlUSB flag="on"/>
+        <Reboot/>
+    </target>
+
+</project>

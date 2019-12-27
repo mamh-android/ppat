@@ -1,0 +1,9 @@
+TARGET_NUM=$1
+DIAL_STRING="ATD"$TARGET_NUM";"
+MUTE_STRING="AT+CMUT=1"
+
+echo $DIAL_STRING
+#echo $MUTE_STRING
+sleep 30
+echo "quit"
+exit

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<project name="case_basic_power" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="musthave">
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <AdbCmd cmd="adb shell setprop persist.sys.country US"/>
+        <AdbCmd cmd="adb shell setprop persist.sys.language en"/>
+        <AdbCmd cmd="adb shell mkdir /data/bin/"/>
+        <AdbCmd cmd="adb push resource/bin/busybox /system/bin/"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/busybox"/>
+        <SerialPortCmd cmd="su"/>
+        <SetProperty name="logcat" value="true"/>
+    </target>
+    <target name="run" if="${with_precondition}" depends="musthave">
+        <Print message="setup device now..."/>
+        <AdbCmd cmd="adb install -r resource/apk/PATlib.apk"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_DISPLAY_TIMEOUT -e TIMEOUT 1800"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SCREEN_STATE -e STATE fullon"/>
+        <AdbCmd cmd="adb shell mount -o rw,remount -t yaffs2 /dev/block/mtdblock0 /system"/>
+        <if>
+            <or>
+                <equals arg1="${os_version}" arg2="lp5.0"/>
+                <equals arg1="${os_version}" arg2="lp5.1"/>
+            </or>
+            <then>
+                <AdbCmd cmd="adb push resource/bin/toolbox.lp5.0 /system/bin/t2"/>
+            </then>
+            <else>
+                <AdbCmd cmd="adb push resource/bin/toolbox /system/bin/t2"/>
+            </else>
+        </if>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell chmod 755 /system/bin/t2"/>
+        <AdbCmd cmd="adb shell rm /system/bin/sendevent"/>
+        <AdbCmd cmd="adb shell ln -s /system/bin/t2 /system/bin/sendevent"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_GPS_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_SYNC_STATE --ez STATE false"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_RINGER_MODE -e MODE normal"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n com.marvell.ssv.pat/.PATEntryActivity -e method SET_AIRPLANE_MODE --ez MODE true"/>
+        <AdbCmd cmd="adb push resource/IMG50 /${storage}/IMG50"/>
+        <AdbCmd cmd="adb push resource/Music_50 /${storage}/Music_50"/>
+        <AdbCmd cmd="adb push resource/event/bootup_prepare/${resolution}/press_ok.evt /${storage}/"/>
+        <UpdateEvent name="${input_device_name}"/>
+        <AdbCmd cmd="adb shell busybox sed -i 's/event[0-9]/event${InputEvent}/g' /${storage}/*.evt"/>
+        <AdbCmd cmd="adb shell sendevent /${storage}/press_ok.evt"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb uninstall com.example.android.apis"/>
+        <sleep seconds="2"/>
+        <AdbCmd cmd="adb install -r resource/apk/BluetoothTest.apk"/>
+        <AdbCmd cmd="adb install -r resource/apk/WifiTest.apk"/>
+        <AdbCmd cmd="adb install -r resource/apk/AngryBirds_1.3.5.apk"/>
+        <sleep seconds="2"/>
+        <echo message="reboot..."/>
+        <!--remove /etc/gfx.cfg-->
+        <if>
+            <and>
+                <equals arg1="${platform}" arg2="ulc1"/>
+                <or>
+                    <equals arg1="${release_version}" arg2="k314_alpha1"/>
+                    <equals arg1="${release_version}" arg2="k314_alpha2"/>
+                </or>
+            </and>
+            <then>
+                <AdbCmd cmd="adb shell mv /etc/gfx.cfg /etc/gfx.cfg.bak"/>
+                <AdbCmd cmd="adb shell sync"/>
+            </then>
+        </if>
+        <if>
+            <equals arg1="${platform}" arg2="ulc1ff"/>
+            <then>
+                <AdbCmd cmd="adb shell rm system/app/HawkRunner.apk"/>
+                <AdbCmd cmd="adb shell rm system/app/UserTest.apk"/>
+                <AdbCmd cmd="adb shell rm system/bin/hawk*"/>
+                <AdbCmd cmd="adb shell sync"/>
+            </then>
+        </if>
+        <!--end remove /etc/gfx.cfg-->
+        <if>
+            <contains string="${platform}" substring="hln3"/>
+            <then>
+                <AdbCmd cmd="adb shell mv /system/bin/tel_launch.sh /system/bin/tel_launch.sh.bak"/>
+                <AdbCmd cmd="adb shell ls /system/bin/tel_launch.sh"/>
+                <AdbCmd cmd="adb shell sync"/>
+                <PowerCtrlUSB flag="off"/>
+                <echo message="enter uboot..."/>
+                <EnterUboot/>
+                <sleep seconds="15"/>
+                <SerialPortCmd cmd="cp_d2"/>
+                <sleep seconds="1"/>
+                <SerialPortCmd cmd="setenv bootargs ${bootargs} vl_cpufreq=0"/>
+                <sleep seconds="1"/>
+                <SerialPortCmd cmd="boot"/>
+                <sleep seconds="20"/>
+                <PowerCtrlUSB flag="on"/>
+                <sleep seconds="40"/>
+            </then>
+            <else>
+                <echo message="reboot..."/>
+                <Reboot/>
+            </else>
+        </if>
+
+
+        <if>
+            <equals arg1="${purpose}" arg2="disable GTS/HMP"/>
+            <then>
+                <echo message="enter uboot..."/>
+                <EnterUboot/>
+                <sleep seconds="35"/>
+                <SerialPortCmd cmd="setenv bootargs ${bootargs} nohmp"/>
+                <SerialPortCmd cmd="boot"/>
+                <sleep seconds="120"/>
+            </then>
+        </if>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <PrepareBoard/>
+        <!--<if>
+            <equals arg1="${platform}" arg2="edenff"/>
+            <then>
+                <SerialPortCmd cmd="su"/>
+                <SerialPortCmd cmd="echo off > /sys/devices/platform/mmp-gps/ctrl"/>
+            </then>
+        </if>-->
+        <if>
+            <contains string="${purpose}" substring="run custom shell"/>
+            <then>
+                <echo message="push custom shell script to DKB..."/>
+                <AdbCmd cmd="adb root"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb remount"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb push /PPAT_test/custom.sh /system/bin/"/>
+                <sleep seconds="1"/>
+                <AdbCmd cmd="adb shell chmod 755 /system/bin/custom.sh"/>
+                <sleep seconds="1"/>
+                <echo message="excute custom shell script..."/>
+                <AdbCmd cmd="adb shell custom.sh"/>
+                <sleep seconds="1"/>
+            </then>
+        </if>
+        <AdbCmd cmd="adb install -r resource/apk/AngryBirds_1.3.5.apk"/>
+        <sleep seconds="2"/>
+    </target>
+</project>

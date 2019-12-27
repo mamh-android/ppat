@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="power_game_TempleRun2" basedir="." default="cleanup">
+  	<include file="${user.dir}/config/command.xml"/>
+    <target name="reboot" if="${reboot}" >
+        <SerialPortCmd cmd="su"/>
+        <echo message="reboot the device"/>
+        <Reboot/>
+    </target>
+
+    <target name="prepare" depends="reboot">
+        <SerialPortCmd cmd="logcat -c" />
+    </target>
+
+    <target name="run"  depends="prepare">
+        <echo message="launch game fishing ..."/>
+        <ReadThermal flag="thermal_start"/>
+		<SerialPortCmd cmd="am start -n org.cocos2dx.FishGame/.FishingJoy"/>
+
+        <sleep seconds="40"/>
+        <!-- gui tool run here-->
+        <echo message="start playing fishing..."/>
+        <SerialPortCmd cmd="sendevent /${storage}/prepare_fishing.evt &amp;" />
+        <sleep seconds="30"/>
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 50"/>
+        <SerialPortCmd cmd="logcat -s GC > /${storage}/gc.fps &amp;"/>
+        <echo message="start stat dc ..."/>
+        <PowerCtrlUSB flag="off"/>
+        <StatDutyCycle state="1"/>
+        <SerialPortCmd cmd="sendevent /${storage}/play_fishing.evt &amp;" />
+    </target>
+
+    <target name="power" depends="run">
+        <echo message="power monitor start to work..."/>
+        <MeasurePower server="${power_server}" sample_t="60" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}"/>
+    </target>
+
+    <target name="result" depends="power">
+        <echo message="start collecting duty cycle info..."/>
+        <StatDutyCycle state="0"/>
+
+        <SerialPortCmd cmd="setprop marvell.graphics.print_fps 0"/>
+        <PowerCtrlUSB flag="on"/>
+        <sleep seconds="10"/>
+        <ParseFPS cmd="adb shell cat /${storage}/gc.fps"/>
+        <ReadThermal flag="thermal_end"/>
+        <SerialPortCmd cmd="busybox killall logcat"/>
+        <SerialPortCmd cmd="mv /${storage}/gc.fps /${storage}/gc.fps.bak"/>
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+        <copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+
+        <echo message="start collecting data ..."/>
+    </target>
+
+    <target name="cleanup" depends="result">
+        <SerialPortCmd cmd="am force-stop org.cocos2dx.FishGame"/>
+        <sleep seconds="10"/>
+    </target>
+
+</project>

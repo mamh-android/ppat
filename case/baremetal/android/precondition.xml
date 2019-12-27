@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<project name="android_precondition" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run" >
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <AdbCmd cmd="adb push resource/bin/busybox /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/busybox"/>
+        <SerialPortCmd cmd="su"/>
+        <SerialPortCmd cmd="echo 0,1 > /sys/devices/platform/soc.2/d4200000.axi/mmp-gpu/gpu/control"/>
+        <SerialPortCmd cmd="echo 0,1 > /sys/devices/platform/soc.2/d4200000.axi/mmp-gpu/gpu/debug/pm_state"/>
+        <SerialPortCmd cmd="echo 1,1 > /sys/devices/platform/soc.2/d4200000.axi/mmp-gpu/gpu/debug/pm_state"/>
+        <SerialPortCmd cmd="echo 156000 > /sys/class/devfreq/devfreq-vpu.0/max_freq"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/hotplug/lock"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu1/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu2/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/devices/system/cpu/cpu3/online"/>
+        <SerialPortCmd cmd="echo 0 > /sys/class/backlight/lcd-bl/brightness"/>
+        <SerialPortCmd cmd="echo auto > /sys/devices/platform/soc.2/d4200000.axi/mmp-fb/power/control"/>
+        <SerialPortCmd cmd="echo auto > /sys/devices/platform/soc.2/d4200000.axi/fbbase.3/power/control"/>
+        <SerialPortCmd cmd="echo auto > /sys/devices/platform/soc.2/d4200000.axi/mmp-disp/power/control"/>
+        <SerialPortCmd cmd="echo auto > /sys/devices/platform/soc.2/d4200000.axi/d4209000.vdma/power/control"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu0/cpuidle/state0/disable"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu0/cpuidle/state1/disable"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu0/cpuidle/state2/disable"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu0/cpuidle/state3/disable"/>
+        <SerialPortCmd cmd="echo 1 > /sys/devices/system/cpu/cpu0/cpuidle/state4/disable"/>
+        <LTKCmd cmd="onkey"/>
+        <sleep seconds="5"/>
+    </target>
+</project>

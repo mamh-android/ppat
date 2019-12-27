@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="power_voicecall_default" basedir="." default="cleanup">	
+    <include file="${user.dir}/config/command.xml"/>
+	<target name="reboot" if="${reboot}" >
+		<SerialPortCmd cmd="su"/>		
+		<echo message="reboot the device"/>
+		<Reboot/>
+    </target>
+		
+	<target name="prepare" depends="reboot">
+		<PowerCtrlUSB flag="on"/>
+        <SerialPortCmd cmd="su"/>
+		<sleep seconds="5"/>
+		<SerialPortCmd cmd="PATH=$PATH:/data/bin/"/>
+		<sleep seconds="5"/>
+	</target>
+	
+	<target name="run"  depends="prepare">		
+		<echo message="go to home screen ..."/>
+		<SerialPortCmd cmd="input keyevent 3"/>
+		<sleep seconds="5"/>
+		<SerialPortCmd cmd="su"/>
+		<StatDutycycle state="1"/>	
+		<SerialPortCmd cmd="date"/>
+		<PowerCtrlUSB flag="off"/>
+		<sleep seconds="15"/>
+	</target>	
+	
+	<target name="power"  depends="run">
+		<echo message="Power monitor start to work ..."/>
+		<MeasurePower server="${power_server}" sample_t="300" voltage="4" save_f="${case_name}_${power_port}" port="${power_port}" sleep="false"/>
+		<For intStart="0" intEnd="300" step="60" param="cur">
+            <sequential>                
+				<echo message="make a mo call to 10086 for ###  @{cur} seconds ####"/>
+				<SerialPortCmd cmd="sh /${storage}/PowerTest_sh/mo-test.sh 10086 | serial_client" />
+				<sleep seconds="60" />				
+				<echo message="hang up the call"/>
+				<SerialPortCmd cmd="sh /${storage}/PowerTest_sh/hangup_call.sh | serial_client" />
+            </sequential>
+        </For>
+		<sleep seconds="5" />	
+	</target>
+	
+	<target name="result" depends="power">
+		<StatDutycycle state="0"/>
+		<PowerCtrlUSB flag="on"/>
+		<sleep seconds="15" />
+		<SerialPortCmd cmd="date"/>
+		<echo message="start collecting duty cycle info..."/>
+		<SerialPortCmd cmd="su"/>
+		
+		<echo message="start collecting data..."/>	
+        <PowerResult file_n="${case_name}_${power_port}" server="${power_server}"/>
+		<copy file="${PT4_SERVER}/${case_name}_${power_port}.pt4" todir="${subcase_root}" failonerror="false"/>
+	</target>	
+	
+	<target name="cleanup" depends="result">	
+	</target>
+</project>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="case_telephony" basedir="." default="run">
+    <include file="${user.dir}/config/command.xml"/>
+    <target name="run">
+        <Print message="setup device now..."/>
+        <AdbCmd cmd="adb root"/>
+        <AdbCmd cmd="adb remount"/>
+        <sleep seconds="2"/>				
+        <AdbCmd cmd="adb push resource/bin/curl /system/bin/"/>
+        <AdbCmd cmd="adb shell chmod 777 /system/bin/curl"/>
+        <AdbCmd cmd="adb shell mkdir /${storage}/DKB_power_data"/>
+        <AdbCmd cmd="adb shell mkdir /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/mo-test.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/hangup_call.sh /${storage}/PowerTest_sh"/>
+        <AdbCmd cmd="adb push resource/bin/switch_network.sh /${storage}/PowerTest_sh"/>        
+        <SetProperty name="default_mode" value="18"/>
+    </target>
+</project>
