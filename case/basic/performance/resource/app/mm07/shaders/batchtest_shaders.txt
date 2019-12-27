@@ -1,0 +1,9 @@
+0  - texture mapping 
+1  - texture mapping + vertex colors
+2  - vertex colors
+3  - texture mapping + texture transform
+4  - texture mapping + vertex colors + texture transform
+5  - single color
+6  - alpha texturing
+7  - alpha texturing + vertex colors
+8  - noise
